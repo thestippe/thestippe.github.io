@@ -11,6 +11,6 @@ team. On the other hand, any error in these notes is my own responsibility, and 
 
 
 email: [smaurizio87@protonmail.com](mailto:smaurizio87@protonmail.com)
-twitter: [https://twitter.com/SteffPy](https://twitter.com/SteffPy)
+twitter: [@SteffPy](https://twitter.com/SteffPy)
 
 [^1]: It is almost impossible to build any non-trivial model without using a programming language.
