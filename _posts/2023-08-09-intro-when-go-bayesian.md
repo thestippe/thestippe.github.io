@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: default
 title: "Why (and when) should you go for Bayesian"
 math: true
 ---
@@ -11,3 +11,5 @@ The likelihood
 $P(y \vert \theta)$, which determines how the data we want to model are generated.
 
 The priors $P(\theta)$, which specifies our hypothesis about the value of the parameters of the model.
+
+$$ a = \xi y^2 $$
