@@ -7,6 +7,6 @@ Bayesian statistics allows to build custom and structured models by simply speci
 The model can be divided into two parts:
 
 The likelihood 
-$P(y | \theta)$, which determines how the data we want to model are generated.
+$P(y \vert \theta)$, which determines how the data we want to model are generated.
 
 The priors $P(\theta)$, which specifies our hypothesis about the value of the parameters of the model.
