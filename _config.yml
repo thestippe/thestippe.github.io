@@ -1,6 +1,6 @@
 title: Just another bayesian enthusiast
 author: Stippe
-  # theme: minima
+theme: minima
 kramdown:
   math_engine: mathjax
   syntax_highlighter: rouge
