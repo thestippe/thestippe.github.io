@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-11T11:20:26+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another bayesian enthusiast</title><author><name>Stippe</name></author><entry><title type="html">Why (and when) should you go for Bayesian</title><link href="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html" rel="alternate" type="text/html" title="Why (and when) should you go for Bayesian" /><published>2023-08-09T00:00:00+02:00</published><updated>2023-08-09T00:00:00+02:00</updated><id>http://localhost:4000/2023/08/09/intro-when-go-bayesian</id><content type="html" xml:base="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html"><![CDATA[<p>I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes.
+Bayesian statistics allows to build custom and structured models by simply specifying the data generating process.
+The model can be divided into two parts:</p>
+
+<p>The likelihood 
+$P(y \vert \theta)$, which determines how the data we want to model are generated.</p>
+
+<p>The priors $P(\theta)$, which specifies our hypothesis about the value of the parameters of the model.</p>
+
+\[a = \xi y^2\]
+
+<p>[ a x = b ]</p>
+
+<p>Let’s consider <math><mi>a</mi><mo>≠</mo><mn>0</mn></math>.</p>]]></content><author><name>Stippe</name></author><summary type="html"><![CDATA[I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes. Bayesian statistics allows to build custom and structured models by simply specifying the data generating process. The model can be divided into two parts:]]></summary></entry></feed>

@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: page
 title: "Why (and when) should you go for Bayesian"
 ---
 I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes.
@@ -12,3 +12,7 @@ $P(y \vert \theta)$, which determines how the data we want to model are generate
 The priors $P(\theta)$, which specifies our hypothesis about the value of the parameters of the model.
 
 $$ a = \xi y^2 $$
+
+\[ a x = b \]
+
+Let's consider <math><mi>a</mi><mo>≠</mo><mn>0</mn></math>.
