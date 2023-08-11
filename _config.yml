@@ -7,8 +7,12 @@ plugins:
   - jekyll-feed
   - jekyll-seo-tag
 minima:
+  skin: classic
   social_links:
     - { platform: twitter, user_url: "https://twitter.com/SteffPy" }
     - { platform: stackoverflow, user_url: "https://stackoverflow.com/users/11065831/stefano" }
     - { platform: github, user_url: "https://github.com/thestippe/" }
     - { platform: telegram, user_url "https://t.me/StefanoM87" }
+  header_pages:
+    - about
+    - links
