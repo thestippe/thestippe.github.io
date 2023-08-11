@@ -63,12 +63,4 @@ Stefano
 [^1]: This is somehow a misleading name, as this crisis is not only affecting academia, but it is a problem in industry too.
 [^2]: See [this article on Nature](https://www.nature.com/articles/533452a)
 [^3]: See [this other article of Nature](https://www.nature.com/articles/520612a)
-[^4]: Of course, Bayesian statistics can be misused too, but there are few very clear
-guidelines from the academic community which will make this less likely to happen.
-Moreover, in most cases, a problem in your model will show up in a problem
-in your simulation, and this makes Bayesian inference less error-prone
-than frequentist inference.
-In fact, when talking about frequentist statistics or machine learning,
-most of the time what you are computing is either an optimization problem or
-the average of some quantity,
-and an eventual problem in this kind of task may be quite hard to spot.
+[^4]: Of course, Bayesian statistics can be misused too, but there are few very clear guidelines from the academic community which will make this less likely to happen. Moreover, in most cases, a problem in your model will show up in a problem in your simulation, and this makes Bayesian inference less error-prone than frequentist inference. In fact, when talking about frequentist statistics or machine learning, most of the time what you are computing is either an optimization problem or the average of some quantity, and an eventual problem in this kind of task may be quite hard to spot.

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-11T15:24:35+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Why (and when) should you go for Bayesian</title><link href="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html" rel="alternate" type="text/html" title="Why (and when) should you go for Bayesian" /><published>2023-08-09T00:00:00+02:00</published><updated>2023-08-09T00:00:00+02:00</updated><id>http://localhost:4000/2023/08/09/intro-when-go-bayesian</id><content type="html" xml:base="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html"><![CDATA[<p>I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes.
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-11T15:44:50+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Why (and when) should you go for Bayesian</title><link href="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html" rel="alternate" type="text/html" title="Why (and when) should you go for Bayesian" /><published>2023-08-09T00:00:00+02:00</published><updated>2023-08-09T00:00:00+02:00</updated><id>http://localhost:4000/2023/08/09/intro-when-go-bayesian</id><content type="html" xml:base="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html"><![CDATA[<p>I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes.
 Bayesian statistics allows to build custom and structured models by simply specifying the data generating process.
 The model can be divided into two parts:</p>
 <ul>
@@ -57,14 +57,6 @@ in the World, I hope I will help a lot of people.</p>
 
 <p>Stefano</p>
 
-<p>guidelines from the academic community which will make this less likely to happen.
-Moreover, in most cases, a problem in your model will show up in a problem
-in your simulation, and this makes Bayesian inference less error-prone
-than frequentist inference.
-In fact, when talking about frequentist statistics or machine learning,
-most of the time what you are computing is either an optimization problem or
-the average of some quantity,
-and an eventual problem in this kind of task may be quite hard to spot.</p>
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:1" role="doc-endnote">
@@ -77,7 +69,7 @@ and an eventual problem in this kind of task may be quite hard to spot.</p>
       <p>See <a href="https://www.nature.com/articles/520612a">this other article of Nature</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
     <li id="fn:4" role="doc-endnote">
-      <p>Of course, Bayesian statistics can be misused too, but there are few very clear <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+      <p>Of course, Bayesian statistics can be misused too, but there are few very clear guidelines from the academic community which will make this less likely to happen. Moreover, in most cases, a problem in your model will show up in a problem in your simulation, and this makes Bayesian inference less error-prone than frequentist inference. In fact, when talking about frequentist statistics or machine learning, most of the time what you are computing is either an optimization problem or the average of some quantity, and an eventual problem in this kind of task may be quite hard to spot. <a href="#fnref:4" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><summary type="html"><![CDATA[I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes. Bayesian statistics allows to build custom and structured models by simply specifying the data generating process. The model can be divided into two parts: The likelihood $P(y \vert \theta)$, which determines how the data we want to model $y$ are generated given the parameter(s) $\theta$. The priors $P(\theta)$, which specifies our hypothesis about the distribution of the parameters of the model.]]></summary></entry></feed>
