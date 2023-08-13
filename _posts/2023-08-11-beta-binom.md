@@ -195,6 +195,12 @@ the **Jeffreys' prior** for the binomial distribution
 
 $$ p \sim Beta(1/2, 1/2) $$
 
+where the Beta has pdf
+
+$$ P(p | \alpha, \beta) = \frac{1}{B(\alpha, \beta) } p^\alpha (1-p)^\beta$$
+
+and $B(x, y)$ is the Beta function.
+
 ```python
 with pm.Model() as beta_binom_model_wise:
     p = pm.Beta('p', 1/2, 1/2)
@@ -216,3 +222,9 @@ As we can see, this result is almost identical to the previous one.
 In the Bayesian framework one can, and should, investigate the goodness
 of his results by trying out different priors and assess how
 much does the results on his/her inference depend on the choice of the priors.
+
+## Conclusions and take-home message
+
+- PyMC allows you to easily implement Bayesian models
+- In many cases Bayesian statistics offers results which are more transparent than their frequentist counterparts. We have seen this for a very simple model, but this becomes even more evident as the complexity of the model grows.
+- You can apply Bayesian statistics to any kind of problem, even home-brewing!

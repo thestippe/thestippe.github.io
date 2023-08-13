@@ -277,6 +277,12 @@ the <strong>Jeffreys’ prior</strong> for the binomial distribution</p>
 
 \[p \sim Beta(1/2, 1/2)\]
 
+<p>where the Beta has pdf</p>
+
+\[P(p | \alpha, \beta) = \frac{1}{B(\alpha, \beta) } p^\alpha (1-p)^\beta\]
+
+<p>and $B(x, y)$ is the Beta function.</p>
+
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">beta_binom_model_wise</span><span class="p">:</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Beta</span><span class="p">(</span><span class="sh">'</span><span class="s">p</span><span class="sh">'</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Binomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">total</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">alive</span><span class="p">)</span>
@@ -296,6 +302,14 @@ the <strong>Jeffreys’ prior</strong> for the binomial distribution</p>
 In the Bayesian framework one can, and should, investigate the goodness
 of his results by trying out different priors and assess how
 much does the results on his/her inference depend on the choice of the priors.</p>
+
+<h2 id="conclusions-and-take-home-message">Conclusions and take-home message</h2>
+
+<ul>
+  <li>PyMC allows you to easily implement Bayesian models</li>
+  <li>In many cases Bayesian statistics offers results which are more transparent than their frequentist counterparts. We have seen this for a very simple model, but this becomes even more evident as the complexity of the model grows.</li>
+  <li>You can apply Bayesian statistics to any kind of problem, even home-brewing!</li>
+</ul>
 
   </div>
 
