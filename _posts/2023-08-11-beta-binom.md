@@ -163,7 +163,7 @@ az.plot_trace(trace)
 He used PyMC to sample $p$ many times according to its posterior probability distribution,
 obtained by using the Bayes theorem
 
-$$ P(p | y,) \propto P(y | p, n) P(p)$$
+$$ P(p | y, n) \propto P(y | p, n) P(p)$$
 
 and the sampled values are those shown in the figure.
 The details about how does PyMC's sampler works will be explained in a future post,
@@ -177,8 +177,9 @@ az.plot_posterior(trace)
 
 We can see that the mean is very close to the MLE value, and the (Bayesian)
 $95\%$ CI is close to the frequentist one.
-However in this case the interpretation is straightforward,
-as we simply updated our initial guess for $p$ by means of Bayes' theorem.
+However in this case the interpretation is straightforward:
+
+**the Bayesian statistic simply updated his/her initial guess for $p$ by means of Bayes' theorem.**
 
 Another major advantage of the Bayesian approach is that we did not had to rely
 on the Central Limit Theorem, which only holds if the sample is large enough.

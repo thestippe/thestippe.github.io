@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-13T20:50:39+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/2023/08/11/beta-binom.html" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-08-11T00:00:00+02:00</published><updated>2023-08-11T00:00:00+02:00</updated><id>http://localhost:4000/2023/08/11/beta-binom</id><content type="html" xml:base="http://localhost:4000/2023/08/11/beta-binom.html"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-13T21:00:47+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/2023/08/11/beta-binom.html" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-08-11T00:00:00+02:00</published><updated>2023-08-11T00:00:00+02:00</updated><id>http://localhost:4000/2023/08/11/beta-binom</id><content type="html" xml:base="http://localhost:4000/2023/08/11/beta-binom.html"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
 with water, malt, hop and yeast. One of the most important things to do in order
 to produce a good beer is to have a good quality yeast, and one of the metrics
 used to quantify the goodness of the yeast is the <strong>yeast viability</strong>, which corresponds to the percentage of alive cells in your yeast.
@@ -185,7 +185,7 @@ according to the uniform distribution over $[0, 1]\,.$</p>
 <p>He used PyMC to sample $p$ many times according to its posterior probability distribution,
 obtained by using the Bayes theorem</p>
 
-\[P(p | y,) \propto P(y | p, n) P(p)\]
+\[P(p | y, n) \propto P(y | p, n) P(p)\]
 
 <p>and the sampled values are those shown in the figure.
 The details about how does PyMC’s sampler works will be explained in a future post,
@@ -197,8 +197,9 @@ as well as the main methods to exclude problems in the sampling procedure.</p>
 
 <p>We can see that the mean is very close to the MLE value, and the (Bayesian)
 $95\%$ CI is close to the frequentist one.
-However in this case the interpretation is straightforward,
-as we simply updated our initial guess for $p$ by means of Bayes’ theorem.</p>
+However in this case the interpretation is straightforward:</p>
+
+<p><strong>the Bayesian statistic simply updated his/her initial guess for $p$ by means of Bayes’ theorem.</strong></p>
 
 <p>Another major advantage of the Bayesian approach is that we did not had to rely
 on the Central Limit Theorem, which only holds if the sample is large enough.
