@@ -128,7 +128,7 @@ He can use the central limit theorem, which says that, if $n$ is large, then the
 with the same mean and variance of the binomial distribution, which corresponds to $\mu = n\hat{p}$ and $\sigma^2= n\hat{p}(1-\hat{p})\,.$
 He would use this theorem to provide the $95\%$ Confidence Interval for this distribution, which is given by
 $$ \hat{p} \pm  z_{1-0.05/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} 
- = \hat{p} \pm  z_{1-0.05/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}  = [0.81, 0.96]$$
+ = \hat{p} \pm  1.96 \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}  = [0.81, 0.96]$$
 
 where $z_{1-0.05/2}=1.96$ is the $0.975$ normal quantile.
 
