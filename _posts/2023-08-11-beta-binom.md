@@ -20,6 +20,7 @@ link, where the procedure to count the yeast cells is illustrated.
 In the standard procedure, one has a $5\times 5$ grid and one counts the alive
 cells and the death ones, where one can distinguish the cells thanks to the
 Trypan Blu which will color the death cells.
+A simulated example of what one will see is shown below:
 
 ![Alt text](/docs/assets/images/yeast_count.jpg)
 
