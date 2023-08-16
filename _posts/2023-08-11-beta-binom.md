@@ -10,12 +10,13 @@ However, measuring the viability is a time consuming process, as you must
 count the number of dead and alive cells in your yeast by hand.
 Because of this, often the estimate is done with small samples, and due to this
 it is important to quantify the uncertainties in your estimate.
-Unfortunately, most home-brew textbook will only give you very poor models to
+Unfortunately, most home-brew textbooks will only give you very poor models to
 estimate the yeast viability, and you may get fooled by your count and think that
 you are working with a good yeast while you simply overestimated the yeast viability.
 If you want to know more about how to experimentally count the yeast cells,
 you can take a look to [this](https://escarpmentlabs.com/blogs/resources/crop-pray-count-yeast-counting-guide)
 link, where the procedure to count the yeast cells is illustrated.
+
 In the standard procedure, one has a $5\times 5$ grid and one counts the alive
 cells and the death ones, where one can distinguish the cells thanks to the
 Trypan Blu which will color the death cells.
@@ -24,14 +25,14 @@ Trypan Blu which will color the death cells.
 
 Since counting all the cells would require a lot of time, one usually counts
 five well separated squares, usually the four corner squares and the center one.
-In our case we got:
+In the figure shown above:
 
 | square | alive | death |
 |------|-------|-------|
-|   top left     | 17   | 3 |
-|   top right    | 16   | 2 |
-|   bottom left  | 11   | 0  |
-|   bottom right | 18   | 3  |
+|   top left    | 16   | 2 |
+|   top right     | 17   | 3 |
+|   bottom left | 18   | 3  |
+|   bottom right  | 11   | 0  |
 |   center       |  8   | 1  |
 |  **total**     | 70   | 9  |
 
@@ -84,6 +85,7 @@ no idea about what is the associated uncertainty to this number.
 
 A frequentist statistician would first of all setup a model for this problem.
 The state of each cell can take two values:
+
 $$
 y = 
 \begin{cases}
@@ -113,9 +115,10 @@ this implies that the maximum of $\log P$ is the maximum of $P\,.$
 
 $$ \log P(y | p, n) \propto y \log p + (n-y) \log(1-p) $$
 
-$$ \frac{\partial \log P(y | p, n)}{\partial p} = \frac{y}{p} + \frac{n-y}{1-p} $$
+$$ \frac{\partial \log P(y | p, n)}{\partial p} = \frac{y}{p} + \frac{n-y}{\hat{p}-1} $$
 
-$$ \left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{\hat{p}} = 0 \Rightarrow \frac{y}{\hat{p}} = \frac{n-y}{\hat{p}-1} $$
+$$ \left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{\hat{p}} = 0 \Rightarrow \frac{y}{\hat{p}} = \frac{n-y}{1-\hat{p}} \Rightarrow \hat{p}(n-y) = (1-\hat{p}) y
+\Rightarrow \hat{p} n = y$$
 
 Which gives us, again, $\hat{p} = \frac{y}{n}$
 
@@ -124,7 +127,10 @@ be large.
 He can use the central limit theorem, which says that, if $n$ is large, then the binomial distribution can be approximated with the normal distribution
 with the same mean and variance of the binomial distribution, which corresponds to $\mu = n\hat{p}$ and $\sigma^2= n\hat{p}(1-\hat{p})\,.$
 He would finally provide the $95\%$ Confidence Interval for this distribution, which is
-$$ n \hat{p} \pm  1.96 \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}  = [0.81, 0.96]\,.$$
+$$ \hat{p} \pm  z_{1-0.05/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} 
+ \hat{p} \pm  z_{1-0.05/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}  = [0.81, 0.96]$$
+
+where $z_{1-0.05/2}=1.96$ is the $0.975$ normal quantile.
 
 The calculation is quite straightforward, but one should pay a lot of attention in giving the correct interpretation to this interval.
 In the frequentist paradigm, one imagines to repeat the experiment many times, and what one can say is that, by doing this,
@@ -201,6 +207,10 @@ where the Beta has pdf
 $$ P(p | \alpha, \beta) = \frac{1}{B(\alpha, \beta) } p^\alpha (1-p)^\beta$$
 
 and $B(x, y)$ is the Beta function.
+However, he knows he knows he must pay a lot of attention, as often -but not
+in this case- the Jeffreys' prior is not a proper prior
+(it cannot be integrated to one) [^1].
+
 
 ```python
 with pm.Model() as beta_binom_model_wise:
@@ -229,3 +239,5 @@ much does the results on his/her inference depend on the choice of the priors.
 - PyMC allows you to easily implement Bayesian models
 - In many cases Bayesian statistics offers results which are more transparent than their frequentist counterparts. We have seen this for a very simple model, but this becomes even more evident as the complexity of the model grows.
 - You can apply Bayesian statistics to any kind of problem, even home-brewing!
+
+[^1]: This topic will be discussed in a future post. For the moment, if you are curious, you can take a look at the [Wikipedia](https://en.wikipedia.org/wiki/Jeffreys_prior#) page.
