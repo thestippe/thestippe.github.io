@@ -205,7 +205,22 @@ per year with the true distribution:</p>
 <p><img src="/docs/assets/images/poisson_ppc.jpg" alt="Hurricanes ppc" /></p>
 
 <p>The true values are lying well inside our error bands, and the mean estimate
-is close to the observed one. We can thus consider our model satisfactory for our purposes.</p>
+is close to the observed one. We can thus consider our model satisfactory for our purposes.
+We can thus use our model to make predictions.
+As an example, we could ask what is the probability that, in one year, one gets
+at least four hurricanes:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">ppc_hurricanes</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">4</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">).</span><span class="nf">mean</span><span class="p">()</span>
+</code></pre></div></div>
+<blockquote>
+  <p>0.10078</p>
+</blockquote>
+
+<p>We can compare it with the raw historical estimate:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">df_hurricanes</span><span class="p">[</span><span class="sh">"</span><span class="s">Number of US Hurricanes (HUDRAT, NOAA)</span><span class="sh">"</span><span class="p">].</span><span class="nf">dropna</span><span class="p">().</span><span class="n">values</span><span class="o">&gt;=</span><span class="mi">4</span><span class="p">).</span><span class="nf">mean</span><span class="p">()</span>
+</code></pre></div></div>
+<blockquote>
+  <p>0.08982</p>
+</blockquote>
 
   </div>
 
