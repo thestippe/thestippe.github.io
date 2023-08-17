@@ -1,7 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-17T16:16:48+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Dealing with count data</title><link href="http://localhost:4000/count_data/" rel="alternate" type="text/html" title="Dealing with count data" /><published>2023-08-14T00:00:00+02:00</published><updated>2023-08-14T00:00:00+02:00</updated><id>http://localhost:4000/poisson</id><content type="html" xml:base="http://localhost:4000/count_data/"><![CDATA[<p>In <a href="/beta_binom/">the previous post</a> we have seen how we can model a two-valued variable
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-17T20:04:35+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Dealing with count data</title><link href="http://localhost:4000/count_data/" rel="alternate" type="text/html" title="Dealing with count data" /><published>2023-08-14T00:00:00+02:00</published><updated>2023-08-14T00:00:00+02:00</updated><id>http://localhost:4000/poisson</id><content type="html" xml:base="http://localhost:4000/count_data/"><![CDATA[<p>In <a href="/beta_binom/">the previous post</a> we have seen how we can model a two-valued variable
 by using the binomial distribution. In this one we will illustrate how we can 
 model count variables, that is variables which can take any non-negative
 integer value $0, 1, 2,\dots$</p>
+
+<h2 id="the-poisson-model">The Poisson model</h2>
 
 <p>A classical example is given by the number of hurricanes in the North Atlantic ocean by year.
 The corresponding dataset can be downloaded from
@@ -158,7 +160,34 @@ at least four hurricanes:</p>
 </code></pre></div></div>
 <blockquote>
   <p>0.08982</p>
-</blockquote>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><summary type="html"><![CDATA[In the previous post we have seen how we can model a two-valued variable by using the binomial distribution. In this one we will illustrate how we can model count variables, that is variables which can take any non-negative integer value $0, 1, 2,\dots$]]></summary></entry><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/beta_binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-08-11T00:00:00+02:00</published><updated>2023-08-11T00:00:00+02:00</updated><id>http://localhost:4000/beta-binom</id><content type="html" xml:base="http://localhost:4000/beta_binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
+</blockquote>
+
+<h2 id="the-negative-binomial-model">The negative-binomial model</h2>
+
+<p>The Poisson model is a one-parameter model, and this implies that the
+variance is uniquely determined by the mean (in fact they are equal).
+This could be a too restrictive requirement, as one would like to treat them
+independently. In these cases a very common choice is the negative
+binomial distribution, which represents the number of subsequent failures $k$ in a
+Bernoulli process with success probability $p$ before a given number of subsequent successes $r$ occur:</p>
+
+\[P(k \vert p, r) \propto (1-p)^k p^r\]
+
+<p>As an example, I used this model to investigate the number of retweets of a particular
+twitter account:</p>
+
+<p><img src="/docs/assets/images/twitter_data.jpg" alt="Hurricanes ppc" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_twitter</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">data/data_twitter.csv</span><span class="sh">'</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">negbin</span><span class="p">:</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Uniform</span><span class="p">(</span><span class="sh">'</span><span class="s">p</span><span class="sh">'</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">n</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">NegativeBinomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_twitter</span><span class="p">[</span><span class="sh">'</span><span class="s">retweets_count</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">trace_negbin</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_negbin</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/negbin_trace.jpg" alt="Hurricanes ppc" /></p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><summary type="html"><![CDATA[In the previous post we have seen how we can model a two-valued variable by using the binomial distribution. In this one we will illustrate how we can model count variables, that is variables which can take any non-negative integer value $0, 1, 2,\dots$]]></summary></entry><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/beta_binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-08-11T00:00:00+02:00</published><updated>2023-08-11T00:00:00+02:00</updated><id>http://localhost:4000/beta-binom</id><content type="html" xml:base="http://localhost:4000/beta_binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
 with water, malt, hop and yeast. One of the most important things to do in order
 to produce a good beer is to have a good quality yeast, and one of the metrics
 used to quantify the goodness of the yeast is the <strong>yeast viability</strong>, which corresponds to the percentage of alive cells in your yeast.
