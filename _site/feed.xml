@@ -1,4 +1,149 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-13T21:00:47+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/2023/08/11/beta-binom.html" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-08-11T00:00:00+02:00</published><updated>2023-08-11T00:00:00+02:00</updated><id>http://localhost:4000/2023/08/11/beta-binom</id><content type="html" xml:base="http://localhost:4000/2023/08/11/beta-binom.html"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-17T10:49:52+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Dealing with count data</title><link href="http://localhost:4000/2023/08/14/poisson.html" rel="alternate" type="text/html" title="Dealing with count data" /><published>2023-08-14T00:00:00+02:00</published><updated>2023-08-14T00:00:00+02:00</updated><id>http://localhost:4000/2023/08/14/poisson</id><content type="html" xml:base="http://localhost:4000/2023/08/14/poisson.html"><![CDATA[<p>In the previous post we have seen how we can model a two-valued variable
+by using the binomial distribution. In this one we will illustrate how we can 
+model count variables, that is variables which can take any non-negative
+integer value $0, 1, 2,\dots$</p>
+
+<p>A classical example is given by the number of hurricanes in the North Atlantic ocean by year.
+The corresponding dataset can be downloaded from
+ <a href="https://ourworldindata.org/grapher/frequency-north-atlantic-hurricanes">https://ourworldindata.org/grapher/frequency-north-atlantic-hurricanes</a>,
+ and we saved the downloaded dataset in the data subfolder.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="n">scipy.stats</span> <span class="kn">import</span> <span class="n">poisson</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">df_hurricanes</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">data/frequency-north-atlantic-hurricanes.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="nf">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_hurricanes</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="sh">"</span><span class="s">Number of US Hurricanes (HUDRAT, NOAA)</span><span class="sh">"</span><span class="p">,</span>
+                <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hurricanes_count.jpg" alt="Hurricanes count" /></p>
+
+<p>We can assume that the number of hurricanes for each year is independent
+on the number of hurricanes of the other years and that the average
+number of hurricanes per year is constant.
+This suggests us to use the Poisson distribution.</p>
+
+\[y \sim Poisson(\mu)\]
+
+<p>where $\mu$ is the average, and the Poisson distribution has probability mass function
+given by</p>
+
+\[P(y | \mu) = \frac{e^{-\mu} \mu^y}{ y! }\]
+
+<p><img src="/docs/assets/images/poisson_example.jpg" alt="Poisson example" />
+<em>The Poisson distribution</em></p>
+
+<p>and $\mu$ must be a positive real quantity.</p>
+
+<p>As usual, we must now provide a prior for the parameter $\mu\,,$
+and our prior must be able to easily accommodate the data.
+A flexible enough family of distributions is given by the Gamma distribution:</p>
+
+\[\mu \sim Gamma(\alpha, \beta)\]
+
+<p>where the Gamma distribution has pdf</p>
+
+\[P(y | \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)} y^{\alpha - 1}  e^{-\beta y}\]
+
+<p>A special case of the Gamma distribution is the Exponential distribution,
+which corresponds to $Gamma(1, \lambda)\,,$ and $\lambda$ is the inverse of the mean.</p>
+
+<p><img src="/docs/assets/images/gamma_example.jpg" alt="Gamma example" />
+<em>The gamma distribution</em></p>
+
+<p>We don’t want to use our prior to force the result toward a particular
+region, we’d rather prefer to use our prior to <strong>regularize</strong> our estimate.
+So we will use a weakly informative prior:</p>
+
+\[\mu \sim Gamma(1, 1/10)\]
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">y_obs</span> <span class="o">=</span> <span class="n">df_hurricanes</span><span class="p">[</span><span class="sh">"</span><span class="s">Number of US Hurricanes (HUDRAT, NOAA)</span><span class="sh">"</span><span class="p">].</span><span class="nf">dropna</span><span class="p">().</span><span class="n">values</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_hurricanes</span><span class="p">:</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Poisson</span><span class="p">(</span><span class="sh">"</span><span class="s">y</span><span class="sh">"</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_obs</span><span class="p">)</span>
+    <span class="n">trace_hurricanes</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> 
+
+</code></pre></div></div>
+
+<p>We used PyMC to simulate 4 chains for $\mu\,,$ each chain contains
+2000+500 draws, and the first 500 draws are discarded.
+This is because the initial part of the simulation
+may depend on the initial value and it is used by PyMC to infer the
+best parameters for the simulation (we will discuss this more in detail in
+a future post).</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_hurricanes</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/trace_hurricanes.jpg" alt="Hurricanes traces" /></p>
+
+<p>The four traces have a stationary appearance, and it looks like
+the distribution is the same across the traces.
+These are good signals that we had no issues during the simulations.
+We can now take a look at the most important statistics regarding the trace on $\mu$:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">summary</span><span class="p">(</span><span class="n">trace_hurricanes</span><span class="p">)</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>mu</td>
+      <td>1.748</td>
+      <td>0.102</td>
+      <td>1.566</td>
+      <td>1.951</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>3171</td>
+      <td>5132</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The results show that:</p>
+<ul>
+  <li>The samples have a mean of 1.748 and a standard deviation of 0.102</li>
+  <li>The 95\% Credible Interval has lower boundary 1.566 and upper boundary 1.951</li>
+  <li>The uncertainty in the estimate of the mean due to the Monte Carlo procedure (Monte Carlo Standard Error) has been estimated to 0.002 with an uncertainty of 0.001</li>
+  <li>The Effective Sample Size is of the same order of magnitude of the sample size (3000-5000 against 4000)</li>
+  <li>$\hat{R} = 1$ indicates that the four traces show similar properties, and this is another indicator that there are no issues in the simulation.</li>
+</ul>
+
+<p>Now that we are quite confident about the sampling procedure, we can compare
+the prediction of our model for the distribution of the number of hurricanes
+per year with the true distribution:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_hurricanes</span><span class="p">:</span>
+        <span class="n">ppc_hurricanes</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_hurricanes</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_hurricanes</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/poisson_ppc.jpg" alt="Hurricanes ppc" /></p>
+
+<p>The true values are lying well inside our error bands, and the mean estimate
+is close to the observed one. We can thus consider our model satisfactory for our purposes.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><summary type="html"><![CDATA[In the previous post we have seen how we can model a two-valued variable by using the binomial distribution. In this one we will illustrate how we can model count variables, that is variables which can take any non-negative integer value $0, 1, 2,\dots$]]></summary></entry><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/2023/08/11/beta-binom.html" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-08-11T00:00:00+02:00</published><updated>2023-08-11T00:00:00+02:00</updated><id>http://localhost:4000/2023/08/11/beta-binom</id><content type="html" xml:base="http://localhost:4000/2023/08/11/beta-binom.html"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
 with water, malt, hop and yeast. One of the most important things to do in order
 to produce a good beer is to have a good quality yeast, and one of the metrics
 used to quantify the goodness of the yeast is the <strong>yeast viability</strong>, which corresponds to the percentage of alive cells in your yeast.
@@ -6,21 +151,23 @@ However, measuring the viability is a time consuming process, as you must
 count the number of dead and alive cells in your yeast by hand.
 Because of this, often the estimate is done with small samples, and due to this
 it is important to quantify the uncertainties in your estimate.
-Unfortunately, most home-brew textbook will only give you very poor models to
+Unfortunately, most home-brew textbooks will only give you very poor models to
 estimate the yeast viability, and you may get fooled by your count and think that
 you are working with a good yeast while you simply overestimated the yeast viability.
 If you want to know more about how to experimentally count the yeast cells,
 you can take a look to <a href="https://escarpmentlabs.com/blogs/resources/crop-pray-count-yeast-counting-guide">this</a>
-link, where the procedure to count the yeast cells is illustrated.
-In the standard procedure, one has a $5\times 5$ grid and one counts the alive
+link, where the procedure to count the yeast cells is illustrated.</p>
+
+<p>In the standard procedure, one has a $5\times 5$ grid and one counts the alive
 cells and the death ones, where one can distinguish the cells thanks to the
-Trypan Blu which will color the death cells.</p>
+Trypan Blu which will color the death cells.
+A simulated example of what one will see is shown below:</p>
 
 <p><img src="/docs/assets/images/yeast_count.jpg" alt="Alt text" /></p>
 
 <p>Since counting all the cells would require a lot of time, one usually counts
 five well separated squares, usually the four corner squares and the center one.
-In our case we got:</p>
+In the figure shown above:</p>
 
 <table>
   <thead>
@@ -33,23 +180,23 @@ In our case we got:</p>
   <tbody>
     <tr>
       <td>top left</td>
-      <td>17</td>
-      <td>3</td>
-    </tr>
-    <tr>
-      <td>top right</td>
       <td>16</td>
       <td>2</td>
     </tr>
     <tr>
+      <td>top right</td>
+      <td>17</td>
+      <td>3</td>
+    </tr>
+    <tr>
       <td>bottom left</td>
-      <td>11</td>
-      <td>0</td>
+      <td>18</td>
+      <td>3</td>
     </tr>
     <tr>
       <td>bottom right</td>
-      <td>18</td>
-      <td>3</td>
+      <td>11</td>
+      <td>0</td>
     </tr>
     <tr>
       <td>center</td>
@@ -109,12 +256,13 @@ no idea about what is the associated uncertainty to this number.</p>
 <h2 id="the-frequentist-statistician">The frequentist statistician</h2>
 
 <p>A frequentist statistician would first of all setup a model for this problem.
-The state of each cell can take two values:
-\(y = 
+The state of each cell can take two values:</p>
+
+\[y = 
 \begin{cases}
 1 \text{ (alive) } &amp; \text{ with probability } p \\
 0 \text{ (death) } &amp; \text{ with probability } q=1-p
-\end{cases}\)</p>
+\end{cases}\]
 
 <p>If we assume that the probability of being alive of each cell is independent on the probability of the remaining cells
 of being alive and that the probability is the same for each cell, we have that the probability of finding $y$ alive cells out of $n$ total counted cells must follow a binomial distribution:</p>
@@ -137,9 +285,10 @@ this implies that the maximum of $\log P$ is the maximum of $P\,.$</p>
 
 \[\log P(y | p, n) \propto y \log p + (n-y) \log(1-p)\]
 
-\[\frac{\partial \log P(y | p, n)}{\partial p} = \frac{y}{p} + \frac{n-y}{1-p}\]
+\[\frac{\partial \log P(y | p, n)}{\partial p} = \frac{y}{p} + \frac{n-y}{\hat{p}-1}\]
 
-\[\left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{\hat{p}} = 0 \Rightarrow \frac{y}{\hat{p}} = \frac{n-y}{\hat{p}-1}\]
+\[\left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{\hat{p}} = 0 \Rightarrow \frac{y}{\hat{p}} = \frac{n-y}{1-\hat{p}} \Rightarrow \hat{p}(n-y) = (1-\hat{p}) y
+\Rightarrow \hat{p} n = y\]
 
 <p>Which gives us, again, $\hat{p} = \frac{y}{n}$</p>
 
@@ -147,8 +296,11 @@ this implies that the maximum of $\log P$ is the maximum of $P\,.$</p>
 be large.
 He can use the central limit theorem, which says that, if $n$ is large, then the binomial distribution can be approximated with the normal distribution
 with the same mean and variance of the binomial distribution, which corresponds to $\mu = n\hat{p}$ and $\sigma^2= n\hat{p}(1-\hat{p})\,.$
-He would finally provide the $95\%$ Confidence Interval for this distribution, which is
-\(n \hat{p} \pm  1.96 \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}  = [0.81, 0.96]\,.\)</p>
+He would use this theorem to provide the $95\%$ Confidence Interval for this distribution, which is given by
+\(\hat{p} \pm  z_{1-0.05/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} 
+ = \hat{p} \pm  1.96 \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}  = [0.81, 0.96]\)</p>
+
+<p>where $z_{1-0.05/2}=1.96$ is the $0.975$ normal quantile.</p>
 
 <p>The calculation is quite straightforward, but one should pay a lot of attention in giving the correct interpretation to this interval.
 In the frequentist paradigm, one imagines to repeat the experiment many times, and what one can say is that, by doing this,
@@ -220,7 +372,10 @@ the <strong>Jeffreys’ prior</strong> for the binomial distribution</p>
 
 \[P(p | \alpha, \beta) = \frac{1}{B(\alpha, \beta) } p^\alpha (1-p)^\beta\]
 
-<p>and $B(x, y)$ is the Beta function.</p>
+<p>and $B(x, y)$ is the Beta function.
+However, he knows he knows he must pay a lot of attention, as often -but not
+in this case- the Jeffreys’ prior is not a proper prior
+(it cannot be integrated to one) <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">beta_binom_model_wise</span><span class="p">:</span>
     <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Beta</span><span class="p">(</span><span class="sh">'</span><span class="s">p</span><span class="sh">'</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
@@ -248,7 +403,15 @@ much does the results on his/her inference depend on the choice of the priors.</
   <li>PyMC allows you to easily implement Bayesian models</li>
   <li>In many cases Bayesian statistics offers results which are more transparent than their frequentist counterparts. We have seen this for a very simple model, but this becomes even more evident as the complexity of the model grows.</li>
   <li>You can apply Bayesian statistics to any kind of problem, even home-brewing!</li>
-</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><summary type="html"><![CDATA[I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. However, measuring the viability is a time consuming process, as you must count the number of dead and alive cells in your yeast by hand. Because of this, often the estimate is done with small samples, and due to this it is important to quantify the uncertainties in your estimate. Unfortunately, most home-brew textbook will only give you very poor models to estimate the yeast viability, and you may get fooled by your count and think that you are working with a good yeast while you simply overestimated the yeast viability. If you want to know more about how to experimentally count the yeast cells, you can take a look to this link, where the procedure to count the yeast cells is illustrated. In the standard procedure, one has a $5\times 5$ grid and one counts the alive cells and the death ones, where one can distinguish the cells thanks to the Trypan Blu which will color the death cells.]]></summary></entry><entry><title type="html">Why (and when) should you go for Bayesian</title><link href="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html" rel="alternate" type="text/html" title="Why (and when) should you go for Bayesian" /><published>2023-08-09T00:00:00+02:00</published><updated>2023-08-09T00:00:00+02:00</updated><id>http://localhost:4000/2023/08/09/intro-when-go-bayesian</id><content type="html" xml:base="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html"><![CDATA[<p>I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes.
+</ul>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>This topic will be discussed in a future post. For the moment, if you are curious, you can take a look at the <a href="https://en.wikipedia.org/wiki/Jeffreys_prior#">Wikipedia</a> page. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><summary type="html"><![CDATA[I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. However, measuring the viability is a time consuming process, as you must count the number of dead and alive cells in your yeast by hand. Because of this, often the estimate is done with small samples, and due to this it is important to quantify the uncertainties in your estimate. Unfortunately, most home-brew textbooks will only give you very poor models to estimate the yeast viability, and you may get fooled by your count and think that you are working with a good yeast while you simply overestimated the yeast viability. If you want to know more about how to experimentally count the yeast cells, you can take a look to this link, where the procedure to count the yeast cells is illustrated.]]></summary></entry><entry><title type="html">Why (and when) should you go for Bayesian</title><link href="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html" rel="alternate" type="text/html" title="Why (and when) should you go for Bayesian" /><published>2023-08-09T00:00:00+02:00</published><updated>2023-08-09T00:00:00+02:00</updated><id>http://localhost:4000/2023/08/09/intro-when-go-bayesian</id><content type="html" xml:base="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html"><![CDATA[<p>I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes.
 Bayesian statistics allows to build custom and structured models by simply specifying the data generating process.
 The model can be divided into two parts:</p>
 <ul>
