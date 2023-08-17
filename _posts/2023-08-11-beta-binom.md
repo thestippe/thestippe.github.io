@@ -1,6 +1,7 @@
 ---
 layout: page
 title: "Beer and the Beta-Binomial model"
+permalink: /beta_binom/
 ---
 I love beer, and whenever I have a free day I brew. As you probably know, beer is made
 with water, malt, hop and yeast. One of the most important things to do in order
