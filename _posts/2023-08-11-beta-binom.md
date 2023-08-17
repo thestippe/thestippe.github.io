@@ -184,7 +184,8 @@ az.plot_posterior(trace)
 ![Alt text](/docs/assets/images/posterior_bb.jpg)
 
 We can see that the mean is very close to the MLE value, and the (Bayesian)
-$95\%$ CI is close to the frequentist one.
+$95\%$ CI (which corresponds to the two printed numbers) is close to
+ the frequentist one too.
 However in this case the interpretation is straightforward:
 
 **the Bayesian statistic simply updated his/her initial guess for $p$ by means of Bayes' theorem.**

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-17T20:04:35+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Dealing with count data</title><link href="http://localhost:4000/count_data/" rel="alternate" type="text/html" title="Dealing with count data" /><published>2023-08-14T00:00:00+02:00</published><updated>2023-08-14T00:00:00+02:00</updated><id>http://localhost:4000/poisson</id><content type="html" xml:base="http://localhost:4000/count_data/"><![CDATA[<p>In <a href="/beta_binom/">the previous post</a> we have seen how we can model a two-valued variable
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-18T01:01:43+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Dealing with count data</title><link href="http://localhost:4000/count_data/" rel="alternate" type="text/html" title="Dealing with count data" /><published>2023-08-14T00:00:00+02:00</published><updated>2023-08-14T00:00:00+02:00</updated><id>http://localhost:4000/poisson</id><content type="html" xml:base="http://localhost:4000/count_data/"><![CDATA[<p>In <a href="/beta_binom/">the previous post</a> we have seen how we can model a two-valued variable
 by using the binomial distribution. In this one we will illustrate how we can 
 model count variables, that is variables which can take any non-negative
 integer value $0, 1, 2,\dots$</p>
@@ -392,7 +392,8 @@ as well as the main methods to exclude problems in the sampling procedure.</p>
 <p><img src="/docs/assets/images/posterior_bb.jpg" alt="Alt text" /></p>
 
 <p>We can see that the mean is very close to the MLE value, and the (Bayesian)
-$95\%$ CI is close to the frequentist one.
+$95\%$ CI (which corresponds to the two printed numbers) is close to
+ the frequentist one too.
 However in this case the interpretation is straightforward:</p>
 
 <p><strong>the Bayesian statistic simply updated his/her initial guess for $p$ by means of Bayes’ theorem.</strong></p>
