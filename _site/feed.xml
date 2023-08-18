@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-18T01:01:43+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Dealing with count data</title><link href="http://localhost:4000/count_data/" rel="alternate" type="text/html" title="Dealing with count data" /><published>2023-08-14T00:00:00+02:00</published><updated>2023-08-14T00:00:00+02:00</updated><id>http://localhost:4000/poisson</id><content type="html" xml:base="http://localhost:4000/count_data/"><![CDATA[<p>In <a href="/beta_binom/">the previous post</a> we have seen how we can model a two-valued variable
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-18T07:50:59+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Dealing with count data</title><link href="http://localhost:4000/count_data/" rel="alternate" type="text/html" title="Dealing with count data" /><published>2023-08-14T00:00:00+02:00</published><updated>2023-08-14T00:00:00+02:00</updated><id>http://localhost:4000/poisson</id><content type="html" xml:base="http://localhost:4000/count_data/"><![CDATA[<p>In <a href="/beta_binom/">the previous post</a> we have seen how we can model a two-valued variable
 by using the binomial distribution. In this one we will illustrate how we can 
 model count variables, that is variables which can take any non-negative
 integer value $0, 1, 2,\dots$</p>
@@ -187,7 +187,20 @@ twitter account:</p>
     <span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_negbin</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p><img src="/docs/assets/images/negbin_trace.jpg" alt="Hurricanes ppc" /></p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><summary type="html"><![CDATA[In the previous post we have seen how we can model a two-valued variable by using the binomial distribution. In this one we will illustrate how we can model count variables, that is variables which can take any non-negative integer value $0, 1, 2,\dots$]]></summary></entry><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/beta_binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-08-11T00:00:00+02:00</published><updated>2023-08-11T00:00:00+02:00</updated><id>http://localhost:4000/beta-binom</id><content type="html" xml:base="http://localhost:4000/beta_binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
+<p><img src="/docs/assets/images/negbin_trace.jpg" alt="Hurricanes ppc" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">negbin</span><span class="p">:</span>
+   <span class="n">ppc_negbin</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_negbin</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">()</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_negbin</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">df_count</span><span class="p">[</span><span class="sh">'</span><span class="s">retweets_count</span><span class="sh">'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">k</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+         <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/negbin_ppc.jpg" alt="Alt text" /></p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><summary type="html"><![CDATA[In the previous post we have seen how we can model a two-valued variable by using the binomial distribution. In this one we will illustrate how we can model count variables, that is variables which can take any non-negative integer value $0, 1, 2,\dots$]]></summary></entry><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/beta_binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-08-11T00:00:00+02:00</published><updated>2023-08-11T00:00:00+02:00</updated><id>http://localhost:4000/beta-binom</id><content type="html" xml:base="http://localhost:4000/beta_binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
 with water, malt, hop and yeast. One of the most important things to do in order
 to produce a good beer is to have a good quality yeast, and one of the metrics
 used to quantify the goodness of the yeast is the <strong>yeast viability</strong>, which corresponds to the percentage of alive cells in your yeast.
@@ -336,8 +349,9 @@ this implies that the maximum of $\log P$ is the maximum of $P\,.$</p>
 
 <p>Which gives us, again, $\hat{p} = \frac{y}{n}$</p>
 
-<p>The frequentist statistician, however, knows that his estimate for the alive cell fraction is not exact, and he would like to know how much can this interval
-be large.
+<p>The frequentist statistician, however, knows that his estimate for the alive cell
+fraction is not exact, and he would like to provide an uncertainty interval
+associated to the estimate.
 He can use the central limit theorem, which says that, if $n$ is large, then the binomial distribution can be approximated with the normal distribution
 with the same mean and variance of the binomial distribution, which corresponds to $\mu = n\hat{p}$ and $\sigma^2= n\hat{p}(1-\hat{p})\,.$
 He would use this theorem to provide the $95\%$ Confidence Interval for this distribution, which is given by
@@ -398,6 +412,9 @@ However in this case the interpretation is straightforward:</p>
 
 <p><strong>the Bayesian statistic simply updated his/her initial guess for $p$ by means of Bayes’ theorem.</strong></p>
 
+<p>For the Bayesian statistician there is the $95\%$ of chance that the true
+value of $p$ lies inside the $95\%$ CI associated to $p$.</p>
+
 <p>Another major advantage of the Bayesian approach is that we did not had to rely
 on the Central Limit Theorem, which only holds if the sample is large enough.
 The Bayesian approach is always valid, regardless on the size of the sample.</p>
@@ -449,6 +466,9 @@ much does the results on his/her inference depend on the choice of the priors.</
   <li>In many cases Bayesian statistics offers results which are more transparent than their frequentist counterparts. We have seen this for a very simple model, but this becomes even more evident as the complexity of the model grows.</li>
   <li>You can apply Bayesian statistics to any kind of problem, even home-brewing!</li>
 </ul>
+
+<p>In the <a href="/count_data/">next</a> example we will apply Bayesian statistics to study
+data which can take more than two values.</p>
 
 <div class="footnotes" role="doc-endnotes">
   <ol>

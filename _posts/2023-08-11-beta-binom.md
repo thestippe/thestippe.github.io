@@ -124,8 +124,9 @@ $$ \left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{\hat{p}} = 0 \Rig
 
 Which gives us, again, $\hat{p} = \frac{y}{n}$
 
-The frequentist statistician, however, knows that his estimate for the alive cell fraction is not exact, and he would like to know how much can this interval
-be large.
+The frequentist statistician, however, knows that his estimate for the alive cell
+fraction is not exact, and he would like to provide an uncertainty interval
+associated to the estimate.
 He can use the central limit theorem, which says that, if $n$ is large, then the binomial distribution can be approximated with the normal distribution
 with the same mean and variance of the binomial distribution, which corresponds to $\mu = n\hat{p}$ and $\sigma^2= n\hat{p}(1-\hat{p})\,.$
 He would use this theorem to provide the $95\%$ Confidence Interval for this distribution, which is given by
@@ -190,6 +191,9 @@ However in this case the interpretation is straightforward:
 
 **the Bayesian statistic simply updated his/her initial guess for $p$ by means of Bayes' theorem.**
 
+For the Bayesian statistician there is the $95\%$ of chance that the true
+value of $p$ lies inside the $95\%$ CI associated to $p$.
+
 Another major advantage of the Bayesian approach is that we did not had to rely
 on the Central Limit Theorem, which only holds if the sample is large enough.
 The Bayesian approach is always valid, regardless on the size of the sample.
@@ -242,5 +246,8 @@ much does the results on his/her inference depend on the choice of the priors.
 - PyMC allows you to easily implement Bayesian models
 - In many cases Bayesian statistics offers results which are more transparent than their frequentist counterparts. We have seen this for a very simple model, but this becomes even more evident as the complexity of the model grows.
 - You can apply Bayesian statistics to any kind of problem, even home-brewing!
+
+In the [next](/count_data/) example we will apply Bayesian statistics to study
+data which can take more than two values.
 
 [^1]: This topic will be discussed in a future post. For the moment, if you are curious, you can take a look at the [Wikipedia](https://en.wikipedia.org/wiki/Jeffreys_prior#) page.
