@@ -231,7 +231,7 @@ variance is uniquely determined by the mean (in fact they are equal).
 This could be a too restrictive requirement, as one would like to treat them
 independently. In these cases a very common choice is the negative
 binomial distribution, which represents the number of subsequent failures $k$ in a
-Bernoulli process with success probability $p$ before a given number of subsequent successes $r$ occur:</p>
+Bernoulli process with success probability $p$ before a given number of subsequent successes $r$ occur <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>:</p>
 
 \[P(k \vert p, r) \propto (1-p)^k p^r\]
 
@@ -258,7 +258,7 @@ twitter account:</p>
 
 <p><img src="/docs/assets/images/negbin_check_trace.jpg" alt="NegativeBinomial check trace" /></p>
 
-<p>Let us now sample the posterior predictive and see if it describes the data:</p>
+<p>The trace looks good, so let us now sample the posterior predictive and see if it describes the data:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">poisson_twitter</span><span class="p">:</span>
     <span class="n">ppc_poisson_twitter</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_poisson_twitter</span><span class="p">)</span>
@@ -333,6 +333,14 @@ In fact, if we compare these quantities with the corresponding quantities obtain
 <p>As expected, the Poisson model predicts equal mean and variance for $y\,,$
 while our data clearly shows overdispersion, as the variance is much larger than the mean,
 making the negative binomial model a better candidate to describe our data.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>The negative binomial can be also seen as the posterior predictive distribution of a Poisson likelihood with a Gamma prior, the mathematical derivation can be found <a href="https://gregorygundersen.com/blog/2019/09/16/poisson-gamma-nb/">here</a> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
 
   </div>
 
