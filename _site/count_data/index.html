@@ -251,6 +251,8 @@ twitter account:</p>
 
 <p><img src="/docs/assets/images/negbin_trace.jpg" alt="Hurricanes ppc" /></p>
 
+<p>In the trace everything looks fine, so we can go further and sample $y$.</p>
+
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">negbin</span><span class="p">:</span>
    <span class="n">ppc_negbin</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_negbin</span><span class="p">)</span>
 
