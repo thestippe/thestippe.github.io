@@ -8,8 +8,8 @@
 <meta property="og:title" content="Why (and when) should you go for Bayesian" />
 <meta name="author" content="Stippe" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes. Bayesian statistics allows to build custom and structured models by simply specifying the data generating process. The model can be divided into two parts: The likelihood $P(y \vert \theta)$, which determines how the data we want to model $y$ are generated given the parameter(s) $\theta$. The priors $P(\theta)$, which specifies our initial hypothesis about the distribution of the parameters of the model." />
-<meta property="og:description" content="I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes. Bayesian statistics allows to build custom and structured models by simply specifying the data generating process. The model can be divided into two parts: The likelihood $P(y \vert \theta)$, which determines how the data we want to model $y$ are generated given the parameter(s) $\theta$. The priors $P(\theta)$, which specifies our initial hypothesis about the distribution of the parameters of the model." />
+<meta name="description" content="I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes. Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process. The model can be divided into two parts: The likelihood $P(y \vert \theta)$, which determines how the data you want to model $y$ are generated given the parameter(s) $\theta$. The priors $P(\theta)$, which specifies your initial hypothesis about the distribution of the parameters of the model." />
+<meta property="og:description" content="I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes. Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process. The model can be divided into two parts: The likelihood $P(y \vert \theta)$, which determines how the data you want to model $y$ are generated given the parameter(s) $\theta$. The priors $P(\theta)$, which specifies your initial hypothesis about the distribution of the parameters of the model." />
 <link rel="canonical" href="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html" />
 <meta property="og:url" content="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html" />
 <meta property="og:site_name" content="Just another Bayesian enthusiast" />
@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Why (and when) should you go for Bayesian" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Stippe"},"dateModified":"2023-08-09T00:00:00+02:00","datePublished":"2023-08-09T00:00:00+02:00","description":"I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes. Bayesian statistics allows to build custom and structured models by simply specifying the data generating process. The model can be divided into two parts: The likelihood $P(y \\vert \\theta)$, which determines how the data we want to model $y$ are generated given the parameter(s) $\\theta$. The priors $P(\\theta)$, which specifies our initial hypothesis about the distribution of the parameters of the model.","headline":"Why (and when) should you go for Bayesian","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2023/08/09/intro-when-go-bayesian.html"},"url":"http://localhost:4000/2023/08/09/intro-when-go-bayesian.html"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Stippe"},"dateModified":"2023-08-09T00:00:00+02:00","datePublished":"2023-08-09T00:00:00+02:00","description":"I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes. Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process. The model can be divided into two parts: The likelihood $P(y \\vert \\theta)$, which determines how the data you want to model $y$ are generated given the parameter(s) $\\theta$. The priors $P(\\theta)$, which specifies your initial hypothesis about the distribution of the parameters of the model.","headline":"Why (and when) should you go for Bayesian","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/2023/08/09/intro-when-go-bayesian.html"},"url":"http://localhost:4000/2023/08/09/intro-when-go-bayesian.html"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Just another Bayesian enthusiast" />
 
@@ -60,19 +60,20 @@
   </header>
 
   <div class="post-content">
-    <p>I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes.
-Bayesian statistics allows to build custom and structured models by simply specifying the data generating process.
+    <p>I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes.
+Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process.
 The model can be divided into two parts:</p>
 <ul>
-  <li>The likelihood $P(y \vert \theta)$, which determines how the data we want to model $y$ are generated given the parameter(s) $\theta$.</li>
-  <li>The priors $P(\theta)$, which specifies our initial hypothesis about the distribution of the parameters of the model.</li>
+  <li>The likelihood $P(y \vert \theta)$, which determines how the data you want to model $y$ are generated given the parameter(s) $\theta$.</li>
+  <li>The priors $P(\theta)$, which specifies your initial hypothesis about the distribution of the parameters of the model.</li>
 </ul>
 
 <p>The only mathematical requirements for both the likelihood and for the priors is that they are non-negative and sum up to one.
-There is a huge literature about the model building, and one can easily start by using one of the already available models and adapt it
-to the problem under study.</p>
+There is a huge literature about the model building, and you can easily start by using one of the already available models and adapt it
+to your problem.</p>
 
-<p>Once that the model is built one samples the entire posterior probability distribution,
+<p>Once that the model is specified you can use $PyMC$ or any other Probabilistic Programming Language
+sample the entire posterior probability distribution,
 which is determined by means of Bayes theorem.</p>
 
 \[P(\theta \vert y) = \frac{P(y \vert \theta) P(\theta)}{P(y)} \propto  P(y \vert \theta) P(\theta)\]
