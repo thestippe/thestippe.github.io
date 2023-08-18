@@ -2,17 +2,18 @@
 layout: page
 title: "Why (and when) should you go for Bayesian"
 ---
-I feel quite a pragmatic person, so I think that one should choose the tool depending on the needs rather than by relying on some personal believes.
-Bayesian statistics allows to build custom and structured models by simply specifying the data generating process.
+I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes.
+Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process.
 The model can be divided into two parts:
-- The likelihood $P(y \vert \theta)$, which determines how the data we want to model $y$ are generated given the parameter(s) $\theta$.
-- The priors $P(\theta)$, which specifies our initial hypothesis about the distribution of the parameters of the model.
+- The likelihood $P(y \vert \theta)$, which determines how the data you want to model $y$ are generated given the parameter(s) $\theta$.
+- The priors $P(\theta)$, which specifies your initial hypothesis about the distribution of the parameters of the model.
 
 The only mathematical requirements for both the likelihood and for the priors is that they are non-negative and sum up to one.
-There is a huge literature about the model building, and one can easily start by using one of the already available models and adapt it
-to the problem under study.
+There is a huge literature about the model building, and you can easily start by using one of the already available models and adapt it
+to your problem.
 
-Once that the model is built one samples the entire posterior probability distribution,
+Once that the model is specified you can use $PyMC$ or any other Probabilistic Programming Language
+sample the entire posterior probability distribution,
 which is determined by means of Bayes theorem.
 
 $$ P(\theta \vert y) = \frac{P(y \vert \theta) P(\theta)}{P(y)} \propto  P(y \vert \theta) P(\theta) $$
