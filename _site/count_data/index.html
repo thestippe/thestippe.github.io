@@ -264,6 +264,22 @@ twitter account:</p>
 
 <p><img src="/docs/assets/images/negbin_ppc.jpg" alt="Alt text" /></p>
 
+<p>Let us verify if our requirement to treat the mean and the variance
+as independent quantities was needed</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc_negbin</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nf">mean</span><span class="p">()</span>
+</code></pre></div></div>
+<blockquote>
+  <p>2.2661</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc_negbin</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nf">var</span><span class="p">()</span>
+</code></pre></div></div>
+<blockquote>
+  <p>10.3115</p>
+</blockquote>
+
+<p>They differ by a factor of $4\,,$ so we were right.</p>
 
   </div>
 
