@@ -41,18 +41,27 @@ values that $\theta$ may take before you make an experiment and observe $y\,.$
 On the other hand $P(\theta \vert y)$ represents your updated opinion about the value of $\theta$
 after the experiment.
 
-So why is not everyone using it? In my opinion there are many reasons for this, some of them
+So why is not everyone using it? In my experience there are multiple reasons, some of them
 are historical, others are more pragmatic.
 
 First of all, the possibility to easily implement a numerical simulation
 and to run it within a reasonable amount of time is relatively recent and not
 yet spread outside the statistical community.
-Bayesian statistics has been in fact largely abandoned at the beginning of the last century,
-when Fisher and his collaborators invented frequentist statistics.
-This happened because the normalization factor $P(y)$
-can only be computed for a very limited number of models (the so-called _conjugate_ models),
-and this made Bayesian statistics very difficult to apply at that time.
-Things changed when Markov Chain Monte Carlo allowed physicists before and statisticians later to 
+Bayesian statistics was the only available framework up to the end of the nineteenth 
+century, and in has been largely abandoned at the beginning of the last century,
+when Fisher and his collaborators developed frequentist statistics.
+People in fact considered Bayesian statistics very difficult,
+as the normalization factor $P(y)$
+can only be computed for a very limited number of models
+(the so-called _conjugate_ models).
+De Finetti, Savage, Jeffreys and others tried to convince
+people to abandon the frequentist framework as they did not considered the
+frequentist interpretation satisfactory, but they never managed to convince
+the majority of the community.
+Things changed when, during the Manhattan project, Metropolis, Von Neumann, Ulam and
+others invented the
+Markov Chain Monte Carlo methods, and this allowed physicists and later statisticians
+too to 
 draw random samples from an arbitrary probability distribution.
 Moreover, nowadays, the misuse and misinterpretation of tools of frequentist statistics is considered 
 one of the main reason for the so-called _reproducibility crisis in science_

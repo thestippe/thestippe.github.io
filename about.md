@@ -3,16 +3,19 @@ layout: page
 title: "About me"
 permalink: /about
 ---
-I am a theoretical physicist, and I currently work as a data scientist. I worked in a variety of fields, as credit risk assessment, portfolio allocation and healthcare.
-During my physics studies I always applied numerical methods to nuclear physics [^2], and I soon met Monte Carlo methods, as Gibbs sampling is one of the main tool to study the atomic nuclei in Lattice Quantum Field Theory.
+I am Stefano, and I am currently working as data scientist.
+I worked as data scientist in a variety of fields, as credit risk assessment, portfolio allocation and healthcare.
+I studied as a physicist, and during my research studies I always applied numerical methods to nuclear physics [^2].
+Soon I met Monte Carlo methods, as Gibbs sampling is one of the main tool to study the atomic nuclei in Lattice Quantum Field Theory.
+In my spare time I try and give some contribution to the Italian Skeptic Community, named [CICAP](https://cicap.org), and whenever I can I travel.
 
-In my spare time I try and give some contribution to the Italian Skeptic Community, named CICAP, and whenever I can I love travelling.
+During my career as data scientist, I found that Bayesian statistics can be a very useful tool, but all the lectures about Bayesian statistics
+I could find were using R as programming language, as this is the most common programming language among statisticians [^1].
+However I always used Python, as R is rarely used in nuclear physics, so I decided to build my own notes in Python,
+combining what I learned from PyMC tutorials, statistics textbooks, online courses and from my own experience.
+The main resources I used are listed in the [resources](/links) section.
 
-During my career as data scientist, I found that Bayesian statistics can be a very useful tool, but all the lectures about Bayesian statistics I could find were using R as programming language [^1].
-However I always used Python (R is rarely used in physics), so I decided to build my own notes in Python, combining PyMC tutorials with statistics textbooks and online courses.
-The resources I used are listed in the [resources](/links) section, and I would like to thank anyone who shared his/her knowledge in this beautiful field by starting from the
-PyMC team. 
-
+I would like to thank anyone who shared his/her knowledge in this beautiful field, first of all the PyMC team. 
 On the other hand, any error in these notes is my own responsibility, and if you find any please let my know by writing an email.
 
 [^1]: It is almost impossible to build any non-trivial model without using a programming language.

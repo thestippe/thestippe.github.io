@@ -7,12 +7,12 @@ I love beer, and whenever I have a free day I brew. As you probably know, beer i
 with water, malt, hop and yeast. One of the most important things to do in order
 to produce a good beer is to have a good quality yeast, and one of the metrics
 used to quantify the goodness of the yeast is the **yeast viability**, which corresponds to the percentage of alive cells in your yeast.
-However, measuring the viability is a time consuming process, as you must
-count the number of dead and alive cells in your yeast by hand.
-Because of this, often the estimate is done with small samples, and due to this
-it is important to quantify the uncertainties in your estimate.
-Unfortunately, most home-brew textbooks will only give you very poor models to
-estimate the yeast viability, and you may get fooled by your count and think that
+This procedure is time consuming, as you must count by hand the number of dead
+and alive cells in a sample, so it is usually performed with small samples. It is therefore important to quantify the uncertainties in your estimate.
+
+
+Unfortunately, most home-brew textbooks will only give you a way to
+estimate the mean yeast viability, and you may get fooled by your count and think that
 you are working with a good yeast while you simply overestimated the yeast viability.
 If you want to know more about how to experimentally count the yeast cells,
 you can take a look to [this](https://escarpmentlabs.com/blogs/resources/crop-pray-count-yeast-counting-guide)
@@ -79,17 +79,17 @@ p_naive = alive / total
 > 0.886
 
 
-This is a quick-and-dirty solution, it has however as a drawback that we have
-no idea about what is the associated uncertainty to this number.
+This is a quick solution, however we cannot associate any uncertainty to this number
+for the moment.
 
 
-## The frequentist statistician
+## The frequentist statistician's way
 
 A frequentist statistician would first of all setup a model for this problem.
 The state of each cell can take two values:
 
 $$
-y = 
+y_i = 
 \begin{cases}
 1 \text{ (alive) } & \text{ with probability } p \\
 0 \text{ (death) } & \text{ with probability } q=1-p
@@ -109,6 +109,10 @@ where the binomial distribution has probability mass
 
 $$ P(y | p, n) = \binom{n}{y} p^y (1-p)^{n-y} $$
 
+and 
+
+$$y = \sum_{i=1}^n y_i$$
+
 and $ \binom{n}{y} = \frac{n!}{y!(n-y)!}$ is a multiplicative normalization factor.
 Once the model is built, we want to find $p$ such that the $P(y | p, n)$ is maximum, namely the *Maximum Likelihood Estimator* or MLE for the
 sake of brevity.
@@ -117,12 +121,21 @@ this implies that the maximum of $\log P$ is the maximum of $P\,.$
 
 $$ \log P(y | p, n) \propto y \log p + (n-y) \log(1-p) $$
 
-$$ \frac{\partial \log P(y | p, n)}{\partial p} = \frac{y}{p} + \frac{n-y}{\hat{p}-1} $$
+$$ \frac{\partial \log P(y | p, n)}{\partial p} = \frac{y}{p} + \frac{n-y}{p-1} $$
 
-$$ \left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{\hat{p}} = 0 \Rightarrow \frac{y}{\hat{p}} = \frac{n-y}{1-\hat{p}} \Rightarrow \hat{p}(n-y) = (1-\hat{p}) y
+$$ \left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{p=\hat{p}} = 0 \Rightarrow \frac{y}{\hat{p}} = \frac{n-y}{1-\hat{p}} \Rightarrow \hat{p}(n-y) = (1-\hat{p}) y
 \Rightarrow \hat{p} n = y$$
 
 Which gives us, again, $\hat{p} = \frac{y}{n}$
+
+We can easily verify that it is a maximum:
+
+$$ \frac{\partial^2 \log P(y | p, n)}{\partial p^2} = -(n - y)/(p - 1)^2 - y/p^2 $$
+
+$$ \left. \frac{\partial^2 \log P(y | p, n)}{\partial p^2}\right|_{p=\hat{p}} =
+-\frac{n^3}{y (n - y) }$$
+
+and the last quantity is always negative, for $0<y<n\,.$
 
 The frequentist statistician, however, knows that his estimate for the alive cell
 fraction is not exact, and he would like to provide an uncertainty interval
@@ -146,7 +159,7 @@ or 0 if it is not inside, but he cannot say which one is correct!**
 
 This fact is often misinterpreted, even by many researchers and data scientists.
 
-## The Bayesian rookie
+## The Bayesian rookie's way
 
 The Bayesian statistician would take the same likelihood for the model, however in his framework the parameter $p$ is
 simply another random variable, and it is described by some other probability distribution $P(p)$ namely by the **prior** associated
@@ -198,7 +211,7 @@ Another major advantage of the Bayesian approach is that we did not had to rely
 on the Central Limit Theorem, which only holds if the sample is large enough.
 The Bayesian approach is always valid, regardless on the size of the sample.
 
-## The wise Bayesian
+## The wise Bayesian's way
 
 The wise Bayesian would follow an analogous procedure, he would however
 take the less informative prior as possible, where a strongly informative
