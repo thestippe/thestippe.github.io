@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-19T01:33:15+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Dealing with count data</title><link href="http://localhost:4000/count_data/" rel="alternate" type="text/html" title="Dealing with count data" /><published>2023-08-14T00:00:00+02:00</published><updated>2023-08-14T00:00:00+02:00</updated><id>http://localhost:4000/poisson</id><content type="html" xml:base="http://localhost:4000/count_data/"><![CDATA[<p>In <a href="/beta_binom/">the previous post</a> we have seen how we can model a two-valued variable
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-20T11:48:31+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><entry><title type="html">Dealing with count data</title><link href="http://localhost:4000/count_data/" rel="alternate" type="text/html" title="Dealing with count data" /><published>2023-08-14T00:00:00+02:00</published><updated>2023-08-14T00:00:00+02:00</updated><id>http://localhost:4000/poisson</id><content type="html" xml:base="http://localhost:4000/count_data/"><![CDATA[<p>In <a href="/beta_binom/">the previous post</a> we have seen how we can model a two-valued variable
 by using the binomial distribution. In this one we will illustrate how we can 
 model count variables, that is variables which can take any non-negative
 integer value $0, 1, 2,\dots$</p>
@@ -265,7 +265,7 @@ In fact, if we compare these quantities with the corresponding quantities obtain
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc_poisson_twitter</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nf">var</span><span class="p">()</span>
 </code></pre></div></div>
 <blockquote>
-  <p>2.26458</p>
+  <p>2.26564</p>
 </blockquote>
 
 <p>As expected, the Poisson model predicts equal mean and variance for $y\,,$
@@ -282,12 +282,11 @@ making the negative binomial model a better candidate to describe our data.</p>
 with water, malt, hop and yeast. One of the most important things to do in order
 to produce a good beer is to have a good quality yeast, and one of the metrics
 used to quantify the goodness of the yeast is the <strong>yeast viability</strong>, which corresponds to the percentage of alive cells in your yeast.
-However, measuring the viability is a time consuming process, as you must
-count the number of dead and alive cells in your yeast by hand.
-Because of this, often the estimate is done with small samples, and due to this
-it is important to quantify the uncertainties in your estimate.
-Unfortunately, most home-brew textbooks will only give you very poor models to
-estimate the yeast viability, and you may get fooled by your count and think that
+This procedure is time consuming, as you must count by hand the number of dead
+and alive cells in a sample, so it is usually performed with small samples. It is therefore important to quantify the uncertainties in your estimate.</p>
+
+<p>Unfortunately, most home-brew textbooks will only give you a way to
+estimate the mean yeast viability, and you may get fooled by your count and think that
 you are working with a good yeast while you simply overestimated the yeast viability.
 If you want to know more about how to experimentally count the yeast cells,
 you can take a look to <a href="https://escarpmentlabs.com/blogs/resources/crop-pray-count-yeast-counting-guide">this</a>
@@ -385,15 +384,15 @@ and alive cell is simply</p>
   <p>0.886</p>
 </blockquote>
 
-<p>This is a quick-and-dirty solution, it has however as a drawback that we have
-no idea about what is the associated uncertainty to this number.</p>
+<p>This is a quick solution, however we cannot associate any uncertainty to this number
+for the moment.</p>
 
-<h2 id="the-frequentist-statistician">The frequentist statistician</h2>
+<h2 id="the-frequentist-statisticians-way">The frequentist statistician’s way</h2>
 
 <p>A frequentist statistician would first of all setup a model for this problem.
 The state of each cell can take two values:</p>
 
-\[y = 
+\[y_i = 
 \begin{cases}
 1 \text{ (alive) } &amp; \text{ with probability } p \\
 0 \text{ (death) } &amp; \text{ with probability } q=1-p
@@ -412,6 +411,10 @@ of being alive and that the probability is the same for each cell, we have that 
 
 \[P(y | p, n) = \binom{n}{y} p^y (1-p)^{n-y}\]
 
+<p>and</p>
+
+\[y = \sum_{i=1}^n y_i\]
+
 <p>and $ \binom{n}{y} = \frac{n!}{y!(n-y)!}$ is a multiplicative normalization factor.
 Once the model is built, we want to find $p$ such that the $P(y | p, n)$ is maximum, namely the <em>Maximum Likelihood Estimator</em> or MLE for the
 sake of brevity.
@@ -420,12 +423,21 @@ this implies that the maximum of $\log P$ is the maximum of $P\,.$</p>
 
 \[\log P(y | p, n) \propto y \log p + (n-y) \log(1-p)\]
 
-\[\frac{\partial \log P(y | p, n)}{\partial p} = \frac{y}{p} + \frac{n-y}{\hat{p}-1}\]
+\[\frac{\partial \log P(y | p, n)}{\partial p} = \frac{y}{p} + \frac{n-y}{p-1}\]
 
-\[\left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{\hat{p}} = 0 \Rightarrow \frac{y}{\hat{p}} = \frac{n-y}{1-\hat{p}} \Rightarrow \hat{p}(n-y) = (1-\hat{p}) y
+\[\left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{p=\hat{p}} = 0 \Rightarrow \frac{y}{\hat{p}} = \frac{n-y}{1-\hat{p}} \Rightarrow \hat{p}(n-y) = (1-\hat{p}) y
 \Rightarrow \hat{p} n = y\]
 
-<p>Which gives us, again, $\hat{p} = \frac{y}{n}$</p>
+<p>Which gives us, again, $\hat{p} = \frac{y}{n}\,,$ which is the same value that we got by using the home-brewer textbook’s way.</p>
+
+<p>We can easily verify that it is a maximum:</p>
+
+\[\frac{\partial^2 \log P(y | p, n)}{\partial p^2} = -(n - y)/(p - 1)^2 - y/p^2\]
+
+\[\left. \frac{\partial^2 \log P(y | p, n)}{\partial p^2}\right|_{p=\hat{p}} =
+-\frac{n^3}{y (n - y) }\]
+
+<p>and the last quantity is always negative, for $0&lt;y&lt;n\,.$</p>
 
 <p>The frequentist statistician, however, knows that his estimate for the alive cell
 fraction is not exact, and he would like to provide an uncertainty interval
@@ -449,7 +461,7 @@ or 0 if it is not inside, but he cannot say which one is correct!</strong></p>
 
 <p>This fact is often misinterpreted, even by many researchers and data scientists.</p>
 
-<h2 id="the-bayesian-rookie">The Bayesian rookie</h2>
+<h2 id="the-bayesian-rookies-way">The Bayesian rookie’s way</h2>
 
 <p>The Bayesian statistician would take the same likelihood for the model, however in his framework the parameter $p$ is
 simply another random variable, and it is described by some other probability distribution $P(p)$ namely by the <strong>prior</strong> associated
@@ -497,7 +509,7 @@ value of $p$ lies inside the $95\%$ CI associated to $p$.</p>
 on the Central Limit Theorem, which only holds if the sample is large enough.
 The Bayesian approach is always valid, regardless on the size of the sample.</p>
 
-<h2 id="the-wise-bayesian">The wise Bayesian</h2>
+<h2 id="the-wise-bayesians-way">The wise Bayesian’s way</h2>
 
 <p>The wise Bayesian would follow an analogous procedure, he would however
 take the less informative prior as possible, where a strongly informative
@@ -540,7 +552,7 @@ much does the results on his/her inference depend on the choice of the priors.</
 <h2 id="conclusions-and-take-home-message">Conclusions and take-home message</h2>
 
 <ul>
-  <li>PyMC allows you to easily implement Bayesian models</li>
+  <li>PyMC allows you to easily implement Bayesian models.</li>
   <li>In many cases Bayesian statistics offers results which are more transparent than their frequentist counterparts. We have seen this for a very simple model, but this becomes even more evident as the complexity of the model grows.</li>
   <li>You can apply Bayesian statistics to any kind of problem, even home-brewing!</li>
 </ul>
@@ -554,7 +566,7 @@ data which can take more than two values.</p>
       <p>This topic will be discussed in a future post. For the moment, if you are curious, you can take a look at the <a href="https://en.wikipedia.org/wiki/Jeffreys_prior#">Wikipedia</a> page. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><summary type="html"><![CDATA[I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. However, measuring the viability is a time consuming process, as you must count the number of dead and alive cells in your yeast by hand. Because of this, often the estimate is done with small samples, and due to this it is important to quantify the uncertainties in your estimate. Unfortunately, most home-brew textbooks will only give you very poor models to estimate the yeast viability, and you may get fooled by your count and think that you are working with a good yeast while you simply overestimated the yeast viability. If you want to know more about how to experimentally count the yeast cells, you can take a look to this link, where the procedure to count the yeast cells is illustrated.]]></summary></entry><entry><title type="html">Why (and when) should you go for Bayesian</title><link href="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html" rel="alternate" type="text/html" title="Why (and when) should you go for Bayesian" /><published>2023-08-09T00:00:00+02:00</published><updated>2023-08-09T00:00:00+02:00</updated><id>http://localhost:4000/2023/08/09/intro-when-go-bayesian</id><content type="html" xml:base="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html"><![CDATA[<p>I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes.
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail</email></author><summary type="html"><![CDATA[I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. This procedure is time consuming, as you must count by hand the number of dead and alive cells in a sample, so it is usually performed with small samples. It is therefore important to quantify the uncertainties in your estimate.]]></summary></entry><entry><title type="html">Why (and when) should you go for Bayesian</title><link href="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html" rel="alternate" type="text/html" title="Why (and when) should you go for Bayesian" /><published>2023-08-09T00:00:00+02:00</published><updated>2023-08-09T00:00:00+02:00</updated><id>http://localhost:4000/2023/08/09/intro-when-go-bayesian</id><content type="html" xml:base="http://localhost:4000/2023/08/09/intro-when-go-bayesian.html"><![CDATA[<p>I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes.
 Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process.
 The model can be divided into two parts:</p>
 <ul>
@@ -595,18 +607,27 @@ values that $\theta$ may take before you make an experiment and observe $y\,.$
 On the other hand $P(\theta \vert y)$ represents your updated opinion about the value of $\theta$
 after the experiment.</p>
 
-<p>So why is not everyone using it? In my opinion there are many reasons for this, some of them
+<p>So why is not everyone using it? In my experience there are multiple reasons, some of them
 are historical, others are more pragmatic.</p>
 
 <p>First of all, the possibility to easily implement a numerical simulation
 and to run it within a reasonable amount of time is relatively recent and not
 yet spread outside the statistical community.
-Bayesian statistics has been in fact largely abandoned at the beginning of the last century,
-when Fisher and his collaborators invented frequentist statistics.
-This happened because the normalization factor $P(y)$
-can only be computed for a very limited number of models (the so-called <em>conjugate</em> models),
-and this made Bayesian statistics very difficult to apply at that time.
-Things changed when Markov Chain Monte Carlo allowed physicists before and statisticians later to 
+Bayesian statistics was the only available framework up to the end of the nineteenth 
+century, and in has been largely abandoned at the beginning of the last century,
+when Fisher and his collaborators developed frequentist statistics.
+People in fact considered Bayesian statistics very difficult,
+as the normalization factor $P(y)$
+can only be computed for a very limited number of models
+(the so-called <em>conjugate</em> models).
+De Finetti, Savage, Jeffreys and others tried to convince
+people to abandon the frequentist framework as they did not considered the
+frequentist interpretation satisfactory, but they never managed to convince
+the majority of the community.
+Things changed when, during the Manhattan project, Metropolis, Von Neumann, Ulam and
+others invented the
+Markov Chain Monte Carlo methods, and this allowed physicists and later statisticians
+too to 
 draw random samples from an arbitrary probability distribution.
 Moreover, nowadays, the misuse and misinterpretation of tools of frequentist statistics is considered 
 one of the main reason for the so-called <em>reproducibility crisis in science</em>

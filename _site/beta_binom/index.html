@@ -8,8 +8,8 @@
 <meta property="og:title" content="Beer and the Beta-Binomial model" />
 <meta name="author" content="Stippe" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. However, measuring the viability is a time consuming process, as you must count the number of dead and alive cells in your yeast by hand. Because of this, often the estimate is done with small samples, and due to this it is important to quantify the uncertainties in your estimate. Unfortunately, most home-brew textbooks will only give you very poor models to estimate the yeast viability, and you may get fooled by your count and think that you are working with a good yeast while you simply overestimated the yeast viability. If you want to know more about how to experimentally count the yeast cells, you can take a look to this link, where the procedure to count the yeast cells is illustrated." />
-<meta property="og:description" content="I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. However, measuring the viability is a time consuming process, as you must count the number of dead and alive cells in your yeast by hand. Because of this, often the estimate is done with small samples, and due to this it is important to quantify the uncertainties in your estimate. Unfortunately, most home-brew textbooks will only give you very poor models to estimate the yeast viability, and you may get fooled by your count and think that you are working with a good yeast while you simply overestimated the yeast viability. If you want to know more about how to experimentally count the yeast cells, you can take a look to this link, where the procedure to count the yeast cells is illustrated." />
+<meta name="description" content="I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. This procedure is time consuming, as you must count by hand the number of dead and alive cells in a sample, so it is usually performed with small samples. It is therefore important to quantify the uncertainties in your estimate." />
+<meta property="og:description" content="I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. This procedure is time consuming, as you must count by hand the number of dead and alive cells in a sample, so it is usually performed with small samples. It is therefore important to quantify the uncertainties in your estimate." />
 <link rel="canonical" href="http://localhost:4000/beta_binom/" />
 <meta property="og:url" content="http://localhost:4000/beta_binom/" />
 <meta property="og:site_name" content="Just another Bayesian enthusiast" />
@@ -18,7 +18,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Beer and the Beta-Binomial model" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Stippe"},"dateModified":"2023-08-11T00:00:00+02:00","datePublished":"2023-08-11T00:00:00+02:00","description":"I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. However, measuring the viability is a time consuming process, as you must count the number of dead and alive cells in your yeast by hand. Because of this, often the estimate is done with small samples, and due to this it is important to quantify the uncertainties in your estimate. Unfortunately, most home-brew textbooks will only give you very poor models to estimate the yeast viability, and you may get fooled by your count and think that you are working with a good yeast while you simply overestimated the yeast viability. If you want to know more about how to experimentally count the yeast cells, you can take a look to this link, where the procedure to count the yeast cells is illustrated.","headline":"Beer and the Beta-Binomial model","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/beta_binom/"},"url":"http://localhost:4000/beta_binom/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Stippe"},"dateModified":"2023-08-11T00:00:00+02:00","datePublished":"2023-08-11T00:00:00+02:00","description":"I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. This procedure is time consuming, as you must count by hand the number of dead and alive cells in a sample, so it is usually performed with small samples. It is therefore important to quantify the uncertainties in your estimate.","headline":"Beer and the Beta-Binomial model","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/beta_binom/"},"url":"http://localhost:4000/beta_binom/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Just another Bayesian enthusiast" />
 
@@ -64,12 +64,11 @@
 with water, malt, hop and yeast. One of the most important things to do in order
 to produce a good beer is to have a good quality yeast, and one of the metrics
 used to quantify the goodness of the yeast is the <strong>yeast viability</strong>, which corresponds to the percentage of alive cells in your yeast.
-However, measuring the viability is a time consuming process, as you must
-count the number of dead and alive cells in your yeast by hand.
-Because of this, often the estimate is done with small samples, and due to this
-it is important to quantify the uncertainties in your estimate.
-Unfortunately, most home-brew textbooks will only give you very poor models to
-estimate the yeast viability, and you may get fooled by your count and think that
+This procedure is time consuming, as you must count by hand the number of dead
+and alive cells in a sample, so it is usually performed with small samples. It is therefore important to quantify the uncertainties in your estimate.</p>
+
+<p>Unfortunately, most home-brew textbooks will only give you a way to
+estimate the mean yeast viability, and you may get fooled by your count and think that
 you are working with a good yeast while you simply overestimated the yeast viability.
 If you want to know more about how to experimentally count the yeast cells,
 you can take a look to <a href="https://escarpmentlabs.com/blogs/resources/crop-pray-count-yeast-counting-guide">this</a>
@@ -167,15 +166,15 @@ and alive cell is simply</p>
   <p>0.886</p>
 </blockquote>
 
-<p>This is a quick-and-dirty solution, it has however as a drawback that we have
-no idea about what is the associated uncertainty to this number.</p>
+<p>This is a quick solution, however we cannot associate any uncertainty to this number
+for the moment.</p>
 
-<h2 id="the-frequentist-statistician">The frequentist statistician</h2>
+<h2 id="the-frequentist-statisticians-way">The frequentist statistician’s way</h2>
 
 <p>A frequentist statistician would first of all setup a model for this problem.
 The state of each cell can take two values:</p>
 
-\[y = 
+\[y_i = 
 \begin{cases}
 1 \text{ (alive) } &amp; \text{ with probability } p \\
 0 \text{ (death) } &amp; \text{ with probability } q=1-p
@@ -194,6 +193,10 @@ of being alive and that the probability is the same for each cell, we have that 
 
 \[P(y | p, n) = \binom{n}{y} p^y (1-p)^{n-y}\]
 
+<p>and</p>
+
+\[y = \sum_{i=1}^n y_i\]
+
 <p>and $ \binom{n}{y} = \frac{n!}{y!(n-y)!}$ is a multiplicative normalization factor.
 Once the model is built, we want to find $p$ such that the $P(y | p, n)$ is maximum, namely the <em>Maximum Likelihood Estimator</em> or MLE for the
 sake of brevity.
@@ -202,12 +205,21 @@ this implies that the maximum of $\log P$ is the maximum of $P\,.$</p>
 
 \[\log P(y | p, n) \propto y \log p + (n-y) \log(1-p)\]
 
-\[\frac{\partial \log P(y | p, n)}{\partial p} = \frac{y}{p} + \frac{n-y}{\hat{p}-1}\]
+\[\frac{\partial \log P(y | p, n)}{\partial p} = \frac{y}{p} + \frac{n-y}{p-1}\]
 
-\[\left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{\hat{p}} = 0 \Rightarrow \frac{y}{\hat{p}} = \frac{n-y}{1-\hat{p}} \Rightarrow \hat{p}(n-y) = (1-\hat{p}) y
+\[\left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{p=\hat{p}} = 0 \Rightarrow \frac{y}{\hat{p}} = \frac{n-y}{1-\hat{p}} \Rightarrow \hat{p}(n-y) = (1-\hat{p}) y
 \Rightarrow \hat{p} n = y\]
 
-<p>Which gives us, again, $\hat{p} = \frac{y}{n}$</p>
+<p>Which gives us, again, $\hat{p} = \frac{y}{n}\,,$ which is the same value that we got by using the home-brewer textbook’s way.</p>
+
+<p>We can easily verify that it is a maximum:</p>
+
+\[\frac{\partial^2 \log P(y | p, n)}{\partial p^2} = -(n - y)/(p - 1)^2 - y/p^2\]
+
+\[\left. \frac{\partial^2 \log P(y | p, n)}{\partial p^2}\right|_{p=\hat{p}} =
+-\frac{n^3}{y (n - y) }\]
+
+<p>and the last quantity is always negative, for $0&lt;y&lt;n\,.$</p>
 
 <p>The frequentist statistician, however, knows that his estimate for the alive cell
 fraction is not exact, and he would like to provide an uncertainty interval
@@ -231,7 +243,7 @@ or 0 if it is not inside, but he cannot say which one is correct!</strong></p>
 
 <p>This fact is often misinterpreted, even by many researchers and data scientists.</p>
 
-<h2 id="the-bayesian-rookie">The Bayesian rookie</h2>
+<h2 id="the-bayesian-rookies-way">The Bayesian rookie’s way</h2>
 
 <p>The Bayesian statistician would take the same likelihood for the model, however in his framework the parameter $p$ is
 simply another random variable, and it is described by some other probability distribution $P(p)$ namely by the <strong>prior</strong> associated
@@ -279,7 +291,7 @@ value of $p$ lies inside the $95\%$ CI associated to $p$.</p>
 on the Central Limit Theorem, which only holds if the sample is large enough.
 The Bayesian approach is always valid, regardless on the size of the sample.</p>
 
-<h2 id="the-wise-bayesian">The wise Bayesian</h2>
+<h2 id="the-wise-bayesians-way">The wise Bayesian’s way</h2>
 
 <p>The wise Bayesian would follow an analogous procedure, he would however
 take the less informative prior as possible, where a strongly informative
@@ -322,7 +334,7 @@ much does the results on his/her inference depend on the choice of the priors.</
 <h2 id="conclusions-and-take-home-message">Conclusions and take-home message</h2>
 
 <ul>
-  <li>PyMC allows you to easily implement Bayesian models</li>
+  <li>PyMC allows you to easily implement Bayesian models.</li>
   <li>In many cases Bayesian statistics offers results which are more transparent than their frequentist counterparts. We have seen this for a very simple model, but this becomes even more evident as the complexity of the model grows.</li>
   <li>You can apply Bayesian statistics to any kind of problem, even home-brewing!</li>
 </ul>

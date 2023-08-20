@@ -16,3 +16,4 @@ minima:
   header_pages:
     - about
     - links
+gems: [jekyll-mermaid]
