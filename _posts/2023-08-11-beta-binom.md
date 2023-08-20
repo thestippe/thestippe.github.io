@@ -126,7 +126,7 @@ $$ \frac{\partial \log P(y | p, n)}{\partial p} = \frac{y}{p} + \frac{n-y}{p-1} 
 $$ \left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{p=\hat{p}} = 0 \Rightarrow \frac{y}{\hat{p}} = \frac{n-y}{1-\hat{p}} \Rightarrow \hat{p}(n-y) = (1-\hat{p}) y
 \Rightarrow \hat{p} n = y$$
 
-Which gives us, again, $\hat{p} = \frac{y}{n}$
+Which gives us, again, $\hat{p} = \frac{y}{n}\,,$ which is the same value that we got by using the home-brewer textbook's way.
 
 We can easily verify that it is a maximum:
 
@@ -256,7 +256,7 @@ much does the results on his/her inference depend on the choice of the priors.
 
 ## Conclusions and take-home message
 
-- PyMC allows you to easily implement Bayesian models
+- PyMC allows you to easily implement Bayesian models.
 - In many cases Bayesian statistics offers results which are more transparent than their frequentist counterparts. We have seen this for a very simple model, but this becomes even more evident as the complexity of the model grows.
 - You can apply Bayesian statistics to any kind of problem, even home-brewing!
 
