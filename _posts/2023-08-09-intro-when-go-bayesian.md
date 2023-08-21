@@ -5,8 +5,8 @@ title: "Why (and when) should you go for Bayesian"
 I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes.
 Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process.
 The model can be divided into two parts:
-- The likelihood $P(y \vert \theta)$, which determines how the data you want to model $y$ are generated given the parameter(s) $\theta$.
-- The priors $P(\theta)$, which specifies your initial hypothesis about the distribution of the parameters of the model.
+- The likelihood $p(y \vert \theta)$, which determines how the data you want to model $y$ are generated given the parameter(s) $\theta$.
+- The priors $p(\theta)$, which specifies your initial hypothesis about the distribution of the parameters of the model.
 
 The only mathematical requirements for both the likelihood and for the priors is that they are non-negative and sum up to one.
 There is a huge literature about the model building, and you can easily start by using one of the already available models and adapt it
@@ -16,19 +16,19 @@ Once that the model is specified you can use $PyMC$ or any other Probabilistic P
 sample the entire posterior probability distribution,
 which is determined by means of Bayes theorem.
 
-$$ P(\theta \vert y) = \frac{P(y \vert \theta) P(\theta)}{P(y)} \propto  P(y \vert \theta) P(\theta) $$
+$$ p(\theta \vert y) = \frac{p(y \vert \theta) p(\theta)}{p(y)} \propto  p(y \vert \theta) p(\theta) $$
 
 Here $\propto$ means proportional to, which means equal up to some multiplicative positive constant,
 where by constant we mean independent on $\theta$.
-The constant $P(y)$ can be fixed by requiring that $P(\theta \vert y)$ is normalized to one:
+The constant $p(y)$ can be fixed by requiring that $p(\theta \vert y)$ is normalized to one:
 
-$$1 = \int d\theta P(\theta | y) = \frac{1}{P(y)}\int d\theta P(y \vert \theta) P(\theta)$$
+$$1 = \int d\theta p(\theta | y) = \frac{1}{p(y)}\int d\theta p(y \vert \theta) p(\theta)$$
 
 so
 
-$$ P(y) = \int d\theta P(y|\theta)P(\theta)\,. $$
+$$ p(y) = \int d\theta p(y|\theta)p(\theta)\,. $$
 
-The fact that you sample the entire probability distribution $P(\theta \vert y)$
+The fact that you sample the entire probability distribution $p(\theta \vert y)$
 makes Bayesian statistics very attractive if you are building a statistical
 model to make a decision, as you can easily make inference about any kind of quantity
 regarding your model.
@@ -36,9 +36,9 @@ This is rarely possible if you only have a point estimate or an interval estimat
 
 Moreover, Bayesian statistics is easily interpretable: what you are doing
 is simply to use the data to update your initial believes.
-In fact, in the Bayesian interpretation, $P(\theta)$ represents your opinion about the possible
+In fact, in the Bayesian interpretation, $p(\theta)$ represents your opinion about the possible
 values that $\theta$ may take before you make an experiment and observe $y\,.$
-On the other hand $P(\theta \vert y)$ represents your updated opinion about the value of $\theta$
+On the other hand $p(\theta \vert y)$ represents your updated opinion about the value of $\theta$
 after the experiment.
 
 So why is not everyone using it? In my experience there are multiple reasons, some of them
@@ -51,7 +51,7 @@ Bayesian statistics was the only available framework up to the end of the ninete
 century, and in has been largely abandoned at the beginning of the last century,
 when Fisher and his collaborators developed frequentist statistics.
 People in fact considered Bayesian statistics very difficult,
-as the normalization factor $P(y)$
+as the normalization factor $p(y)$
 can only be computed for a very limited number of models
 (the so-called _conjugate_ models).
 De Finetti, Savage, Jeffreys and others tried to convince
