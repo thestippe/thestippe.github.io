@@ -71,10 +71,10 @@ The home-brewer's solution is fast and simple: if we have 70
 alive cells out of 79 cells, then the probability of having
 and alive cell is simply
 
-$$ p = \frac{n_a}{n_a + n_d}  $$
+$$ theta_{hb} = \frac{n_a}{n_a + n_d}  $$
 
 ```python
-p_naive = alive / total
+theta_hb = alive / total
 ```
 > 0.886
 
@@ -91,48 +91,48 @@ The state of each cell can take two values:
 $$
 y_i = 
 \begin{cases}
-1 \text{ (alive) } & \text{ with probability } p \\
-0 \text{ (death) } & \text{ with probability } q=1-p
+1 \text{ (alive) } & \text{ with probability } \theta \\
+0 \text{ (death) } & \text{ with probability } 1-\theta
 \end{cases}
 $$
 
 If we assume that the probability of being alive of each cell is independent on the probability of the remaining cells
 of being alive and that the probability is the same for each cell, we have that the probability of finding $y$ alive cells out of $n$ total counted cells must follow a binomial distribution:
 
-$$P(y|p, n) \propto p^{y} (1-p)^{n-y}$$
+$$p(y|p, n) \propto \theta^{y} (1-\theta)^{n-y}$$
 
 which can be written as
 
-$$ y \sim Binomial(p, n) $$
+$$ y \sim Binomial(\theta, n) $$
 
 where the binomial distribution has probability mass
 
-$$ P(y | p, n) = \binom{n}{y} p^y (1-p)^{n-y} $$
+$$ p(y | p, n) = \binom{n}{y} \theta^y (1-\theta)^{n-y} $$
 
 and 
 
 $$y = \sum_{i=1}^n y_i$$
 
 and $ \binom{n}{y} = \frac{n!}{y!(n-y)!}$ is a multiplicative normalization factor.
-Once the model is built, we want to find $p$ such that the $P(y | p, n)$ is maximum, namely the *Maximum Likelihood Estimator* or MLE for the
+Once the model is built, we want to find $p$ such that the $p(y | \theta, n)$ is maximum, namely the *Maximum Likelihood Estimator* or MLE for the
 sake of brevity.
-$P(y | p, n)$ is a positive quantity for $p \in (0, 1)$, and this allows us to take its logarithm, which is a monotone increasing function, and 
-this implies that the maximum of $\log P$ is the maximum of $P\,.$
+$p(y | p, n)$ is a positive quantity for $\theta \in (0, 1)$, and this allows us to take its logarithm, which is a monotone increasing function, and 
+this implies that the maximum of $\log p$ is the maximum of $p\,.$
 
-$$ \log P(y | p, n) \propto y \log p + (n-y) \log(1-p) $$
+$$ \log p(y | \theta, n) \propto y \log \theta + (n-y) \log(1-\theta) $$
 
-$$ \frac{\partial \log P(y | p, n)}{\partial p} = \frac{y}{p} + \frac{n-y}{p-1} $$
+$$ \frac{\partial \log p(y | \theta, n)}{\partial \theta} = \frac{y}{\theta} + \frac{n-y}{\theta-1} $$
 
-$$ \left. \frac{\partial \log P(y | p, n)}{\partial p}\right|_{p=\hat{p}} = 0 \Rightarrow \frac{y}{\hat{p}} = \frac{n-y}{1-\hat{p}} \Rightarrow \hat{p}(n-y) = (1-\hat{p}) y
-\Rightarrow \hat{p} n = y$$
+$$ \left. \frac{\partial \log p(y | \theta, n)}{\partial \theta}\right|_{\theta=\hat{\theta}} = 0 \Rightarrow \frac{y}{\hat{\theta}} = \frac{n-y}{1-\hat{\theta}} \Rightarrow \hat{\theta}(n-y) = (1-\hat{\theta}) y
+\Rightarrow \hat{\theta} n = y$$
 
-Which gives us, again, $\hat{p} = \frac{y}{n}\,,$ which is the same value that we got by using the home-brewer textbook's way.
+Which gives us, again, $\hat{\theta} = \frac{y}{n}\,,$ which is the same value that we got by using the home-brewer textbook's way.
 
 We can easily verify that it is a maximum:
 
-$$ \frac{\partial^2 \log P(y | p, n)}{\partial p^2} = -(n - y)/(p - 1)^2 - y/p^2 $$
+$$ \frac{\partial^2 \log p(y | \theta, n)}{\partial \theta^2} = -(n - y)/(\theta - 1)^2 - y/\theta^2 $$
 
-$$ \left. \frac{\partial^2 \log P(y | p, n)}{\partial p^2}\right|_{p=\hat{p}} =
+$$ \left. \frac{\partial^2 \log p(y | \theta, n)}{\partial \theta^2}\right|_{\theta=\hat{\theta}} =
 -\frac{n^3}{y (n - y) }$$
 
 and the last quantity is always negative, for $0<y<n\,.$
@@ -141,12 +141,20 @@ The frequentist statistician, however, knows that his estimate for the alive cel
 fraction is not exact, and he would like to provide an uncertainty interval
 associated to the estimate.
 He can use the central limit theorem, which says that, if $n$ is large, then the binomial distribution can be approximated with the normal distribution
-with the same mean and variance of the binomial distribution, which corresponds to $\mu = n\hat{p}$ and $\sigma^2= n\hat{p}(1-\hat{p})\,.$
-He would use this theorem to provide the $95\%$ Confidence Interval for this distribution, which is given by
-$$ \hat{p} \pm  z_{1-0.05/2} \sqrt{\frac{\hat{p}(1-\hat{p})}{n}} 
- = \hat{p} \pm  1.96 \sqrt{\frac{\hat{p}(1-\hat{p})}{n}}  = [0.81, 0.96]$$
+with the same mean and variance of the binomial distribution, which corresponds to $\mu = n\hat{\theta}$ and $\sigma^2= n\hat{\theta}(1-\hat{\theta})\,.$
+He would use this theorem to provide the $95\%$ Confidence Interval for this distribution.
+
+For a normal distribution with mean $\mu$ and variance $\sigma$ the $95\%$ CI
+is given by
+
+$$ \mu \pm z_{1-0.05/2}\sigma $$
 
 where $z_{1-0.05/2}=1.96$ is the $0.975$ normal quantile.
+So we can easily obtain the $95\%$ confidence interval for $\theta$ as
+
+$$ \frac{\mu \pm \sigma}{n} = \hat{\theta} \pm  z_{1-0.05/2} \sqrt{\frac{\hat{\theta}(1-\hat{\theta})}{n}} 
+ = \hat{\theta} \pm  1.96 \sqrt{\frac{\hat{\theta}(1-\hat{\theta})}{n}}  = [0.81, 0.96]$$
+
 
 The calculation is quite straightforward, but one should pay a lot of attention in giving the correct interpretation to this interval.
 In the frequentist paradigm, one imagines to repeat the experiment many times, and what one can say is that, by doing this,
@@ -161,19 +169,19 @@ This fact is often misinterpreted, even by many researchers and data scientists.
 
 ## The Bayesian rookie's way
 
-The Bayesian statistician would take the same likelihood for the model, however in his framework the parameter $p$ is
-simply another random variable, and it is described by some other probability distribution $P(p)$ namely by the **prior** associated
-to the parameter $p\,.$
+The Bayesian statistician would take the same likelihood for the model, however in his framework the parameter $\theta$ is
+simply another random variable, and it is described by some other probability distribution $p(\theta)$ namely by the **prior** associated
+to the parameter $\theta\,.$
 
-$p$ can take any value between 0 and 1, but he has no preference about any value, so he assumes that $p$ is distributed
+$\theta$ can take any value between 0 and 1, but he has no preference about any value, so he assumes that $\theta$ is distributed
 according to the uniform distribution over $[0, 1]\,.$
 
-$$ p \sim Uniform(0, 1) $$
+$$ \theta \sim Uniform(0, 1) $$
 
 ```python
 with pm.Model() as beta_binom_model:
-    p = pm.Uniform('p')
-    y = pm.Binomial('y', p=p, n=total, observed=alive)
+    theta = pm.Uniform('theta')
+    y = pm.Binomial('y', p=theta, n=total, observed=alive)
     trace = pm.sample(random_seed=rng)
 
 az.plot_trace(trace)
@@ -185,7 +193,7 @@ az.plot_trace(trace)
 He used PyMC to sample $p$ many times according to its posterior probability distribution,
 obtained by using the Bayes theorem
 
-$$ P(p | y, n) \propto P(y | p, n) P(p)$$
+$$ p(\theta | y, n) \propto p(y | \theta, n) p(\theta)$$
 
 and the sampled values are those shown in the figure.
 The details about how does PyMC's sampler works will be explained in a future post,
@@ -205,7 +213,7 @@ However in this case the interpretation is straightforward:
 **the Bayesian statistic simply updated his/her initial guess for $p$ by means of Bayes' theorem.**
 
 For the Bayesian statistician there is the $95\%$ of chance that the true
-value of $p$ lies inside the $95\%$ CI associated to $p$.
+value of $p$ lies inside the $95\%$ CI associated to $\theta$.
 
 Another major advantage of the Bayesian approach is that we did not had to rely
 on the Central Limit Theorem, which only holds if the sample is large enough.
@@ -220,11 +228,11 @@ The uniform distribution is not a very informative distribution.
 However, as we will show, we can even choose a less informative prior, namely
 the **Jeffreys' prior** for the binomial distribution
 
-$$ p \sim Beta(1/2, 1/2) $$
+$$ \theta \sim Beta(1/2, 1/2) $$
 
 where the Beta has pdf
 
-$$ P(p | \alpha, \beta) = \frac{1}{B(\alpha, \beta) } p^\alpha (1-p)^\beta$$
+$$ p(\theta | \alpha, \beta) = \frac{1}{B(\alpha, \beta) } \theta^\alpha (1-\theta)^\beta$$
 
 and $B(x, y)$ is the Beta function.
 However, he knows he knows he must pay a lot of attention, as often -but not
@@ -234,8 +242,8 @@ in this case- the Jeffreys' prior is not a proper prior
 
 ```python
 with pm.Model() as beta_binom_model_wise:
-    p = pm.Beta('p', 1/2, 1/2)
-    y = pm.Binomial('y', p=p, n=total, observed=alive)
+    theta = pm.Beta('theta', 1/2, 1/2)
+    y = pm.Binomial('y', p=theta, n=total, observed=alive)
     trace_wise = pm.sample(random_seed=rng)
 
 az.plot_trace(trace_wise)
