@@ -1,4 +1,1290 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-28T11:27:25+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/course/intro/beta-binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-08-11T00:00:00+02:00</published><updated>2023-08-11T00:00:00+02:00</updated><id>http://localhost:4000/course/intro/beta-binom</id><content type="html" xml:base="http://localhost:4000/course/intro/beta-binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-28T16:13:37+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Notation</title><link href="http://localhost:4000/course/appendices/notation/" rel="alternate" type="text/html" title="Notation" /><published>2023-08-28T00:00:00+02:00</published><updated>2023-08-28T00:00:00+02:00</updated><id>http://localhost:4000/course/appendices/notation</id><content type="html" xml:base="http://localhost:4000/course/appendices/notation/"><![CDATA[<p>I will adhere to Gelman’s notation, and divide the quantities in <em>observable or potentially observable quantities</em>,
+which will be indicated with Latin letters,
+and in <em>unobservable quantities</em>, which will indicated with Greek letters.</p>
+
+<p>The observable quantity that we are modelling will be usually indicated with the letter $y$
+and it is called the <em>outcome variable</em>.</p>
+
+<p>When doing regression we also have data that we are not interested in modelling.
+These quantities, namely the <em>covariates</em>, <em>explanatory variables</em> or <em>regressor variables</em>, will be indicated with the letter $x$
+if we only refer to one variable, they will be otherwise indicated with $x^i$.
+We will sometimes indicate $\mathbf{x}$ the vector of the covariates.</p>
+
+<p>We will also follow Gelman’s convention for the probability notation and indicate all the probability density functions
+and probability mass functions with the letter $p\,,$ regardless if they indicate
+a prior or a likelihood.</p>
+
+<p>Thus, if we have no covariates, we will make inference by using the following form of the Bayes theorem:</p>
+
+\[p(\theta \vert y) \propto p(y \vert \theta) p(\theta)\]
+
+<p>where $p(y \vert \theta)$ is the <em>likelihood</em>, $p(\theta)$ is the <em>prior</em> and $p(\theta \vert y)$ is the <em>posterior</em>.</p>
+
+<p>Usually $y$ is made up by a set of observations, and each observation will be indicated with $y_i$.
+If each observation is independent on the other observations we have that</p>
+
+\[p(y \vert \theta) = \prod_{i=1}^N p(y_i \vert \theta)\,.\]
+
+<p>Unobserved data will be indicated with $\tilde{y}$ 
+The probability of some unobserved $\tilde{y}$ conditional to the observed data is called the <em>posterior predictive</em> distribution,
+and can be written as</p>
+
+\[p(\tilde{y} \vert y) = \int d\theta p(\tilde{y} \vert \theta) p(\theta \vert y)\,.\]
+
+<p>On the other hand, the <em>prior predictive</em> distribution is given by</p>
+
+\[p(\tilde{y}) = \int d\theta p(\tilde{y} \vert \theta) p(\theta) \,.\]]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/appendices/" /><category term="/notation/" /><summary type="html"><![CDATA[I will adhere to Gelman’s notation, and divide the quantities in observable or potentially observable quantities, which will be indicated with Latin letters, and in unobservable quantities, which will indicated with Greek letters.]]></summary></entry><entry><title type="html">Model comparison</title><link href="http://localhost:4000/course/intro/model-comparison/" rel="alternate" type="text/html" title="Model comparison" /><published>2023-08-26T00:00:00+02:00</published><updated>2023-08-26T00:00:00+02:00</updated><id>http://localhost:4000/course/intro/model-comparison</id><content type="html" xml:base="http://localhost:4000/course/intro/model-comparison/"><![CDATA[<p>In the <a href="/predictive_checks/">last</a> post we looked at how one can assess a model’s ability to reproduce the data.
+In this post we will look at a related topic, which is how we can compare two or more Bayesian models.
+In fact, you rarely know from the beginning what is the most appropriate model to fit your data.
+Most of the times you will find yourself building different models for the same dataset,
+and a crucial part of your work will be to compare them.
+Comparing model sometimes may be understood as choosing the best model,
+but in most cases it means to asses which model is better to describe or predict some particular aspect of your data.
+Model comparison can be done analytically in some case,
+but most of the time it will be done numerically or graphically, and here we will give an overview of the most important tools.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">from</span> <span class="n">scipy.stats</span> <span class="kn">import</span> <span class="n">beta</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="bayes-factors">Bayes factors</h2>
+
+<p>Let us consider again our first example, where we had a sample of 79 yeast cells and we counted 70 alive cells and 9 death cells.
+let us assume that we have two candidate models to describe our data:
+model 1 has uniform prior, which mean that the prior is a beta distribution with $a=1$ and $b=1\,,$
+while the second one has $a=b=10\,.$</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n</span> <span class="o">=</span> <span class="mi">79</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">70</span>
+
+<span class="n">model_1</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">a</span><span class="sh">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="sh">'</span><span class="s">b</span><span class="sh">'</span><span class="p">:</span> <span class="mi">1</span><span class="p">}</span>
+<span class="n">model_2</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">a</span><span class="sh">'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="sh">'</span><span class="s">b</span><span class="sh">'</span><span class="p">:</span> <span class="mi">10</span><span class="p">}</span>
+
+<span class="n">x_pl</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">([</span><span class="n">model_1</span><span class="p">,</span> <span class="n">model_2</span><span class="p">]):</span>
+    <span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x_pl</span><span class="p">,</span> <span class="nf">beta</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">model</span><span class="p">[</span><span class="sh">'</span><span class="s">a</span><span class="sh">'</span><span class="p">],</span> <span class="n">b</span><span class="o">=</span><span class="n">model</span><span class="p">[</span><span class="sh">'</span><span class="s">b</span><span class="sh">'</span><span class="p">]).</span><span class="nf">pdf</span><span class="p">(</span><span class="n">x_pl</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="sh">"</span><span class="s">model </span><span class="si">{</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">$\theta$</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">$p(\theta)$  </span><span class="sh">"</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/model_comparison/priors.jpg" alt="Priors" /></p>
+
+<p>Given the two models $M_1$ and $M_2$ we may ask which one we prefer, given the data. The probability of the model given the data is given by</p>
+
+\[p(M_k | y) = \frac{p(y | M_k)}{p(y)} p(M_k)\]
+
+<p>where the quantity $p(y | M_k)$ is the <strong>marginal likelihood</strong> of the model. If we assign the same prior probability $p(M_k)$ to each model then we can simply replace $p(M_k | y)$ with the
+marginal likelihood.</p>
+
+<p>As usual, an analytic calculation is only possible in a very limited number of models.</p>
+
+<p>One may think to compute $p(M_k| y)$ by starting from $p(y | \theta, M_k)$ and integrating out $\theta$ but doing this naively is generally not a good idea, as
+this method is unstable and prone to numerical errors.</p>
+
+<p>However can use the Sequential Monte Carlo to compare the two models, since it allows to estimate the (log) marginal likelihood of the model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">traces</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">[</span><span class="n">model_1</span><span class="p">,</span> <span class="n">model_2</span><span class="p">]:</span>
+    <span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+        <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Beta</span><span class="p">(</span><span class="sh">"</span><span class="s">theta</span><span class="sh">"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">m</span><span class="p">[</span><span class="sh">'</span><span class="s">a</span><span class="sh">'</span><span class="p">],</span> <span class="n">beta</span><span class="o">=</span><span class="n">m</span><span class="p">[</span><span class="sh">'</span><span class="s">b</span><span class="sh">'</span><span class="p">])</span>
+        <span class="n">yl</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Binomial</span><span class="p">(</span><span class="sh">"</span><span class="s">yl</span><span class="sh">"</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+        <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_smc</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+        <span class="n">models</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+        <span class="n">traces</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/model_comparison/trace_0.jpg" alt="First trace" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">traces</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/model_comparison/trace_1.jpg" alt="Second trace" /></p>
+
+<p>What one usually computes is the <strong>Bayes factor</strong> of the models, which is the ratio between the posterior probability of the model (which in this case is simply the
+ratio between the marginal likelihoods).</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>$BF = p(M_1 \vert y)/p(M_2\vert y)$</th>
+      <th>interpretation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>$BF&lt;10^{0}$</td>
+      <td>support to $M_2$ (see reciprocal)</td>
+    </tr>
+    <tr>
+      <td>$10^{0}\leq BF&lt;10^{1/2}$</td>
+      <td>Barely worth mentioning support to $M_1$</td>
+    </tr>
+    <tr>
+      <td>$10^{1/2}\leq BF&lt;10^2$</td>
+      <td>Substantial support to $M_1$</td>
+    </tr>
+    <tr>
+      <td>$10^{2} \leq BF&lt;10^{3/2}$</td>
+      <td>Strong support to $M_1$</td>
+    </tr>
+    <tr>
+      <td>$10^{3/2} \leq BF&lt;10^2$</td>
+      <td>Very strong support to $M_1$</td>
+    </tr>
+    <tr>
+      <td>$\geq 10^2$</td>
+      <td>Decisive support to $M_1$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We can now compute the Bayes factor as follows</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BF_smc</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">sample_stats</span><span class="p">.</span><span class="n">log_marginal_likelihood</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">values</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">traces</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">sample_stats</span><span class="p">.</span><span class="n">log_marginal_likelihood</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">values</span><span class="p">))</span>
+<span class="n">np</span><span class="p">.</span><span class="nf">log10</span><span class="p">(</span><span class="n">BF_smc</span><span class="p">)</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>2.0487805236</p>
+</blockquote>
+
+<p>The Bayes factor is above 100, so we have a strong support for model 0.</p>
+
+<p>We can better understand this result if we compare our estimate with the frequentist one, recalling that the confidence interval was $[0.81, 0.96]$</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_forest</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">rope</span><span class="o">=</span><span class="p">[</span><span class="mf">0.81</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/model_comparison/forest.jpg" alt="Forest plot" /></p>
+
+<p>As we can see, our first model gives an estimate which is compatible
+with the frequentist one, while the second HDI is not compatible
+with the frequentist estimate.
+We also have that the posterior predictive distribution of the first model is much
+closer to the observed data than the one of the second model:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nf">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">m</span><span class="p">:</span>
+        <span class="n">ppc</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">traces</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">yl</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">([</span><span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">]).</span><span class="n">values</span>
+</code></pre></div></div>
+<blockquote>
+  <p>array(69.15525)</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">yl</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">([</span><span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">]).</span><span class="n">values</span>
+</code></pre></div></div>
+<blockquote>
+  <p>array(63.75)</p>
+</blockquote>
+
+<p>The first model predicts 69 alive cells, while the second one predicts 63.
+So the first one is much closer to the observed number, which is 70.</p>
+
+<h2 id="leave-one-out-cross-validation">Leave One Out cross-validation</h2>
+
+<p>In the past, Bayes factor analysis was the most common method to perform
+model selection.
+However, according to many modern Bayesian statisticians, 
+it should not be used for this purpose <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.
+The main criticism to this method is that you are both using
+your data to fit the data and to check your model.
+A better alternative is provided by the Leave One Out (LOO)
+cross-validation.
+LOO cross validation consists into using some metrics to
+assess the probability of a datum where that datum is not uses
+to fit the model.
+There are many metrics that can be used,
+and the most common ones are Aikane Information Criteria, Bayesian Information Criteria
+(AIC and BIC respectively).
+They are respectively given, for a model with $k$ parameters fitted by using $n$
+points, as</p>
+
+\[AIC = 2k - 2 \log \hat{L}\]
+
+\[BIC = k\log(n) - 2 \log\hat{L}\]
+
+<p>where $\hat{L}$ is the maximized value of the likelihood function.
+However, none of them is truly Bayesian, as they are defined
+using the maximum value of the likelihood function, while a more consistent
+approach would use the average of the likelihood function <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.
+Arviz uses the Pareto Smoothed Importance Sampling (PSIS)
+to estimate the LOO-Watanabe Aikane Information Criteria (WAIC), which is
+the Bayesian version of the AIC.</p>
+
+<p>Let us go back to the hurricanes dataset, and compare the following
+models:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+
+<span class="n">df_hurricanes</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">data/frequency-north-atlantic-hurricanes.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">y_obs</span> <span class="o">=</span> <span class="n">df_hurricanes</span><span class="p">[</span><span class="sh">"</span><span class="s">Number of US Hurricanes (HUDRAT, NOAA)</span><span class="sh">"</span><span class="p">].</span><span class="nf">dropna</span><span class="p">().</span><span class="n">values</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_a</span><span class="p">:</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Poisson</span><span class="p">(</span><span class="sh">"</span><span class="s">y</span><span class="sh">"</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_obs</span><span class="p">)</span>
+    <span class="n">trace_a</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                        <span class="n">idata_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">log_likelihood</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+                       <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_b</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">NegativeBinomial</span><span class="p">(</span><span class="sh">"</span><span class="s">y</span><span class="sh">"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_obs</span><span class="p">)</span>
+    <span class="n">trace_b</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                        <span class="n">idata_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">log_likelihood</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+                       <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_a</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/model_comparison/trace_hurricanes_a.jpg" alt="Trace hurricanes A" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_b</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/model_comparison/trace_hurricanes_b.jpg" alt="Trace hurricanes B" /></p>
+
+<p>We can compute the LOO-WAIC as</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loo_a</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">loo</span><span class="p">(</span><span class="n">trace_a</span><span class="p">,</span> <span class="n">model_a</span><span class="p">)</span>
+<span class="n">loo_b</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">loo</span><span class="p">(</span><span class="n">trace_b</span><span class="p">,</span> <span class="n">model_b</span><span class="p">)</span>
+
+<span class="n">model_compare</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">compare</span><span class="p">({</span><span class="sh">'</span><span class="s">Model a</span><span class="sh">'</span><span class="p">:</span> <span class="n">loo_a</span><span class="p">,</span> <span class="sh">'</span><span class="s">Model b</span><span class="sh">'</span><span class="p">:</span> <span class="n">loo_b</span><span class="p">})</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_compare</span><span class="p">(</span><span class="n">model_compare</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/model_comparison/loo.jpg" alt="LOO Plot" /></p>
+
+<p>Model $a$ is slightly preferred to model $a\,,$ as it is more accurate in reproducing
+the data:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc_a</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_a</span><span class="p">,</span> <span class="n">model_a</span><span class="p">)</span>
+<span class="n">ppc_b</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_b</span><span class="p">,</span> <span class="n">model_b</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">211</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_a</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">212</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_b</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">set_xlim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">13</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/model_comparison/ppc_hurricanes.jpg" alt="PPC Hurricanes" /></p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>See <a href="https://statmodeling.stat.columbia.edu/2019/09/10/i-hate-bayes-factors-when-theyre-used-for-null-hypothesis-significance-testing/">here</a> or <a href="https://vasishth.github.io/bayescogsci/book/ch-bf.html">here</a> and references therein. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>More precisely, they can be only consistently used with regular models, which are models where the posterior distribution can be asymptotically approximated with a normal distribution. See <a href="https://www.jmlr.org/papers/volume14/watanabe13a/watanabe13a.pdf">Watanabe</a> for an in-depth discussion. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/model_comparison/" /><summary type="html"><![CDATA[In the last post we looked at how one can assess a model’s ability to reproduce the data. In this post we will look at a related topic, which is how we can compare two or more Bayesian models. In fact, you rarely know from the beginning what is the most appropriate model to fit your data. Most of the times you will find yourself building different models for the same dataset, and a crucial part of your work will be to compare them. Comparing model sometimes may be understood as choosing the best model, but in most cases it means to asses which model is better to describe or predict some particular aspect of your data. Model comparison can be done analytically in some case, but most of the time it will be done numerically or graphically, and here we will give an overview of the most important tools.]]></summary></entry><entry><title type="html">Predictive checks</title><link href="http://localhost:4000/course/intro/predictive-checks/" rel="alternate" type="text/html" title="Predictive checks" /><published>2023-08-24T00:00:00+02:00</published><updated>2023-08-24T00:00:00+02:00</updated><id>http://localhost:4000/course/intro/predictive-checks</id><content type="html" xml:base="http://localhost:4000/course/intro/predictive-checks/"><![CDATA[<p>In the previous post we saw some methods which allows
+us to spot problems in the trace evaluation.
+In this post we will look at some methods to check if our model is able to correctly
+reproduce the relevant features of the data.
+We will look at the “wing length” dataset, which is a quite well known dataset,
+representing the length of 100 houseflies, expressed in units of $10^{-1}$ mm.</p>
+
+<p>This dataset is well known, as it represents an excellent example of normally distributed
+real world data.</p>
+
+<p>Let us first of all load the libraries we will use and the dataset</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span> 
+<span class="kn">from</span> <span class="n">pytensor.tensor.math</span> <span class="kn">import</span> <span class="n">gammaln</span>
+<span class="kn">from</span> <span class="n">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span> <span class="n">itables</span> <span class="kn">import</span> <span class="n">init_notebook_mode</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+<span class="nf">init_notebook_mode</span><span class="p">(</span><span class="n">all_interactive</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">df_length</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">https://seattlecentral.edu/qelp/sets/057/s057.txt</span><span class="sh">'</span><span class="p">,</span>
+                        <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">).</span><span class="nf">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="sh">'</span><span class="s">wing_length</span><span class="sh">'</span><span class="p">})</span>
+</code></pre></div></div>
+
+<p>Before looking at the data, let us think about the problem we are trying do model.
+What could be a typical length scale for the wing length of a housefly?
+A housefly is as long as the nail of a kid, so somewhere between few millimeters
+and a centimeter.
+We can thus use our model, which spans all the range $0-100$ (remember we are working
+in units of $10^{-1}$ mm)</p>
+
+\[\begin{align}
+&amp; y \sim Normal(\mu, \sigma) \\
+&amp; \mu \sim Normal(0, 50) \\
+&amp; \sigma \sim HalfCauchy(0, 50)
+\end{align}\]
+
+<p>Imagine a friend of yours tells you he is sure that a reasonable length scale
+is around one millimeter with an uncertainty of the order of $0.1$ mm.
+He will use the following model:</p>
+
+\[\begin{align}
+&amp; y \sim Normal(\mu, \sigma) \\
+&amp; \mu \sim Normal(10, 1) \\
+&amp; \sigma \sim Exponential(0.5)
+\end{align}\]
+
+<p>So you decide to bet, and the model which will be more accurate in describing the data
+will win.</p>
+
+<p>His model is implemented as</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_0</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">"</span><span class="s">y</span><span class="sh">"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_length</span> <span class="p">[</span><span class="sh">'</span><span class="s">wing_length</span><span class="sh">'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>He can now take a look at the prior predictive check</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_0</span><span class="p">:</span>
+    <span class="n">prp0</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_prior_predictive</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">prp0</span><span class="p">.</span><span class="n">prior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/predictive_checks/prior_predictive_0.jpg" alt="Prior predictive friend" /></p>
+
+<p>The prior predictive is good for him, but you think it is too restrictive, as you
+are not sure about the informations you have, and you know he is not a
+true expert in this field.
+You can now implement your model:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_1</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfCauchy</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">"</span><span class="s">y</span><span class="sh">"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_length</span> <span class="p">[</span><span class="sh">'</span><span class="s">wing_length</span><span class="sh">'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>And you now check that your prior predictive spans the entire range $0-100$</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_1</span><span class="p">:</span>
+    <span class="n">prp1</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_prior_predictive</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">prp1</span><span class="p">.</span><span class="n">prior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/predictive_checks/prior_predictive_1.jpg" alt="Prior predictive ours" /></p>
+
+<p>The sample covers the entire range $[0-100]\,,$ so it looks good for you.
+You can now both run your models</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_0</span><span class="p">:</span>
+    <span class="n">tr0</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">()</span>
+
+<span class="k">with</span> <span class="n">model_1</span><span class="p">:</span>
+    <span class="n">tr1</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>And verify your traces</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">tr0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/predictive_checks/trace_housefly_pp_0.jpg" alt="Trace friend" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">tr1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/predictive_checks/trace_housefly_pp_1.jpg" alt="Trace ours" /></p>
+
+<p>Your trace looks fine, but your friend looks a little bit worried,
+as $\sigma$ is very large with respect to what he expected.</p>
+
+<p>You can finally verify which model does a better job in reproducing the data:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_0</span><span class="p">:</span>
+    <span class="n">pp0</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">tr0</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_posterior_predictive</span><span class="p">(</span><span class="n">pp0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/predictive_checks/posterior_predictive_housefly_pp_0.jpg" alt="PP friend" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_1</span><span class="p">:</span>
+    <span class="n">pp1</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">tr1</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_posterior_predictive</span><span class="p">(</span><span class="n">pp1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/predictive_checks/posterior_predictive_housefly_pp_1.jpg" alt="PP ours" /></p>
+
+<p>While our mean estimate corresponds to the data within a good accuracy,
+his sampled posterior predictive lies far away from the data.</p>
+
+<h2 id="conclusions-and-take-home-message">Conclusions and take-home message</h2>
+<ul>
+  <li>Always perform the prior predictive check to ensure that the data, as you guess they are located, is not unlikely.</li>
+  <li>You don’t have to exactly reproduce the data, as this would led you your model to overfit.</li>
+  <li>If your problem is too complex for a simple prior predictive check, try and sample them and run your model with fake data.</li>
+  <li>If you have no clue about the data distribution, you can perform your prior predictive with a small portion of the data (but you should then exclude those data from the analysis, as you should never use twice your data).</li>
+  <li>Always make sure that your model is able to accurately reproduce the data with the posterior predictive check.</li>
+  <li>In complex problem, the model will unlikely be able to <em>exactly</em> reproduce your data, but you should at least make sure that you can reproduce the <em>relevant features</em> of your data. You should also be sure and understand what your model fails to reproduce, and possibly why.</li>
+</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/predictive_checks/" /><summary type="html"><![CDATA[In the previous post we saw some methods which allows us to spot problems in the trace evaluation. In this post we will look at some methods to check if our model is able to correctly reproduce the relevant features of the data. We will look at the “wing length” dataset, which is a quite well known dataset, representing the length of 100 houseflies, expressed in units of $10^{-1}$ mm.]]></summary></entry><entry><title type="html">Trace evaluation</title><link href="http://localhost:4000/course/intro/trace/" rel="alternate" type="text/html" title="Trace evaluation" /><published>2023-08-23T00:00:00+02:00</published><updated>2023-08-23T00:00:00+02:00</updated><id>http://localhost:4000/course/intro/trace</id><content type="html" xml:base="http://localhost:4000/course/intro/trace/"><![CDATA[<p>Up to now we limited ourselves to a visual assessment of the trace quality.
+Here we will give some explicit example of some problem in the sampling
+and we will provide some tool to investigate the issues in the sampling.
+We will also give some recipes in order to improve the quality of our MCMC traces.</p>
+
+<p>Up to now we simply used the PyMC sample function as</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">my_model</span><span class="p">:</span>
+   <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>We did this for the sake of simplicity, but it is not the best way to proceed
+when one deals with real applications. As we have seen, when writing a report,
+one should always provide:</p>
+
+<ul>
+  <li>the number of chains</li>
+  <li>the number of warm-up steps</li>
+  <li>the number of draws</li>
+</ul>
+
+<p>In order to ensure the reproducibility of the results, one should also provide
+the random seed of the sampler.</p>
+
+<p>A better approach is</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">n_chains</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="n">n_draws</span> <span class="o">=</span> <span class="mi">5000</span>
+<span class="n">n_tune</span> <span class="o">=</span> <span class="mi">5000</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">my_model</span><span class="p">:</span>
+   <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="n">n_draws</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="n">n_tune</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="n">n_chains</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Gelman’s suggestion is to use n_tune equal to n_draws, as this is
+the best compromise between time and precision.</p>
+
+<p>The choice of n_draws generally depends on the problem, but 
+<a href="https://www.nature.com/articles/s41562-021-01177-7">Kruschke</a>
+recommends to choose it in such a way that the Effective Sample Size,
+(which can be inferred by the arviz summary function) is at least 10000,
+so to ensure the stability of the HDI estimate.</p>
+
+<p>The default value of four is generally a good starting point for the chain number.
+A smaller number would not make reliable the estimate for the $\hat{R}$ statistics,
+that we will explain in this post.</p>
+
+<p>In this post I tried and force PyMC to do its worst in the sampling.
+This is quite hard, as the default NUTS sampler is very good, so I had to tune by hand the sampler in
+some crazy (and obviously quite bad) ways.
+So don’t focus on the models or on the sampling options, but you should rather focus on the traces.</p>
+
+<p>Let us first setup our environment</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span> 
+<span class="kn">from</span> <span class="n">pytensor.tensor.math</span> <span class="kn">import</span> <span class="n">gammaln</span>
+<span class="kn">from</span> <span class="n">sklearn.datasets</span> <span class="kn">import</span> <span class="n">load_iris</span>
+<span class="kn">from</span> <span class="n">itables</span> <span class="kn">import</span> <span class="n">init_notebook_mode</span>
+<span class="kn">import</span> <span class="n">pymc.sampling_jax</span> <span class="k">as</span> <span class="n">pmj</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>We can now proceed with the first model</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_hurricanes</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">data/frequency-north-atlantic-hurricanes.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">y_obs</span> <span class="o">=</span> <span class="n">df_hurricanes</span><span class="p">[</span><span class="sh">"</span><span class="s">Number of US Hurricanes (HUDRAT, NOAA)</span><span class="sh">"</span><span class="p">].</span><span class="nf">dropna</span><span class="p">().</span><span class="n">values</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_hurricanes</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Poisson</span><span class="p">(</span><span class="sh">"</span><span class="s">y</span><span class="sh">"</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_obs</span><span class="p">)</span>
+<span class="n">trace_hurricanes</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+                                  <span class="n">step</span><span class="o">=</span><span class="p">[</span><span class="n">pm</span><span class="p">.</span><span class="nc">HamiltonianMC</span><span class="p">(</span><span class="n">adapt_step_size</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">step_scale</span><span class="o">=</span><span class="mi">05</span><span class="p">,</span>
+                                  <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.99</span><span class="p">)],</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_hurricanes</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/trace/trace_bad1.jpg" alt="Bad trace one" /></p>
+
+<p>In this case the issue is quite obvious:
+the traces are simply stuck at the initial points.
+This won’t easily happen with the NUTS sampler, but if you are using any adaptive
+sampler you should simply run more tuning draws or reduce the step.</p>
+
+<p>Let us use the previous model to illustrate another possible problem:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_hurricanes</span><span class="p">:</span>
+    <span class="n">trace_hurricanes0</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> 
+                                  <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+                                  <span class="n">step</span><span class="o">=</span><span class="p">[</span><span class="n">pm</span><span class="p">.</span><span class="nc">HamiltonianMC</span><span class="p">(</span><span class="n">adapt_step_size</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">step_scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                                         <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.99</span><span class="p">)],</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_hurricanes0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/trace/trace_bad2.jpg" alt="Bad trace two" /></p>
+
+<p>Here we clearly see four non-stationary chains. Also in this case you should run more tuning draws and likely more draws in general. Also the acceptance ratio is clearly too high, and we could reduce it (as a general recommendation 0.65 should be optimal).</p>
+
+<p>This kind of issue is very easy to spot, but there are other kind of issue which
+are less easy to spot by a simple visual inspection of the trace:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_hurricanes</span><span class="p">:</span>
+    <span class="n">trace_hurricanes1</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> 
+                                  <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> 
+                                  <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">r</span>
+                                  <span class="n">eturn_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> 
+                                  <span class="n">step</span><span class="o">=</span><span class="p">[</span><span class="n">pm</span><span class="p">.</span><span class="nc">HamiltonianMC</span><span class="p">(</span><span class="n">adapt_step_size</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">step_scale</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+                                                         <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.99</span><span class="p">)],</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_hurricanes1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/trace/trace_bad3.jpg" alt="Bad trace two" /></p>
+
+<p>Globally the traces may appear good, but by a more accurate inspection one
+can see that, on a region of some percent of the entire sample,
+the average is different from the global average.
+This is synonym of non-negligible autocorrelation, which may lead to
+a wrong variance estimate.
+Let us see some useful tools to easily spot this.</p>
+
+<p>First of all, we should look at the autocorrelation plot</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_autocorr</span><span class="p">(</span><span class="n">trace_hurricanes1</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/trace/acorr_bad3.jpg" alt="Bad trace two" /></p>
+
+<p>The grey band shows the estimate of the autocorrelation coefficients above the
+maximum shown point, and it is quite large.
+We can also look at the trace summary</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">summary</span><span class="p">(</span><span class="n">trace_hurricanes1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">sd</th>
+      <th style="text-align: right">hdi_3%</th>
+      <th style="text-align: right">hdi_97%</th>
+      <th style="text-align: right">mcse_mean</th>
+      <th style="text-align: right">mcse_sd</th>
+      <th style="text-align: right">ess_bulk</th>
+      <th style="text-align: right">ess_tail</th>
+      <th style="text-align: right">r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">mu</td>
+      <td style="text-align: right">1.748</td>
+      <td style="text-align: right">0.102</td>
+      <td style="text-align: right">1.552</td>
+      <td style="text-align: right">1.936</td>
+      <td style="text-align: right">0.003</td>
+      <td style="text-align: right">0.002</td>
+      <td style="text-align: right">1418</td>
+      <td style="text-align: right">814</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The ESS is very small, and this should warn us.
+This is even more clear by looking at the rank plot, where in a good trace
+we would expect that all the bars show equal height</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_rank</span><span class="p">(</span><span class="n">trace_hurricanes1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/trace/rank_bad3.jpg" alt="Bad trace two" /></p>
+
+<p>We can see that some bars are far away from the black dashed line,
+and this indicates that trace is not reliable.</p>
+
+<p>Let us look at some less trivial problem:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_a</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">https://raw.githubusercontent.com/Gajapathy-Selvaraj/Stock_Market_Datasets_NSE/main/NIFTY_50(INDEX)from2000.csv</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">df_a</span><span class="p">[</span><span class="sh">'</span><span class="s">LogRet</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="n">df_a</span><span class="p">[</span><span class="sh">'</span><span class="s">Close</span><span class="sh">'</span><span class="p">]).</span><span class="nf">diff</span><span class="p">()</span>
+<span class="n">y</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">df_a</span><span class="p">[</span><span class="sh">'</span><span class="s">LogRet</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:]</span>
+<span class="kn">from</span> <span class="n">variance_gamma</span> <span class="kn">import</span> <span class="n">VarianceGamma</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">vg0_model</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">MvNormal</span><span class="p">(</span><span class="sh">'</span><span class="s">r</span><span class="sh">'</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">]),</span> <span class="n">cov</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([[</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">],</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">]]))</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">r</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">v</span><span class="sh">'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">mean</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Deterministic</span><span class="p">(</span><span class="sh">'</span><span class="s">mean</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">+</span><span class="n">v</span><span class="o">*</span><span class="n">theta</span><span class="p">)</span>
+    <span class="n">variance</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Deterministic</span><span class="p">(</span><span class="sh">'</span><span class="s">variance</span><span class="sh">'</span><span class="p">,</span> <span class="n">v</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">theta</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+    
+    <span class="n">logret</span> <span class="o">=</span> <span class="nc">VarianceGamma</span><span class="p">(</span><span class="sh">'</span><span class="s">logret</span><span class="sh">'</span><span class="p">,</span><span class="n">r</span><span class="o">=</span><span class="n">v</span><span class="p">,</span> <span class="n">theta</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span><span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span><span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
+<span class="n">tr_vg</span> <span class="o">=</span> <span class="n">pmj</span><span class="p">.</span><span class="nf">sample_numpyro_nuts</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">tr_vg</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">v</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/trace/trace_bad4.jpg" alt="Bad trace four" /></p>
+
+<p>This is of course a terrible trace. We have sampled only 300 draws in order to make
+it evident, but it remains also with a higher number of draws.
+The main issue in this model is that the two plotted parameters are highly
+correlated, as they equally contribute to the variance.
+The best choice in this case is a re-parametrization of the model,
+in such a way that one can disentangle the two parameters and allow the sampler
+to easily do its job.
+This may also happen when one has pathologies in the model
+or when uses a too broad prior for a poorly constrained parameter.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Cauchy</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfCauchy</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">array</span><span class="p">([</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]))</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/trace/trace_bad6.jpg" alt="Bad trace five" /></p>
+
+<p>There is one point which lies far away from the other points,
+so choosing a less generous prior would help in this case.</p>
+
+<p>The last example that we will see is more tricky, as it is not a problem,
+theoretically.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">iris</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">https://gist.githubusercontent.com/netj/8836201/raw/6f9306ad21398ea43cba4f7d537619d0e07d5ae3/iris.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">rng1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">41</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">mix_model</span><span class="p">:</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">3</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">pi</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Dirichlet</span><span class="p">(</span><span class="sh">'</span><span class="s">pi</span><span class="sh">'</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span><span class="o">/</span><span class="mf">3.0</span><span class="p">)</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">.</span><span class="nf">dist</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Mixture</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">pi</span><span class="p">,</span> <span class="n">comp_dists</span> <span class="o">=</span> <span class="n">phi</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">iris</span><span class="p">[</span><span class="sh">'</span><span class="s">petal.length</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">tr_mix</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">tune</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng1</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">tr_mix</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/trace/trace_bad5.jpg" alt="Bad trace six" /></p>
+
+<p>In this very simple model the trace simply got stuck into a low probability region
+for a while and then performed a jump to a different region.
+This kind of problem is quite rare, but when it happens it may be hard to spot
+unless you see the jump as in this case.</p>
+
+<p>If you use many traces it may be easier to spot, and possible solutions
+are re-parametrizations of your model, drawing longer samples or increasing
+the acceptance ratio.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/trace_evaluation/" /><summary type="html"><![CDATA[Up to now we limited ourselves to a visual assessment of the trace quality. Here we will give some explicit example of some problem in the sampling and we will provide some tool to investigate the issues in the sampling. We will also give some recipes in order to improve the quality of our MCMC traces.]]></summary></entry><entry><title type="html">The Bayesian workflow and reporting guidelines</title><link href="http://localhost:4000/course/intro/workflow/" rel="alternate" type="text/html" title="The Bayesian workflow and reporting guidelines" /><published>2023-08-21T00:00:00+02:00</published><updated>2023-08-21T00:00:00+02:00</updated><id>http://localhost:4000/course/intro/workflow</id><content type="html" xml:base="http://localhost:4000/course/intro/workflow/"><![CDATA[<p>In the following we will give an overview on the collection of procedures
+and suggestions to improve the robustness and the reproducibility of your analysis.
+This set of tools, which goes under the name of <strong>Bayesian workflow</strong>,
+is extensively discussed in <a href="https://arxiv.org/pdf/2011.01808.pdf">this</a>
+preprint by Gelman <em>et al.</em> as well as in <a href="https://www.nature.com/articles/s41562-021-01177-7">this</a> article on Nature.</p>
+
+<p>Of course, we won’t go as deep as the previously cited articles, but we will
+give a practical overview of the main steps that you should always follow
+in order to make sure that your conclusions are reliable and reproducible.</p>
+
+<p>Many data scientists often get the data and just try to find out something out of it, and of course with enough data they will. However, the finding won’t be reliable, as it is known that <strong>if you torture long enough your data, it will confess to anything</strong> (this is known as p-value hacking).</p>
+
+<p>A better approach is to start by a <strong>well defined question</strong>, and this question should be stated even before collecting the data in order to avoid to look for some effect in the data rather than looking for a solution to our question.</p>
+
+<p>Now many of you will rush to collect the data, but we can do better! In most cases someone had the same question and already came up with a meaningful solution. Don’t waste time in reinventing the wheel, but dig into the literature, ask to other who may have had the same problem or an analogous one, and use this information as a starting point.</p>
+
+<p>Then we can collect our data, by keeping in mind that <strong>garbage in, garbage out</strong>. In other words, our model will be at most as useful as our data.</p>
+
+<p>Now it’s finally time to write down our model. By doing this you should stuck to Occam’s razor: in most cases the simplest solution is the best one.
+We always want to start with the simplest model as possible, and we should add structure to it only in order to solve specific issues. In the software engineering language this is known as the KISS principle, and KISS doesn’t refer to the glam rock band but means <strong>Keep It Simple, Stupid!</strong>
+A simpler model will be likely more explainable, and this is a very important feature for use-cases, as it will allow us to think at the meaning of each parameter and eventually make some guess on how to add structure to the model by modifying it. Moreover, a model with few parameters is easier to debug than a model with hundreds of parameters.</p>
+
+<p>Our model will contain priors, but in most cases we won’t have enough field-specific knowledge in order to know a priori if our guess is good enough, so a very important step in the Bayesian workflow is to perform the <strong>prior predictive check</strong>. This is a very easy task to do and it won’t be time consuming, but it allows us to check if the hyperparameters in our model are able to include our data.
+In other words, if our model predicts the outcome variable $Y$ in the range $[-10, 10]$ in the 95% of the simulations but our true data are outside of this range than we should definitely change our hyperparameters.
+As a rule of thumb, at least the 50% of the data should fall in the 50% highest density region of our prior predictive sample.
+A useful procedure is to simulate some data based on our knowledge
+(so before looking at the true data) and make sure
+that our model is able to reproduce them.</p>
+
+<p>Now it’s finally time to draw our samples. Don’t waste time by drawing large samples from the beginning, but run short samples when debugging your model and only once everything looks good you can draw the final sample (Nature reccomends at least ten thousands samples in order to have a sufficiently large one, and distributing those samples in 4 chains is usually enough). Gelman reccomends to only keep the last half of each of our sample, since it is the best compromise between time and precision.</p>
+
+<p>After running the simulation, in order to check that everything is OK we should do the <strong>trace evaluation</strong>. A visual check is very important, but there are also other checks that we can and eventually should do in order to check that we did not ran into troubles and it’s not necessary to increase the sample size or re-parametrize our model in order to make it more stable.</p>
+
+<p>Once everything is good we can perform the <strong>posterior predictive check</strong>, and they will allow us to make sure that our model reproduces the salient features of our data. As previously stated, all models are wrong, so we won’t be able to reproduce all of the features of the data, but we should be able to reproduce the relevant ones, where by relevant we mean with respect to our questions.</p>
+
+<p>In most cases we won’t be dealing with only one model, but we will be comparing more than one model to see which feature is best reproduced by each model.
+This part of the flow is called <strong>model comparison</strong> or <strong>model averaging</strong> although in most cases we won’t be really averaging over the models.</p>
+
+<p>If our model looks good enough we can stuck here and use the informations that we extracted from our model till we get more data and are our model does not encode enough structure to reproduce the salient features of the new data. Otherwise we should go back to and adjust our model in order to be able to answer to our questions.</p>
+
+<p>We should finally perform a <strong>sensitivity analysis</strong> and assess how our conclusions depends on the choice of the prior.</p>
+
+<p>In the next posts we will dive deeper in how to perform in Python:</p>
+<ul>
+  <li>trace evaluation</li>
+  <li>prior and posterior check</li>
+  <li>model comparison and averaging</li>
+</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/workflow/" /><summary type="html"><![CDATA[In the following we will give an overview on the collection of procedures and suggestions to improve the robustness and the reproducibility of your analysis. This set of tools, which goes under the name of Bayesian workflow, is extensively discussed in this preprint by Gelman et al. as well as in this article on Nature.]]></summary></entry><entry><title type="html">Conjugate models</title><link href="http://localhost:4000/course/intro/conjugate/" rel="alternate" type="text/html" title="Conjugate models" /><published>2023-08-20T00:00:00+02:00</published><updated>2023-08-20T00:00:00+02:00</updated><id>http://localhost:4000/course/intro/conjugate</id><content type="html" xml:base="http://localhost:4000/course/intro/conjugate/"><![CDATA[<p>We previously mentioned the concept of conjugate models, in this
+post we will have a deeper look at this kind of model.</p>
+
+<h2 id="the-beta-binomial-model-as-conjugate-model">The Beta-Binomial model as conjugate model</h2>
+
+<p>Let us consider again the binomial model with uniform prior:</p>
+
+\[\begin{align}
+&amp;
+y \sim Binomial(\theta, n) \\
+&amp;
+\theta \sim Uniform(0, 1)
+\end{align}\]
+
+<p>so</p>
+
+\[p(y | \theta) \propto \theta^y (1-\theta)^{n-y}\]
+
+<p>and, since the prior does not depend on $\theta\,,$ we have that</p>
+
+\[p(\theta) \propto 1\]
+
+<p>by using Bayes theorem we have that</p>
+
+\[p(\theta | y) \propto p(y | \theta) p(\theta) \propto \theta^y (1-\theta)^{n-y}\]
+
+<p>We can now consider a more general family of prior distribution,
+namely the Beta distribution:</p>
+
+\[p(\theta | \alpha, \beta) \propto \theta^{\alpha-1} (1-\theta)^{\beta-1}\,.\]
+
+<p>If we take this as a prior and we use the Bayes theorem</p>
+
+\[p(\theta | y, \alpha, \beta) \propto p(y |\theta, \alpha, \beta) p(\theta | \alpha, \beta)
+\propto \theta^{y} (1-\theta)^{n-y} \theta^{\alpha-1} (1-\theta)^{\beta-1}
+\propto \theta^{\alpha+y-1} (1-\theta)^{\beta+n-y-1}\]
+
+<p>From the last formula we see that the posterior distribution has the same
+form of the prior distribution. In this case we say that the
+Beta distribution is a conjugate prior of the Binomial distribution.</p>
+
+<p>By normalizing the distribution to one, we get</p>
+
+\[p(\theta | y, \alpha, \beta) = \frac{1}{B(\alpha+y, \beta+n-y)}
+\theta^{\alpha+y-1} (1-\theta)^{\beta+n-y-1}\]
+
+<p>or, equivalently,</p>
+
+\[\theta | y, \alpha, \beta \sim Beta(\alpha+y, \beta+n-y)\,.\]
+
+<p>Up to the middle of the last century, conjugate models were widely
+used in Bayesian statistics, as it was the only kind of analytically solvable
+model.
+However, nowadays, one can build and study any kind of model, thanks
+to the MCMC sampling techniques.
+It is however very useful to have some knowledge about conjugate models.</p>
+
+<p>When you develop complex models, the assessment of a prior distribution
+can be a tough task.
+Conjugate models will allow you to make an educated guess on your prior,
+since it is very easy to understand how does the data affect the posterior.</p>
+
+<h2 id="an-application-of-conjugate-models">An application of conjugate models</h2>
+
+<p>As an example, let us assume your friend who likes fooling
+people.
+Your friend has a coin, and he claims it is a fair coin within very high approximation.
+He suggests to toss the coin 10 times to see if the coin is fair.
+You decide that you will use a beta-binomial model to analyze the data.
+You don’t know if the coin is more likely to give head or tail, so your
+conjugate model will have $\alpha = \beta\,.$</p>
+
+<p>You decide to choose $\alpha$ in such a way that, if you get 5 times head
+and 5 times tail, then the $80\%$ of the posterior should lay between 0.25 and 0.75.</p>
+
+<p>Your friend tells you that it really looks a too stringent constraint, and h</p>
+
+<p>We can then find $\alpha$ by using the following graphics:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="n">scipy.stats</span> <span class="kn">import</span> <span class="n">beta</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nf">beta</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">).</span><span class="nf">cdf</span><span class="p">(</span><span class="mf">0.25</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">r</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nf">beta</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">x</span><span class="p">).</span><span class="nf">cdf</span><span class="p">(</span><span class="mf">0.75</span><span class="p">),</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">b</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">k</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">k</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/conjugate/conjugate.jpg" alt="Alt text" /></p>
+
+<p>The point where the cumulative distribution functions
+evaluated at $0.25$ ($0.75$) passes through $0.1$ ($0.9$),
+represents $\alpha-5\,.$
+This happens approximately at $x=3$, so $\alpha=-2$ is a good prior
+(we don’t need to <em>precisely</em> choose alpha, a graphical method is thus sufficient).
+You should keep in mind that this prior is not a proper
+prior, as it does not integrate to 1.
+This is not a problem, but you should be careful in
+using it and always underline this when writing
+your reports.</p>
+
+<p>If you want to have a list of the most common conjugate models, take
+a look at <a href="https://en.wikipedia.org/wiki/Conjugate_prior">this</a> Wikipedia page,
+while an exhaustive discussion about this kind of models can be fount
+in Andrew Gelman’s textbook (see the <a href="/links/">resources</a> page).</p>
+
+<h2 id="conclusions-and-take-home-message">Conclusions and take-home message</h2>
+<ul>
+  <li>Conjugate models allow you to have an analytical way to link your parameters to observable quantities</li>
+  <li>You can easily formulate a constraint on your priors in terms of effects on the posteriors (I choose my prior in such a way that, f I see this outcome I want my posterior to behave this way).</li>
+  <li>Priors chosen in terms of effects on the posterior are very easy to understand, criticize and, if necessary, improve.</li>
+</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/conjugate/" /><summary type="html"><![CDATA[We previously mentioned the concept of conjugate models, in this post we will have a deeper look at this kind of model.]]></summary></entry><entry><title type="html">The Normal and Student-T model</title><link href="http://localhost:4000/course/intro/normal/" rel="alternate" type="text/html" title="The Normal and Student-T model" /><published>2023-08-20T00:00:00+02:00</published><updated>2023-08-20T00:00:00+02:00</updated><id>http://localhost:4000/course/intro/normal</id><content type="html" xml:base="http://localhost:4000/course/intro/normal/"><![CDATA[<p>Up to this moment our task was to model some random discrete variables. 
+In this post we will look at some continuous model, and the most common one
+is by far the Normal model.
+Let us try and see its main features by looking at some physical data.</p>
+
+<h2 id="neutrinos-and-the-normal-model">Neutrinos and the Normal model</h2>
+<p>I downloaded the zip file from <a href="https://icecube.wisc.edu/data-releases/2018/07/icecube-data-from-2008-to-2017-related-to-analysis-of-txs-0506056/">this page</a>
+of the <a href="https://it.wikipedia.org/wiki/IceCube">IceCube</a> experiment website.
+In the zip you will find many files, let us look at the one named “events_IC86b.txt”</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">./events_IC86b.txt</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="s">,</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">df</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">MJD</th>
+      <th style="text-align: right">Ra_deg</th>
+      <th style="text-align: right">Dec_degm</th>
+      <th style="text-align: right">Unc_deg</th>
+      <th style="text-align: right">log10(Ereco)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">56067.1</td>
+      <td style="text-align: right">76.76</td>
+      <td style="text-align: right">5.38</td>
+      <td style="text-align: right">0.56</td>
+      <td style="text-align: right">3.68</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">56067.4</td>
+      <td style="text-align: right">75.58</td>
+      <td style="text-align: right">4.11</td>
+      <td style="text-align: right">0.81</td>
+      <td style="text-align: right">3.09</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">56068.9</td>
+      <td style="text-align: right">77.12</td>
+      <td style="text-align: right">3.24</td>
+      <td style="text-align: right">0.49</td>
+      <td style="text-align: right">3.1</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">56071.2</td>
+      <td style="text-align: right">75.76</td>
+      <td style="text-align: right">6.91</td>
+      <td style="text-align: right">0.51</td>
+      <td style="text-align: right">3.01</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">56078.5</td>
+      <td style="text-align: right">78.53</td>
+      <td style="text-align: right">6.97</td>
+      <td style="text-align: right">0.8</td>
+      <td style="text-align: right">3.6</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This dataset collects the characteristics of some muon (a kind of elementary particle)
+observed from the IceCube experiment in the South Pole.
+For the moment we are only interested in the last column, which represents
+the logarithm of the reconstructed muon energy.</p>
+
+<p><img src="/docs/assets/images/normal/neutrinos_hist.jpg" alt="muon log energy" /></p>
+
+<p>We only observe positive values, but the logarithm of a positive quantity is a real quantity, which can take any value.
+Moreover the data looks roughly symmetric, so we can try and use a Normal model:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">normal_model</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">log10(Ereco)</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">trace_normal</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">()</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_normal</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/normal/trace_neutrinos_normal.jpg" alt="Normal model trace" /></p>
+
+<p>The trace looks fine, let us check if our model correctly reproduces the data:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">normal_model</span><span class="p">:</span>
+   <span class="n">ppc_normal</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_normal</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_normal</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/normal/ppc_neutrinos_normal.jpg" alt="Normal model ppc" /></p>
+
+<p>Our model is clearly unable to reproduce the data.
+Our dataset contains some events which are located far away from $1\sigma$.
+On the other hand, the normal pdf drops to zero already for $3\sigma\,.$
+We should look for a more general model, which allows for a slower decrease of the pdf or,
+in the statistical jargon we should look for a distribution with heavier tails than the normal one.
+We can try a Student-t model, which is a generalization of the Normal distribution.
+This distribution has an additional parameter $\nu\,,$ which allows to tune the heaviness of the tails 
+and such that, in the limit $\nu \rightarrow \infty$, it corresponds to the Normal distribution.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">t_model</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">nu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">nu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">StudentT</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">nu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">log10(Ereco)</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">trace_t</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">()</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_t</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/normal/trace_neutrinos_t.jpg" alt="Student-t model trace" /></p>
+
+<p>In our case we have $\nu \approx 3\,,$ which suggests that the Normal distribution
+is not well suited to fit the data.
+Let us now check if this model improves the fit:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">t_model</span><span class="p">:</span>
+   <span class="n">ppc_t</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_t</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_t</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/normal/ppc_neutrinos_t.jpg" alt="Student-t model ppc" /></p>
+
+<p>Now the black line is always inside the blue region, so the fit highly improved.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/normal/" /><summary type="html"><![CDATA[Up to this moment our task was to model some random discrete variables. In this post we will look at some continuous model, and the most common one is by far the Normal model. Let us try and see its main features by looking at some physical data.]]></summary></entry><entry><title type="html">Dealing with count data</title><link href="http://localhost:4000/course/intro/poisson/" rel="alternate" type="text/html" title="Dealing with count data" /><published>2023-08-14T00:00:00+02:00</published><updated>2023-08-14T00:00:00+02:00</updated><id>http://localhost:4000/course/intro/poisson</id><content type="html" xml:base="http://localhost:4000/course/intro/poisson/"><![CDATA[<p>In <a href="/beta_binom/">the previous post</a> we have seen how we can model a two-valued variable
+by using the binomial distribution. In this one we will illustrate how we can 
+model count variables, that is variables which can take any non-negative
+integer value $0, 1, 2,\dots$</p>
+
+<h2 id="the-poisson-model">The Poisson model</h2>
+
+<p>A classical example is given by the number of hurricanes in the North Atlantic ocean by year.
+The corresponding dataset can be downloaded from
+ <a href="https://ourworldindata.org/grapher/frequency-north-atlantic-hurricanes">https://ourworldindata.org/grapher/frequency-north-atlantic-hurricanes</a>,
+ and we saved the downloaded dataset in the data subfolder.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="n">scipy.stats</span> <span class="kn">import</span> <span class="n">poisson</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">df_hurricanes</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">data/frequency-north-atlantic-hurricanes.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="nf">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_hurricanes</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="sh">"</span><span class="s">Number of US Hurricanes (HUDRAT, NOAA)</span><span class="sh">"</span><span class="p">,</span>
+                <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/count_data/hurricanes_count.jpg" alt="Hurricanes count" /></p>
+
+<p>We can assume that the number of hurricanes for each year is independent
+on the number of hurricanes of the other years and that the average
+number of hurricanes per year is constant.
+This suggests us to use the Poisson distribution.</p>
+
+\[y \sim Poisson(\mu)\]
+
+<p>where $\mu$ is the average, and the Poisson distribution has probability mass function
+given by</p>
+
+\[p(y | \mu) = \frac{e^{-\mu} \mu^y}{ y! }\]
+
+<p><img src="/docs/assets/images/count_data/poisson_example.jpg" alt="Poisson example" />
+<em>The Poisson distribution</em></p>
+
+<p>and $\mu$ must be a positive real quantity.</p>
+
+<p>As usual, we must now provide a prior for the parameter $\mu\,,$
+and our prior must be able to easily accommodate the data.
+A flexible enough family of distributions is given by the Gamma distribution:</p>
+
+\[\mu \sim Gamma(\alpha, \beta)\]
+
+<p>where the Gamma distribution has pdf</p>
+
+\[p(y | \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)} y^{\alpha - 1}  e^{-\beta y}\]
+
+<p>A special case of the Gamma distribution is the Exponential distribution,
+which corresponds to $Gamma(1, \lambda)\,,$ and $\lambda$ is the inverse of the mean.</p>
+
+<p><img src="/docs/assets/images/count_data/gamma_example.jpg" alt="Gamma example" />
+<em>The gamma distribution</em></p>
+
+<p>We don’t want to use our prior to force the result toward a particular
+region, we’d rather prefer to use our prior to <strong>regularize</strong> our estimate.
+So we will use a weakly informative prior:</p>
+
+\[\mu \sim Gamma(1, 1/10)\]
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">y_obs</span> <span class="o">=</span> <span class="n">df_hurricanes</span><span class="p">[</span><span class="sh">"</span><span class="s">Number of US Hurricanes (HUDRAT, NOAA)</span><span class="sh">"</span><span class="p">].</span><span class="nf">dropna</span><span class="p">().</span><span class="n">values</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_hurricanes</span><span class="p">:</span>
+
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Poisson</span><span class="p">(</span><span class="sh">"</span><span class="s">y</span><span class="sh">"</span><span class="p">,</span> <span class="n">mu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_obs</span><span class="p">)</span>
+    <span class="n">trace_hurricanes</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> 
+
+</code></pre></div></div>
+
+<p>We used PyMC to simulate 4 chains for $\mu\,,$ each chain contains
+2000+500 draws, and the first 500 draws are discarded.
+This is because the initial part of the simulation
+may depend on the initial value and it is used by PyMC to infer the
+best parameters for the simulation (we will discuss this more in detail in
+a future post).</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_hurricanes</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/count_data/trace_hurricanes.jpg" alt="Hurricanes traces" /></p>
+
+<p>The four traces have a stationary appearance, and it looks like
+the distribution is the same across the traces.
+These are good signals that we had no issues during the simulations.
+We can now take a look at the most important statistics regarding the trace on $\mu$:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">summary</span><span class="p">(</span><span class="n">trace_hurricanes</span><span class="p">)</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th> </th>
+      <th>mean</th>
+      <th>sd</th>
+      <th>hdi_3%</th>
+      <th>hdi_97%</th>
+      <th>mcse_mean</th>
+      <th>mcse_sd</th>
+      <th>ess_bulk</th>
+      <th>ess_tail</th>
+      <th>r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>mu</td>
+      <td>1.748</td>
+      <td>0.102</td>
+      <td>1.566</td>
+      <td>1.951</td>
+      <td>0.002</td>
+      <td>0.001</td>
+      <td>3171</td>
+      <td>5132</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The results show that:</p>
+<ul>
+  <li>The samples have a mean of 1.748 and a standard deviation of 0.102</li>
+  <li>The $95\%$ Credible Interval has lower boundary 1.566 and upper boundary 1.951</li>
+  <li>The uncertainty in the estimate of the mean due to the Monte Carlo procedure (Monte Carlo Standard Error) has been estimated to 0.002 with an uncertainty of 0.001</li>
+  <li>The Effective Sample Size is of the same order of magnitude of the sample size (3000-5000 against 4000)</li>
+  <li>$\hat{R} = 1$ indicates that the four traces show similar properties, and this is another indicator that there are no issues in the simulation.</li>
+</ul>
+
+<p>Now that we are quite confident about the sampling procedure, we can compare
+the prediction of our model for the distribution of the number of hurricanes
+per year with the true distribution:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_hurricanes</span><span class="p">:</span>
+        <span class="n">ppc_hurricanes</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_hurricanes</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_hurricanes</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/count_data/poisson_ppc.jpg" alt="Hurricanes ppc" /></p>
+
+<p>The true values are lying well inside our error bands, and the mean estimate
+is close to the observed one. We can thus consider our model satisfactory for our purposes.
+We can thus use our model to make predictions.
+As an example, we could ask what is the probability that, in one year, one gets
+at least four hurricanes:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">ppc_hurricanes</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">&gt;=</span><span class="mi">4</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">).</span><span class="nf">mean</span><span class="p">()</span>
+</code></pre></div></div>
+<blockquote>
+  <p>0.10078</p>
+</blockquote>
+
+<p>We can compare it with the raw historical estimate:</p>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">(</span><span class="n">df_hurricanes</span><span class="p">[</span><span class="sh">"</span><span class="s">Number of US Hurricanes (HUDRAT, NOAA)</span><span class="sh">"</span><span class="p">].</span><span class="nf">dropna</span><span class="p">().</span><span class="n">values</span><span class="o">&gt;=</span><span class="mi">4</span><span class="p">).</span><span class="nf">mean</span><span class="p">()</span>
+</code></pre></div></div>
+<blockquote>
+  <p>0.08982</p>
+</blockquote>
+
+<h2 id="the-negative-binomial-model">The negative-binomial model</h2>
+
+<p>The Poisson model is a one-parameter model, and this implies that the
+variance is uniquely determined by the mean (in fact they are equal).
+This could be a too restrictive requirement, as one would like to treat them
+independently. In these cases a very common choice is the negative
+binomial distribution, which represents the number of subsequent failures $k$ in a
+Bernoulli process with success probability $p$ before a given number of subsequent successes $r$ occur <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>:</p>
+
+\[p(k \vert p, r) \propto (1-p)^k p^r\]
+
+<p>As an example, I used this model to investigate the number of retweets of a particular
+twitter account:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_twitter</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">data/data_twitter.csv</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">()</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">histplot</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">df_tweets</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="sh">"</span><span class="s">retweets_count</span><span class="sh">"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">bins</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">30</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/count_data/twitter_data.jpg" alt="Hurricanes ppc" /></p>
+
+<p>Let us first of all try and see if the Poisson model is a suitable candidate to describe our data:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">poisson_twitter</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Poisson</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_count</span><span class="p">[</span><span class="sh">'</span><span class="s">retweets_count</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">trace_poisson_twitter</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_poisson_twitter</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/count_data/negbin_check_trace.jpg" alt="NegativeBinomial check trace" /></p>
+
+<p>The trace looks good, so let us now sample the posterior predictive and see if it describes the data:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">poisson_twitter</span><span class="p">:</span>
+    <span class="n">ppc_poisson_twitter</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_poisson_twitter</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">()</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_poisson_twitter</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">df_count</span><span class="p">[</span><span class="sh">'</span><span class="s">retweets_count</span><span class="sh">'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">k</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Observed</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/count_data/negbin_check_ppc.jpg" alt="NegativeBinomial check ppc" /></p>
+
+<p>Our model clearly fails to reproduce the data, we should therefore try with a more appropriate one,
+and we will use the negative binomial model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">negbin</span><span class="p">:</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Uniform</span><span class="p">(</span><span class="sh">'</span><span class="s">p</span><span class="sh">'</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">n</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">NegativeBinomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_twitter</span><span class="p">[</span><span class="sh">'</span><span class="s">retweets_count</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">trace_negbin</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_negbin</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/count_data/negbin_trace.jpg" alt="Hurricanes ppc" /></p>
+
+<p>In the trace everything looks fine, so we can go further and sample $y$.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">negbin</span><span class="p">:</span>
+   <span class="n">ppc_negbin</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_negbin</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">()</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_negbin</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">df_count</span><span class="p">[</span><span class="sh">'</span><span class="s">retweets_count</span><span class="sh">'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">k</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span>
+         <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">20</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/count_data/negbin_ppc.jpg" alt="Alt text" /></p>
+
+<p>Let us verify if our requirement to treat the mean and the variance
+as independent quantities was needed</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc_negbin</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nf">mean</span><span class="p">()</span>
+</code></pre></div></div>
+<blockquote>
+  <p>2.2661</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc_negbin</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nf">var</span><span class="p">()</span>
+</code></pre></div></div>
+<blockquote>
+  <p>10.3115</p>
+</blockquote>
+
+<p>They differ by a factor of $4\,,$ so we were right.
+In fact, if we compare these quantities with the corresponding quantities obtained from the Poisson model:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc_poisson_twitter</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nf">mean</span><span class="p">()</span>
+</code></pre></div></div>
+<blockquote>
+  <p>2.26458</p>
+</blockquote>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc_poisson_twitter</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">).</span><span class="nf">var</span><span class="p">()</span>
+</code></pre></div></div>
+<blockquote>
+  <p>2.26564</p>
+</blockquote>
+
+<p>As expected, the Poisson model predicts equal mean and variance for $y\,,$
+while our data clearly shows overdispersion, as the variance is much larger than the mean,
+making the negative binomial model a better candidate to describe our data.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>The negative binomial can be also seen as the posterior predictive distribution of a Poisson likelihood with a Gamma prior, the mathematical derivation can be found <a href="https://gregorygundersen.com/blog/2019/09/16/poisson-gamma-nb/">here</a> <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/count_data/" /><summary type="html"><![CDATA[In the previous post we have seen how we can model a two-valued variable by using the binomial distribution. In this one we will illustrate how we can model count variables, that is variables which can take any non-negative integer value $0, 1, 2,\dots$]]></summary></entry><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/course/intro/beta-binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-08-11T00:00:00+02:00</published><updated>2023-08-11T00:00:00+02:00</updated><id>http://localhost:4000/course/intro/beta-binom</id><content type="html" xml:base="http://localhost:4000/course/intro/beta-binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
 with water, malt, hop and yeast. One of the most important things to do in order
 to produce a good beer is to have a good quality yeast, and one of the metrics
 used to quantify the goodness of the yeast is the <strong>yeast viability</strong>, which corresponds to the percentage of alive cells in your yeast.
