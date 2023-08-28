@@ -16,4 +16,5 @@ minima:
   header_pages:
     - about
     - links
+permalink: /:categories/:title/
 gems: [jekyll-mermaid]
