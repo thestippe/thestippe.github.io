@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-28T16:13:37+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Notation</title><link href="http://localhost:4000/course/appendices/notation/" rel="alternate" type="text/html" title="Notation" /><published>2023-08-28T00:00:00+02:00</published><updated>2023-08-28T00:00:00+02:00</updated><id>http://localhost:4000/course/appendices/notation</id><content type="html" xml:base="http://localhost:4000/course/appendices/notation/"><![CDATA[<p>I will adhere to Gelman’s notation, and divide the quantities in <em>observable or potentially observable quantities</em>,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-08-28T17:51:10+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Notation</title><link href="http://localhost:4000/course/appendices/notation/" rel="alternate" type="text/html" title="Notation" /><published>2023-08-28T00:00:00+02:00</published><updated>2023-08-28T00:00:00+02:00</updated><id>http://localhost:4000/course/appendices/notation</id><content type="html" xml:base="http://localhost:4000/course/appendices/notation/"><![CDATA[<p>I will adhere to Gelman’s notation, and divide the quantities in <em>observable or potentially observable quantities</em>,
 which will be indicated with Latin letters,
 and in <em>unobservable quantities</em>, which will indicated with Greek letters.</p>
 
@@ -33,7 +33,239 @@ and can be written as</p>
 
 <p>On the other hand, the <em>prior predictive</em> distribution is given by</p>
 
-\[p(\tilde{y}) = \int d\theta p(\tilde{y} \vert \theta) p(\theta) \,.\]]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/appendices/" /><category term="/notation/" /><summary type="html"><![CDATA[I will adhere to Gelman’s notation, and divide the quantities in observable or potentially observable quantities, which will be indicated with Latin letters, and in unobservable quantities, which will indicated with Greek letters.]]></summary></entry><entry><title type="html">Model comparison</title><link href="http://localhost:4000/course/intro/model-comparison/" rel="alternate" type="text/html" title="Model comparison" /><published>2023-08-26T00:00:00+02:00</published><updated>2023-08-26T00:00:00+02:00</updated><id>http://localhost:4000/course/intro/model-comparison</id><content type="html" xml:base="http://localhost:4000/course/intro/model-comparison/"><![CDATA[<p>In the <a href="/predictive_checks/">last</a> post we looked at how one can assess a model’s ability to reproduce the data.
+\[p(\tilde{y}) = \int d\theta p(\tilde{y} \vert \theta) p(\theta) \,.\]]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/appendices/" /><category term="/notation/" /><summary type="html"><![CDATA[I will adhere to Gelman’s notation, and divide the quantities in observable or potentially observable quantities, which will be indicated with Latin letters, and in unobservable quantities, which will indicated with Greek letters.]]></summary></entry><entry><title type="html">The linear model</title><link href="http://localhost:4000/course/intro/linear-model/" rel="alternate" type="text/html" title="The linear model" /><published>2023-08-28T00:00:00+02:00</published><updated>2023-08-28T00:00:00+02:00</updated><id>http://localhost:4000/course/intro/linear-model</id><content type="html" xml:base="http://localhost:4000/course/intro/linear-model/"><![CDATA[<p>In this post we will start looking at some regression problem,
+ which are models where we want to relate the behavior of the outcome
+ variable $y$ to some other variable $x$ which we do not want to model.
+In particular, we will look the most fundamental regression model, the linear model.
+This model is so widespread that entire statistical textbooks
+and academic courses has been devoted to it, and it is crucial to fully
+understand both how to assess and give a correct interpretation of the uncertainties
+in this model and how to report these uncertainties no non-statisticians.
+Of course we will just give few examples, without any claim of completeness.
+For a full immersion in this model from a frequentist
+perspective I reccomend the Weisberg textbook
+“Applied linear regression”, freely available
+<a href="https://www.stat.purdue.edu/~qfsong/teaching/525/book/Weisberg-Applied-Linear-Regression-Wiley.pdf">here</a>.</p>
+
+<h2 id="normal-linear-regression">Normal linear regression</h2>
+
+<p>Consider the following dataset, describing the lung capacity of a set of patients. The most relevant covariate here is the age, but there are also other possible relevant quantities, and we will consider them later.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">pymc.sampling_jax</span> <span class="k">as</span> <span class="n">pmjax</span>
+
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">df_lungs</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">https://raw.githubusercontent.com/tkseneee/Dataset/master/LungCapdata.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">df_lungs</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">Age</th>
+      <th style="text-align: right">Height</th>
+      <th style="text-align: right">Gender</th>
+      <th style="text-align: right">Smoke</th>
+      <th style="text-align: right">FEV</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">9</td>
+      <td style="text-align: right">57</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1.708</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">8</td>
+      <td style="text-align: right">67.5</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1.724</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">7</td>
+      <td style="text-align: right">54.5</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1.72</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">9</td>
+      <td style="text-align: right">53</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1.558</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">9</td>
+      <td style="text-align: right">57</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1.895</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Here FEV means Forced Expiratory Volume, and measures how much air a person can exhale during a forced breath.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="nf">pairplot</span><span class="p">(</span><span class="n">df_lungs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/lung_pairplot.jpg" alt="Lung pairplot" /></p>
+
+<p>As we could imagine, there is a linear correlation between the age and the FEV.
+While the age seems almost normally distributed, the FEV is not,
+and as well the FEV variance grows with the age.
+The distribution of the FEV seems definitely different between
+the smoke=0 and the smoke=1 patients, so we should also take this into account.
+But let us first start with the simplest linear model,
+where we assume a linear relation between the FEV and the age.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x_0</span> <span class="o">=</span> <span class="n">df_lungs</span><span class="p">[</span><span class="sh">'</span><span class="s">Age</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">linear_model_0</span><span class="p">:</span>
+    <span class="n">theta_0</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">theta_0</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">theta_1</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">theta_1</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfCauchy</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">theta_0</span> <span class="o">+</span> <span class="n">theta_1</span><span class="o">*</span><span class="n">x_0</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span>
+                  <span class="n">observed</span><span class="o">=</span><span class="n">df_lungs</span><span class="p">[</span><span class="sh">'</span><span class="s">FEV</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="n">trace_lm0</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>Let us now check if we can spot any problem in the sampling procedure:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_lm0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/lung_trace.jpg" alt="Lung trace" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_autocorr</span><span class="p">(</span><span class="n">trace_lm0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/lung_corrplot.jpg" alt="Lung corrplot" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_rang</span><span class="p">(</span><span class="n">trace_lm0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/lung_rank.jpg" alt="Lung rank" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">summary</span><span class="p">(</span><span class="n">trace_lm0</span><span class="p">)</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">sd</th>
+      <th style="text-align: right">hdi_3%</th>
+      <th style="text-align: right">hdi_97%</th>
+      <th style="text-align: right">mcse_mean</th>
+      <th style="text-align: right">mcse_sd</th>
+      <th style="text-align: right">ess_bulk</th>
+      <th style="text-align: right">ess_tail</th>
+      <th style="text-align: right">r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">theta_0</td>
+      <td style="text-align: right">0.428</td>
+      <td style="text-align: right">0.078</td>
+      <td style="text-align: right">0.285</td>
+      <td style="text-align: right">0.574</td>
+      <td style="text-align: right">0.001</td>
+      <td style="text-align: right">0.001</td>
+      <td style="text-align: right">2815</td>
+      <td style="text-align: right">3553</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">theta_1</td>
+      <td style="text-align: right">0.222</td>
+      <td style="text-align: right">0.007</td>
+      <td style="text-align: right">0.208</td>
+      <td style="text-align: right">0.236</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">2808</td>
+      <td style="text-align: right">3506</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">sigma</td>
+      <td style="text-align: right">0.568</td>
+      <td style="text-align: right">0.016</td>
+      <td style="text-align: right">0.54</td>
+      <td style="text-align: right">0.6</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">4048</td>
+      <td style="text-align: right">3554</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>So far so good:</p>
+<ul>
+  <li>The traces look fine</li>
+  <li>The correlation goes to 0 after few iterations for all the variables</li>
+  <li>The rank plots look almost uniform</li>
+  <li>r_hat is 1 and the ESS are large enough.</li>
+</ul>
+
+<p>Of course, we don’t expect out model to be able to exactly reproduce
+all the relevant features of the FEV plot, but let us check how far away is it.
+In order to do this, we will take 20 random samples and compare them with the true sample:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pp_lm0</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">model</span><span class="o">=</span><span class="n">linear_model_0</span><span class="p">,</span> <span class="n">trace</span><span class="o">=</span><span class="n">trace_lm0</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">2000</span><span class="p">)</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">pp_lm0</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">.</span><span class="n">y</span><span class="p">.</span><span class="n">values</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">s</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">+</span><span class="sh">'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">navy</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">df_lungs</span><span class="p">[</span><span class="sh">'</span><span class="s">FEV</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">green</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">AGE</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">FAV  </span><span class="sh">'</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/lung_ppc.jpg" alt="Lung PPC" /></p>
+
+<p>Our model overestimates the uncertainties for lower age values, up to 10 years or so, but apparently it catches all the other relevant features of the sample.
+In the notebook on causal inference we will see how to deal with data with
+non-constant variance <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>, as it happens in the previous plot.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Data with constant variance are called <em>homoskedastik</em> while data with varying variance are called <em>heteroskedastik</em>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/linear_model/" /><summary type="html"><![CDATA[In this post we will start looking at some regression problem, which are models where we want to relate the behavior of the outcome variable $y$ to some other variable $x$ which we do not want to model. In particular, we will look the most fundamental regression model, the linear model. This model is so widespread that entire statistical textbooks and academic courses has been devoted to it, and it is crucial to fully understand both how to assess and give a correct interpretation of the uncertainties in this model and how to report these uncertainties no non-statisticians. Of course we will just give few examples, without any claim of completeness. For a full immersion in this model from a frequentist perspective I reccomend the Weisberg textbook “Applied linear regression”, freely available here.]]></summary></entry><entry><title type="html">Model comparison</title><link href="http://localhost:4000/course/intro/model-comparison/" rel="alternate" type="text/html" title="Model comparison" /><published>2023-08-26T00:00:00+02:00</published><updated>2023-08-26T00:00:00+02:00</updated><id>http://localhost:4000/course/intro/model-comparison</id><content type="html" xml:base="http://localhost:4000/course/intro/model-comparison/"><![CDATA[<p>In the <a href="/predictive_checks/">last</a> post we looked at how one can assess a model’s ability to reproduce the data.
 In this post we will look at a related topic, which is how we can compare two or more Bayesian models.
 In fact, you rarely know from the beginning what is the most appropriate model to fit your data.
 Most of the times you will find yourself building different models for the same dataset,
@@ -1579,110 +1811,4 @@ data which can take more than two values.</p>
       <p>This topic will be discussed in a future post. For the moment, if you are curious, you can take a look at the <a href="https://en.wikipedia.org/wiki/Jeffreys_prior#">Wikipedia</a> page. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/beta_binom/" /><summary type="html"><![CDATA[I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. This procedure is time consuming, as you must count by hand the number of dead and alive cells in a sample, so it is usually performed with small samples. It is therefore important to quantify the uncertainties in your estimate.]]></summary></entry><entry><title type="html">Why (and when) should you go for Bayesian</title><link href="http://localhost:4000/intro-when-go-bayesian/" rel="alternate" type="text/html" title="Why (and when) should you go for Bayesian" /><published>2023-08-09T00:00:00+02:00</published><updated>2023-08-09T00:00:00+02:00</updated><id>http://localhost:4000/intro-when-go-bayesian</id><content type="html" xml:base="http://localhost:4000/intro-when-go-bayesian/"><![CDATA[<p>I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes.
-Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process.
-The model can be divided into two parts:</p>
-<ul>
-  <li>The likelihood $p(y \vert \theta)$, which determines how the data you want to model $y$ are generated given the parameter(s) $\theta$.</li>
-  <li>The priors $p(\theta)$, which specifies your initial hypothesis about the distribution of the parameters of the model.</li>
-</ul>
-
-<p>The only mathematical requirements for both the likelihood and for the priors is that they are non-negative and sum up to one.
-There is a huge literature about the model building, and you can easily start by using one of the already available models and adapt it
-to your problem.</p>
-
-<p>Once that the model is specified you can use $PyMC$ or any other Probabilistic Programming Language
-sample the entire posterior probability distribution,
-which is determined by means of Bayes theorem.</p>
-
-\[p(\theta \vert y) = \frac{p(y \vert \theta) p(\theta)}{p(y)} \propto  p(y \vert \theta) p(\theta)\]
-
-<p>Here $\propto$ means proportional to, which means equal up to some multiplicative positive constant,
-where by constant we mean independent on $\theta$.
-The constant $p(y)$ can be fixed by requiring that $p(\theta \vert y)$ is normalized to one:</p>
-
-\[1 = \int d\theta p(\theta | y) = \frac{1}{p(y)}\int d\theta p(y \vert \theta) p(\theta)\]
-
-<p>so</p>
-
-\[p(y) = \int d\theta p(y|\theta)p(\theta)\,.\]
-
-<p>The fact that you sample the entire probability distribution $p(\theta \vert y)$
-makes Bayesian statistics very attractive if you are building a statistical
-model to make a decision, as you can easily make inference about any kind of quantity
-regarding your model.
-This is rarely possible if you only have a point estimate or an interval estimate, as it happens in Machine Learning.</p>
-
-<p>Moreover, Bayesian statistics is easily interpretable: what you are doing
-is simply to use the data to update your initial believes.
-In fact, in the Bayesian interpretation, $p(\theta)$ represents your opinion about the possible
-values that $\theta$ may take before you make an experiment and observe $y\,.$
-On the other hand $p(\theta \vert y)$ represents your updated opinion about the value of $\theta$
-after the experiment.</p>
-
-<p>So why is not everyone using it? In my experience there are multiple reasons, some of them
-are historical, others are more pragmatic.</p>
-
-<p>First of all, the possibility to easily implement a numerical simulation
-and to run it within a reasonable amount of time is relatively recent and not
-yet spread outside the statistical community.
-Bayesian statistics was the only available framework up to the end of the nineteenth 
-century, and in has been largely abandoned at the beginning of the last century,
-when Fisher and his collaborators developed frequentist statistics.
-People in fact considered Bayesian statistics very difficult,
-as the normalization factor $p(y)$
-can only be computed for a very limited number of models
-(the so-called <em>conjugate</em> models).
-De Finetti, Savage, Jeffreys and others tried to convince
-people to abandon the frequentist framework as they did not considered the
-frequentist interpretation satisfactory, but they never managed to convince
-the majority of the community.
-Things changed when, during the Manhattan project, Metropolis, Von Neumann, Ulam and
-others invented the
-Markov Chain Monte Carlo methods, and this allowed physicists and later statisticians
-too to 
-draw random samples from an arbitrary probability distribution.
-Moreover, nowadays, the misuse and misinterpretation of tools of frequentist statistics is considered 
-one of the main reason for the so-called <em>reproducibility crisis in science</em>
-and a <strong>proper</strong> use of Bayesian methods is considered a valid alternative to those
-tools <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup> <sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup>.
-Of course, Bayesian statistics can be misused too, but there are few very clear guidelines from the academic community which will make this less likely to happen.
-Moreover, in most cases, a problem in your model will show up in a problem in your simulation, and this makes Bayesian inference less error-prone than frequentist inference.
-In fact, when talking about frequentist statistics or machine learning, most of the time what you are computing
-is either an optimization problem or the average of some quantity.
-Since what you obtain from this kind of procedure is a number rather than a sample,
-in this kind of task may be quite hard to spot.</p>
-
-<p>However, the major practical drawback of Bayesian statistics is that you need to run your
-simulation thousands of times, and this may take some time if the number
-of parameters in your model is large.
-Thus, I do not reccomend you to use Bayesian statistics if your task is a simple
-and fast fit-predict problem.</p>
-
-<p>There is another drawback, and this is where these notes come into play:
-building a model without a basic knowledge about model building and assessment
-is not an easy task. There are many beautiful online courses about Bayesian
-statistics in R, which is the most common programming language between statisticians.
-The choice of the programming language implies that either you already know R, or you need to learn Bayesian
-statistics <em>and</em> R.
-This blog is written to make this task simpler for anyone who has a basic knowledge
-about Python, and since Python is the most widely spread programming language
-in the World, I hope I will help a lot of people.</p>
-
-<p>I hope you enjoyed,</p>
-
-<p>Stefano</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:1" role="doc-endnote">
-      <p>This is somehow a misleading name, as this crisis is not only affecting academia, but it is a problem in industry too. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:2" role="doc-endnote">
-      <p>See <a href="https://www.nature.com/articles/533452a">this article on Nature</a> <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:3" role="doc-endnote">
-      <p>See <a href="https://www.nature.com/articles/520612a">this other article of Nature</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><summary type="html"><![CDATA[I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes. Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process. The model can be divided into two parts: The likelihood $p(y \vert \theta)$, which determines how the data you want to model $y$ are generated given the parameter(s) $\theta$. The priors $p(\theta)$, which specifies your initial hypothesis about the distribution of the parameters of the model.]]></summary></entry></feed>
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/beta_binom/" /><summary type="html"><![CDATA[I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. This procedure is time consuming, as you must count by hand the number of dead and alive cells in a sample, so it is usually performed with small samples. It is therefore important to quantify the uncertainties in your estimate.]]></summary></entry></feed>
