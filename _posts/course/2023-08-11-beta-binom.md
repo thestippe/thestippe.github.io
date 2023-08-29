@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: "Beer and the Beta-Binomial model"
 categories: course/intro/
 tags: /beta_binom/

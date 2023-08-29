@@ -17,4 +17,7 @@ minima:
     - about
     - links
 permalink: /:categories/:title/
+collections:
+  category:
+    output: true
 gems: [jekyll-mermaid]

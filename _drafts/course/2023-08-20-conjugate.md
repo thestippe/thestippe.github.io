@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: "Conjugate models"
 categories: course/intro/
 tags: /conjugate/

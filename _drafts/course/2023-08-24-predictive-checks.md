@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: "Predictive checks"
 categories: course/intro/
 tags: /predictive_checks/

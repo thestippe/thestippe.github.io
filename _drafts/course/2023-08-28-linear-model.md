@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: "The linear model"
 categories: course/intro/
 tags: /linear_model/

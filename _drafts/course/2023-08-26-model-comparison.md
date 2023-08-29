@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: "Model comparison"
 categories: course/intro/
 tags: /model_comparison/

@@ -53,13 +53,16 @@
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <article class="post">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <h1 class="post-title">Predictive checks</h1>
+    <h1 class="post-title p-name" itemprop="name headline">Predictive checks</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-08-24T00:00:00+02:00" itemprop="datePublished">
+        Aug 24, 2023
+      </time></p>
   </header>
 
-  <div class="post-content">
+  <div class="post-content e-content" itemprop="articleBody">
     <p>In the previous post we saw some methods which allows
 us to spot problems in the trace evaluation.
 In this post we will look at some methods to check if our model is able to correctly
@@ -215,8 +218,7 @@ his sampled posterior predictive lies far away from the data.</p>
   <li>In complex problem, the model will unlikely be able to <em>exactly</em> reproduce your data, but you should at least make sure that you can reproduce the <em>relevant features</em> of your data. You should also be sure and understand what your model fails to reproduce, and possibly why.</li>
 </ul>
 
-  </div>
-
+  </div><a class="u-url" href="/course/intro/predictive-checks/" hidden></a>
 </article>
 
       </div>

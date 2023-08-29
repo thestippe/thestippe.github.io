@@ -1,5 +1,5 @@
 ---
-layout: page
+layout: post
 title: "Why (and when) should you go for Bayesian"
 ---
 I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes.
