@@ -287,15 +287,337 @@ In order to do this, we will take 20 random samples and compare them with the tr
 
 <p>Our model overestimates the uncertainties for lower age values, up to 10 years or so, but apparently it catches all the other relevant features of the sample.
 In the notebook on causal inference we will see how to deal with data with
-non-constant variance <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>, as it happens in the previous plot.</p>
+non-constant variance [^1], as it happens in the previous plot.</p>
 
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:1" role="doc-endnote">
-      <p>Data with constant variance are called <em>homoskedastik</em> while data with varying variance are called <em>heteroskedastik</em>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>
+<h2 id="robust-linear-regression">Robust linear regression</h2>
+
+<p>In some case your data may be not good enough to provide you reliable estimates with normal linear regression,
+and this is the case of the conclusions drawn from
+<a href="https://www.cambridge.org/core/journals/american-political-science-review/article/abs/political-institutions-and-voter-turnout-in-the-industrial-democracies/D6725BBF93F2F90F03A69B0794728BF7">this</a> article,
+where the author concludes that there is a significant correlation between the voter turnout in a country and its average income inequality.
+This example is a classical example of misleading result of a regression, where the author does not provide a plot of the data,
+taken from <a href="https://www.google.it/books/edition/Data_Visualization/3XOYDwAAQBAJ?hl=it&amp;gbpv=1&amp;dq=Data+visualization,+a+practical+introduction&amp;printsec=frontcover">Healy, “Data visualization, a practical introduction”</a>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_turnout</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">data/inequality.csv</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">df_turnout</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">turnout</th>
+      <th style="text-align: right">inequality</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0.85822</td>
+      <td style="text-align: right">1.95745</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0.837104</td>
+      <td style="text-align: right">1.95745</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">0.822021</td>
+      <td style="text-align: right">2.41135</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">0.87632</td>
+      <td style="text-align: right">2.76596</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">0.901961</td>
+      <td style="text-align: right">2.95035</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In this dataset we have on the percentage turnout against the average income inequality.
+How can we decide, from a Bayesian perspective, if the conclusion hold? As already pointed
+out, we cannot rely on statistical significance.
+For this kind of problem we can use the ROPE, which is the Region Of Practical Equivalence:
+before looking at the data, we should decide a region such that, if the HDI of a certain parameter
+is included inside the region, we will conclude that the parameter is negligible. 
+In our model we will be interested with the slope of the fitted model.
+We decide that, if the HDI is included between $[-5, 5]$, then the slope is compatible with
+0, so a change in the turnout does not lead to a large enough change into average the inequality income.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">pairplot</span><span class="p">(</span><span class="n">df_turnout</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/inequality_pairplot.jpg" alt="Turnout pairplot" /></p>
+
+<p>By simply plotting the data we can clearly see that there is one point, the South Africa, which is far away from the other, and this may have a huge impact on the fit.
+Let us see this, and how one may avoid this kind of error.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_norm</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfNormal</span><span class="p">(</span><span class="sh">'</span><span class="s">tau</span><span class="sh">'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span><span class="o">+</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">turnout</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="o">*</span><span class="n">beta</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">inequality</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">trace_norm</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">idata_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">log_likelihood</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_norm</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/trace_norm.jpg" alt="Traceplot normal" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x_plt</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">model_norm</span><span class="p">:</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span><span class="o">+</span><span class="n">x_plt</span><span class="o">*</span><span class="n">beta</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">ppc_norm</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_norm</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">],</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">ppc_norm</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]))</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">fill_between</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">ppc_norm</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">ppc_norm</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">grey</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">turnout</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">inequality</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/inequality_norm_ppc.jpg" alt="PPC normal" /></p>
+
+<p>The error bands include all the points and it looks like it correctly reproduces the data. 
+Does this model support the conclusions of the cited article?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_forest</span><span class="p">(</span><span class="n">trace_norm</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">],</span> <span class="n">rope</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/inequality_forest_normal.jpg" alt="PPC normal" /></p>
+
+<p>Yes, this model drives us to the same conclusions of the above cited article.
+Let us now try with a more robust model, using both for the prior and
+for the likelihood distribution with heavier tails than the normal distribution.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_robust</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Cauchy</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Cauchy</span><span class="p">(</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfCauchy</span><span class="p">(</span><span class="sh">'</span><span class="s">tau</span><span class="sh">'</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">nu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">nu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">StudentT</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span><span class="o">+</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">turnout</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="o">*</span><span class="n">beta</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">inequality</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">tau</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">nu</span><span class="p">)</span>
+    <span class="n">trace_robust</span> <span class="o">=</span> <span class="n">pmjax</span><span class="p">.</span><span class="nf">sample_numpyro_nuts</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">idata_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">log_likelihood</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span>
+    <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_robust</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/inequality_trace_robust.jpg" alt="Traceplot robust" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_robust</span><span class="p">:</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">StudentT</span><span class="p">(</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span><span class="o">+</span><span class="n">x_plt</span><span class="o">*</span><span class="n">beta</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">tau</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">nu</span><span class="p">)</span>
+    <span class="n">ppc_robust</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_robust</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">],</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">ppc_robust</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">median</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]))</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">fill_between</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">ppc_robust</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">ppc_robust</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">grey</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">turnout</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">inequality</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/inequality_ppc_robust.jpg" alt="PPC robust" /></p>
+
+<p>Also in this case the model correctly reproduces the data, but the points now are located far away from the limits of the error bands
+and the slope significantly decreased.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_forest</span><span class="p">(</span><span class="n">trace_robust</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">],</span> <span class="n">rope</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/inequality_forest_robust.jpg" alt="Forest robust" /></p>
+
+<p>In this case the ROPE is only partially compatible with the HDI, so we cannot draw any conclusion.</p>
+
+<p>Let us now check which model is the best one. We will do this by using the “LOO - Leave One Out” metric (see the model evaluation post).
+The LOO function returns many results, included the Pareto shape values for each observation.
+The Pareto index ranges from $-\infty$ to $\infty$ and the bigger it is, the less likely the observation is.
+One usually takes all the observations above $0.7$ as bad observations, and the ones above $1$ are considered as extremely bad,
+while the ones below $0.5$ are good.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loo_normal</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">loo</span><span class="p">(</span><span class="n">trace_norm</span><span class="p">,</span> <span class="n">model_norm</span><span class="p">)</span>
+<span class="n">loo_robust</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">loo</span><span class="p">(</span><span class="n">trace_robust</span><span class="p">,</span> <span class="n">model_robust</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loo_normal</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pareto k</th>
+      <th>Meaning</th>
+      <th>Count</th>
+      <th>Pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>(-Inf, 0.5]</td>
+      <td>Good</td>
+      <td>16</td>
+      <td>88.9</td>
+    </tr>
+    <tr>
+      <td>(0.5, 0.7]</td>
+      <td>Ok</td>
+      <td>1</td>
+      <td>5.6</td>
+    </tr>
+    <tr>
+      <td>(0.7, 1.0]</td>
+      <td>Bad</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>(1, Inf)</td>
+      <td>Very bad</td>
+      <td>1</td>
+      <td>5.6</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loo_robust</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pareto k</th>
+      <th>Meaning</th>
+      <th>Count</th>
+      <th>Pct</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>(-Inf, 0.5]</td>
+      <td>Good</td>
+      <td>17</td>
+      <td>94.4</td>
+    </tr>
+    <tr>
+      <td>(0.5, 0.7]</td>
+      <td>Ok</td>
+      <td>1</td>
+      <td>5.6</td>
+    </tr>
+    <tr>
+      <td>(0.7, 1.0]</td>
+      <td>Bad</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>(1, Inf)</td>
+      <td>Very bad</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If we recall what we wrote about the LOO diagnostic and we observe the summary of the normal model,
+we have that there is one point in the dataset such that,
+when removed from the fit, becomes highly unlikely.
+On the opposite, as expected, this does not happens for the robust model, as the Student-t distribution
+can easily accommodate more extreme values without being affected as much as the normal model.</p>
+
+<p>Let us see what does the model comparison tell us.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">compare</span><span class="p">({</span><span class="sh">'</span><span class="s">Normal model</span><span class="sh">'</span><span class="p">:</span> <span class="n">trace_norm</span><span class="p">,</span> <span class="sh">'</span><span class="s">Robust model</span><span class="sh">'</span><span class="p">:</span> <span class="n">trace_robust</span><span class="p">})</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">rank</th>
+      <th style="text-align: right">elpd_loo</th>
+      <th style="text-align: right">p_loo</th>
+      <th style="text-align: right">elpd_diff</th>
+      <th style="text-align: right">weight</th>
+      <th style="text-align: right">se</th>
+      <th style="text-align: right">dse</th>
+      <th style="text-align: left">warning</th>
+      <th style="text-align: left">scale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Normal model</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">-30.8054</td>
+      <td style="text-align: right">4.73068</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0.920135</td>
+      <td style="text-align: right">4.28969</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: left">True</td>
+      <td style="text-align: left">log</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Robust model</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">-32.7588</td>
+      <td style="text-align: right">7.15545</td>
+      <td style="text-align: right">1.95346</td>
+      <td style="text-align: right">0.0798655</td>
+      <td style="text-align: right">4.63041</td>
+      <td style="text-align: right">2.12229</td>
+      <td style="text-align: left">False</td>
+      <td style="text-align: left">log</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Both our models are able to correctly reproduce the data, but there is a strong penalty for the robust model for the extra parameter.
+Moreover, the comparison shows a warning, which may be due to the presence of an outlier.
+At this point a careful researcher would try and remove the problematic observation and see what does it happen to the estimates of each model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_norm_red</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfNormal</span><span class="p">(</span><span class="sh">'</span><span class="s">tau</span><span class="sh">'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span><span class="o">+</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">turnout</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">[:</span><span class="mi">17</span><span class="p">]</span><span class="o">*</span><span class="n">beta</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">inequality</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">[:</span><span class="mi">17</span><span class="p">],</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">trace_norm_red</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">idata_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">log_likelihood</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_norm_red</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/inequality_trace_normal_red.jpg" alt="Trace normal reduced model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_norm_red</span><span class="p">:</span>
+    <span class="n">y_pred_red</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span><span class="o">+</span><span class="n">x_plt</span><span class="o">*</span><span class="n">beta</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+    <span class="n">ppc_norm_red</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_norm_red</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">],</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">ppc_norm_red</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]))</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">fill_between</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">ppc_norm_red</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">ppc_norm_red</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">grey</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">turnout</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">inequality</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/inequality_ppc_normal_red.jpg" alt="PPC normal reduced model" /></p>
+
+<p>By explicitly removing the South Africa point, the fit changes in a dramatic way, as beta becomes compatible with zero and the South Africa is no more 
+included into the 95% error bands.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_forest</span><span class="p">(</span><span class="n">trace_norm_red</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">],</span> <span class="n">rope</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/inequality_forest_normal_red.jpg" alt="Forest normal red" /></p>
+
+<p>This model explicitly contradicts the first model, and tells us that there is no association between turnout and average income inequality.
+By seeing this result, one should investigate why the South Africa has a behavior which is so different from the one of the other
+countries, and only after a sensible answer to this question one should decide if he wants to include this
+point inside the dataset.</p>
 
   </div><a class="u-url" href="/linear-model/" hidden></a>
 </article>

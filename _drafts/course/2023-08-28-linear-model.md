@@ -142,4 +142,227 @@ Our model overestimates the uncertainties for lower age values, up to 10 years o
 In the notebook on causal inference we will see how to deal with data with
 non-constant variance [^1], as it happens in the previous plot.
 
-[^1]: Data with constant variance are called _homoskedastik_ while data with varying variance are called _heteroskedastik_.
+
+## Robust linear regression
+
+In some case your data may be not good enough to provide you reliable estimates with normal linear regression,
+and this is the case of the conclusions drawn from
+[this](https://www.cambridge.org/core/journals/american-political-science-review/article/abs/political-institutions-and-voter-turnout-in-the-industrial-democracies/D6725BBF93F2F90F03A69B0794728BF7) article,
+where the author concludes that there is a significant correlation between the voter turnout in a country and its average income inequality.
+This example is a classical example of misleading result of a regression, where the author does not provide a plot of the data,
+taken from [Healy, "Data visualization, a practical introduction"](https://www.google.it/books/edition/Data_Visualization/3XOYDwAAQBAJ?hl=it&gbpv=1&dq=Data+visualization,+a+practical+introduction&printsec=frontcover).
+
+```python
+df_turnout = pd.read_csv('data/inequality.csv')
+df_turnout.head()
+```
+
+|    |   turnout |   inequality |
+|---:|----------:|-------------:|
+|  0 |  0.85822  |      1.95745 |
+|  1 |  0.837104 |      1.95745 |
+|  2 |  0.822021 |      2.41135 |
+|  3 |  0.87632  |      2.76596 |
+|  4 |  0.901961 |      2.95035 |
+
+In this dataset we have on the percentage turnout against the average income inequality.
+How can we decide, from a Bayesian perspective, if the conclusion hold? As already pointed
+out, we cannot rely on statistical significance.
+For this kind of problem we can use the ROPE, which is the Region Of Practical Equivalence:
+before looking at the data, we should decide a region such that, if the HDI of a certain parameter
+is included inside the region, we will conclude that the parameter is negligible. 
+In our model we will be interested with the slope of the fitted model.
+We decide that, if the HDI is included between $[-5, 5]$, then the slope is compatible with
+0, so a change in the turnout does not lead to a large enough change into average the inequality income.
+
+
+```python
+az.pairplot(df_turnout)
+```
+
+![Turnout pairplot](/docs/assets/images/linear_model/inequality_pairplot.jpg)
+
+By simply plotting the data we can clearly see that there is one point, the South Africa, which is far away from the other, and this may have a huge impact on the fit.
+Let us see this, and how one may avoid this kind of error.
+
+```python
+with pm.Model() as model_norm:
+    alpha = pm.Normal('alpha', mu=0, sigma=20)
+    beta = pm.Normal('beta', mu=0, sigma=20)
+    tau = pm.HalfNormal('tau', sigma=5)
+    y = pm.Normal('y', mu=alpha+df_turnout['turnout'].values*beta, observed=df_turnout['inequality'].values, tau=tau)
+    trace_norm = pm.sample(draws=2000, chains=4, tune=2000, idata_kwargs = {'log_likelihood': True}, random_seed=np.random.default_rng(42))
+az.plot_trace(trace_norm)
+```
+
+![Traceplot normal](/docs/assets/images/linear_model/trace_norm.jpg)
+
+```python
+x_plt = np.arange(0, 1, 0.001)
+with model_norm:
+    y_pred = pm.Normal('y_pred', mu=alpha+x_plt*beta, tau=tau)
+    ppc_norm = pm.sample_posterior_predictive(trace_norm, var_names=['y', 'y_pred'], random_seed=np.random.default_rng(42))
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(x_plt, ppc_norm.posterior_predictive['y_pred'].mean(dim=['draw', 'chain']))
+ax.fill_between(x_plt, ppc_norm.posterior_predictive['y_pred'].quantile(q=0.025, dim=['draw', 'chain']), ppc_norm.posterior_predictive['y_pred'].quantile(q=0.975, dim=['draw', 'chain']), alpha=0.5, color='grey')
+ax.scatter(df_turnout['turnout'].values, df_turnout['inequality'].values)
+```
+
+![PPC normal](/docs/assets/images/linear_model/inequality_norm_ppc.jpg)
+
+The error bands include all the points and it looks like it correctly reproduces the data. 
+Does this model support the conclusions of the cited article?
+
+```python
+az.plot_forest(trace_norm, var_names=['beta'], rope=[-5, 5])
+```
+
+![PPC normal](/docs/assets/images/linear_model/inequality_forest_normal.jpg)
+
+Yes, this model drives us to the same conclusions of the above cited article.
+Let us now try with a more robust model, using both for the prior and
+for the likelihood distribution with heavier tails than the normal distribution.
+
+
+```python
+with pm.Model() as model_robust:
+    alpha = pm.Cauchy('alpha', alpha=0, beta=20)
+    beta = pm.Cauchy('beta', alpha=0, beta=20)
+    tau = pm.HalfCauchy('tau', beta=5)
+    nu = pm.Exponential('nu', lam=1)
+    y = pm.StudentT('y', mu=alpha+df_turnout['turnout'].values*beta, observed=df_turnout['inequality'].values, sigma=1/tau, nu=nu)
+    trace_robust = pmjax.sample_numpyro_nuts(draws=2000, chains=4, tune=2000, idata_kwargs = {'log_likelihood': True},
+    target_accept=0.98, random_seed=np.random.default_rng(42))
+
+az.plot_trace(trace_robust)
+```
+
+
+![Traceplot robust](/docs/assets/images/linear_model/inequality_trace_robust.jpg)
+
+```python
+with model_robust:
+    y_pred = pm.StudentT('y_pred', mu=alpha+x_plt*beta, sigma=1/tau, nu=nu)
+    ppc_robust = pm.sample_posterior_predictive(trace_robust, var_names=['y', 'y_pred'], random_seed=np.random.default_rng(42))
+
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(x_plt, ppc_robust.posterior_predictive['y_pred'].median(dim=['draw', 'chain']))
+ax.fill_between(x_plt, ppc_robust.posterior_predictive['y_pred'].quantile(q=0.025, dim=['draw', 'chain']), ppc_robust.posterior_predictive['y_pred'].quantile(q=0.975, dim=['draw', 'chain']), alpha=0.5, color='grey')
+ax.scatter(df_turnout['turnout'].values, df_turnout['inequality'].values)
+```
+
+![PPC robust](/docs/assets/images/linear_model/inequality_ppc_robust.jpg)
+
+Also in this case the model correctly reproduces the data, but the points now are located far away from the limits of the error bands
+and the slope significantly decreased.
+
+
+```python
+az.plot_forest(trace_robust, var_names=['beta'], rope=[-5, 5])
+```
+
+![Forest robust](/docs/assets/images/linear_model/inequality_forest_robust.jpg)
+
+In this case the ROPE is only partially compatible with the HDI, so we cannot draw any conclusion.
+
+Let us now check which model is the best one. We will do this by using the "LOO - Leave One Out" metric (see the model evaluation post).
+The LOO function returns many results, included the Pareto shape values for each observation.
+The Pareto index ranges from $-\infty$ to $\infty$ and the bigger it is, the less likely the observation is.
+One usually takes all the observations above $0.7$ as bad observations, and the ones above $1$ are considered as extremely bad,
+while the ones below $0.5$ are good.
+
+```python
+loo_normal = az.loo(trace_norm, model_norm)
+loo_robust = az.loo(trace_robust, model_robust)
+
+```
+
+```python
+loo_normal
+```
+
+| Pareto k   | Meaning | Count | Pct |
+|------------|---------|-------|-----|
+| (-Inf, 0.5]| Good    | 16    | 88.9|
+|  (0.5, 0.7]| Ok      | 1     | 5.6 |
+|  (0.7, 1.0]| Bad     | 0     | 0   |
+|  (1, Inf)  | Very bad| 1     | 5.6 |
+
+```python
+loo_robust
+```
+
+| Pareto k   | Meaning | Count | Pct |
+|------------|---------|-------|-----|
+| (-Inf, 0.5]| Good    | 17    | 94.4|
+|  (0.5, 0.7]| Ok      | 1     | 5.6 |
+|  (0.7, 1.0]| Bad     | 0     | 0   |
+|  (1, Inf)  | Very bad| 0     | 0   |
+
+
+If we recall what we wrote about the LOO diagnostic and we observe the summary of the normal model,
+we have that there is one point in the dataset such that,
+when removed from the fit, becomes highly unlikely.
+On the opposite, as expected, this does not happens for the robust model, as the Student-t distribution
+can easily accommodate more extreme values without being affected as much as the normal model.
+
+Let us see what does the model comparison tell us.
+
+```python
+az.compare({'Normal model': trace_norm, 'Robust model': trace_robust})
+```
+
+|              |   rank |   elpd_loo |   p_loo |   elpd_diff |    weight |      se |     dse | warning   | scale   |
+|:-------------|-------:|-----------:|--------:|------------:|----------:|--------:|--------:|:----------|:--------|
+| Normal model |      0 |   -30.8054 | 4.73068 |     0       | 0.920135  | 4.28969 | 0       | True      | log     |
+| Robust model |      1 |   -32.7588 | 7.15545 |     1.95346 | 0.0798655 | 4.63041 | 2.12229 | False     | log     |
+
+Both our models are able to correctly reproduce the data, but there is a strong penalty for the robust model for the extra parameter.
+Moreover, the comparison shows a warning, which may be due to the presence of an outlier.
+At this point a careful researcher would try and remove the problematic observation and see what does it happen to the estimates of each model.
+
+```python
+with pm.Model() as model_norm_red:
+    alpha = pm.Normal('alpha', mu=0, sigma=20)
+    beta = pm.Normal('beta', mu=0, sigma=20)
+    tau = pm.HalfNormal('tau', sigma=5)
+    y = pm.Normal('y', mu=alpha+df_turnout['turnout'].values[:17]*beta, observed=df_turnout['inequality'].values[:17], tau=tau)
+    trace_norm_red = pm.sample(draws=2000, chains=4, tune=2000, idata_kwargs = {'log_likelihood': True}, random_seed=np.random.default_rng(42))
+
+az.plot_trace(trace_norm_red)
+```
+
+
+![Trace normal reduced model](/docs/assets/images/linear_model/inequality_trace_normal_red.jpg)
+
+```python
+with model_norm_red:
+    y_pred_red = pm.Normal('y_pred', mu=alpha+x_plt*beta, tau=tau)
+    ppc_norm_red = pm.sample_posterior_predictive(trace_norm_red, var_names=['y', 'y_pred'], random_seed=np.random.default_rng(42))
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(x_plt, ppc_norm_red.posterior_predictive['y_pred'].mean(dim=['draw', 'chain']))
+ax.fill_between(x_plt, ppc_norm_red.posterior_predictive['y_pred'].quantile(q=0.025, dim=['draw', 'chain']), ppc_norm_red.posterior_predictive['y_pred'].quantile(q=0.975, dim=['draw', 'chain']), alpha=0.5, color='grey')
+ax.scatter(df_turnout['turnout'].values, df_turnout['inequality'].values)
+```
+
+![PPC normal reduced model](/docs/assets/images/linear_model/inequality_ppc_normal_red.jpg)
+
+By explicitly removing the South Africa point, the fit changes in a dramatic way, as beta becomes compatible with zero and the South Africa is no more 
+included into the 95% error bands.
+
+```python
+az.plot_forest(trace_norm_red, var_names=['beta'], rope=[-5, 5])
+```
+
+![Forest normal red](/docs/assets/images/linear_model/inequality_forest_normal_red.jpg)
+
+This model explicitly contradicts the first model, and tells us that there is no association between turnout and average income inequality.
+By seeing this result, one should investigate why the South Africa has a behavior which is so different from the one of the other
+countries, and only after a sensible answer to this question one should decide if he wants to include this
+point inside the dataset.
