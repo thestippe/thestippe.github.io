@@ -2,7 +2,7 @@
 layout: post
 title: "Predictive checks"
 categories: course/intro/
-tags: /predictive_checks/
+tags: /predictive-checks/
 ---
 
 In the previous post we saw some methods which allows

@@ -16,7 +16,7 @@ minima:
   header_pages:
     - about
     - links
-permalink: /:categories/:title/
+permalink: :title/
 collections:
   category:
     output: true

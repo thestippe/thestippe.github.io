@@ -2,7 +2,7 @@
 layout: post
 title: "The linear model"
 categories: course/intro/
-tags: /linear_model/
+tags: /linear-model/
 ---
 
 In this post we will start looking at some regression problem,

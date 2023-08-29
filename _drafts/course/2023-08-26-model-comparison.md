@@ -2,10 +2,10 @@
 layout: post
 title: "Model comparison"
 categories: course/intro/
-tags: /model_comparison/
+tags: /model-comparison/
 ---
 
-In the [last](/predictive_checks/) post we looked at how one can assess a model's ability to reproduce the data.
+In the [last](/predictive-checks/) post we looked at how one can assess a model's ability to reproduce the data.
 In this post we will look at a related topic, which is how we can compare two or more Bayesian models.
 In fact, you rarely know from the beginning what is the most appropriate model to fit your data.
 Most of the times you will find yourself building different models for the same dataset,

@@ -2,7 +2,7 @@
 layout: post
 title: "Beer and the Beta-Binomial model"
 categories: course/intro/
-tags: /beta_binom/
+tags: /beta-binom/
 ---
 I love beer, and whenever I have a free day I brew. As you probably know, beer is made
 with water, malt, hop and yeast. One of the most important things to do in order
@@ -269,7 +269,7 @@ much does the results on his/her inference depend on the choice of the priors.
 - In many cases Bayesian statistics offers results which are more transparent than their frequentist counterparts. We have seen this for a very simple model, but this becomes even more evident as the complexity of the model grows.
 - You can apply Bayesian statistics to any kind of problem, even home-brewing!
 
-In the [next](/count_data/) example we will apply Bayesian statistics to study
+In the [next](/count-data/) example we will apply Bayesian statistics to study
 data which can take more than two values.
 
 [^1]: This topic will be discussed in a future post. For the moment, if you are curious, you can take a look at the [Wikipedia](https://en.wikipedia.org/wiki/Jeffreys_prior#) page.
