@@ -21,7 +21,12 @@ perspective I reccomend the Weisberg textbook
 
 ## Normal linear regression
 
-Consider the following dataset, describing the lung capacity of a set of patients. The most relevant covariate here is the age, but there are also other possible relevant quantities, and we will consider them later.
+Consider the [following dataset](https://search.r-project.org/CRAN/refmans/mplot/html/fev.html),
+describing the lung capacity of a set of 654 young patients with age ranging from 3 to 19, 
+recorded in a series of measures performed in the 1970s.
+This dataset was used in [this](https://pubmed.ncbi.nlm.nih.gov/463860/) article to investigate the effect of having a smoking
+parent on the respiratory capacity of the children.
+The most relevant covariate here is the age, but there are also other possible relevant quantities, and we will consider them later.
 
 ```python
 import pandas as pd
@@ -49,7 +54,7 @@ df_lungs.head()
 |  4 |     9 |     57   |        1 |       0 | 1.895 |
 
 
-Here FEV means Forced Expiratory Volume, and measures how much air a person can exhale during a forced breath.
+Here FEV means Forced Expiratory Volume, and roughly measures how many liters of air a person can exhale in the first second of forced breath.
 
 ```python
 sns.pairplot(df_lungs)
@@ -57,17 +62,33 @@ sns.pairplot(df_lungs)
 
 ![Lung pairplot](/docs/assets/images/linear_model/lung_pairplot.jpg)
 
-As we could imagine, there is a linear correlation between the age and the FEV.
+As we could imagine, the FEV depends on the age.
 While the age seems almost normally distributed, the FEV is not,
 and as well the FEV variance grows with the age.
 The distribution of the FEV seems definitely different between
 the smoke=0 and the smoke=1 patients, so we should also take this into account.
-But let us first start with the simplest linear model,
-where we assume a linear relation between the FEV and the age.
+
+Let us give a closer look to the data we are going to fit:
+
 
 ```python
 x_0 = df_lungs['Age'].values
 
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.scatter(x_0, df_lungs['FEV'].values, color='green')
+ax.set_xlabel('AGE [Y]')
+ax.set_ylabel('FAV [L]')
+fig.tight_layout()
+```
+
+![Lung data](/docs/assets/images/linear_model/lung_data.jpg)
+
+The relation between the age and the FEV looks linear, 
+so let us try and fit the data with the linear model,
+where we assume a linear relation between the FEV and the age.
+
+```python
 with pm.Model() as linear_model_0:
     theta_0 = pm.Normal('theta_0', mu=0, sigma=1)
     theta_1 = pm.Normal('theta_1', mu=0, sigma=1)
@@ -75,10 +96,41 @@ with pm.Model() as linear_model_0:
     mu = theta_0 + theta_1*x_0
     y = pm.Normal('y', mu=mu, sigma=sigma,
                   observed=df_lungs['FEV'].values)
+```
 
+Since we do not want to use our priors to constrain too much our model, we used uninformative priors for all the parameters.
+Let us verify that our prior guess includes the data
+
+```python
+with linear_model_0:
+    lm_prior_pred = pm.sample_prior_predictive()
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+
+for i in range(20):
+    t = np.random.randint(t, high=500)
+    ax.scatter(x_0, lm_prior_pred.prior_predictive.y.values[0,t,:], marker='+', color='navy')
+ax.scatter(x_0, df_lungs['FEV'].values, color='green')
+ax.set_xlabel('AGE [Y]')
+ax.set_ylabel('FAV  [L]')
+fig.tight_layout()
+```
+
+![Lung prior predictive](/docs/assets/images/linear_model/lung_prior_pred.jpg)
+
+There is not any observed point which is not covered by the prior predictive, so we can be confident that
+our prior are generous enough to reproduce the observed data.
+Now that we ensured that our prior guess looks OK, we can proceed with the next step
+and perform the sampling of the posterior distribution.
+
+
+```python
+with linear_model_0:
     trace_lm0 = pm.sample(2000, tune=500, chains=4,
     return_inferencedata=True, random_seed=np.random.default_rng(42))
 ```
+
 
 Let us now check if we can spot any problem in the sampling procedure:
 
@@ -131,16 +183,34 @@ for i in range(20):
     t = np.random.randint(4)
     ax.scatter(x_0, pp_lm0.posterior_predictive.y.values[t][s], marker='+', color='navy')
 ax.scatter(x_0, df_lungs['FEV'].values, color='green')
-ax.set_xlabel('AGE')
-ax.set_ylabel('FAV  ', rotation=0)
+ax.set_xlabel('AGE [Y]')
+ax.set_ylabel('FAV [L]')
 fig.tight_layout()
 ```
 
 ![Lung PPC](/docs/assets/images/linear_model/lung_ppc.jpg)
 
 Our model overestimates the uncertainties for lower age values, up to 10 years or so, but apparently it catches all the other relevant features of the sample.
-In the notebook on causal inference we will see how to deal with data with
+When we will discuss about causal inference we will see how to deal with data with
 non-constant variance [^1], as it happens in the previous plot.
+
+### Interpretation
+
+We have three parameters in the model:
+- $\theta_0\,,$ which represents how our model would predict the average FEV of a newborn child
+- $\theta_1\,,$ which represents the average slope of the FEV. Alternatively, we can think about this parameter as how does the average FEV changes when we increment the age by one.
+- $\sigma\,,$ which is the variance of the FEV. Notice that this is assumed to be independent on the age.
+
+
+In our dataset there are no points for 0 years old children, so you could ask yourself if you are allowed to claim that $\theta_0$ is actually an estimate
+for the FEV of a newborn child. There are many risks in doing so: does the current knowledge regarding the lung growth in babies allow you to assume that
+the FEV can be extrapolated in a linear way? You should only extrapolate if your model is robust enough.
+You can easily convince yourself about this by trying to extrapolate in the other direction. Since, in the linear model, the intercept $\theta_0$ becomes always less relevant
+as $x$ grows, we may roughly say that the average of a 20 years old person is twice of the FEV of a 10 years old person, and this makes sense,
+as our measures say that the average FEV for a 10 years old children is around 2.5, while the one of a 20 years old person is roughly 5.
+But if we iterate this reasoning we would say that the average FEV of a 40 years old person is twice of the FEV of a 20 years old person,
+and the FEV of an 80 years old person is four times the FEV of a 20 years old person. Of course, this simply sounds crazy, since 
+we expect that elderly people will have a lower FEV than younger adults.
 
 
 ## Robust linear regression
@@ -362,7 +432,8 @@ az.plot_forest(trace_norm_red, var_names=['beta'], rope=[-5, 5])
 
 ![Forest normal red](/docs/assets/images/linear_model/inequality_forest_normal_red.jpg)
 
-This model explicitly contradicts the first model, and tells us that there is no association between turnout and average income inequality.
+This model explicitly contradicts the first model, and tells us that there when you excludes the South Africa from the dataset
+you won's see any association between turnout and average income inequality.
 By seeing this result, one should investigate why the South Africa has a behavior which is so different from the one of the other
 countries, and only after a sensible answer to this question one should decide if he wants to include this
 point inside the dataset.

@@ -79,7 +79,12 @@ perspective I reccomend the Weisberg textbook
 
 <h2 id="normal-linear-regression">Normal linear regression</h2>
 
-<p>Consider the following dataset, describing the lung capacity of a set of patients. The most relevant covariate here is the age, but there are also other possible relevant quantities, and we will consider them later.</p>
+<p>Consider the <a href="https://search.r-project.org/CRAN/refmans/mplot/html/fev.html">following dataset</a>,
+describing the lung capacity of a set of 654 young patients with age ranging from 3 to 19, 
+recorded in a series of measures performed in the 1970s.
+This dataset was used in <a href="https://pubmed.ncbi.nlm.nih.gov/463860/">this</a> article to investigate the effect of having a smoking
+parent on the respiratory capacity of the children.
+The most relevant covariate here is the age, but there are also other possible relevant quantities, and we will consider them later.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
 <span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
@@ -152,31 +157,72 @@ perspective I reccomend the Weisberg textbook
   </tbody>
 </table>
 
-<p>Here FEV means Forced Expiratory Volume, and measures how much air a person can exhale during a forced breath.</p>
+<p>Here FEV means Forced Expiratory Volume, and roughly measures how many liters of air a person can exhale in the first second of forced breath.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="nf">pairplot</span><span class="p">(</span><span class="n">df_lungs</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/linear_model/lung_pairplot.jpg" alt="Lung pairplot" /></p>
 
-<p>As we could imagine, there is a linear correlation between the age and the FEV.
+<p>As we could imagine, the FEV depends on the age.
 While the age seems almost normally distributed, the FEV is not,
 and as well the FEV variance grows with the age.
 The distribution of the FEV seems definitely different between
-the smoke=0 and the smoke=1 patients, so we should also take this into account.
-But let us first start with the simplest linear model,
-where we assume a linear relation between the FEV and the age.</p>
+the smoke=0 and the smoke=1 patients, so we should also take this into account.</p>
+
+<p>Let us give a closer look to the data we are going to fit:</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x_0</span> <span class="o">=</span> <span class="n">df_lungs</span><span class="p">[</span><span class="sh">'</span><span class="s">Age</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span>
 
-<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">linear_model_0</span><span class="p">:</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">df_lungs</span><span class="p">[</span><span class="sh">'</span><span class="s">FEV</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">green</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">AGE [Y]</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">FAV [L]</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/lung_data.jpg" alt="Lung data" /></p>
+
+<p>The relation between the age and the FEV looks linear, 
+so let us try and fit the data with the linear model,
+where we assume a linear relation between the FEV and the age.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">linear_model_0</span><span class="p">:</span>
     <span class="n">theta_0</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">theta_0</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">theta_1</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">theta_1</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfCauchy</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
     <span class="n">mu</span> <span class="o">=</span> <span class="n">theta_0</span> <span class="o">+</span> <span class="n">theta_1</span><span class="o">*</span><span class="n">x_0</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span>
                   <span class="n">observed</span><span class="o">=</span><span class="n">df_lungs</span><span class="p">[</span><span class="sh">'</span><span class="s">FEV</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+</code></pre></div></div>
 
+<p>Since we do not want to use our priors to constrain too much our model, we used uninformative priors for all the parameters.
+Let us verify that our prior guess includes the data</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">linear_model_0</span><span class="p">:</span>
+    <span class="n">lm_prior_pred</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_prior_predictive</span><span class="p">()</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+    <span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">lm_prior_pred</span><span class="p">.</span><span class="n">prior_predictive</span><span class="p">.</span><span class="n">y</span><span class="p">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">t</span><span class="p">,:],</span> <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">+</span><span class="sh">'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">navy</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">df_lungs</span><span class="p">[</span><span class="sh">'</span><span class="s">FEV</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">green</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">AGE [Y]</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">FAV  [L]</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/linear_model/lung_prior_pred.jpg" alt="Lung prior predictive" /></p>
+
+<p>There is not any observed point which is not covered by the prior predictive, so we can be confident that
+our prior are generous enough to reproduce the observed data.
+Now that we ensured that our prior guess looks OK, we can proceed with the next step
+and perform the sampling of the posterior distribution.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">linear_model_0</span><span class="p">:</span>
     <span class="n">trace_lm0</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
     <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
 </code></pre></div></div>
@@ -278,16 +324,35 @@ In order to do this, we will take 20 random samples and compare them with the tr
     <span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">randint</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span>
     <span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">pp_lm0</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">.</span><span class="n">y</span><span class="p">.</span><span class="n">values</span><span class="p">[</span><span class="n">t</span><span class="p">][</span><span class="n">s</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">+</span><span class="sh">'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">navy</span><span class="sh">'</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_0</span><span class="p">,</span> <span class="n">df_lungs</span><span class="p">[</span><span class="sh">'</span><span class="s">FEV</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">green</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">AGE</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">FAV  </span><span class="sh">'</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sh">'</span><span class="s">AGE [Y]</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sh">'</span><span class="s">FAV [L]</span><span class="sh">'</span><span class="p">)</span>
 <span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/linear_model/lung_ppc.jpg" alt="Lung PPC" /></p>
 
 <p>Our model overestimates the uncertainties for lower age values, up to 10 years or so, but apparently it catches all the other relevant features of the sample.
-In the notebook on causal inference we will see how to deal with data with
+When we will discuss about causal inference we will see how to deal with data with
 non-constant variance [^1], as it happens in the previous plot.</p>
+
+<h3 id="interpretation">Interpretation</h3>
+
+<p>We have three parameters in the model:</p>
+<ul>
+  <li>$\theta_0\,,$ which represents how our model would predict the average FEV of a newborn child</li>
+  <li>$\theta_1\,,$ which represents the average slope of the FEV. Alternatively, we can think about this parameter as how does the average FEV changes when we increment the age by one.</li>
+  <li>$\sigma\,,$ which is the variance of the FEV. Notice that this is assumed to be independent on the age.</li>
+</ul>
+
+<p>In our dataset there are no points for 0 years old children, so you could ask yourself if you are allowed to claim that $\theta_0$ is actually an estimate
+for the FEV of a newborn child. There are many risks in doing so: does the current knowledge regarding the lung growth in babies allow you to assume that
+the FEV can be extrapolated in a linear way? You should only extrapolate if your model is robust enough.
+You can easily convince yourself about this by trying to extrapolate in the other direction. Since, in the linear model, the intercept $\theta_0$ becomes always less relevant
+as $x$ grows, we may roughly say that the average of a 20 years old person is twice of the FEV of a 10 years old person, and this makes sense,
+as our measures say that the average FEV for a 10 years old children is around 2.5, while the one of a 20 years old person is roughly 5.
+But if we iterate this reasoning we would say that the average FEV of a 40 years old person is twice of the FEV of a 20 years old person,
+and the FEV of an 80 years old person is four times the FEV of a 20 years old person. Of course, this simply sounds crazy, since 
+we expect that elderly people will have a lower FEV than younger adults.</p>
 
 <h2 id="robust-linear-regression">Robust linear regression</h2>
 
@@ -614,7 +679,8 @@ included into the 95% error bands.</p>
 
 <p><img src="/docs/assets/images/linear_model/inequality_forest_normal_red.jpg" alt="Forest normal red" /></p>
 
-<p>This model explicitly contradicts the first model, and tells us that there is no association between turnout and average income inequality.
+<p>This model explicitly contradicts the first model, and tells us that there when you excludes the South Africa from the dataset
+you won’s see any association between turnout and average income inequality.
 By seeing this result, one should investigate why the South Africa has a behavior which is so different from the one of the other
 countries, and only after a sensible answer to this question one should decide if he wants to include this
 point inside the dataset.</p>
