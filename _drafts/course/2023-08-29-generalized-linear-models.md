@@ -115,7 +115,7 @@ with pm.Model() as logistic:
 For those who don't like math too much, let us show the Bayesian network
 associated to the model:
 
-```
+```python
 pm.model_to_graphviz(logistic)
 ```
 ![The logistic model](/docs/assets/images/glm/logistic/model.svg)
@@ -131,7 +131,7 @@ Here we used the powerful numpyro sampler to run four chains, each composed by
 This sampler is much faster then the ordinary PyMC sampler, since it pre-compiles 
 the code.
 
-```
+```python
 az.plot_trace(trace_logistic, var_names=['alpha', 'beta'])
 fig = plt.gcf()
 fig.tight_layout()
