@@ -2,7 +2,7 @@
 layout: post
 title: "Generalized linear models"
 categories: course/intro/
-tags: /glm/
+tags: /generalized-linear-models/
 ---
 
 Normal model allows you to fit data belonging to the entire real domain,
