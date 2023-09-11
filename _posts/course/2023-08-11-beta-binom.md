@@ -269,7 +269,7 @@ much does the results on his/her inference depend on the choice of the priors.
 - In many cases Bayesian statistics offers results which are more transparent than their frequentist counterparts. We have seen this for a very simple model, but this becomes even more evident as the complexity of the model grows.
 - You can apply Bayesian statistics to any kind of problem, even home-brewing!
 
-In the [next](/poisson/) example we will apply Bayesian statistics to study
+In the [next](/count/) example we will apply Bayesian statistics to study
 data which can take more than two values.
 
 [^1]: This topic will be discussed in a future post. For the moment, if you are curious, you can take a look at the [Wikipedia](https://en.wikipedia.org/wiki/Jeffreys_prior#) page.

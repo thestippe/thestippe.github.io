@@ -63,7 +63,7 @@
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>In a previous post we saw how we can deal for categorical data when we have two categories.
+    <p>In a <a href="/count/">previous post</a> we saw how we can deal for categorical data when we have two categories.
 In this post we will see how to extend the previous model when we have three or more categories
 by using the <strong>multinomial</strong> distribution, which is the most generic distribution for a finite number of discrete categories,
 and has as pmf:</p>
@@ -147,6 +147,8 @@ Less than 50% of the audience answered to the survey, so I wanted to use a Multi
 <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
 <span class="n">df_conf</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span><span class="sh">'</span><span class="s">channel</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">friends</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">flyier</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">social</span><span class="sh">'</span><span class="p">],</span> <span class="sh">'</span><span class="s">number</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">]})</span>
+
+<span class="n">n</span> <span class="o">=</span> <span class="n">df_conf</span><span class="p">[</span><span class="sh">'</span><span class="s">number</span><span class="sh">'</span><span class="p">].</span><span class="nf">sum</span><span class="p">()</span>
 
 <span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">multinomial</span><span class="p">:</span>
     <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Dirichlet</span><span class="p">(</span><span class="sh">'</span><span class="s">theta</span><span class="sh">'</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nf">len</span><span class="p">(</span><span class="n">df_conf</span><span class="p">))</span>
@@ -237,10 +239,25 @@ to have a rough idea of the underlying distribution.</p>
 In this case I reccomend you to perform a sensitivity analysis: try with $\alpha = (2, 2, 2)$,
 as you will see the result won’t change much.</p>
 
-<p>Notice that our sample is quite small, so any frequentist approach based on a large-sample approximation
-would be simply wrong. However, since we are doing Bayesian statistics, we don’t have to bother about
-the sample size in order for our analysis to be internally consistent (while of course any attempt to generalize
-the result of the model from our sample to the entire population should be carefully discussed).</p>
+<p>Notice that our sample is quite small, so any frequentist approach based on a
+large-sample approximation would be simply wrong.
+However, since we are doing Bayesian statistics, we don’t have to bother about
+the sample size in order for our analysis to be internally consistent
+(while of course any attempt to generalize
+the result of the model from our sample to the entire population
+should be carefully discussed).</p>
+
+<h2 id="conclusions-and-take-home-message">Conclusions and take-home message</h2>
+<ul>
+  <li>Each time you face a new problem, think about the constraints you should put to your model. You should always implement all the relevant constraints in order not to allow for too much freedom.</li>
+  <li>Building a model is just one step in making inference. Think about the limitations of your model, and what are the major problems in extending your results from the sample to the population.</li>
+  <li>By using Bayesian statistics, you can draw robust conclusions even if you have small sample.</li>
+</ul>
+
+<p>We will now introduce a slightly more theoretical topic, namely
+<a href="/conjugate/">conjugate models</a>,
+and we will see how we can leverage them
+to constrain our models.</p>
 
   </div><a class="u-url" href="/categorical/" hidden></a>
 </article>
