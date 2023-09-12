@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-12T15:20:10+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Generalized linear models</title><link href="http://localhost:4000/generalized-linear-models/" rel="alternate" type="text/html" title="Generalized linear models" /><published>2023-08-29T00:00:00+02:00</published><updated>2023-08-29T00:00:00+02:00</updated><id>http://localhost:4000/generalized-linear-models</id><content type="html" xml:base="http://localhost:4000/generalized-linear-models/"><![CDATA[<p>Normal model allows you to fit data belonging to the entire real domain,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-12T21:35:30+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Generalized linear models</title><link href="http://localhost:4000/generalized-linear-models/" rel="alternate" type="text/html" title="Generalized linear models" /><published>2023-08-29T00:00:00+02:00</published><updated>2023-08-29T00:00:00+02:00</updated><id>http://localhost:4000/generalized-linear-models</id><content type="html" xml:base="http://localhost:4000/generalized-linear-models/"><![CDATA[<p>Normal model allows you to fit data belonging to the entire real domain,
 but you will face situations where you want to put some additional constrain
 to your model.
 If you are dealing with binary data, with count data or with probabilities,
@@ -1812,7 +1812,7 @@ unless you see the jump as in this case.</p>
 
 <p>If you use many traces it may be easier to spot, and possible solutions
 are re-parametrizations of your model, drawing longer samples or increasing
-the acceptance ratio.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/trace/" /><summary type="html"><![CDATA[Up to now we limited ourselves to a visual assessment of the trace quality. Here we will give some explicit example of some problem in the sampling and we will provide some tool to investigate the issues in the sampling. We will also give some recipes in order to improve the quality of our MCMC traces.]]></summary></entry><entry><title type="html">The Bayesian workflow and reporting guidelines</title><link href="http://localhost:4000/workflow/" rel="alternate" type="text/html" title="The Bayesian workflow and reporting guidelines" /><published>2023-08-21T00:00:00+02:00</published><updated>2023-08-21T00:00:00+02:00</updated><id>http://localhost:4000/workflow</id><content type="html" xml:base="http://localhost:4000/workflow/"><![CDATA[<p>In the following we will give an overview on the collection of procedures
+the acceptance ratio.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/trace/" /><summary type="html"><![CDATA[Up to now we limited ourselves to a visual assessment of the trace quality. Here we will give some explicit example of some problem in the sampling and we will provide some tool to investigate the issues in the sampling. We will also give some recipes in order to improve the quality of our MCMC traces.]]></summary></entry><entry><title type="html">The Bayesian workflow and reporting guidelines</title><link href="http://localhost:4000/workflow/" rel="alternate" type="text/html" title="The Bayesian workflow and reporting guidelines" /><published>2023-08-22T00:00:00+02:00</published><updated>2023-08-22T00:00:00+02:00</updated><id>http://localhost:4000/workflow</id><content type="html" xml:base="http://localhost:4000/workflow/"><![CDATA[<p>In the following we will give an overview on the collection of procedures
 and suggestions to improve the robustness and the reproducibility of your analysis.
 This set of tools, which goes under the name of <strong>Bayesian workflow</strong>,
 is extensively discussed in <a href="https://arxiv.org/pdf/2011.01808.pdf">this</a>
@@ -1859,7 +1859,190 @@ This part of the flow is called <strong>model comparison</strong> or <strong>mod
   <li>trace evaluation</li>
   <li>prior and posterior check</li>
   <li>model comparison and averaging</li>
-</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/workflow/" /><summary type="html"><![CDATA[In the following we will give an overview on the collection of procedures and suggestions to improve the robustness and the reproducibility of your analysis. This set of tools, which goes under the name of Bayesian workflow, is extensively discussed in this preprint by Gelman et al. as well as in this article on Nature.]]></summary></entry><entry><title type="html">Conjugate models</title><link href="http://localhost:4000/conjugate/" rel="alternate" type="text/html" title="Conjugate models" /><published>2023-08-20T00:00:00+02:00</published><updated>2023-08-20T00:00:00+02:00</updated><id>http://localhost:4000/conjugate</id><content type="html" xml:base="http://localhost:4000/conjugate/"><![CDATA[<p>We previously mentioned the concept of conjugate models, in this
+</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/workflow/" /><summary type="html"><![CDATA[In the following we will give an overview on the collection of procedures and suggestions to improve the robustness and the reproducibility of your analysis. This set of tools, which goes under the name of Bayesian workflow, is extensively discussed in this preprint by Gelman et al. as well as in this article on Nature.]]></summary></entry><entry><title type="html">The exponential model</title><link href="http://localhost:4000/exponential/" rel="alternate" type="text/html" title="The exponential model" /><published>2023-08-21T00:00:00+02:00</published><updated>2023-08-21T00:00:00+02:00</updated><id>http://localhost:4000/exponential</id><content type="html" xml:base="http://localhost:4000/exponential/"><![CDATA[<p>In the <a href="/normal/">last</a> post we used the normal and the Student-t distribution
+to fit data belonging to the entire real axis.
+You may however encounter data which are real but positive,
+like a waiting time, and in this case it is wise not to allow to your predicted
+data to be negative.</p>
+
+<p>The <strong>exponential</strong> distribution is the simplest distribution
+with this constraint, and it has as pdf</p>
+
+\[p(y \vert \lambda) = \lambda e^{- \lambda y}\,.\]
+
+<p>In order to show an application to this model, I downloaded from
+the <a href="http://cnt.rm.ingv.it/">Italian Geology and Volcanology Institute</a>
+the dataset containing all the seismic events of the last 90 days</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">pymc.sampling_jax</span> <span class="k">as</span> <span class="n">pmjax</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">data/earthqakes.csv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="s">|</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">#EventID</th>
+      <th style="text-align: left">Time</th>
+      <th style="text-align: right">Latitude</th>
+      <th style="text-align: right">Longitude</th>
+      <th style="text-align: right">Depth/Km</th>
+      <th style="text-align: left">Author</th>
+      <th style="text-align: right">Catalog</th>
+      <th style="text-align: right">Contributor</th>
+      <th style="text-align: right">ContributorID</th>
+      <th style="text-align: left">MagType</th>
+      <th style="text-align: right">Magnitude</th>
+      <th style="text-align: left">MagAuthor</th>
+      <th style="text-align: left">EventLocationName</th>
+      <th style="text-align: left">EventType</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">35812591</td>
+      <td style="text-align: left">2023-08-13 00:08:52.680000</td>
+      <td style="text-align: right">40.4975</td>
+      <td style="text-align: right">16.173</td>
+      <td style="text-align: right">33.4</td>
+      <td style="text-align: left">SURVEY-INGV</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: left">ML</td>
+      <td style="text-align: right">1.3</td>
+      <td style="text-align: left">–</td>
+      <td style="text-align: left">1 km E Accettura (MT)</td>
+      <td style="text-align: left">earthquake</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">35812671</td>
+      <td style="text-align: left">2023-08-13 00:44:32.400000</td>
+      <td style="text-align: right">37.8388</td>
+      <td style="text-align: right">15.5168</td>
+      <td style="text-align: right">10.3</td>
+      <td style="text-align: left">SURVEY-INGV</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: left">ML</td>
+      <td style="text-align: right">1.3</td>
+      <td style="text-align: left">–</td>
+      <td style="text-align: left">Stretto di Messina (Reggio di Calabria, Messina)</td>
+      <td style="text-align: left">earthquake</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">35812691</td>
+      <td style="text-align: left">2023-08-13 01:00:51.650000</td>
+      <td style="text-align: right">46.6427</td>
+      <td style="text-align: right">8.3947</td>
+      <td style="text-align: right">10.8</td>
+      <td style="text-align: left">SURVEY-INGV</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: left">ML</td>
+      <td style="text-align: right">1.7</td>
+      <td style="text-align: left">–</td>
+      <td style="text-align: left">Svizzera (SVIZZERA)</td>
+      <td style="text-align: left">earthquake</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">35812831</td>
+      <td style="text-align: left">2023-08-13 01:50:30.440000</td>
+      <td style="text-align: right">43.013</td>
+      <td style="text-align: right">13.0773</td>
+      <td style="text-align: right">7.6</td>
+      <td style="text-align: left">SURVEY-INGV</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: left">ML</td>
+      <td style="text-align: right">0.7</td>
+      <td style="text-align: left">–</td>
+      <td style="text-align: left">3 km SW Fiordimonte (MC)</td>
+      <td style="text-align: left">earthquake</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">35812921</td>
+      <td style="text-align: left">2023-08-13 02:17:17.329000</td>
+      <td style="text-align: right">40.8217</td>
+      <td style="text-align: right">14.1372</td>
+      <td style="text-align: right">0.9</td>
+      <td style="text-align: left">SURVEY-INGV-OV#SiSmi</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: right">nan</td>
+      <td style="text-align: left">Md</td>
+      <td style="text-align: right">1.1</td>
+      <td style="text-align: left">–</td>
+      <td style="text-align: left">Campi Flegrei</td>
+      <td style="text-align: left">earthquake</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Time</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Time</span><span class="sh">'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>Let us give a look to the distribution of the waiting time between two subsequent
+events</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Time</span><span class="sh">'</span><span class="p">].</span><span class="nf">diff</span><span class="p">().</span><span class="nf">dropna</span><span class="p">().</span><span class="n">dt</span><span class="p">.</span><span class="nf">total_seconds</span><span class="p">()</span><span class="o">/</span><span class="mi">360</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/exponential/events.png" alt="Waiting time between two events" /></p>
+
+<p>The distribution looks like an exponential, as expected.
+Let us now try and fit the data</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">delta_hours</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Time</span><span class="sh">'</span><span class="p">].</span><span class="nf">diff</span><span class="p">().</span><span class="nf">dropna</span><span class="p">().</span><span class="n">dt</span><span class="p">.</span><span class="nf">total_seconds</span><span class="p">().</span><span class="n">values</span><span class="o">/</span><span class="mi">360</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">eq_model</span><span class="p">:</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">lam</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="n">lam</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">delta_hours</span><span class="p">)</span>
+    <span class="n">trace_eq</span> <span class="o">=</span> <span class="n">pmjax</span><span class="p">.</span><span class="nf">sample_numpyro_nuts</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                      <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_eq</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/exponential/trace.png" alt="Our trace" /></p>
+
+<p>The trace looks OK, let us check if we are able to reproduce the data:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">eq_model</span><span class="p">:</span>
+    <span class="n">ppc_eq</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_eq</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_eq</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/exponential/ppc.png" alt="PPC" /></p>
+
+<p>The fit looks quite good, but not yet perfect, as the observed
+number of events at about 8 hours is not included in our HDI,
+as well as the region close to 0, and in a true study it would be wise
+to understand why this model is unable to reproduce this data.
+We will see how to improve this very simple kind of model in a future post.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/exponential/" /><summary type="html"><![CDATA[In the last post we used the normal and the Student-t distribution to fit data belonging to the entire real axis. You may however encounter data which are real but positive, like a waiting time, and in this case it is wise not to allow to your predicted data to be negative.]]></summary></entry><entry><title type="html">Conjugate models</title><link href="http://localhost:4000/conjugate/" rel="alternate" type="text/html" title="Conjugate models" /><published>2023-08-20T00:00:00+02:00</published><updated>2023-08-20T00:00:00+02:00</updated><id>http://localhost:4000/conjugate</id><content type="html" xml:base="http://localhost:4000/conjugate/"><![CDATA[<p>We previously mentioned the concept of conjugate models, in this
 post we will have a deeper look at this kind of model.</p>
 
 <h2 id="the-beta-binomial-model-as-conjugate-model">The Beta-Binomial model as conjugate model</h2>
@@ -2099,198 +2282,4 @@ Let us now check if this model improves the fit:</p>
 
 <p><img src="/docs/assets/images/normal/ppc_neutrinos_t.jpg" alt="Student-t model ppc" /></p>
 
-<p>Now the black line is always inside the blue region, so the fit highly improved.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/normal/" /><summary type="html"><![CDATA[Up to this moment our task was to model some random discrete variables. In this post we will look at some continuous model, and the most common one is by far the Normal model. Let us try and see its main features by looking at some physical data.]]></summary></entry><entry><title type="html">Categorical data</title><link href="http://localhost:4000/categorical/" rel="alternate" type="text/html" title="Categorical data" /><published>2023-08-16T00:00:00+02:00</published><updated>2023-08-16T00:00:00+02:00</updated><id>http://localhost:4000/categorical</id><content type="html" xml:base="http://localhost:4000/categorical/"><![CDATA[<p>In a <a href="/count/">previous post</a> we saw how we can deal for categorical data when we have two categories.
-In this post we will see how to extend the previous model when we have three or more categories
-by using the <strong>multinomial</strong> distribution, which is the most generic distribution for a finite number of discrete categories,
-and has as pmf:</p>
-
-\[p(x | p) = \frac{n!}{x_1!x_2!...x_k!} p_1^{x_1} p_2^{x_2}...p_k^{k_k}\]
-
-<p>where $k$ is the number of categories,</p>
-
-\[n = \sum_{i=1}^k x_k\]
-
-<p>and $p_i$ represents the probability that an object belongs to category $i$, so</p>
-
-\[\sum_{i=1}^k p_k =1 \,.\]
-
-<p>As a prior distribution one can use the <strong>Dirichlet</strong> distribution, which is the generalization of the Beta distribution:</p>
-
-\[p(x | \alpha) = \frac{\Gamma(\alpha)}{\Gamma(\alpha_1)\Gamma(\alpha_2)...\Gamma(\alpha_k)} x_1^{\alpha_1-1} x_2^{\alpha_2-1}... x_k^{\alpha_k-1}\]
-
-<p>where
-\(\alpha = \sum_{i=1}^n \alpha_i\)
-and $x$ is a vector belonging to the $p$ dimensional unit simplex:</p>
-
-\[x_i &gt; 0\]
-
-<p>and</p>
-
-\[\sum_{i=1}^k x_i = 1\,.\]
-
-<p>When $k=2$ we have that the Multinomial distribution corresponds to the Binomial distribution,
-while the Dirichlet distribution corresponds to the Beta distribution.</p>
-
-<p><img src="/docs/assets/images/multinomial/Dirichlet.png" alt="The Dirichlet distribution" /> The Dirichlet distribution</p>
-
-<p><img src="/docs/assets/images/multinomial/Dirichlet1.png" alt="The Dirichlet distribution for different parameters" /> The Dirichlet distribution</p>
-
-<p>It happened to me that, during a conference, we used a survey to understand how people got informed about the event.
-Less than 50% of the audience answered to the survey, so I wanted to use a Multinomial-Dirichlet model to have an estimate about the uncertainties.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right"> </th>
-      <th style="text-align: center">channel</th>
-      <th style="text-align: center">number</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">0</td>
-      <td style="text-align: center">friends</td>
-      <td style="text-align: center">10</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">1</td>
-      <td style="text-align: center">flyier</td>
-      <td style="text-align: center">2</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">2</td>
-      <td style="text-align: center">social</td>
-      <td style="text-align: center">5</td>
-    </tr>
-    <tr>
-      <td style="text-align: right"> </td>
-      <td style="text-align: center"><strong>total</strong></td>
-      <td style="text-align: center">17</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
-<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="n">pymc.sampling_jax</span> <span class="k">as</span> <span class="n">pmjax</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="n">df_conf</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span><span class="sh">'</span><span class="s">channel</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">friends</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">flyier</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">social</span><span class="sh">'</span><span class="p">],</span> <span class="sh">'</span><span class="s">number</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">10</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">]})</span>
-
-<span class="n">n</span> <span class="o">=</span> <span class="n">df_conf</span><span class="p">[</span><span class="sh">'</span><span class="s">number</span><span class="sh">'</span><span class="p">].</span><span class="nf">sum</span><span class="p">()</span>
-
-<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">multinomial</span><span class="p">:</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Dirichlet</span><span class="p">(</span><span class="sh">'</span><span class="s">theta</span><span class="sh">'</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="nf">len</span><span class="p">(</span><span class="n">df_conf</span><span class="p">))</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Multinomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_conf</span><span class="p">[</span><span class="sh">'</span><span class="s">number</span><span class="sh">'</span><span class="p">])</span>
-    <span class="n">trace_multi</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_multi</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/multinomial/dirmulti_trace.png" alt="The trace of our model" /></p>
-
-<p>Our trace looks good, so let us take a closer look to our parameter estimate:</p>
-
-<p><img src="/docs/assets/images/multinomial/forest.png" alt="Our estimates for the probabilities" /></p>
-
-<p>Of course, we do expect a high (negative) correlation between the coefficients, as the three components of $\theta$ must sum up to one,
-so in order to better understand the posterior it is more appropriate to use a kernel density estimate:</p>
-
-<p><img src="/docs/assets/images/multinomial/kde_plot.png" alt="The KDE plot of the posterior" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">summary</span><span class="p">(</span><span class="n">trace_multi</span><span class="p">)</span>
-</code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left"> </th>
-      <th style="text-align: right">mean</th>
-      <th style="text-align: right">sd</th>
-      <th style="text-align: right">hdi_3%</th>
-      <th style="text-align: right">hdi_97%</th>
-      <th style="text-align: right">mcse_mean</th>
-      <th style="text-align: right">mcse_sd</th>
-      <th style="text-align: right">ess_bulk</th>
-      <th style="text-align: right">ess_tail</th>
-      <th style="text-align: right">r_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">theta[0]</td>
-      <td style="text-align: right">0.549</td>
-      <td style="text-align: right">0.11</td>
-      <td style="text-align: right">0.341</td>
-      <td style="text-align: right">0.748</td>
-      <td style="text-align: right">0.002</td>
-      <td style="text-align: right">0.001</td>
-      <td style="text-align: right">4271</td>
-      <td style="text-align: right">4599</td>
-      <td style="text-align: right">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">theta[1]</td>
-      <td style="text-align: right">0.151</td>
-      <td style="text-align: right">0.081</td>
-      <td style="text-align: right">0.026</td>
-      <td style="text-align: right">0.303</td>
-      <td style="text-align: right">0.001</td>
-      <td style="text-align: right">0.001</td>
-      <td style="text-align: right">3254</td>
-      <td style="text-align: right">3801</td>
-      <td style="text-align: right">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">theta[2]</td>
-      <td style="text-align: right">0.3</td>
-      <td style="text-align: right">0.099</td>
-      <td style="text-align: right">0.124</td>
-      <td style="text-align: right">0.49</td>
-      <td style="text-align: right">0.001</td>
-      <td style="text-align: right">0.001</td>
-      <td style="text-align: right">7308</td>
-      <td style="text-align: right">6200</td>
-      <td style="text-align: right">1</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Thus, assuming that our sample is representative of our population (those who came to our conference)
-and that people honestly filled the form we can say that it’s likely that
-more than the 50% of the people got informed about the event thanks to some friend, while roughly the 30% 
-of the audience read about the event on some social.
-Another issue of this model is that we are assuming that each answer is independent on the other answers,
-while usually people goes to this kind of event in groups, but for my purpose it was sufficient
-to have a rough idea of the underlying distribution.</p>
-
-<p>You could be suspicious about the fact that the distribution for the flyer is so skewed.
-In this case I reccomend you to perform a sensitivity analysis: try with $\alpha = (2, 2, 2)$,
-as you will see the result won’t change much.</p>
-
-<p>Notice that our sample is quite small, so any frequentist approach based on a
-large-sample approximation would be simply wrong.
-However, since we are doing Bayesian statistics, we don’t have to bother about
-the sample size in order for our analysis to be internally consistent
-(while of course any attempt to generalize
-the result of the model from our sample to the entire population
-should be carefully discussed).</p>
-
-<h2 id="conclusions-and-take-home-message">Conclusions and take-home message</h2>
-<ul>
-  <li>Each time you face a new problem, think about the constraints you should put to your model. You should always implement all the relevant constraints in order not to allow for too much freedom.</li>
-  <li>Building a model is just one step in making inference. Think about the limitations of your model, and what are the major problems in extending your results from the sample to the population.</li>
-  <li>By using Bayesian statistics, you can draw robust conclusions even if you have small sample.</li>
-</ul>
-
-<p>We will now introduce a slightly more theoretical topic, namely
-<a href="/conjugate/">conjugate models</a>,
-and we will see how we can leverage them
-to constrain our models.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/categorical/" /><summary type="html"><![CDATA[In a previous post we saw how we can deal for categorical data when we have two categories. In this post we will see how to extend the previous model when we have three or more categories by using the multinomial distribution, which is the most generic distribution for a finite number of discrete categories, and has as pmf:]]></summary></entry></feed>
+<p>Now the black line is always inside the blue region, so the fit highly improved.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/normal/" /><summary type="html"><![CDATA[Up to this moment our task was to model some random discrete variables. In this post we will look at some continuous model, and the most common one is by far the Normal model. Let us try and see its main features by looking at some physical data.]]></summary></entry></feed>
