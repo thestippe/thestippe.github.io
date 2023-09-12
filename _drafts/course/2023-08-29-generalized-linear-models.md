@@ -231,3 +231,152 @@ sns.barplot(h)
 ![The probability mass function at 32 degrees](/docs/assets/images/glm/logistic/p_32_6.png)
 
 As we can see, there is a little chance (less than 10%) that more than one O-ring remains undamaged.
+
+## The Poisson GLM
+The GLM can be extended to a large variety of models, and here we will look at another example taken from 
+[the same tutorial as before](https://bookdown.org/theodds/StatModelingNotes/generalized-linear-models.html),
+which has been proposed in the Nelder-Mead textbook, sec. 6.3.2.
+In this example the author re-analyzed a dataset containing the number of damaged incidents to a set of cargo ships,
+aggregated by ship category, months of service, year of construction and period of operation.
+The dataset is available from the MASS R repository, as documented [here](https://rdrr.io/cran/MASS/man/ships.html).
+
+```python
+df_ships = pd.read_csv('data/ships.csv')
+df_ships.head()
+```
+
+|    | type   |   year |   period |   service |   incidents |
+|---:|:-------|-------:|---------:|----------:|------------:|
+|  0 | A      |     60 |       60 |       127 |           0 |
+|  1 | A      |     60 |       75 |        63 |           0 |
+|  2 | A      |     65 |       60 |      1095 |           3 |
+|  3 | A      |     65 |       75 |      1095 |           4 |
+|  4 | A      |     70 |       60 |      1512 |           6 |
+
+We will only keep the ships which had some service, and it doesn't make sense to treat the year as a numeric variable, we should rather treat it as a category.
+The same holds for the type. We will take
+as the value which has category=0 for both year and type. 
+If the ship A had a working period twice as the ship B, on average it should have twice as many incidents. We can encode all of this as follows.
+
+```python
+df_sf = df_ships[df_ships['service']>0]
+x_year = [(df_sf['year'] == elem).astype(int) for elem in df_sf['year'].drop_duplicates()]
+x_type = [(df_sf['type'] == elem).astype(int) for elem in df_sf['type'].drop_duplicates()]
+```
+
+We will use a Poisson likelihood, which has as parameter $\mu>0$, and in order to ensure this constrain
+we will use an exponential link function.
+However, since it doesn't make much sense to assume that the period enters exponentially (doubling the period would
+translate in multiplying the average incident ratio by four) we will use the logarithm of the service period as a covariate.
+
+```python
+with pm.Model() as poisson_model:
+    alpha = pm.Normal('alpha', mu=0, sigma=20)
+    beta = pm.Normal('beta', mu=0, sigma=20, shape=(len(x_year)-1))
+    gamma = pm.Normal('gamma', mu=0, sigma=20, shape=(len(x_type)-1))
+    theta = alpha + np.log(df_sf['period'].values)
+    for k in range(1, len(x_year)):
+        theta += beta[k-1]*x_year[k]
+    for k in range(1, len(x_type)):
+        theta += gamma[k-1]*x_type[k]
+    y = pm.Poisson('y', mu=pm.math.exp(theta), observed=df_sf['incidents'].values)
+    
+    trace_poisson = pm.sample(draws=2000, tune=2000, chains=4,
+    return_inferencedata=True, idata_kwargs = {'log_likelihood': True}, random_seed=rng)
+az.plot_trace(trace_poisson)
+```
+
+![Our trace](/docs/assets/images/glm/poisson/trace.png)
+
+The trace looks fine, we can now check how did our model performed.
+
+```python
+with poisson_model:
+    ppc_poisson = pm.sample_posterior_predictive(trace_poisson, random_seed=rng)
+az.plot_ppc(ppc_poisson)
+```
+
+
+![PPC](/docs/assets/images/glm/poisson/ppc_poisson.png)
+
+The two distributions do not look very close one to the other one. Let us take a closer look to the data.
+
+```python
+x_pl = np.arange(len(df_sf['incidents'].values))
+y_poisson = ppc_poisson.posterior_predictive['y'].values.reshape((-1, len(df_sf['incidents'].values)))
+fig = plt.figure()
+ax = fig.add_subplot(111)
+for i in range(20):
+    y_i = np.random.choice(np.shape(y_poisson)[0])
+    ax.scatter(x_pl, y_poisson[y_i], marker='x', color='r', alpha=0.6)
+ax.scatter(x_pl, df_sf['incidents'].values)
+```
+
+![GLM plot](/docs/assets/images/glm/poisson/glm_plot.png)
+
+It looks like there are many points which fall outside from the predicted range.
+In order to correct for this problem, the author suggested an interaction term:
+
+```python
+with pm.Model() as poisson_model_inter:
+    alpha = pm.Normal('alpha', mu=0, sigma=20)
+    beta = pm.Normal('beta', mu=0, sigma=20, shape=(len(x_year)-1))
+    gamma = pm.Normal('gamma', mu=0, sigma=20, shape=(len(x_type)-1))
+    delta = pm.Normal('delta', mu=0, sigma=20, shape=(len(x_year)-1, len(x_type)-1))
+    theta = alpha + np.log(df_sf['period'].values)
+    for k in range(1, len(x_year)):
+        theta += beta[k-1]*x_year[k]
+    for k in range(1, len(x_type)):
+        theta += gamma[k-1]*x_type[k]
+    for k in range(1, len(x_year)):
+        for s in range(1, len(x_type)):
+            theta += delta[k-1, s-1]*x_year[k]*x_type[s]
+    y = pm.Poisson('y', mu=pm.math.exp(theta), observed=df_sf['incidents'].values)
+    trace_poisson_inter = pmjax.sample_numpyro_nuts(draws=2000, tune=2000, chains=4,
+                                                    return_inferencedata=True, idata_kwargs = {'log_likelihood': True},
+                                                   random_seed=rng)
+az.plot_trace(trace_poisson_inter)
+```
+
+
+![Our trace for the interaction model](/docs/assets/images/glm/poisson/trace_inter.png)
+
+Also in this case the trace looks good.
+Let us look at the predicted incident rate distribution for the new model
+
+```python
+with poisson_model_inter:
+    ppc_poisson_inter = pm.sample_posterior_predictive(trace_poisson_inter, random_seed=rng)
+az.plot_ppc(ppc_poisson_inter)
+```
+
+![The PPC for the interaction model](/docs/assets/images/glm/poisson/ppc_poisson_inter.png)
+
+The agreement with the data looks much better, let us look at each ship's probability:
+
+```python
+y_poisson_inter = ppc_poisson_inter.posterior_predictive['y'].values.reshape((-1, len(df_sf['incidents'].values)))
+fig = plt.figure()
+ax = fig.add_subplot(111)
+for i in range(20):
+    y_i = np.random.choice(np.shape(y_poisson_inter)[0])
+    ax.scatter(x_pl, y_poisson_inter[y_i], marker='x', color='r', alpha=0.6)
+ax.scatter(x_pl, df_sf['incidents'].values)
+```
+
+
+![GLM plot for the interactive model](/docs/assets/images/glm/poisson/glm_plot_inter.png)
+
+Our model definitely improved its agreement with the data. Let us see what does the LOO metric tells us.
+
+```python
+loo_a = az.loo(trace_poisson, poisson_model)
+loo_b = az.loo(trace_poisson_inter, poisson_model_inter)
+model_compare = az.compare({'Non-interacting': loo_a, 'Interacting': loo_b})
+az.plot_compare(model_compare)
+```
+
+![Comparison between the two models](/docs/assets/images/glm/poisson/loo_plot.png)
+
+The LOO metrics favours by far the interactive model, suggesting that 
+we should consider the aging for each ship category separately.
