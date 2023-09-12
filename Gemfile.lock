@@ -77,6 +77,7 @@ PLATFORMS
 
 DEPENDENCIES
   bundler
+  jekyll-seo-tag
   minima!
 
 BUNDLED WITH
