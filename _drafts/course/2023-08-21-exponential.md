@@ -18,6 +18,9 @@ $$
 p(y \vert \lambda) = \lambda e^{- \lambda y}\,.
 $$
 
+The parameter $\lambda$ represents the inverse of the mean of the distribution,
+which is equal to its variance.
+
 In order to show an application to this model, I downloaded from
 the [Italian Geology and Volcanology Institute](http://cnt.rm.ingv.it/)
 the dataset containing all the seismic events of the last 90 days
