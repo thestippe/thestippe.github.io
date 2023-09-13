@@ -15,11 +15,12 @@ The **exponential** distribution is the simplest distribution
 with this constraint, and it has as pdf
 
 $$
-p(y \vert \lambda) = \lambda e^{- \lambda y}\,.
+p(y \vert \lambda) = \lambda e^{- \lambda y} \theta(y)\,.
 $$
 
 The parameter $\lambda$ represents the inverse of the mean of the distribution,
-which is equal to its variance.
+which is equal to its variance, while $\theta(y)$ is the Heaviside theta distribution,
+which is equal to 1 if $y>0$ and its value is 0 otherwise.
 
 In order to show an application to this model, I downloaded from
 the [Italian Geology and Volcanology Institute](http://cnt.rm.ingv.it/)

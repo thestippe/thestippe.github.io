@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-12T22:06:03+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Generalized linear models</title><link href="http://localhost:4000/generalized-linear-models/" rel="alternate" type="text/html" title="Generalized linear models" /><published>2023-08-29T00:00:00+02:00</published><updated>2023-08-29T00:00:00+02:00</updated><id>http://localhost:4000/generalized-linear-models</id><content type="html" xml:base="http://localhost:4000/generalized-linear-models/"><![CDATA[<p>Normal model allows you to fit data belonging to the entire real domain,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-13T07:22:20+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Generalized linear models</title><link href="http://localhost:4000/generalized-linear-models/" rel="alternate" type="text/html" title="Generalized linear models" /><published>2023-08-29T00:00:00+02:00</published><updated>2023-08-29T00:00:00+02:00</updated><id>http://localhost:4000/generalized-linear-models</id><content type="html" xml:base="http://localhost:4000/generalized-linear-models/"><![CDATA[<p>Normal model allows you to fit data belonging to the entire real domain,
 but you will face situations where you want to put some additional constrain
 to your model.
 If you are dealing with binary data, with count data or with probabilities,
@@ -1868,10 +1868,11 @@ data to be negative.</p>
 <p>The <strong>exponential</strong> distribution is the simplest distribution
 with this constraint, and it has as pdf</p>
 
-\[p(y \vert \lambda) = \lambda e^{- \lambda y}\,.\]
+\[p(y \vert \lambda) = \lambda e^{- \lambda y} \theta(y)\,.\]
 
 <p>The parameter $\lambda$ represents the inverse of the mean of the distribution,
-which is equal to its variance.</p>
+which is equal to its variance, while $\theta(y)$ is the Heaviside theta distribution,
+which is equal to 1 if $y&gt;0$ and its value is 0 otherwise.</p>
 
 <p>In order to show an application to this model, I downloaded from
 the <a href="http://cnt.rm.ingv.it/">Italian Geology and Volcanology Institute</a>
