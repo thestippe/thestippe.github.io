@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "The linear model"
-categories: course/intro/
+categories: course/composite/
 tags: /linear-model/
 ---
 

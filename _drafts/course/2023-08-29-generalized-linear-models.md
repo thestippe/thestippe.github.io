@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Generalized linear models"
-categories: course/intro/
+categories: course/composite/
 tags: /generalized-linear-models/
 ---
 

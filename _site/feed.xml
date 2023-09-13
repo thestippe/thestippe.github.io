@@ -1,4 +1,406 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-13T07:22:20+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Generalized linear models</title><link href="http://localhost:4000/generalized-linear-models/" rel="alternate" type="text/html" title="Generalized linear models" /><published>2023-08-29T00:00:00+02:00</published><updated>2023-08-29T00:00:00+02:00</updated><id>http://localhost:4000/generalized-linear-models</id><content type="html" xml:base="http://localhost:4000/generalized-linear-models/"><![CDATA[<p>Normal model allows you to fit data belonging to the entire real domain,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-13T15:07:20+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Mixture models</title><link href="http://localhost:4000/mixture/" rel="alternate" type="text/html" title="Mixture models" /><published>2023-08-30T00:00:00+02:00</published><updated>2023-08-30T00:00:00+02:00</updated><id>http://localhost:4000/mixture</id><content type="html" xml:base="http://localhost:4000/mixture/"><![CDATA[<p>In some case we may have that our population is composed by sub-populations, each one with his own distribution. If we are not able to identify the subgroup we can use a mixture model to take into account of this.</p>
+
+<h2 id="normal-mixture-models">Normal Mixture Models</h2>
+
+<p>The first class of MM we will look at is the normal mixture model.
+In this kind of model we are trying and describe some real observable $y$,
+and the population is divided into $K$ sub-populations,
+and each element has probability $w_i, i=1,…,K$, to belong to the i-th
+sub-population.
+For each sub-population, we are assuming that $y$ is normally distributed,
+with mean $\mu_i$ and variance $\sigma_i$.</p>
+
+<p>Let us apply this model to seaborn’s geyser dataset</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">random</span>
+<span class="kn">import</span> <span class="n">xarray</span> <span class="k">as</span> <span class="n">xr</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">scipy</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="n">pymc.sampling_jax</span> <span class="k">as</span> <span class="n">pmj</span>
+<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="nf">color_palette</span><span class="p">(</span><span class="sh">"</span><span class="s">rocket</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">geyser</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="nf">load_dataset</span><span class="p">(</span><span class="sh">'</span><span class="s">geyser</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">geyser</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">duration</th>
+      <th style="text-align: right">waiting</th>
+      <th style="text-align: left">kind</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">3.6</td>
+      <td style="text-align: right">79</td>
+      <td style="text-align: left">long</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">1.8</td>
+      <td style="text-align: right">54</td>
+      <td style="text-align: left">short</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">3.333</td>
+      <td style="text-align: right">74</td>
+      <td style="text-align: left">long</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">2.283</td>
+      <td style="text-align: right">62</td>
+      <td style="text-align: left">short</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">4.533</td>
+      <td style="text-align: right">85</td>
+      <td style="text-align: left">long</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The dataset represents the waiting time between eruptions and the duration of the
+eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="nf">pairplot</span><span class="p">(</span><span class="n">geyser</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="sh">'</span><span class="s">kind</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/mixture/normal_mixture/geiser.png" alt="The geyser dataset" /></p>
+
+<p>We can see that we both the duration and the waiting time between eruptions
+are well separated for the two categories, and for each category
+they look normally distributed.
+The label “kind” is of course a human label, and it’s not a measured
+quantity, so let us assume that we have no idea about it, and that
+we must find the distribution of the eruption duration for each category.
+In order to do this, we will use a normal mixture model,
+with two sub-populations, each one with its own mean and variance.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">mix_model</span><span class="p">:</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">pi</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Dirichlet</span><span class="p">(</span><span class="sh">'</span><span class="s">pi</span><span class="sh">'</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">.</span><span class="nf">dist</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Mixture</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">pi</span><span class="p">,</span> <span class="n">comp_dists</span> <span class="o">=</span> <span class="n">phi</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">geyser</span><span class="p">[</span><span class="sh">'</span><span class="s">duration</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">trace_mix</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_mix</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/mixture/normal_mixture/trace_geiser.png" alt="The trace of our model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">summary</span><span class="p">(</span><span class="n">trace_mix</span><span class="p">)</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">sd</th>
+      <th style="text-align: right">hdi_3%</th>
+      <th style="text-align: right">hdi_97%</th>
+      <th style="text-align: right">mcse_mean</th>
+      <th style="text-align: right">mcse_sd</th>
+      <th style="text-align: right">ess_bulk</th>
+      <th style="text-align: right">ess_tail</th>
+      <th style="text-align: right">r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">mu[0]</td>
+      <td style="text-align: right">2.021</td>
+      <td style="text-align: right">0.027</td>
+      <td style="text-align: right">1.97</td>
+      <td style="text-align: right">2.07</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">8026</td>
+      <td style="text-align: right">6010</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">mu[1]</td>
+      <td style="text-align: right">4.275</td>
+      <td style="text-align: right">0.034</td>
+      <td style="text-align: right">4.21</td>
+      <td style="text-align: right">4.337</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">10403</td>
+      <td style="text-align: right">6927</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">sigma[0]</td>
+      <td style="text-align: right">0.244</td>
+      <td style="text-align: right">0.024</td>
+      <td style="text-align: right">0.2</td>
+      <td style="text-align: right">0.287</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">7226</td>
+      <td style="text-align: right">6688</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">sigma[1]</td>
+      <td style="text-align: right">0.438</td>
+      <td style="text-align: right">0.028</td>
+      <td style="text-align: right">0.386</td>
+      <td style="text-align: right">0.49</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">7052</td>
+      <td style="text-align: right">6363</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">pi[0]</td>
+      <td style="text-align: right">0.35</td>
+      <td style="text-align: right">0.029</td>
+      <td style="text-align: right">0.293</td>
+      <td style="text-align: right">0.401</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">10929</td>
+      <td style="text-align: right">6276</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">pi[1]</td>
+      <td style="text-align: right">0.65</td>
+      <td style="text-align: right">0.029</td>
+      <td style="text-align: right">0.599</td>
+      <td style="text-align: right">0.707</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">10929</td>
+      <td style="text-align: right">6276</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Both the mean and the variance of our normal distributions looks well separated,
+and their traces looks good.
+Let us look at the posterior predictive distribution.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">mix_model</span><span class="p">:</span>
+    <span class="n">ppc_mix</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_mix</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_mix</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">num_pp_samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/mixture/normal_mixture/geiser_ppc.png" alt="The PPC of our model" /></p>
+
+<p>The posterior predictive is not perfect, probably a Student-t mixture would
+have been more appropriate, but it catches the general behavior of the data.</p>
+
+<h2 id="zero-inflated-models">Zero inflated models</h2>
+<p>Another commonly used mixture model are the so-called zero-inflated models.</p>
+
+<p>When dealing with count data it may happen that the count of the zeros is over-represented with respect to our model. Usually this happens because there is some kind of filter in the data, as an example a failure in our counter. Zero inflated models include this possibility in the count model, so we can build a zero-inflated Poisson model or a zero-inflated negative binomial model. Zero-inflated models are a class of mixture models for discrete data where, given the starting probability
+$P_0(x \vert \theta)$
+the likelihood takes the following form:</p>
+
+\[P(x \vert w, \theta) = (1-w) \delta_{x, 0} + w P_0(x \vert \theta)\]
+
+<p>One can also build zero-inflated continuous models by replacing the discrete delta function with the Dirac delta, but we will not cover this topic.
+We will apply this model to the fish (sometimes called camper) dataset.
+The dataset contains data on 250 groups that went to a park. Each group was questioned about how many fish they caught (count), how many children were in the group (child), how many people were in the group (persons), if they used a live bait and whether or not they brought a camper to the park (camper).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">https://stats.idre.ucla.edu/stat/data/fish.csv</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">df</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">nofish</th>
+      <th style="text-align: right">livebait</th>
+      <th style="text-align: right">camper</th>
+      <th style="text-align: right">persons</th>
+      <th style="text-align: right">child</th>
+      <th style="text-align: right">xb</th>
+      <th style="text-align: right">zg</th>
+      <th style="text-align: right">count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">-0.896315</td>
+      <td style="text-align: right">3.0504</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">-0.558345</td>
+      <td style="text-align: right">1.74615</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">-0.401731</td>
+      <td style="text-align: right">0.279939</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">-0.956298</td>
+      <td style="text-align: right">-0.601526</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0.436891</td>
+      <td style="text-align: right">0.527709</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We won’t perform a regression, as we are only interested in assessing
+the distribution of the fish number.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="nf">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/mixture/zero_inflated/fish.png" alt="The fish number distribution" /></p>
+
+<p>The number of observed 0 looks much higher than the number of ones, so we will
+use a zero-inflated negative binomial to fit the data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">inflated_model</span><span class="p">:</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Beta</span><span class="p">(</span><span class="sh">'</span><span class="s">w</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">ZeroInflatedNegativeBinomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">trace_inflated</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_inflated</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/mixture/zero_inflated/trace.png" alt="The trace of our model" /></p>
+
+<pre><code class="language-pyhton">az.summary(trace_inflated)
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">sd</th>
+      <th style="text-align: right">hdi_3%</th>
+      <th style="text-align: right">hdi_97%</th>
+      <th style="text-align: right">mcse_mean</th>
+      <th style="text-align: right">mcse_sd</th>
+      <th style="text-align: right">ess_bulk</th>
+      <th style="text-align: right">ess_tail</th>
+      <th style="text-align: right">r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">w</td>
+      <td style="text-align: right">0.898</td>
+      <td style="text-align: right">0.079</td>
+      <td style="text-align: right">0.748</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0.002</td>
+      <td style="text-align: right">0.002</td>
+      <td style="text-align: right">1967</td>
+      <td style="text-align: right">714</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">mu</td>
+      <td style="text-align: right">3.823</td>
+      <td style="text-align: right">0.684</td>
+      <td style="text-align: right">2.636</td>
+      <td style="text-align: right">5.131</td>
+      <td style="text-align: right">0.015</td>
+      <td style="text-align: right">0.011</td>
+      <td style="text-align: right">2719</td>
+      <td style="text-align: right">1802</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">alpha</td>
+      <td style="text-align: right">0.219</td>
+      <td style="text-align: right">0.044</td>
+      <td style="text-align: right">0.147</td>
+      <td style="text-align: right">0.3</td>
+      <td style="text-align: right">0.002</td>
+      <td style="text-align: right">0.001</td>
+      <td style="text-align: right">1417</td>
+      <td style="text-align: right">599</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Our trace doesn’t show any issue, so we can check if our model is able to reproduce
+the data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">inflated_model</span><span class="p">:</span>
+    <span class="n">ppc_inflated</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_inflated</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">]))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">ppc_inflated</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">PPC</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">],</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">data</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">()</span>
+</code></pre></div></div>
+<p>The model reproduces very accurately the observed data,
+and as we can see the variable $w$ spans from 0.75 to 1, so it looks
+appropriate to use a zero-inflated model rather than a pure negative binomial.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/composite/" /><category term="/mixture/" /><summary type="html"><![CDATA[In some case we may have that our population is composed by sub-populations, each one with his own distribution. If we are not able to identify the subgroup we can use a mixture model to take into account of this.]]></summary></entry><entry><title type="html">Generalized linear models</title><link href="http://localhost:4000/generalized-linear-models/" rel="alternate" type="text/html" title="Generalized linear models" /><published>2023-08-29T00:00:00+02:00</published><updated>2023-08-29T00:00:00+02:00</updated><id>http://localhost:4000/generalized-linear-models</id><content type="html" xml:base="http://localhost:4000/generalized-linear-models/"><![CDATA[<p>Normal model allows you to fit data belonging to the entire real domain,
 but you will face situations where you want to put some additional constrain
 to your model.
 If you are dealing with binary data, with count data or with probabilities,
@@ -473,7 +875,7 @@ Let us look at the predicted incident rate distribution for the new model</p>
 <p><img src="/docs/assets/images/glm/poisson/loo_plot.png" alt="Comparison between the two models" /></p>
 
 <p>The LOO metrics favours by far the interactive model, suggesting that 
-we should consider the aging for each ship category separately.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/generalized-linear-models/" /><summary type="html"><![CDATA[Normal model allows you to fit data belonging to the entire real domain, but you will face situations where you want to put some additional constrain to your model. If you are dealing with binary data, with count data or with probabilities, then the ordinary linear regression may not be appropriate, as your model would allow for values which are outside from the mathematical domain of your data.]]></summary></entry><entry><title type="html">Notation</title><link href="http://localhost:4000/notation/" rel="alternate" type="text/html" title="Notation" /><published>2023-08-28T00:00:00+02:00</published><updated>2023-08-28T00:00:00+02:00</updated><id>http://localhost:4000/notation</id><content type="html" xml:base="http://localhost:4000/notation/"><![CDATA[<p>I will adhere to Gelman’s notation, and divide the quantities in <em>observable or potentially observable quantities</em>,
+we should consider the aging for each ship category separately.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/composite/" /><category term="/generalized-linear-models/" /><summary type="html"><![CDATA[Normal model allows you to fit data belonging to the entire real domain, but you will face situations where you want to put some additional constrain to your model. If you are dealing with binary data, with count data or with probabilities, then the ordinary linear regression may not be appropriate, as your model would allow for values which are outside from the mathematical domain of your data.]]></summary></entry><entry><title type="html">Notation</title><link href="http://localhost:4000/notation/" rel="alternate" type="text/html" title="Notation" /><published>2023-08-28T00:00:00+02:00</published><updated>2023-08-28T00:00:00+02:00</updated><id>http://localhost:4000/notation</id><content type="html" xml:base="http://localhost:4000/notation/"><![CDATA[<p>I will adhere to Gelman’s notation, and divide the quantities in <em>observable or potentially observable quantities</em>,
 which will be indicated with Latin letters,
 and in <em>unobservable quantities</em>, which will indicated with Greek letters.</p>
 
@@ -1128,7 +1530,7 @@ included into the 95% error bands.</p>
 you won’s see any association between turnout and average income inequality.
 By seeing this result, one should investigate why the South Africa has a behavior which is so different from the one of the other
 countries, and only after a sensible answer to this question one should decide if he wants to include this
-point inside the dataset.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/linear-model/" /><summary type="html"><![CDATA[In this post we will start looking at some regression problem, which are models where we want to relate the behavior of the outcome variable $y$ to some other variable $x$ which we do not want to model. In particular, we will look the most fundamental regression model, the linear model. This model is so widespread that entire statistical textbooks and academic courses has been devoted to it, and it is crucial to fully understand both how to assess and give a correct interpretation of the uncertainties in this model and how to report these uncertainties no non-statisticians. Of course we will just give few examples, without any claim of completeness. For a full immersion in this model from a frequentist perspective I reccomend the Weisberg textbook “Applied linear regression”, freely available here.]]></summary></entry><entry><title type="html">Model comparison</title><link href="http://localhost:4000/model-comparison/" rel="alternate" type="text/html" title="Model comparison" /><published>2023-08-26T00:00:00+02:00</published><updated>2023-08-26T00:00:00+02:00</updated><id>http://localhost:4000/model-comparison</id><content type="html" xml:base="http://localhost:4000/model-comparison/"><![CDATA[<p>In the <a href="/predictive-checks/">last</a> post we looked at how one can assess a model’s ability to reproduce the data.
+point inside the dataset.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/composite/" /><category term="/linear-model/" /><summary type="html"><![CDATA[In this post we will start looking at some regression problem, which are models where we want to relate the behavior of the outcome variable $y$ to some other variable $x$ which we do not want to model. In particular, we will look the most fundamental regression model, the linear model. This model is so widespread that entire statistical textbooks and academic courses has been devoted to it, and it is crucial to fully understand both how to assess and give a correct interpretation of the uncertainties in this model and how to report these uncertainties no non-statisticians. Of course we will just give few examples, without any claim of completeness. For a full immersion in this model from a frequentist perspective I reccomend the Weisberg textbook “Applied linear regression”, freely available here.]]></summary></entry><entry><title type="html">Model comparison</title><link href="http://localhost:4000/model-comparison/" rel="alternate" type="text/html" title="Model comparison" /><published>2023-08-26T00:00:00+02:00</published><updated>2023-08-26T00:00:00+02:00</updated><id>http://localhost:4000/model-comparison</id><content type="html" xml:base="http://localhost:4000/model-comparison/"><![CDATA[<p>In the <a href="/predictive-checks/">last</a> post we looked at how one can assess a model’s ability to reproduce the data.
 In this post we will look at a related topic, which is how we can compare two or more Bayesian models.
 In fact, you rarely know from the beginning what is the most appropriate model to fit your data.
 Most of the times you will find yourself building different models for the same dataset,
@@ -2163,127 +2565,4 @@ in Andrew Gelman’s textbook (see the <a href="/links/">resources</a> page).</p
   <li>Conjugate models allow you to have an analytical way to link your parameters to observable quantities</li>
   <li>You can easily formulate a constraint on your priors in terms of effects on the posteriors (I choose my prior in such a way that, f I see this outcome I want my posterior to behave this way).</li>
   <li>Priors chosen in terms of effects on the posterior are very easy to understand, criticize and, if necessary, improve.</li>
-</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/conjugate/" /><summary type="html"><![CDATA[We previously mentioned the concept of conjugate models, in this post we will have a deeper look at this kind of model.]]></summary></entry><entry><title type="html">The Normal and Student-T model</title><link href="http://localhost:4000/normal/" rel="alternate" type="text/html" title="The Normal and Student-T model" /><published>2023-08-20T00:00:00+02:00</published><updated>2023-08-20T00:00:00+02:00</updated><id>http://localhost:4000/normal</id><content type="html" xml:base="http://localhost:4000/normal/"><![CDATA[<p>Up to this moment our task was to model some random discrete variables. 
-In this post we will look at some continuous model, and the most common one
-is by far the Normal model.
-Let us try and see its main features by looking at some physical data.</p>
-
-<h2 id="neutrinos-and-the-normal-model">Neutrinos and the Normal model</h2>
-<p>I downloaded the zip file from <a href="https://icecube.wisc.edu/data-releases/2018/07/icecube-data-from-2008-to-2017-related-to-analysis-of-txs-0506056/">this page</a>
-of the <a href="https://it.wikipedia.org/wiki/IceCube">IceCube</a> experiment website.
-In the zip you will find many files, let us look at the one named “events_IC86b.txt”</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">./events_IC86b.txt</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="s">,</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">df</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
-</code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">MJD</th>
-      <th style="text-align: right">Ra_deg</th>
-      <th style="text-align: right">Dec_degm</th>
-      <th style="text-align: right">Unc_deg</th>
-      <th style="text-align: right">log10(Ereco)</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">56067.1</td>
-      <td style="text-align: right">76.76</td>
-      <td style="text-align: right">5.38</td>
-      <td style="text-align: right">0.56</td>
-      <td style="text-align: right">3.68</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">56067.4</td>
-      <td style="text-align: right">75.58</td>
-      <td style="text-align: right">4.11</td>
-      <td style="text-align: right">0.81</td>
-      <td style="text-align: right">3.09</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">56068.9</td>
-      <td style="text-align: right">77.12</td>
-      <td style="text-align: right">3.24</td>
-      <td style="text-align: right">0.49</td>
-      <td style="text-align: right">3.1</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">56071.2</td>
-      <td style="text-align: right">75.76</td>
-      <td style="text-align: right">6.91</td>
-      <td style="text-align: right">0.51</td>
-      <td style="text-align: right">3.01</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">56078.5</td>
-      <td style="text-align: right">78.53</td>
-      <td style="text-align: right">6.97</td>
-      <td style="text-align: right">0.8</td>
-      <td style="text-align: right">3.6</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>This dataset collects the characteristics of some muon (a kind of elementary particle)
-observed from the IceCube experiment in the South Pole.
-For the moment we are only interested in the last column, which represents
-the logarithm of the reconstructed muon energy.</p>
-
-<p><img src="/docs/assets/images/normal/neutrinos_hist.jpg" alt="muon log energy" /></p>
-
-<p>We only observe positive values, but the logarithm of a positive quantity is a real quantity, which can take any value.
-Moreover the data looks roughly symmetric, so we can try and use a Normal model:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">normal_model</span><span class="p">:</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">log10(Ereco)</span><span class="sh">'</span><span class="p">])</span>
-    <span class="n">trace_normal</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">()</span>
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_normal</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/normal/trace_neutrinos_normal.jpg" alt="Normal model trace" /></p>
-
-<p>The trace looks fine, let us check if our model correctly reproduces the data:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">normal_model</span><span class="p">:</span>
-   <span class="n">ppc_normal</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_normal</span><span class="p">)</span>
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_normal</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/normal/ppc_neutrinos_normal.jpg" alt="Normal model ppc" /></p>
-
-<p>Our model is clearly unable to reproduce the data.
-Our dataset contains some events which are located far away from $1\sigma$.
-On the other hand, the normal pdf drops to zero already for $3\sigma\,.$
-We should look for a more general model, which allows for a slower decrease of the pdf or,
-in the statistical jargon we should look for a distribution with heavier tails than the normal one.
-We can try a Student-t model, which is a generalization of the Normal distribution.
-This distribution has an additional parameter $\nu\,,$ which allows to tune the heaviness of the tails 
-and such that, in the limit $\nu \rightarrow \infty$, it corresponds to the Normal distribution.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">t_model</span><span class="p">:</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">nu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">nu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">StudentT</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">nu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">log10(Ereco)</span><span class="sh">'</span><span class="p">])</span>
-    <span class="n">trace_t</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">()</span>
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_t</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/normal/trace_neutrinos_t.jpg" alt="Student-t model trace" /></p>
-
-<p>In our case we have $\nu \approx 3\,,$ which suggests that the Normal distribution
-is not well suited to fit the data.
-Let us now check if this model improves the fit:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">t_model</span><span class="p">:</span>
-   <span class="n">ppc_t</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_t</span><span class="p">)</span>
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_t</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/normal/ppc_neutrinos_t.jpg" alt="Student-t model ppc" /></p>
-
-<p>Now the black line is always inside the blue region, so the fit highly improved.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/normal/" /><summary type="html"><![CDATA[Up to this moment our task was to model some random discrete variables. In this post we will look at some continuous model, and the most common one is by far the Normal model. Let us try and see its main features by looking at some physical data.]]></summary></entry></feed>
+</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/conjugate/" /><summary type="html"><![CDATA[We previously mentioned the concept of conjugate models, in this post we will have a deeper look at this kind of model.]]></summary></entry></feed>
