@@ -463,6 +463,9 @@ the data.</p>
 <span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">],</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">data</span><span class="sh">'</span><span class="p">)</span>
 <span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">()</span>
 </code></pre></div></div>
+
+<p><img src="/docs/assets/images/mixture/zero_inflated/ppc.png" alt="The posterior predictive" /></p>
+
 <p>The model reproduces very accurately the observed data,
 and as we can see the variable $w$ spans from 0.75 to 1, so it looks
 appropriate to use a zero-inflated model rather than a pure negative binomial.</p>
