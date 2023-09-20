@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-14T08:57:35+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Introduction to the hierarchical models</title><link href="http://localhost:4000/hierarchical/" rel="alternate" type="text/html" title="Introduction to the hierarchical models" /><published>2023-09-01T00:00:00+02:00</published><updated>2023-09-01T00:00:00+02:00</updated><id>http://localhost:4000/hierarchical</id><content type="html" xml:base="http://localhost:4000/hierarchical/"><![CDATA[<p>Hierarchical models are one of the most important model families
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-20T09:59:34+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Introduction to the hierarchical models</title><link href="http://localhost:4000/hierarchical/" rel="alternate" type="text/html" title="Introduction to the hierarchical models" /><published>2023-09-01T00:00:00+02:00</published><updated>2023-09-01T00:00:00+02:00</updated><id>http://localhost:4000/hierarchical</id><content type="html" xml:base="http://localhost:4000/hierarchical/"><![CDATA[<p>Hierarchical models are one of the most important model families
 in Bayesian statistics, and most important, it does not have an analogous
 in frequentist statistics, and the reason will be clear soon <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
 
@@ -1239,7 +1239,19 @@ and can be written as</p>
 
 <p>On the other hand, the <em>prior predictive</em> distribution is given by</p>
 
-\[p(\tilde{y}) = \int d\theta p(\tilde{y} \vert \theta) p(\theta) \,.\]]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/appendices/" /><category term="/notation/" /><summary type="html"><![CDATA[I will adhere to Gelman’s notation, and divide the quantities in observable or potentially observable quantities, which will be indicated with Latin letters, and in unobservable quantities, which will indicated with Greek letters.]]></summary></entry><entry><title type="html">The linear model</title><link href="http://localhost:4000/linear-model/" rel="alternate" type="text/html" title="The linear model" /><published>2023-08-28T00:00:00+02:00</published><updated>2023-08-28T00:00:00+02:00</updated><id>http://localhost:4000/linear-model</id><content type="html" xml:base="http://localhost:4000/linear-model/"><![CDATA[<p>In this post we will start looking at some regression problem,
+\[p(\tilde{y}) = \int d\theta p(\tilde{y} \vert \theta) p(\theta) \,.\]
+
+<p>Following Gelman, we indicate</p>
+
+\[E[u] = \int du u p(u)\]
+
+<p>and more generally</p>
+
+\[E[f(u)] = \int du f(u) p(u)\]
+
+<p>In particular</p>
+
+\[var[u] = E[(u-E[u])^2] = \int du (u-E[u])^2 p(u)\]]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/appendices/" /><category term="/notation/" /><summary type="html"><![CDATA[I will adhere to Gelman’s notation, and divide the quantities in observable or potentially observable quantities, which will be indicated with Latin letters, and in unobservable quantities, which will indicated with Greek letters.]]></summary></entry><entry><title type="html">The linear model</title><link href="http://localhost:4000/linear-model/" rel="alternate" type="text/html" title="The linear model" /><published>2023-08-28T00:00:00+02:00</published><updated>2023-08-28T00:00:00+02:00</updated><id>http://localhost:4000/linear-model</id><content type="html" xml:base="http://localhost:4000/linear-model/"><![CDATA[<p>In this post we will start looking at some regression problem,
  which are models where we want to relate the behavior of the outcome
  variable $y$ to some other variable $x$ which we do not want to model.
 In particular, we will look the most fundamental regression model, the linear model.
