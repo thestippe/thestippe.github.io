@@ -30,9 +30,22 @@ In this section we will collect somehow more advanced models.
 
 ## Appendices
 
+Some more mathematical stuff.
+
 {% for p in postlist %}
         {% assign cat = p.categories | first %}
         {% if cat contains "course/appendices" %}
+1. [{{p.title}}]({{p.tags}})
+        {% endif %}
+{% endfor %}
+
+## Various
+
+Ideas and models related to other topics.
+
+{% for p in postlist %}
+        {% assign cat = p.categories | first %}
+        {% if cat contains "course/various" %}
 1. [{{p.title}}]({{p.tags}})
         {% endif %}
 {% endfor %}

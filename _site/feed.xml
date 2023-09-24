@@ -1,4 +1,317 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-20T09:59:34+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Introduction to the hierarchical models</title><link href="http://localhost:4000/hierarchical/" rel="alternate" type="text/html" title="Introduction to the hierarchical models" /><published>2023-09-01T00:00:00+02:00</published><updated>2023-09-01T00:00:00+02:00</updated><id>http://localhost:4000/hierarchical</id><content type="html" xml:base="http://localhost:4000/hierarchical/"><![CDATA[<p>Hierarchical models are one of the most important model families
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-24T14:02:12+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Causal inference: a general introduction</title><link href="http://localhost:4000/causal-intro/" rel="alternate" type="text/html" title="Causal inference: a general introduction" /><published>2023-09-02T00:00:00+02:00</published><updated>2023-09-02T00:00:00+02:00</updated><id>http://localhost:4000/causal-intro</id><content type="html" xml:base="http://localhost:4000/causal-intro/"><![CDATA[<h2 id="causality-as-counterfactual-evidence">Causality as counterfactual evidence</h2>
+
+<p>In the last years causal inference gained a lot of attention, both from academia and outside from it.
+Of course, you heard that <em>association does not imply causation</em>, as you will find an association
+between ice-cream consumption and the number of deaths by drowing.
+However, outside from the classes for statisticians, the very important question <em>when does association imply causation</em>
+is rarely discussed.
+We should first try and clarify what do we mean by causation, as the popular concept of causation
+is too vague for any rigorous discussion.
+This topic has been debated is philosophy since centuries, and if you are interested about this aspect
+I found <a href="https://iep.utm.edu/causation/">this</a> introductory article very helpful.</p>
+
+<p>We won’t dig into the philosophical debate, and simply use the <strong>counterfactual</strong> approach:
+we say that an action $T$, which is usually called treatment or intervention,
+causes $Y$ if, when $T$ disappears, then $Y$ disappears.
+Our definition implies that we must switch off $T$ so,
+in order for our definition to be meaningful, we must be able <em>at least hypothetically</em>
+to manipulate $T$, and in this case we say that $T$ is <strong>manipulable</strong>.</p>
+
+<p>A meaningful question is if a medicine cures the illness, as we may or may not take the medicine,
+but we cannot ask whether age causes heart attack, as we can hardly imagine to change one person’s age.
+The concept of manipulability depends on the context, as we may ask if increasing age causes a reduction
+in the chances to be considered for a certain working position. In this case we may manipulate the age by simply
+changing it on the CV and check if the company calls for a job interview.</p>
+
+<p>The counterfactual definition is not precise enough,
+as it may happen that $Y$ appears only when both $T$ and $Z$ appears, so in this
+case an obvious question is whether $T$ or $Z$ is the cause of $Y$.
+We will always assume that we want to investigate only one cause at time, so either we want to determine
+if, given $T$, then $Z$ is a cause of $Y$ or vice versa if, given $Z$, then $T$ causes $Y$.
+This imply that, when we investigate causality, we must change the hypothetical cause
+by keeping everything else unchanged.</p>
+
+<p>A very common source of confusion is the question causal inference tries and answer:
+as explained in Gelman’s preprint <a href="https://arxiv.org/pdf/1003.2619.pdf">Causality and Statistical Learning</a>
+when talking about causality, there are two main questions one could ask:</p>
+<ul>
+  <li>backward causal inference: what are the causes of a given effect?</li>
+  <li>forward causal inference: what are the effects of a given cause?</li>
+</ul>
+
+<p>While there are many accepted methods to investigate the forward causal inference,
+backward causal inference is a slippery terrain, as one could also 
+say that the cause of the cause is the cause.
+In fact, it is not uncommon to have that $A$ causes $B$, $B$ causes $C$ and $C$ causes $D$,
+and in this case we will consider both $A$, $B$ and $C$ as causes of $D$.</p>
+
+<h2 id="the-fundamental-problem-of-causal-inference">The fundamental problem of causal inference</h2>
+
+<p>Let us assume for now that $T$ is a binary quantity with values $0$ and $1$, and let us indicate
+the value of $Y$ when $T=0$ as $y_0$ while $y_1$ is the value of $Y$ whet $T=1$.
+In order to assess whether $T$ causes $Y$ we must compare $y_1$ with $y_0$.</p>
+
+<p>The exact way we want to compare these two quantities depends on the context.
+Most of the time what one wants to quantify is the so called effect, defined as $\delta = y_1-y_0$, but in some cases one may prefer to
+obtain informations about the relative risk $y_1/y_0$.
+In any case, what we want to do is to compare both quantities and verify if they differ.</p>
+
+<p>In most textbooks one defines the function</p>
+
+\[Y(\tau) = \tau y_1 + (1-\tau) y_0\]
+
+<p>so</p>
+
+\[\delta = Y(1) - Y(0)\]
+
+<p>One generally refers to the quantities $Y(0)$ and $Y(1)$ as the potential outcomes.
+More precisely, the potential outcome is represented by the previous quantities before the experiment,
+while during the experiment one measures the observed outcome, and the remaining quantity is the counterfactual outcome.
+Since we assume that these quantities are the same, we will always refer to the potential outcomes.</p>
+
+<p>As we previously stated, $y_1$ and $y_0$ represent $Y$ when $T=1$ or $0$ respectively, but everything else is
+unchanged. This makes always impossible to measure the causal effect, as we cannot simultaneously realize $T=0$
+and $T=1$ by keeping everything else, included the moment and the individual, unchanged,
+and this is called the <strong>fundamental problem of causal inference</strong>.</p>
+
+<p>In order to better understand why this is a problem, let us assume that we have a population,
+and that we somehow split the population into two subpopulation.
+The first subpopulation is then treated, so they are assigned to the $T=1$ group,
+while the second one is not, and for them $T=0$.
+We then take the average on each subpopulation what we are estimating is
+$\mathbb{E}[Y | T=1]$ and $\mathbb{E}[Y | T=0]$ respectively.
+On the other hand, what we really want to quantify is</p>
+
+\[\mathbb{E}[\delta] = \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}[Y(1)] - \mathbb{E}[Y(0)]\]
+
+<p>Let us indicate with $y^i_\tau$ the observed outcome on the individual $i$ of the population
+when this undergoes to treatment $\tau$.
+We generally have that the outcome will both on the treatment and on some set of
+relevant covariate (auxiliary quantities) $X$, that we assumed we measured for each individual.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>i</th>
+      <th>T</th>
+      <th>Y</th>
+      <th>Y(0)</th>
+      <th>Y(1)</th>
+      <th>X</th>
+      <th>Y(1) - Y(0)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>$y^1_0$</td>
+      <td>$y^1_0$</td>
+      <td>$y^1_1=?$</td>
+      <td>$x^1$</td>
+      <td>$y^1_1-y^1_0=?$</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>$y^2_0$</td>
+      <td>$y^2_0$</td>
+      <td>$y^2_1=?$</td>
+      <td>$x^2$</td>
+      <td>$y^2_1-y^2_0=?$</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>$y^3_0$</td>
+      <td>$y^3_0$</td>
+      <td>$y^3_1=?$</td>
+      <td>$x^3$</td>
+      <td>$y^3_1-y^3_0=?$</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>1</td>
+      <td>$y^4_1$</td>
+      <td>$y^4_0=?$</td>
+      <td>$y^4_1$</td>
+      <td>$x^4$</td>
+      <td>$y^4_1-y^4_0=?$</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>1</td>
+      <td>$y^5_1$</td>
+      <td>$y^5_0=?$</td>
+      <td>$y^5_1$</td>
+      <td>$x^5$</td>
+      <td>$y^5_1-y^5_0=?$</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>1</td>
+      <td>$y^6_1$</td>
+      <td>$y^6_0=?$</td>
+      <td>$y^6_1$</td>
+      <td>$x^6$</td>
+      <td>$y^6_1-y^6_0=?$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We have that</p>
+
+\[\begin{aligned}
+&amp;
+\mathbb{E}[Y | T=0] = \frac{y^1_0 + y^2_0 + y^3_0}{3}
+\\
+&amp;
+\mathbb{E}[Y | T=1] = \frac{y^4_1 + y^5_1 + y^6_1}{3}
+\end{aligned}\]
+
+<p>on the other hand</p>
+
+\[\begin{aligned}
+&amp;
+\mathbb{E}[Y(0)] = \frac{y^1_0 + y^2_0 + y^3_0 + y^4_0 + y^5_0 + y^6_0}{6}
+\\
+&amp;
+\mathbb{E}[Y(1)] = \frac{y^1_1 + y^2_1 + y^3_1 + y^4_1 + y^5_1 + y^6_1}{6}
+\end{aligned}\]
+
+<p>We cannot measure the quantities marked with the question mark,
+so the fundamental problem of causal inference is a missing value problem.
+The different terms entering into the two expressions don’t allow us
+to simply substitute the associational quantities with the causal ones,
+and this is why association is not causation.</p>
+
+<p>As we will show briefly, however, when a set of rather stringent condition
+holds, we are allowed to replace the causal quantities with the associational ones.
+However, there is no way to verify if these conditions are met, and one should
+rely on some external source of knowledge about the population
+in order to assess at which approximation level these conditions hold.</p>
+
+<p>The stronger condition that might hold is <strong>ignorability</strong>, also called <strong>exchangeability</strong></p>
+
+\[Y(0), Y(1) \perp\!\!\!\!\perp T\]
+
+<p>We are thus assuming that the probability of being treated is independent on the outcome.
+This is of course a very strong assumption, and the fact that in most observational
+studies this condition is not met implies a wrong estimation of the effect.
+As an example, if we are performing an observational study on a medicine, usually only people which
+are sick and so will benefit by the medicine, will take the medicine and, so, will be included in the
+treated group, while in the untreated group we may have sick people as well as healthy people.
+So we must introduce a confounder $x=sick, healthy$ to account for this.
+The ignorability assumption states that we must be allowed to exchange the two groups without affecting the outcome.</p>
+
+<p>Under this condition we have that</p>
+
+\[\mathbb{E}[Y | T=1] - \mathbb{E}[Y | T=0] = \mathbb{E}[Y(1) | T=1] - \mathbb{E}[Y(0) | T=0] = \mathbb{E}[Y(1)] - \mathbb{E}[Y(0)] = \mathbb{E}[Y(1)-Y(0)] = \mathbb{E}[\delta]\]
+
+<p>In the previous equation we used</p>
+
+\[\mathbb{E}[Y | T=t] = \mathbb{E}[Y(t) | T=t]\]
+
+<p>This only holds if we assume that, if $T=t$, then $Y = Y(T=t)$.
+This assumption goes under the name on <strong>consistency</strong>, and it is not only a mathematical
+requirement, but an operational one.
+Consistency requires that the treatment must be well specified:
+the treatment must not be “get some medicine” but should rather be “take 15 mg of medicine every 8 hours for 7 days”.</p>
+
+<p>A slightly weaker condition with respect to ignorability is <strong>conditional ignorability</strong> or <strong>unconfoundedness</strong></p>
+
+\[Y(0), Y(1) \perp\!\!\!\!\perp T | X\]
+
+<p>So given the confounders $X$, the treatment probability $T$ is independent on the
+potential outcome.</p>
+
+<p>Let us assume we want to quantify the blood pressure reduction of a medicine.
+It is more likely that people with a high blood pressure will take it.
+We furthermore assume that the effect is higher on people with a high blood pressure.</p>
+
+<p>Since it is more likely that people with high blood pressure will take the treatment,
+ignorability doesn’t generally hold in observational studies.
+We can randomly sample from the population to overcome this, but it will be very hard to obtain
+a representative sample of the population.
+An easier way is to stratify by initial blood pressure,
+and for each stratum randomly assign with a given probability
+to the treatment group or to the test group, and in this way we are fulfilling conditional
+ignorability.</p>
+
+<p>Thus, unconfoundedness states that we are “controlling for” all the relevant quantities which
+may affect the outcome, except the treatment.
+This may only approximately hold: if the outcome depends on some genetic aspect of the individual
+which is more common in a particular ethnic group, controlling for ethnicity would partially fulfill 
+unconfoundedness.</p>
+
+<p>When we assign the population we must be sure that, for each stratum,
+both groups have at least one individual:</p>
+
+\[0 &lt; P(T=t | X) &lt; 1 \, \forall t\]
+
+<p>The previous hypothesis is named the positivity assumption.
+Positivity implies that we can compare the treatment effect with the control for each value of the
+covariates, since
+for each subgroup we both have units which receive the treatment and units which
+does not receive it.</p>
+
+<p>If conditional ignorability holds:</p>
+
+\[\begin{aligned}
+ \mathbb{E}[Y(1)-Y(0)|X] 
+ &amp; = \mathbb{E}[Y(1)|X] - \mathbb{E}[Y(0)|X] \\
+ &amp; = \mathbb{E}[Y(1)| T=1, X] - \mathbb{E}[Y(0)|T=0, X] \\
+ &amp; = \mathbb{E}[Y| T=1, X] - \mathbb{E}[Y|T=0, X] \\
+\end{aligned}\]
+
+<p>By taking the average over $X$</p>
+
+\[\mathbb{E}[\delta] = \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}_X[ \mathbb{E}[Y(1) - Y(0) | X] ] 
+ = \mathbb{E}_X[ \mathbb{E}[Y |T=1, X] ] - \mathbb{E}_X[ \mathbb{E}[Y |T=0, X] ]\]
+
+<p>The equality between the first and the last term of this equation is called the <strong>adjustment formula</strong>.</p>
+
+<p>Let us now write explicitly the adjustment formula for $X$ discrete:</p>
+
+\[\begin{align}
+&amp;
+\mathbb{E}_X[ \mathbb{E}[Y |T=1, X] ] - \mathbb{E}_X[ \mathbb{E}[Y |T=0, X] ]  
+\\
+&amp; =  \sum_{x}P(X=x) \sum_{y} y \left(P(Y=y|T=1, X=x) - P(Y=y| T=0, X=x) \right) \\
+&amp; =   \sum_{x}P(X=x) \sum_{y} y \left(\frac{P(Y=y,T=1, X=x)}{P(T=1, X=x)} - \frac{P(Y=y,T=0, X=x)}{P(T=0, X=x)}\right) \\
+= &amp; \sum_{x}P(X=x) \sum_{y} y \left(\frac{P(Y=y,T=1, X=x)}{P(T=1| X=x) P(X=x)} - \frac{P(Y=y,T=0, X=x)}{P(T=0| X=x) P(X=x)}\right) 
+\\
+&amp; = 
+\sum_{x}\sum_{y} y \left(\frac{P(Y=y,T=1, X=x)}{P(T=1| X=x)} - \frac{P(Y=y,T=0, X=x)}{P(T=0| X=x)}\right) 
+\end{align}\]
+
+<p>The first equivalence comes from the definition of conditional probability,
+the second one from the hypothesis that $P(T, X) = P(T | X) P(X) $ so that $T$ causally depends on $X\,.$
+You should notice that the denominators are finite thanks to the positivity hypothesis.</p>
+
+<p>There is one more hypothesis that we have hidden into our discussion:
+we have been assuming all the time that the outcome of the i-th unit only depend on the i-th treatment unit,
+and does not depends on the other treatment’s unit.
+This requirement is of course not always satisfied, and it’s called the <strong>no interference</strong> assumptions:</p>
+
+\[Y_i(t_1, t_2, ..., t_{i-1}, t_i, t_{i+1}, ..., t_n) = Y_i(t_i)\]
+
+<p>So each individual’s outcome only depends on his own treatment and not on the treatment of other individuals.
+This implies that, if we are checking the effect of a product in some tomato field, we must be sure that the product does not goes in another studied field by mistake.
+Another case can be a study where we are studying an experimental study program in a class.
+If a student is selected in the treatment group and a friend of his is not, the latter could be sad for not being selected and his outcome could be lowered.
+Generally, a good strategy to enforce this requirement is to take well separated units and isolating each unit from the other units during the experiment.</p>
+
+<h2 id="conclusion-and-take-home-message">Conclusion and take home message</h2>
+
+<p>As we can see, under some strict assumptions we can perform causal inference in observational studies as well as in randomized studies.
+However, quoting Cochran:</p>
+
+<p><strong><em>observational studies are are interesting and challenging field which demands a good deal of humility, since our claim are groping toward the truth.</em></strong></p>
+
+<h2 id="additional-readings">Additional readings</h2>
+
+<p><a href="https://www.hsph.harvard.edu/wp-content/uploads/sites/1268/2022/11/hernanrobins_WhatIf_13nov22.pdf">Hernàn, Robins; <strong>Causal inference, what if</strong>, Chapman &amp; Hall/CRC (2020)</a></p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/causal-intro/" /><summary type="html"><![CDATA[Causality as counterfactual evidence]]></summary></entry><entry><title type="html">Introduction to the hierarchical models</title><link href="http://localhost:4000/hierarchical/" rel="alternate" type="text/html" title="Introduction to the hierarchical models" /><published>2023-09-01T00:00:00+02:00</published><updated>2023-09-01T00:00:00+02:00</updated><id>http://localhost:4000/hierarchical</id><content type="html" xml:base="http://localhost:4000/hierarchical/"><![CDATA[<p>Hierarchical models are one of the most important model families
 in Bayesian statistics, and most important, it does not have an analogous
 in frequentist statistics, and the reason will be clear soon <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
 
@@ -2602,191 +2915,4 @@ This part of the flow is called <strong>model comparison</strong> or <strong>mod
   <li>trace evaluation</li>
   <li>prior and posterior check</li>
   <li>model comparison and averaging</li>
-</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/workflow/" /><summary type="html"><![CDATA[In the following we will give an overview on the collection of procedures and suggestions to improve the robustness and the reproducibility of your analysis. This set of tools, which goes under the name of Bayesian workflow, is extensively discussed in this preprint by Gelman et al. as well as in this article on Nature.]]></summary></entry><entry><title type="html">The exponential model</title><link href="http://localhost:4000/exponential/" rel="alternate" type="text/html" title="The exponential model" /><published>2023-08-21T00:00:00+02:00</published><updated>2023-08-21T00:00:00+02:00</updated><id>http://localhost:4000/exponential</id><content type="html" xml:base="http://localhost:4000/exponential/"><![CDATA[<p>In the <a href="/normal/">last</a> post we used the normal and the Student-t distribution
-to fit data belonging to the entire real axis.
-You may however encounter data which are real but positive,
-like a waiting time, and in this case it is wise not to allow to your predicted
-data to be negative.</p>
-
-<p>The <strong>exponential</strong> distribution is the simplest distribution
-with this constraint, and it has as pdf</p>
-
-\[p(y \vert \lambda) = \lambda e^{- \lambda y} \theta(y)\,.\]
-
-<p>The parameter $\lambda$ represents the inverse of the mean of the distribution,
-which is equal to its variance, while $\theta(y)$ is the Heaviside theta distribution,
-which is equal to 1 if $y&gt;0$ and its value is 0 otherwise.</p>
-
-<p>In order to show an application to this model, I downloaded from
-the <a href="http://cnt.rm.ingv.it/">Italian Geology and Volcanology Institute</a>
-the dataset containing all the seismic events of the last 90 days</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
-<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
-<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
-<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="n">pymc.sampling_jax</span> <span class="k">as</span> <span class="n">pmjax</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">data/earthqakes.csv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="s">|</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="n">df</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
-</code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right"> </th>
-      <th style="text-align: right">#EventID</th>
-      <th style="text-align: left">Time</th>
-      <th style="text-align: right">Latitude</th>
-      <th style="text-align: right">Longitude</th>
-      <th style="text-align: right">Depth/Km</th>
-      <th style="text-align: left">Author</th>
-      <th style="text-align: right">Catalog</th>
-      <th style="text-align: right">Contributor</th>
-      <th style="text-align: right">ContributorID</th>
-      <th style="text-align: left">MagType</th>
-      <th style="text-align: right">Magnitude</th>
-      <th style="text-align: left">MagAuthor</th>
-      <th style="text-align: left">EventLocationName</th>
-      <th style="text-align: left">EventType</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">35812591</td>
-      <td style="text-align: left">2023-08-13 00:08:52.680000</td>
-      <td style="text-align: right">40.4975</td>
-      <td style="text-align: right">16.173</td>
-      <td style="text-align: right">33.4</td>
-      <td style="text-align: left">SURVEY-INGV</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: left">ML</td>
-      <td style="text-align: right">1.3</td>
-      <td style="text-align: left">–</td>
-      <td style="text-align: left">1 km E Accettura (MT)</td>
-      <td style="text-align: left">earthquake</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">35812671</td>
-      <td style="text-align: left">2023-08-13 00:44:32.400000</td>
-      <td style="text-align: right">37.8388</td>
-      <td style="text-align: right">15.5168</td>
-      <td style="text-align: right">10.3</td>
-      <td style="text-align: left">SURVEY-INGV</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: left">ML</td>
-      <td style="text-align: right">1.3</td>
-      <td style="text-align: left">–</td>
-      <td style="text-align: left">Stretto di Messina (Reggio di Calabria, Messina)</td>
-      <td style="text-align: left">earthquake</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">2</td>
-      <td style="text-align: right">35812691</td>
-      <td style="text-align: left">2023-08-13 01:00:51.650000</td>
-      <td style="text-align: right">46.6427</td>
-      <td style="text-align: right">8.3947</td>
-      <td style="text-align: right">10.8</td>
-      <td style="text-align: left">SURVEY-INGV</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: left">ML</td>
-      <td style="text-align: right">1.7</td>
-      <td style="text-align: left">–</td>
-      <td style="text-align: left">Svizzera (SVIZZERA)</td>
-      <td style="text-align: left">earthquake</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">3</td>
-      <td style="text-align: right">35812831</td>
-      <td style="text-align: left">2023-08-13 01:50:30.440000</td>
-      <td style="text-align: right">43.013</td>
-      <td style="text-align: right">13.0773</td>
-      <td style="text-align: right">7.6</td>
-      <td style="text-align: left">SURVEY-INGV</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: left">ML</td>
-      <td style="text-align: right">0.7</td>
-      <td style="text-align: left">–</td>
-      <td style="text-align: left">3 km SW Fiordimonte (MC)</td>
-      <td style="text-align: left">earthquake</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">4</td>
-      <td style="text-align: right">35812921</td>
-      <td style="text-align: left">2023-08-13 02:17:17.329000</td>
-      <td style="text-align: right">40.8217</td>
-      <td style="text-align: right">14.1372</td>
-      <td style="text-align: right">0.9</td>
-      <td style="text-align: left">SURVEY-INGV-OV#SiSmi</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: right">nan</td>
-      <td style="text-align: left">Md</td>
-      <td style="text-align: right">1.1</td>
-      <td style="text-align: left">–</td>
-      <td style="text-align: left">Campi Flegrei</td>
-      <td style="text-align: left">earthquake</td>
-    </tr>
-  </tbody>
-</table>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Time</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Time</span><span class="sh">'</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p>Let us give a look to the distribution of the waiting time between two subsequent
-events</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Time</span><span class="sh">'</span><span class="p">].</span><span class="nf">diff</span><span class="p">().</span><span class="nf">dropna</span><span class="p">().</span><span class="n">dt</span><span class="p">.</span><span class="nf">total_seconds</span><span class="p">()</span><span class="o">/</span><span class="mi">360</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">48</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/exponential/events.png" alt="Waiting time between two events" /></p>
-
-<p>The distribution looks like an exponential, as expected.
-Let us now try and fit the data</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">delta_hours</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">Time</span><span class="sh">'</span><span class="p">].</span><span class="nf">diff</span><span class="p">().</span><span class="nf">dropna</span><span class="p">().</span><span class="n">dt</span><span class="p">.</span><span class="nf">total_seconds</span><span class="p">().</span><span class="n">values</span><span class="o">/</span><span class="mi">360</span>
-
-<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">eq_model</span><span class="p">:</span>
-    <span class="n">lam</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">lam</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="n">lam</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">delta_hours</span><span class="p">)</span>
-    <span class="n">trace_eq</span> <span class="o">=</span> <span class="n">pmjax</span><span class="p">.</span><span class="nf">sample_numpyro_nuts</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
-                      <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_eq</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/exponential/trace.png" alt="Our trace" /></p>
-
-<p>The trace looks OK, let us check if we are able to reproduce the data:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">eq_model</span><span class="p">:</span>
-    <span class="n">ppc_eq</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_eq</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_eq</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/exponential/ppc.png" alt="PPC" /></p>
-
-<p>The fit looks quite good, but not yet perfect, as the observed
-number of events at about 8 hours is not included in our HDI,
-as well as the region close to 0, and in a true study it would be wise
-to understand why this model is unable to reproduce this data.
-We will see how to improve this very simple kind of model in a future post.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/exponential/" /><summary type="html"><![CDATA[In the last post we used the normal and the Student-t distribution to fit data belonging to the entire real axis. You may however encounter data which are real but positive, like a waiting time, and in this case it is wise not to allow to your predicted data to be negative.]]></summary></entry></feed>
+</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/workflow/" /><summary type="html"><![CDATA[In the following we will give an overview on the collection of procedures and suggestions to improve the robustness and the reproducibility of your analysis. This set of tools, which goes under the name of Bayesian workflow, is extensively discussed in this preprint by Gelman et al. as well as in this article on Nature.]]></summary></entry></feed>
