@@ -19,7 +19,7 @@ I found [this](https://iep.utm.edu/causation/) introductory article very helpful
 
 We won't dig into the philosophical debate, and simply use the **counterfactual** approach:
 we say that an action $T$, which is usually called treatment or intervention,
-causes $Y$ if, when $T$ disappears, then $Y$ disappears.
+causes $Y$ if, $T$ changes, then $Y$ changes, so then when the cause $T$ disappears, then the effect $Y$ disappears too.
 Our definition implies that we must switch off $T$ so,
 in order for our definition to be meaningful, we must be able *at least hypothetically*
 to manipulate $T$, and in this case we say that $T$ is **manipulable**. 
@@ -85,9 +85,11 @@ The first subpopulation is then treated, so they are assigned to the $T=1$ group
 while the second one is not, and for them $T=0$.
 We then take the average on each subpopulation what we are estimating is
 $\mathbb{E}[Y | T=1]$ and $\mathbb{E}[Y | T=0]$ respectively.
-On the other hand, what we really want to quantify is
+On the other hand, what we really want to quantify in order to assess the average effect over the entire population is
 
 $$\mathbb{E}[\delta] = \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}[Y(1)] - \mathbb{E}[Y(0)]$$
+
+This quantity is called the **average treatment effect** (ATE).
 
 Let us indicate with $y^i_\tau$ the observed outcome on the individual $i$ of the population
 when this undergoes to treatment $\tau$.
@@ -103,7 +105,7 @@ relevant covariate (auxiliary quantities) $X$, that we assumed we measured for e
 | 4 | 1 | $y^5_1$ | $y^5_0=?$ |  $y^5_1$  |$x^5$|  $y^5_1-y^5_0=?$  |
 | 4 | 1 | $y^6_1$ | $y^6_0=?$ |  $y^6_1$  |$x^6$|  $y^6_1-y^6_0=?$  |
 
-We have that
+Let us stuck for a moment to the frequentist framework, we have that
 
 $$
 \begin{aligned}
@@ -135,30 +137,30 @@ and this is why association is not causation.
 
 As we will show briefly, however, when a set of rather stringent condition
 holds, we are allowed to replace the causal quantities with the associational ones.
-However, there is no way to verify if these conditions are met, and one should
-rely on some external source of knowledge about the population
-in order to assess at which approximation level these conditions hold.
 
 The stronger condition that might hold is **ignorability**, also called **exchangeability**
 
 $$ Y(0), Y(1) \perp\!\!\!\!\perp T $$
 
-We are thus assuming that the probability of being treated is independent on the outcome.
+The same requirement can be stated as:
+
+$$p(T | Y(0), Y(1)) = p(T)$$
+
+We are thus assuming that the probability of being treated, given the potential outcomes, is both independent on the potential outcomes and on any other quantity.
 This is of course a very strong assumption, and the fact that in most observational
 studies this condition is not met implies a wrong estimation of the effect.
 As an example, if we are performing an observational study on a medicine, usually only people which
 are sick and so will benefit by the medicine, will take the medicine and, so, will be included in the
 treated group, while in the untreated group we may have sick people as well as healthy people.
-So we must introduce a confounder $x=sick, healthy$ to account for this.
-The ignorability assumption states that we must be allowed to exchange the two groups without affecting the outcome.
 
+The ignorability assumption states that we must be allowed to exchange the two groups without affecting the outcome.
 Under this condition we have that
 
 $$
 \mathbb{E}[Y | T=1] - \mathbb{E}[Y | T=0] = \mathbb{E}[Y(1) | T=1] - \mathbb{E}[Y(0) | T=0] = \mathbb{E}[Y(1)] - \mathbb{E}[Y(0)] = \mathbb{E}[Y(1)-Y(0)] = \mathbb{E}[\delta]
 $$
 
-In the previous equation we used 
+In the previous equation we used another important assumption:
 
 $$
 \mathbb{E}[Y | T=t] = \mathbb{E}[Y(t) | T=t]
@@ -176,6 +178,8 @@ $$ Y(0), Y(1) \perp\!\!\!\!\perp T | X $$
 
 So given the confounders $X$, the treatment probability $T$ is independent on the
 potential outcome.
+
+$$p(T | Y(0), Y(1), X) = p(T | X)$$
 
 Let us assume we want to quantify the blood pressure reduction of a medicine.
 It is more likely that people with a high blood pressure will take it.
@@ -266,7 +270,6 @@ As we can see, under some strict assumptions we can perform causal inference in 
 However, quoting Cochran:
 
 ***observational studies are are interesting and challenging field which demands a good deal of humility, since our claim are groping toward the truth.***
-
 
 
 ## Additional readings

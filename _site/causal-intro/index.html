@@ -77,7 +77,7 @@ I found <a href="https://iep.utm.edu/causation/">this</a> introductory article v
 
 <p>We won’t dig into the philosophical debate, and simply use the <strong>counterfactual</strong> approach:
 we say that an action $T$, which is usually called treatment or intervention,
-causes $Y$ if, when $T$ disappears, then $Y$ disappears.
+causes $Y$ if, $T$ changes, then $Y$ changes, so then when the cause $T$ disappears, then the effect $Y$ disappears too.
 Our definition implies that we must switch off $T$ so,
 in order for our definition to be meaningful, we must be able <em>at least hypothetically</em>
 to manipulate $T$, and in this case we say that $T$ is <strong>manipulable</strong>.</p>
@@ -145,9 +145,11 @@ The first subpopulation is then treated, so they are assigned to the $T=1$ group
 while the second one is not, and for them $T=0$.
 We then take the average on each subpopulation what we are estimating is
 $\mathbb{E}[Y | T=1]$ and $\mathbb{E}[Y | T=0]$ respectively.
-On the other hand, what we really want to quantify is</p>
+On the other hand, what we really want to quantify in order to assess the average effect over the entire population is</p>
 
 \[\mathbb{E}[\delta] = \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}[Y(1)] - \mathbb{E}[Y(0)]\]
+
+<p>This quantity is called the <strong>average treatment effect</strong> (ATE).</p>
 
 <p>Let us indicate with $y^i_\tau$ the observed outcome on the individual $i$ of the population
 when this undergoes to treatment $\tau$.
@@ -224,7 +226,7 @@ relevant covariate (auxiliary quantities) $X$, that we assumed we measured for e
   </tbody>
 </table>
 
-<p>We have that</p>
+<p>Let us stuck for a moment to the frequentist framework, we have that</p>
 
 \[\begin{aligned}
 &amp;
@@ -251,29 +253,29 @@ to simply substitute the associational quantities with the causal ones,
 and this is why association is not causation.</p>
 
 <p>As we will show briefly, however, when a set of rather stringent condition
-holds, we are allowed to replace the causal quantities with the associational ones.
-However, there is no way to verify if these conditions are met, and one should
-rely on some external source of knowledge about the population
-in order to assess at which approximation level these conditions hold.</p>
+holds, we are allowed to replace the causal quantities with the associational ones.</p>
 
 <p>The stronger condition that might hold is <strong>ignorability</strong>, also called <strong>exchangeability</strong></p>
 
 \[Y(0), Y(1) \perp\!\!\!\!\perp T\]
 
-<p>We are thus assuming that the probability of being treated is independent on the outcome.
+<p>The same requirement can be stated as:</p>
+
+\[p(T | Y(0), Y(1)) = p(T)\]
+
+<p>We are thus assuming that the probability of being treated, given the potential outcomes, is both independent on the potential outcomes and on any other quantity.
 This is of course a very strong assumption, and the fact that in most observational
 studies this condition is not met implies a wrong estimation of the effect.
 As an example, if we are performing an observational study on a medicine, usually only people which
 are sick and so will benefit by the medicine, will take the medicine and, so, will be included in the
-treated group, while in the untreated group we may have sick people as well as healthy people.
-So we must introduce a confounder $x=sick, healthy$ to account for this.
-The ignorability assumption states that we must be allowed to exchange the two groups without affecting the outcome.</p>
+treated group, while in the untreated group we may have sick people as well as healthy people.</p>
 
-<p>Under this condition we have that</p>
+<p>The ignorability assumption states that we must be allowed to exchange the two groups without affecting the outcome.
+Under this condition we have that</p>
 
 \[\mathbb{E}[Y | T=1] - \mathbb{E}[Y | T=0] = \mathbb{E}[Y(1) | T=1] - \mathbb{E}[Y(0) | T=0] = \mathbb{E}[Y(1)] - \mathbb{E}[Y(0)] = \mathbb{E}[Y(1)-Y(0)] = \mathbb{E}[\delta]\]
 
-<p>In the previous equation we used</p>
+<p>In the previous equation we used another important assumption:</p>
 
 \[\mathbb{E}[Y | T=t] = \mathbb{E}[Y(t) | T=t]\]
 
@@ -289,6 +291,8 @@ the treatment must not be “get some medicine” but should rather be “take 1
 
 <p>So given the confounders $X$, the treatment probability $T$ is independent on the
 potential outcome.</p>
+
+\[p(T | Y(0), Y(1), X) = p(T | X)\]
 
 <p>Let us assume we want to quantify the blood pressure reduction of a medicine.
 It is more likely that people with a high blood pressure will take it.

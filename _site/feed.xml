@@ -1,4 +1,166 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-09-24T14:02:12+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Causal inference: a general introduction</title><link href="http://localhost:4000/causal-intro/" rel="alternate" type="text/html" title="Causal inference: a general introduction" /><published>2023-09-02T00:00:00+02:00</published><updated>2023-09-02T00:00:00+02:00</updated><id>http://localhost:4000/causal-intro</id><content type="html" xml:base="http://localhost:4000/causal-intro/"><![CDATA[<h2 id="causality-as-counterfactual-evidence">Causality as counterfactual evidence</h2>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-10-01T17:21:53+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Introduction to causal graphs</title><link href="http://localhost:4000/causal-graphs/" rel="alternate" type="text/html" title="Introduction to causal graphs" /><published>2023-09-04T00:00:00+02:00</published><updated>2023-09-04T00:00:00+02:00</updated><id>http://localhost:4000/causal-graphs</id><content type="html" xml:base="http://localhost:4000/causal-graphs/"><![CDATA[<p>Causality is a relation between events, and one of the easiest to interpret
+representations of items and relations is by using graphs.
+In our discussion we will roughly follow (in a slightly less rigorous and precise way) chapter 3 of <a href="https://www.bradyneal.com/Introduction_to_Causal_Inference-Dec17_2020-Neal.pdf">Brady Neal’s notes</a>.
+Since our relation, causality, is directional (either $A$ causes $B$ or $B$ causes $A$)
+we must use directed graph or digraphs.</p>
+
+<p>Formally a digraph $\mathcal{G}$ is a pair $(V, E)$ where $V$ represents
+the collection of the vertices</p>
+
+\[V=\{x_1, x_2,...,x_N\}\]
+
+<p>The elements of $V$ are also called nodes or points.</p>
+
+<p>$E$ is the collection of the edges</p>
+
+\[E \subseteq \{(x, y) \in V \times V | x \neq y\}\]
+
+<p>We must make a further requirement: we must forbid cases where
+$A$ causes $B$, $B$ causes $C$ and $C$ causes $A$, as it doesn’t make sense
+to have a circular causality relation. We thus must represent the causality
+relation as a <strong>Directed Acyclic Graph</strong> or DAG.</p>
+
+<p>Of course, if we only have 2 elements, either there is a relation between them
+or there isn’t, so the only possible set of edges between $x$ and $y$
+are</p>
+
+\[\{\}\]
+
+\[\{(x, y)\}\]
+
+\[\{(y, x)\}\]
+
+<p>In our representation, we assume that <strong>every parent is direct cause of its children</strong>,
+so in the first case we have that $x$ and $y$ are independent,
+in the second one we have that $x$ causes $y$, while in the last one we have that
+$y$ causes $x$.</p>
+
+<p>In terms of probabilities, we have that the probability can be represented
+ as $p(x)p(y)$, $p(x)p(y \vert x)$ or $p(y)p(x \vert y)$ respectively.</p>
+
+<h2 id="building-blocks">Building blocks</h2>
+
+<p>Let us take a look at what we might have with three vertices and two arrows:</p>
+
+<p>The first possible case is called the <strong>chain</strong>, such that $p(x, y, z)=p(x)p(y\vert x)p(z\vert y)$</p>
+
+<p style="text-align: center;"><img src="/docs/assets/images/causal_graphs/test-1.svg" alt="The chain" width="450" /></p>
+
+<p>We then have the <strong>fork</strong>, where $p(x, y, z) = p(y) p(x \vert y) p(z \vert y)$</p>
+
+<p style="text-align: center;"><img src="/docs/assets/images/causal_graphs/test-2.svg" alt="The chain" width="280" /></p>
+
+<p>And we finally have the <strong>immorality</strong> $p(x, y, z) = p(x)p(z)p(y\vert x, z)$</p>
+
+<p style="text-align: center;"><img src="/docs/assets/images/causal_graphs/test-3.svg" alt="The chain" width="280" /></p>
+
+<h2 id="association-flow">Association flow</h2>
+
+<p>Let us check the flow of association for the three graphs.
+For the chain we have that, when $x$ changes we have a change in $y$, and a change
+in $y$ causes a change in $z$, so we will see some association flow between $x$ and $z$.</p>
+
+<p>For the fork, analogously, we have that a change in $y$ will cause both
+a change in $x$ and in $z$, so they will change together and we will see some
+flow of association.</p>
+
+<p>Vice versa, in the case of immorality, $x$ and $z$ will vary in a totally independent
+way, and we will generally not see an association between them.</p>
+
+<p>Let us see this mathematically.</p>
+
+<p>For the chain:</p>
+
+\[\begin{align}
+&amp;
+p(x, y, z) = p(x) p(y\vert x) p(z \vert y)
+\\
+&amp;
+p(x, z) = \int dy p(x, y, z) = p(x) \int dy p(y \vert x) p(z \vert y) = p(x) p(z \vert x) \neq p(x)p(z)
+\end{align}\]
+
+<p>So if we simply ignore the intermediate variable $y$, we see an association between $x$ and $z$.
+Analogously, for the fork:</p>
+
+\[\begin{align}
+&amp;
+p(x, y, z) = p(y) p(x\vert y) p(z \vert y)
+\\
+&amp;
+p(x, z) = \int dy p(x, y, z) = \int dy p(y) p(x \vert y) p(z \vert y)  = \int dy p(x) p(y \vert x) p(z \vert y) = p(x) \int dy p(y \vert x) p(z \vert y) = p(x) p(z \vert x) \neq p(x) p(z)
+\end{align}\]
+
+<p>For the immorality, on the other hand:</p>
+
+\[\begin{align}
+&amp;
+p(x, y, z) = p(x) p(z) p(y \vert x, z)
+\\
+&amp;
+p(x, z) = \int dy  p(x) p(z) p(y \vert x, z) =  p(x) p(z) \int dy p(y \vert x, z) = p(x) p(z)
+\end{align}\]
+
+<h2 id="blocking">Blocking</h2>
+
+<p>Let us now see what happens when we block for (or control) $y$:</p>
+
+\[\begin{align}
+&amp;
+p(x, y, z) = p(x) p(y\vert x) p(z \vert y)
+\\
+&amp;
+p(x, z | y) = \frac{ p(x) p(y \vert x)  }{p(y)} p(z \vert y) = p(x \vert y) p(z \vert y)
+\end{align}\]
+
+<p>The last equality follows from Bayes theorem $p(y \vert x) p(x) = p(x \vert y) p(y)\,.$
+We can now prove unconfoundedness:</p>
+
+\[p(z \vert x, y) = \frac{p(x, z \vert y)}{p(x \vert y)} = p(z \vert y)\]
+
+<p>Let us now check the same for the fork:</p>
+
+\[\begin{align}
+&amp;
+p(x, y, z) = p(y) p(x\vert y) p(z \vert y)
+\\
+&amp;
+p(x, z \vert y) = \frac{p(x, y, z)}{p(y)} = p(x \vert y) p(z \vert y)
+\\
+&amp;
+p(z \vert x, y) = \frac{p(x, z \vert y)}{p(x \vert y)} = p(z \vert y)
+\end{align}\]
+
+<p>This cannot be done for the immorality:</p>
+
+\[\begin{align}
+&amp;
+p(x, y, z) = p(x) p(z) p(y\vert x, z)
+\\
+&amp;
+p(x, z \vert y) = p(x) \frac{p(y \vert x, z)p(z)}{p(y)} = p(z) p(z\vert x, y)
+\end{align}\]
+
+<p>We can now compute</p>
+
+\[p(z \vert y) = \int dx p(x, z \vert y) = p(z) \int dx p(z \vert x, y) \neq p(z \vert x, y)\]
+
+<p>This implies that controlling for an immorality introduces an association between
+the variables.</p>
+
+<h2 id="types-of-paths-and-d-separation">Types of paths and d-separation</h2>
+
+<p>We can now consider an arbitrary path \(\{x_1, x_2, ..., x_N\}\),
+where $x_2,…,x_{N-1}$ are the central vertices of either forks or chains or
+inverted chains.
+We say that the path is <strong>d-separated</strong> by a set of blocked nodes $C$
+if</p>
+<ul>
+  <li>the path contains a chain (or fork), and the middle vertex of the chain (fork) is in $C$</li>
+  <li>or if the path contains an inverted chain, and nor the middle vertex of the inverted fork $Z$ neither any descendant of $Z$ is in $C$.</li>
+</ul>
+
+<p>We say that two vertices $A$ and $B$ are <strong>blocked</strong> by a set of nodes $C$
+if all the paths from $A$ to $B$ are d-separated by $C$.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/causal-graphs/" /><summary type="html"><![CDATA[Causality is a relation between events, and one of the easiest to interpret representations of items and relations is by using graphs. In our discussion we will roughly follow (in a slightly less rigorous and precise way) chapter 3 of Brady Neal’s notes. Since our relation, causality, is directional (either $A$ causes $B$ or $B$ causes $A$) we must use directed graph or digraphs.]]></summary></entry><entry><title type="html">Causal inference: a general introduction</title><link href="http://localhost:4000/causal-intro/" rel="alternate" type="text/html" title="Causal inference: a general introduction" /><published>2023-09-02T00:00:00+02:00</published><updated>2023-09-02T00:00:00+02:00</updated><id>http://localhost:4000/causal-intro</id><content type="html" xml:base="http://localhost:4000/causal-intro/"><![CDATA[<h2 id="causality-as-counterfactual-evidence">Causality as counterfactual evidence</h2>
 
 <p>In the last years causal inference gained a lot of attention, both from academia and outside from it.
 Of course, you heard that <em>association does not imply causation</em>, as you will find an association
@@ -12,7 +174,7 @@ I found <a href="https://iep.utm.edu/causation/">this</a> introductory article v
 
 <p>We won’t dig into the philosophical debate, and simply use the <strong>counterfactual</strong> approach:
 we say that an action $T$, which is usually called treatment or intervention,
-causes $Y$ if, when $T$ disappears, then $Y$ disappears.
+causes $Y$ if, $T$ changes, then $Y$ changes, so then when the cause $T$ disappears, then the effect $Y$ disappears too.
 Our definition implies that we must switch off $T$ so,
 in order for our definition to be meaningful, we must be able <em>at least hypothetically</em>
 to manipulate $T$, and in this case we say that $T$ is <strong>manipulable</strong>.</p>
@@ -80,9 +242,11 @@ The first subpopulation is then treated, so they are assigned to the $T=1$ group
 while the second one is not, and for them $T=0$.
 We then take the average on each subpopulation what we are estimating is
 $\mathbb{E}[Y | T=1]$ and $\mathbb{E}[Y | T=0]$ respectively.
-On the other hand, what we really want to quantify is</p>
+On the other hand, what we really want to quantify in order to assess the average effect over the entire population is</p>
 
 \[\mathbb{E}[\delta] = \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}[Y(1)] - \mathbb{E}[Y(0)]\]
+
+<p>This quantity is called the <strong>average treatment effect</strong> (ATE).</p>
 
 <p>Let us indicate with $y^i_\tau$ the observed outcome on the individual $i$ of the population
 when this undergoes to treatment $\tau$.
@@ -159,7 +323,7 @@ relevant covariate (auxiliary quantities) $X$, that we assumed we measured for e
   </tbody>
 </table>
 
-<p>We have that</p>
+<p>Let us stuck for a moment to the frequentist framework, we have that</p>
 
 \[\begin{aligned}
 &amp;
@@ -186,29 +350,29 @@ to simply substitute the associational quantities with the causal ones,
 and this is why association is not causation.</p>
 
 <p>As we will show briefly, however, when a set of rather stringent condition
-holds, we are allowed to replace the causal quantities with the associational ones.
-However, there is no way to verify if these conditions are met, and one should
-rely on some external source of knowledge about the population
-in order to assess at which approximation level these conditions hold.</p>
+holds, we are allowed to replace the causal quantities with the associational ones.</p>
 
 <p>The stronger condition that might hold is <strong>ignorability</strong>, also called <strong>exchangeability</strong></p>
 
 \[Y(0), Y(1) \perp\!\!\!\!\perp T\]
 
-<p>We are thus assuming that the probability of being treated is independent on the outcome.
+<p>The same requirement can be stated as:</p>
+
+\[p(T | Y(0), Y(1)) = p(T)\]
+
+<p>We are thus assuming that the probability of being treated, given the potential outcomes, is both independent on the potential outcomes and on any other quantity.
 This is of course a very strong assumption, and the fact that in most observational
 studies this condition is not met implies a wrong estimation of the effect.
 As an example, if we are performing an observational study on a medicine, usually only people which
 are sick and so will benefit by the medicine, will take the medicine and, so, will be included in the
-treated group, while in the untreated group we may have sick people as well as healthy people.
-So we must introduce a confounder $x=sick, healthy$ to account for this.
-The ignorability assumption states that we must be allowed to exchange the two groups without affecting the outcome.</p>
+treated group, while in the untreated group we may have sick people as well as healthy people.</p>
 
-<p>Under this condition we have that</p>
+<p>The ignorability assumption states that we must be allowed to exchange the two groups without affecting the outcome.
+Under this condition we have that</p>
 
 \[\mathbb{E}[Y | T=1] - \mathbb{E}[Y | T=0] = \mathbb{E}[Y(1) | T=1] - \mathbb{E}[Y(0) | T=0] = \mathbb{E}[Y(1)] - \mathbb{E}[Y(0)] = \mathbb{E}[Y(1)-Y(0)] = \mathbb{E}[\delta]\]
 
-<p>In the previous equation we used</p>
+<p>In the previous equation we used another important assumption:</p>
 
 \[\mathbb{E}[Y | T=t] = \mathbb{E}[Y(t) | T=t]\]
 
@@ -224,6 +388,8 @@ the treatment must not be “get some medicine” but should rather be “take 1
 
 <p>So given the confounders $X$, the treatment probability $T$ is independent on the
 potential outcome.</p>
+
+\[p(T | Y(0), Y(1), X) = p(T | X)\]
 
 <p>Let us assume we want to quantify the blood pressure reduction of a medicine.
 It is more likely that people with a high blood pressure will take it.
@@ -2868,51 +3034,4 @@ unless you see the jump as in this case.</p>
 
 <p>If you use many traces it may be easier to spot, and possible solutions
 are re-parametrizations of your model, drawing longer samples or increasing
-the acceptance ratio.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/trace/" /><summary type="html"><![CDATA[Up to now we limited ourselves to a visual assessment of the trace quality. Here we will give some explicit example of some problem in the sampling and we will provide some tool to investigate the issues in the sampling. We will also give some recipes in order to improve the quality of our MCMC traces.]]></summary></entry><entry><title type="html">The Bayesian workflow and reporting guidelines</title><link href="http://localhost:4000/workflow/" rel="alternate" type="text/html" title="The Bayesian workflow and reporting guidelines" /><published>2023-08-22T00:00:00+02:00</published><updated>2023-08-22T00:00:00+02:00</updated><id>http://localhost:4000/workflow</id><content type="html" xml:base="http://localhost:4000/workflow/"><![CDATA[<p>In the following we will give an overview on the collection of procedures
-and suggestions to improve the robustness and the reproducibility of your analysis.
-This set of tools, which goes under the name of <strong>Bayesian workflow</strong>,
-is extensively discussed in <a href="https://arxiv.org/pdf/2011.01808.pdf">this</a>
-preprint by Gelman <em>et al.</em> as well as in <a href="https://www.nature.com/articles/s41562-021-01177-7">this</a> article on Nature.</p>
-
-<p>Of course, we won’t go as deep as the previously cited articles, but we will
-give a practical overview of the main steps that you should always follow
-in order to make sure that your conclusions are reliable and reproducible.</p>
-
-<p>Many data scientists often get the data and just try to find out something out of it, and of course with enough data they will. However, the finding won’t be reliable, as it is known that <strong>if you torture long enough your data, it will confess to anything</strong> (this is known as p-value hacking).</p>
-
-<p>A better approach is to start by a <strong>well defined question</strong>, and this question should be stated even before collecting the data in order to avoid to look for some effect in the data rather than looking for a solution to our question.</p>
-
-<p>Now many of you will rush to collect the data, but we can do better! In most cases someone had the same question and already came up with a meaningful solution. Don’t waste time in reinventing the wheel, but dig into the literature, ask to other who may have had the same problem or an analogous one, and use this information as a starting point.</p>
-
-<p>Then we can collect our data, by keeping in mind that <strong>garbage in, garbage out</strong>. In other words, our model will be at most as useful as our data.</p>
-
-<p>Now it’s finally time to write down our model. By doing this you should stuck to Occam’s razor: in most cases the simplest solution is the best one.
-We always want to start with the simplest model as possible, and we should add structure to it only in order to solve specific issues. In the software engineering language this is known as the KISS principle, and KISS doesn’t refer to the glam rock band but means <strong>Keep It Simple, Stupid!</strong>
-A simpler model will be likely more explainable, and this is a very important feature for use-cases, as it will allow us to think at the meaning of each parameter and eventually make some guess on how to add structure to the model by modifying it. Moreover, a model with few parameters is easier to debug than a model with hundreds of parameters.</p>
-
-<p>Our model will contain priors, but in most cases we won’t have enough field-specific knowledge in order to know a priori if our guess is good enough, so a very important step in the Bayesian workflow is to perform the <strong>prior predictive check</strong>. This is a very easy task to do and it won’t be time consuming, but it allows us to check if the hyperparameters in our model are able to include our data.
-In other words, if our model predicts the outcome variable $Y$ in the range $[-10, 10]$ in the 95% of the simulations but our true data are outside of this range than we should definitely change our hyperparameters.
-As a rule of thumb, at least the 50% of the data should fall in the 50% highest density region of our prior predictive sample.
-A useful procedure is to simulate some data based on our knowledge
-(so before looking at the true data) and make sure
-that our model is able to reproduce them.</p>
-
-<p>Now it’s finally time to draw our samples. Don’t waste time by drawing large samples from the beginning, but run short samples when debugging your model and only once everything looks good you can draw the final sample (Nature reccomends at least ten thousands samples in order to have a sufficiently large one, and distributing those samples in 4 chains is usually enough). Gelman reccomends to only keep the last half of each of our sample, since it is the best compromise between time and precision.</p>
-
-<p>After running the simulation, in order to check that everything is OK we should do the <strong>trace evaluation</strong>. A visual check is very important, but there are also other checks that we can and eventually should do in order to check that we did not ran into troubles and it’s not necessary to increase the sample size or re-parametrize our model in order to make it more stable.</p>
-
-<p>Once everything is good we can perform the <strong>posterior predictive check</strong>, and they will allow us to make sure that our model reproduces the salient features of our data. As previously stated, all models are wrong, so we won’t be able to reproduce all of the features of the data, but we should be able to reproduce the relevant ones, where by relevant we mean with respect to our questions.</p>
-
-<p>In most cases we won’t be dealing with only one model, but we will be comparing more than one model to see which feature is best reproduced by each model.
-This part of the flow is called <strong>model comparison</strong> or <strong>model averaging</strong> although in most cases we won’t be really averaging over the models.</p>
-
-<p>If our model looks good enough we can stuck here and use the informations that we extracted from our model till we get more data and are our model does not encode enough structure to reproduce the salient features of the new data. Otherwise we should go back to and adjust our model in order to be able to answer to our questions.</p>
-
-<p>We should finally perform a <strong>sensitivity analysis</strong> and assess how our conclusions depends on the choice of the prior.</p>
-
-<p>In the next posts we will dive deeper in how to perform in Python:</p>
-<ul>
-  <li>trace evaluation</li>
-  <li>prior and posterior check</li>
-  <li>model comparison and averaging</li>
-</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/workflow/" /><summary type="html"><![CDATA[In the following we will give an overview on the collection of procedures and suggestions to improve the robustness and the reproducibility of your analysis. This set of tools, which goes under the name of Bayesian workflow, is extensively discussed in this preprint by Gelman et al. as well as in this article on Nature.]]></summary></entry></feed>
+the acceptance ratio.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/trace/" /><summary type="html"><![CDATA[Up to now we limited ourselves to a visual assessment of the trace quality. Here we will give some explicit example of some problem in the sampling and we will provide some tool to investigate the issues in the sampling. We will also give some recipes in order to improve the quality of our MCMC traces.]]></summary></entry></feed>
