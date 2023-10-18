@@ -15,6 +15,9 @@ However I always used Python, as R is rarely used in nuclear physics, so I decid
 combining what I learned from PyMC tutorials, statistics textbooks, online courses and from my own experience.
 The main resources I used are listed in the [resources](/links) section.
 
+My interests about statistics also include data visualization, causal inference and any other (not necessarily Bayesian) method which may help 
+solid and replicable findings as well ass improving results communication.
+
 I would like to thank anyone who shared his/her knowledge in this beautiful field, first of all the PyMC team. 
 On the other hand, any error in these notes is my own responsibility, and if you find any please let my know by writing an email.
 Finally, I would like to point out that views are my own, and opinions expressed here are not necessarily shared by the authors

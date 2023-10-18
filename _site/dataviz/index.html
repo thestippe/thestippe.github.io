@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Data visualization | Just another Bayesian enthusiast</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Data visualization" />
+<meta name="author" content="Stippe" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I started to plot data since many years, but only few months ago I really went into data visualization (or dataviz, if you prefer). I attended some Coursera course of prof. Enrico Bertini, who also has a very interesting podcast named Data Stories together with Moritz Stefaner. The course allows you design and decide what is the best data visualization by starting from what is currently known about our brain’s processes in visual perception." />
+<meta property="og:description" content="I started to plot data since many years, but only few months ago I really went into data visualization (or dataviz, if you prefer). I attended some Coursera course of prof. Enrico Bertini, who also has a very interesting podcast named Data Stories together with Moritz Stefaner. The course allows you design and decide what is the best data visualization by starting from what is currently known about our brain’s processes in visual perception." />
+<link rel="canonical" href="http://localhost:4000/dataviz/" />
+<meta property="og:url" content="http://localhost:4000/dataviz/" />
+<meta property="og:site_name" content="Just another Bayesian enthusiast" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-10-11T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Data visualization" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Stippe"},"dateModified":"2023-10-11T00:00:00+02:00","datePublished":"2023-10-11T00:00:00+02:00","description":"I started to plot data since many years, but only few months ago I really went into data visualization (or dataviz, if you prefer). I attended some Coursera course of prof. Enrico Bertini, who also has a very interesting podcast named Data Stories together with Moritz Stefaner. The course allows you design and decide what is the best data visualization by starting from what is currently known about our brain’s processes in visual perception.","headline":"Data visualization","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/dataviz/"},"url":"http://localhost:4000/dataviz/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Just another Bayesian enthusiast" />
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Just another Bayesian enthusiast</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about">About me</a><a class="page-link" href="/index">Home</a><a class="page-link" href="/notes">List of the notes</a><a class="page-link" href="/links">Some useful resources</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Data visualization</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-10-11T00:00:00+02:00" itemprop="datePublished">
+        Oct 11, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>I started to plot data since many years, but only few months ago I really went into
+data visualization (or dataviz, if you prefer).
+I attended some Coursera course of prof. Enrico Bertini, who also has a very interesting
+podcast named <a href="https://datastori.es/">Data Stories</a> together with Moritz Stefaner.
+The course allows you design and decide what is the best data visualization by
+starting from what is currently known about our brain’s processes in visual perception.</p>
+
+<p>Since I discovered this research field I started reading books talking about this field,
+and I began with the ones written written by the data visualization pioneer <a href="https://it.wikipedia.org/wiki/Edward_Tufte">Edward Tufte</a>.</p>
+
+<p>I would like to share some (hopefully intelligent) though about data visualization.
+Moreover, as Tufte himself wrote in his book Beautiful Evidence, “as teachers know, a very good way to learn something is to teach it”, so let’s try.</p>
+
+<p>Before doing so it’s better to put here some vocabulary.</p>
+
+<p>A data visualization is first of all made by <strong>markers</strong>, namely the graphical
+objects that we use to represent our items.
+The most common markers are:</p>
+<ul>
+  <li>points</li>
+  <li>lines</li>
+  <li>bars</li>
+  <li>areas</li>
+</ul>
+
+<p>For each item we will represent some quantity, and we will do so by using one or more
+<strong>visual channels</strong> like:</p>
+<ul>
+  <li>position</li>
+  <li>size (length/width/area)</li>
+  <li>angle/slope</li>
+  <li>color hue</li>
+  <li>color intensity</li>
+  <li>shape and textures</li>
+</ul>
+
+<p>Other fundamental components of the visualization are the components which allow
+us to contextualize and interpret the visualization.
+Those components can be geometric components like axes, grids, reference lines
+but also textual components such as labels and annotations.</p>
+
+<p>A visual representation is a combination of such components, and you will find a huge variety visual representations,
+as there is a potentially infinite number of ways to combine these ingredients.
+So how to choose one? Which is the best?</p>
+
+<p>Of course, there is not <strong>the best</strong> representation, as we already said elsewhere in this blog, there is no silver bullet.
+A better question is</p>
+
+<blockquote>
+  <p>What is the most appropriate way to visualize this aspect of the data?</p>
+</blockquote>
+
+<p>This of course depends on many factors, and you will often find yourself in a situation where you simply
+have to decide how to balance your needs.</p>
+
+<!--
+<div id="tester" style="width:900px;height:900px;"></div>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+	TESTER = document.getElementById('tester');
+	Plotly.newPlot( TESTER, [{
+	y: ["Albania","Bosnia and Herzegovina","Bulgaria","Croatia","Czechia","Estonia","Hungary","Kosovo","Latvia","Lithuania","North Macedonia","Montenegro","Poland","Romania","Serbia","Slovakia","Slovenia","Armenia","Azerbaijan","Belarus","Georgia","Moldova","Russia","Ukraine","Austria","Belgium","Cyprus","Denmark","Finland","France","Germany","Greece","Iceland","Ireland","Italy","Luxembourg","Malta","Netherlands","Norway","Portugal","Spain","Sweden","Switzerland","United Kingdom"],
+	x: [296.6,187.7,1336.5,1341.2,3707.1,753.5,2774.0,108.0,819.5,1656.1,230.9,97.7,16818.9,5161.1,1443.5,2003.0,758.9,634.3,2664.8,792.2,292.7,40.1,71981.1,43983.2,3783.9,7045.0,514.6,5737.7,5089.5,56999.7,57807.7,8347.5,0.0,1207.7,34627.5,585.7,92.4,15670.8,8960.3,3647.6,20979.2,8491.5,6241.2,69998.7],
+    type: "bar",
+    orientation: "h",
+    transforms: [{
+    type: 'sort',
+    target: 'x',
+    order: "ascending"
+    }]
+    }], {
+	margin: { t: 0 } } );
+</script>
+-->
+
+  </div><a class="u-url" href="/dataviz/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Stippe</li>
+          <li><a class="u-email" href="mailto:smaurizio87@protonmail.com">smaurizio87@protonmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
+
