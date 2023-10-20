@@ -77,7 +77,7 @@ $$ \theta_{hb} = \frac{n_a}{n_a + n_d}  $$
 ```python
 theta_hb = alive / total
 ```
-> 0.886
+> 0.91411
 
 
 This is a quick solution, however we cannot associate any uncertainty to this number
