@@ -5,3 +5,15 @@
 @import
   "minima/skins/{{ site.minima.skin | default: 'classic' }}",
   "minima/initialize";
+
+
+
+html, body, form, fieldset, table, tr, td, img {
+ font-size: 100%;
+ font-family: Dejavu Serif;
+}
+
+body {
+background-color: #fffcfa;
+}
+
