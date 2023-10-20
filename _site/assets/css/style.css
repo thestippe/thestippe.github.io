@@ -742,5 +742,13 @@ table td {
     width: calc(50% - (10px / 2));
   }
 }
+html, body, form, fieldset, table, tr, td, img {
+  font-size: 100%;
+  font-family: Dejavu Serif;
+}
+
+body {
+  background-color: #fffcfa;
+}
 
 /*# sourceMappingURL=style.css.map */
