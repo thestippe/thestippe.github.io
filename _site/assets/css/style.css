@@ -742,9 +742,15 @@ table td {
     width: calc(50% - (10px / 2));
   }
 }
+@font-face {
+  font-family: DjvSerif;
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://fonts.cdnfonts.com/css/dejavu-serif");
+}
 html, body, form, fieldset, table, tr, td, img {
   font-size: 100%;
-  font-family: Dejavu Serif;
+  font-family: DjvSerif, Dejavu Serif;
 }
 
 body {
