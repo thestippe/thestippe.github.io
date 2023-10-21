@@ -32,12 +32,12 @@ In the figure shown above:
 
 | square | alive | death |
 |------|-------|-------|
-|   top left    | 16   | 2 |
-|   top right     | 17   | 3 |
-|   bottom left | 18   | 3  |
-|   bottom right  | 11   | 0  |
-|   center       |  8   | 1  |
-|  **total**     | 70   | 9  |
+|   top left    | 15   | 2 |
+|   top right     | 11   | 2 |
+|   bottom left | 10   | 2  |
+|   bottom right  | 14   | 2  |
+|   center       |  22   | 1  |
+|  **total**     | 72   | 9  |
 
 Let us see how can we estimate the viability.
 In the following, we will indicate with $n_a$ the number of alive cells (which is 70)
@@ -61,7 +61,7 @@ cmap = sns.color_palette("rocket")
 # For reproducibility
 rng = np.random.default_rng(42)
 
-alive = 70
+alive = 72
 death = 9
 total = alive + death
 ```
@@ -77,7 +77,7 @@ $$ \theta_{hb} = \frac{n_a}{n_a + n_d}  $$
 ```python
 theta_hb = alive / total
 ```
-> 0.91411
+> 0.88889
 
 
 This is a quick solution, however we cannot associate any uncertainty to this number

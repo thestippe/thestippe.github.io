@@ -6,17 +6,10 @@
 "minima/skins/{{ site.minima.skin | default: 'classic' }}",
 "minima/initialize";
 
-@font-face {
-  font-family: DejavuWeb;
-  font-style: normal;
-  font-weight: 400;
-  src: url('https://fonts.cdnfonts.com/css/dejavu-serif';
-}
-
 
 html, body, form, fieldset, table, tr, td, img {
         font-size: 100%;
-        font-family: Dejavu Serif, DejavuWeb;
+        font-family: Dejavu Serif;
 }
 
 body {

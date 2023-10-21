@@ -99,32 +99,32 @@ In the figure shown above:</p>
   <tbody>
     <tr>
       <td>top left</td>
-      <td>16</td>
+      <td>15</td>
       <td>2</td>
     </tr>
     <tr>
       <td>top right</td>
-      <td>17</td>
-      <td>3</td>
+      <td>11</td>
+      <td>2</td>
     </tr>
     <tr>
       <td>bottom left</td>
-      <td>18</td>
-      <td>3</td>
+      <td>10</td>
+      <td>2</td>
     </tr>
     <tr>
       <td>bottom right</td>
-      <td>11</td>
-      <td>0</td>
+      <td>14</td>
+      <td>2</td>
     </tr>
     <tr>
       <td>center</td>
-      <td>8</td>
+      <td>22</td>
       <td>1</td>
     </tr>
     <tr>
       <td><strong>total</strong></td>
-      <td>70</td>
+      <td>72</td>
       <td>9</td>
     </tr>
   </tbody>
@@ -151,7 +151,7 @@ and define the data</p>
 <span class="c1"># For reproducibility
 </span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
-<span class="n">alive</span> <span class="o">=</span> <span class="mi">70</span>
+<span class="n">alive</span> <span class="o">=</span> <span class="mi">72</span>
 <span class="n">death</span> <span class="o">=</span> <span class="mi">9</span>
 <span class="n">total</span> <span class="o">=</span> <span class="n">alive</span> <span class="o">+</span> <span class="n">death</span>
 </code></pre></div></div>
@@ -166,7 +166,7 @@ and alive cell is simply</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">theta_hb</span> <span class="o">=</span> <span class="n">alive</span> <span class="o">/</span> <span class="n">total</span>
 </code></pre></div></div>
 <blockquote>
-  <p>0.91411</p>
+  <p>0.88889</p>
 </blockquote>
 
 <p>This is a quick solution, however we cannot associate any uncertainty to this number
