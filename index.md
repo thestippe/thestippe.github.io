@@ -5,6 +5,8 @@ permalink: /index
 ---
 ## A personal blog about Bayesian statistics
 
-In this blog I will share some ideas about Bayesian statistics and PyMC.
+Welcome to my blog!
 
+Here I will collect and discuss some ideas that allowed me to improve my data
+analysis, from Bayesian statistics (of course by using PyMC) to dataviz.
 

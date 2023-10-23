@@ -3,6 +3,8 @@ layout: post
 title: "Beer and the Beta-Binomial model"
 categories: course/intro/
 tags: /beta-binom/
+image: "/docs/assets/images/beta_binom/bar-209148_960_720.jpg"
+description: "How to describe dichotomous variables"
 ---
 I love beer, and whenever I have a free day I brew. As you probably know, beer is made
 with water, malt, hop and yeast. One of the most important things to do in order

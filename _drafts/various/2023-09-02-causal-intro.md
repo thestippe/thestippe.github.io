@@ -3,6 +3,8 @@ layout: post
 title: "Causal inference: a general introduction"
 categories: course/various/
 tags: /causal-intro/
+image: "/docs/assets/images/causal_graphs/dominoes-4020617_960_720.jpg"
+description: "When association implies causation"
 ---
 
 ## Causality as counterfactual evidence

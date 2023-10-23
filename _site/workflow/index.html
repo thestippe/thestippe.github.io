@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>The Bayesian workflow and reporting guidelines | Just another Bayesian enthusiast</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="The Bayesian workflow and reporting guidelines" />
+<meta name="author" content="Stippe" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How to assess your model’s goodness" />
+<meta property="og:description" content="How to assess your model’s goodness" />
+<link rel="canonical" href="http://localhost:4000/workflow/" />
+<meta property="og:url" content="http://localhost:4000/workflow/" />
+<meta property="og:site_name" content="Just another Bayesian enthusiast" />
+<meta property="og:image" content="http://localhost:4000/docs/assets/images/workflow/organization-chart-2556925_960_720.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-08-22T00:00:00+02:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/docs/assets/images/workflow/organization-chart-2556925_960_720.jpg" />
+<meta property="twitter:title" content="The Bayesian workflow and reporting guidelines" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Stippe"},"dateModified":"2023-08-22T00:00:00+02:00","datePublished":"2023-08-22T00:00:00+02:00","description":"How to assess your model’s goodness","headline":"The Bayesian workflow and reporting guidelines","image":"http://localhost:4000/docs/assets/images/workflow/organization-chart-2556925_960_720.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/workflow/"},"url":"http://localhost:4000/workflow/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Just another Bayesian enthusiast" />
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Just another Bayesian enthusiast</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about">About me</a><a class="page-link" href="/index">Home</a><a class="page-link" href="/notes">List of the notes</a><a class="page-link" href="/links">Some useful resources</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">The Bayesian workflow and reporting guidelines</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-08-22T00:00:00+02:00" itemprop="datePublished">
+        Aug 22, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In the following we will give an overview on the collection of procedures
+and suggestions to improve the robustness and the reproducibility of your analysis.
+This set of tools, which goes under the name of <strong>Bayesian workflow</strong>,
+is extensively discussed in <a href="https://arxiv.org/pdf/2011.01808.pdf">this</a>
+preprint by Gelman <em>et al.</em> as well as in <a href="https://www.nature.com/articles/s41562-021-01177-7">this</a> article on Nature.</p>
+
+<p>Of course, we won’t go as deep as the previously cited articles, but we will
+give a practical overview of the main steps that you should always follow
+in order to make sure that your conclusions are reliable and reproducible.</p>
+
+<p>Many data scientists often get the data and just try to find out something out of it, and of course with enough data they will. However, the finding won’t be reliable, as it is known that <strong>if you torture long enough your data, it will confess to anything</strong> (this is known as p-value hacking).</p>
+
+<p>A better approach is to start by a <strong>well defined question</strong>, and this question should be stated even before collecting the data in order to avoid to look for some effect in the data rather than looking for a solution to our question.</p>
+
+<p>Now many of you will rush to collect the data, but we can do better! In most cases someone had the same question and already came up with a meaningful solution. Don’t waste time in reinventing the wheel, but dig into the literature, ask to other who may have had the same problem or an analogous one, and use this information as a starting point.</p>
+
+<p>Then we can collect our data, by keeping in mind that <strong>garbage in, garbage out</strong>. In other words, our model will be at most as useful as our data.</p>
+
+<p>Now it’s finally time to write down our model. By doing this you should stuck to Occam’s razor: in most cases the simplest solution is the best one.
+We always want to start with the simplest model as possible, and we should add structure to it only in order to solve specific issues. In the software engineering language this is known as the KISS principle, and KISS doesn’t refer to the glam rock band but means <strong>Keep It Simple, Stupid!</strong>
+A simpler model will be likely more explainable, and this is a very important feature for use-cases, as it will allow us to think at the meaning of each parameter and eventually make some guess on how to add structure to the model by modifying it. Moreover, a model with few parameters is easier to debug than a model with hundreds of parameters.</p>
+
+<p>Our model will contain priors, but in most cases we won’t have enough field-specific knowledge in order to know a priori if our guess is good enough, so a very important step in the Bayesian workflow is to perform the <strong>prior predictive check</strong>. This is a very easy task to do and it won’t be time consuming, but it allows us to check if the hyperparameters in our model are able to include our data.
+In other words, if our model predicts the outcome variable $Y$ in the range $[-10, 10]$ in the 95% of the simulations but our true data are outside of this range than we should definitely change our hyperparameters.
+As a rule of thumb, at least the 50% of the data should fall in the 50% highest density region of our prior predictive sample.
+A useful procedure is to simulate some data based on our knowledge
+(so before looking at the true data) and make sure
+that our model is able to reproduce them.</p>
+
+<p>Now it’s finally time to draw our samples. Don’t waste time by drawing large samples from the beginning, but run short samples when debugging your model and only once everything looks good you can draw the final sample (Nature reccomends at least ten thousands samples in order to have a sufficiently large one, and distributing those samples in 4 chains is usually enough). Gelman reccomends to only keep the last half of each of our sample, since it is the best compromise between time and precision.</p>
+
+<p>After running the simulation, in order to check that everything is OK we should do the <strong>trace evaluation</strong>. A visual check is very important, but there are also other checks that we can and eventually should do in order to check that we did not ran into troubles and it’s not necessary to increase the sample size or re-parametrize our model in order to make it more stable.</p>
+
+<p>Once everything is good we can perform the <strong>posterior predictive check</strong>, and they will allow us to make sure that our model reproduces the salient features of our data. As previously stated, all models are wrong, so we won’t be able to reproduce all of the features of the data, but we should be able to reproduce the relevant ones, where by relevant we mean with respect to our questions.</p>
+
+<p>In most cases we won’t be dealing with only one model, but we will be comparing more than one model to see which feature is best reproduced by each model.
+This part of the flow is called <strong>model comparison</strong> or <strong>model averaging</strong> although in most cases we won’t be really averaging over the models.</p>
+
+<p>If our model looks good enough we can stuck here and use the informations that we extracted from our model till we get more data and are our model does not encode enough structure to reproduce the salient features of the new data. Otherwise we should go back to and adjust our model in order to be able to answer to our questions.</p>
+
+<p>We should finally perform a <strong>sensitivity analysis</strong> and assess how our conclusions depends on the choice of the prior.</p>
+
+<p>In the next posts we will dive deeper in how to perform in Python:</p>
+<ul>
+  <li>trace evaluation</li>
+  <li>prior and posterior check</li>
+  <li>model comparison and averaging</li>
+</ul>
+
+  </div><a class="u-url" href="/workflow/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Stippe</li>
+          <li><a class="u-email" href="mailto:smaurizio87@protonmail.com">smaurizio87@protonmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
+

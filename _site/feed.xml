@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-10-23T12:30:55+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/beta-binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-10-22T00:00:00+02:00</published><updated>2023-10-22T00:00:00+02:00</updated><id>http://localhost:4000/beta-binom</id><content type="html" xml:base="http://localhost:4000/beta-binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-10-23T18:27:06+02:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/beta-binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-10-22T00:00:00+02:00</published><updated>2023-10-22T00:00:00+02:00</updated><id>http://localhost:4000/beta-binom</id><content type="html" xml:base="http://localhost:4000/beta-binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
 with water, malt, hop and yeast. One of the most important things to do in order
 to produce a good beer is to have a good quality yeast, and one of the metrics
 used to quantify the goodness of the yeast is the <strong>yeast viability</strong>, which corresponds to the percentage of alive cells in your yeast.
@@ -293,7 +293,7 @@ data which can take more than two values.</p>
       <p>This topic will be discussed in a future post. For the moment, if you are curious, you can take a look at the <a href="https://en.wikipedia.org/wiki/Jeffreys_prior#">Wikipedia</a> page. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/beta-binom/" /><summary type="html"><![CDATA[I love beer, and whenever I have a free day I brew. As you probably know, beer is made with water, malt, hop and yeast. One of the most important things to do in order to produce a good beer is to have a good quality yeast, and one of the metrics used to quantify the goodness of the yeast is the yeast viability, which corresponds to the percentage of alive cells in your yeast. This procedure is time consuming, as you must count by hand the number of dead and alive cells in a sample, so it is usually performed with small samples. It is therefore important to quantify the uncertainties in your estimate.]]></summary></entry><entry><title type="html">Why (and when) should you go for Bayesian</title><link href="http://localhost:4000/intro-when-go-bayesian/" rel="alternate" type="text/html" title="Why (and when) should you go for Bayesian" /><published>2023-10-20T00:00:00+02:00</published><updated>2023-10-20T00:00:00+02:00</updated><id>http://localhost:4000/intro-when-go-bayesian</id><content type="html" xml:base="http://localhost:4000/intro-when-go-bayesian/"><![CDATA[<p>I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes.
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/beta-binom/" /><summary type="html"><![CDATA[How to describe dichotomous variables]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/beta_binom/bar-209148_960_720.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/beta_binom/bar-209148_960_720.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Why (and when) should you go for Bayesian</title><link href="http://localhost:4000/intro-when-go-bayesian/" rel="alternate" type="text/html" title="Why (and when) should you go for Bayesian" /><published>2023-10-20T00:00:00+02:00</published><updated>2023-10-20T00:00:00+02:00</updated><id>http://localhost:4000/intro-when-go-bayesian</id><content type="html" xml:base="http://localhost:4000/intro-when-go-bayesian/"><![CDATA[<p>I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes.
 Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process.
 The model can be divided into two parts:</p>
 <ul>
@@ -399,4 +399,1903 @@ in the World, I hope I will help a lot of people.</p>
       <p>See <a href="https://www.nature.com/articles/520612a">this other article of Nature</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><summary type="html"><![CDATA[I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes. Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process. The model can be divided into two parts: The likelihood $p(y \vert \theta)$, which determines how the data you want to model $y$ are generated given the parameter(s) $\theta$. The priors $p(\theta)$, which specifies your initial hypothesis about the distribution of the parameters of the model.]]></summary></entry></feed>
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><summary type="html"><![CDATA[Because there is no silver bullet]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/intro/doubt.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/intro/doubt.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Data visualization</title><link href="http://localhost:4000/dataviz/" rel="alternate" type="text/html" title="Data visualization" /><published>2023-10-11T00:00:00+02:00</published><updated>2023-10-11T00:00:00+02:00</updated><id>http://localhost:4000/dataviz</id><content type="html" xml:base="http://localhost:4000/dataviz/"><![CDATA[<p>I started to plot data since many years, but only few months ago I really went into
+data visualization (or dataviz, if you prefer).
+I attended some Coursera course of prof. Enrico Bertini, who also has a very interesting
+podcast named <a href="https://datastori.es/">Data Stories</a> together with Moritz Stefaner.
+The course allows you design and decide what is the best data visualization by
+starting from what is currently known about our brain’s processes in visual perception.</p>
+
+<p>Since I discovered this research field I started reading books talking about this field,
+and I began with the ones written written by the data visualization pioneer <a href="https://it.wikipedia.org/wiki/Edward_Tufte">Edward Tufte</a>.</p>
+
+<p>I would like to share some (hopefully intelligent) though about data visualization.
+Moreover, as Tufte himself wrote in his book Beautiful Evidence, “as teachers know, a very good way to learn something is to teach it”, so let’s try.</p>
+
+<p>Before doing so it’s better to put here some vocabulary.</p>
+
+<p>A data visualization is first of all made by <strong>markers</strong>, namely the graphical
+objects that we use to represent our items.
+The most common markers are:</p>
+<ul>
+  <li>points</li>
+  <li>lines</li>
+  <li>bars</li>
+  <li>areas</li>
+</ul>
+
+<p>For each item we will represent some quantity, and we will do so by using one or more
+<strong>visual channels</strong> like:</p>
+<ul>
+  <li>position</li>
+  <li>size (length/width/area)</li>
+  <li>angle/slope</li>
+  <li>color hue</li>
+  <li>color intensity</li>
+  <li>shape and textures</li>
+</ul>
+
+<p>Other fundamental components of the visualization are the components which allow
+us to contextualize and interpret the visualization.
+Those components can be geometric components like axes, grids, reference lines
+but also textual components such as labels and annotations.</p>
+
+<p>A visual representation is a combination of such components, and you will find a huge variety visual representations,
+as there is a potentially infinite number of ways to combine these ingredients.
+So how to choose one? Which is the best?</p>
+
+<p>As often happens, there is not <strong>the best</strong> representation, as we already said elsewhere in this blog, there is no silver bullet.
+A better question is</p>
+
+<blockquote>
+  <p>What is the most appropriate way to visualize this aspect of the data?</p>
+</blockquote>
+
+<p>This of course depends on many factors, and you will often find yourself in a situation where you simply
+have to decide how to balance your needs.
+Data visualization is the discipline which wants to address to this question from a scientific perspective.</p>
+
+<p>I will try and share some resources about this topic in some future post, as well as to share some hopefully interesting personal thoughts.</p>
+
+<!--
+<div id="tester" style="width:900px;height:900px;"></div>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+	TESTER = document.getElementById('tester');
+	Plotly.newPlot( TESTER, [{
+	y: ["Albania","Bosnia and Herzegovina","Bulgaria","Croatia","Czechia","Estonia","Hungary","Kosovo","Latvia","Lithuania","North Macedonia","Montenegro","Poland","Romania","Serbia","Slovakia","Slovenia","Armenia","Azerbaijan","Belarus","Georgia","Moldova","Russia","Ukraine","Austria","Belgium","Cyprus","Denmark","Finland","France","Germany","Greece","Iceland","Ireland","Italy","Luxembourg","Malta","Netherlands","Norway","Portugal","Spain","Sweden","Switzerland","United Kingdom"],
+	x: [296.6,187.7,1336.5,1341.2,3707.1,753.5,2774.0,108.0,819.5,1656.1,230.9,97.7,16818.9,5161.1,1443.5,2003.0,758.9,634.3,2664.8,792.2,292.7,40.1,71981.1,43983.2,3783.9,7045.0,514.6,5737.7,5089.5,56999.7,57807.7,8347.5,0.0,1207.7,34627.5,585.7,92.4,15670.8,8960.3,3647.6,20979.2,8491.5,6241.2,69998.7],
+    type: "bar",
+    orientation: "h",
+    transforms: [{
+    type: 'sort',
+    target: 'x',
+    order: "ascending"
+    }]
+    }], {
+	margin: { t: 0 } } );
+</script>
+-->]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/dataviz/" /><summary type="html"><![CDATA[I started to plot data since many years, but only few months ago I really went into data visualization (or dataviz, if you prefer). I attended some Coursera course of prof. Enrico Bertini, who also has a very interesting podcast named Data Stories together with Moritz Stefaner. The course allows you design and decide what is the best data visualization by starting from what is currently known about our brain’s processes in visual perception.]]></summary></entry><entry><title type="html">The frequentist perspective</title><link href="http://localhost:4000/estimation/" rel="alternate" type="text/html" title="The frequentist perspective" /><published>2023-10-01T00:00:00+02:00</published><updated>2023-10-01T00:00:00+02:00</updated><id>http://localhost:4000/estimation</id><content type="html" xml:base="http://localhost:4000/estimation/"><![CDATA[<p>While most of this blog is about Bayesian statistics, in this post
+we will try and give an overview to some of the most relevant concepts
+about frequentist statistics.</p>
+
+<p>We generally assume that we are trying and make some statements about the properties
+of a population $\mathbb{P}$.
+In <strong>parametric inferential statistics</strong> we assume that our population
+is distributed according to some family of distributions.
+As an example, we could assume that our population is distributed according to
+a normal distribution with unknown mean and known variance, and we would like to determine
+if the mean of the distribution is somehow compatible with zero.</p>
+
+<p>There are many ways to build those family of distributions, and one of the
+most useful is the <strong>exponential family form</strong>.
+For this kind of families we assume that the probability distribution
+function takes the form</p>
+
+\[p(x \vert \theta) = h(x) g(\theta)e^{T(x)\eta(\theta)}\,.\]
+
+<p>We define a <strong>sufficient statistic</strong> a statistic (which is nothing
+but a quantity that can be computed from the data) such that no other statistic
+can provide additional informations about our distribution.
+As an example, in our previous example, a sufficient statistics
+for the mean of the distribution $\mu$ is the arithmetic mean of the population:</p>
+
+\[T(x) = \frac{1}{N}\sum_{j=1}^N x_i\,.\]
+
+<p>A necessary and sufficient condition for a distribution family to admit a sufficient statistics is to be an exponential family distribution,
+and in this case the sufficient statistics is $T(x)$.</p>
+
+<p>In this context, $\eta$ is called the <strong>natural parameter</strong> of the distribution family,
+while one refers to $e^{A(\eta)}$ as the partition function.</p>
+
+<p>In the jargon one often refers to the distribution family as the distribution
+itself. This is not very precise, as the distribution is an element
+of the distribution family, but it is commonly accepted.</p>
+
+<p>In most case we won’t deal with the entire population, but only with a (possibly random)
+sub-sample of it \(\{X_1,...,X_n\}\).
+In this case we cannot exactly calculate the parameter of interest, but we can only
+<strong>estimate</strong> it, and this is why we refer to the parameter as the <strong>estimand</strong>.
+We call an <strong>estimator</strong> a map from the sample space to the space of the estimates.</p>
+
+<p>In our usual example, the arithmetic mean of the sample is an estimator of the 
+parameter $\mu$.</p>
+
+<p>Given an estimator \(\hat{\theta}\) of a parameter $\theta$ we define its bias as</p>
+
+\[E[\hat{\theta}-\theta]\]
+
+<p>We say that an estimator is unbiased it the bias is zero.</p>
+
+<p>Let us consider a sample of $n$ iid normally distributed observations
+with mean $\mu$ and variance $\sigma^2$.</p>
+
+<p>The arithmetic mean of the sample,
+defined as
+\(\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i\)
+is an unbiased estimator of the population mean $\mu\,,$ w</p>
+
+<p>On the other hand, the uncorrected estimator for the sample variance,
+defined as</p>
+
+\[S^2 = \frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^2\]
+
+<p>is a biased estimator, while the unbiased estimator is $\frac{n}{n-1}S^2$.</p>
+
+<p>There are two kind of estimates: <strong>point estimates</strong> and <strong>interval estimates</strong>.
+In the case of point estimate, the estimate space has the same dimension
+of the parameter space, as the estimate provides a point in the parameter
+space.
+The main issue of point estimates is that they provide no information
+about the uncertainty that is associated with the estimate itself.</p>
+
+<p>Confidence interval/region estimates, on the other hand, provide an interval/region
+(depending if we are working with a one dimensional parameter space or with a
+higher dimensional space).
+More precisely, a confidence interval for $\theta$ with confidence level
+$\gamma = 1-\alpha$ is an interval $(u(X), v(X))$ such that</p>
+
+\[P(u(X)\leq \theta \leq v(X)) = \gamma\]
+
+<p>We should always keep in mind that our parameter $\theta$ is given,
+and our confidence interval does not tell us anything about the probability
+for $\theta$ of being inside the interval.
+All we can say is that, if we repeat an experiment many times and each time
+we compute the confidence interval for the sample, a fraction
+of times $\gamma$ our confidence interval will contain the true parameter $\theta$.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/appendices/" /><category term="/estimation/" /><summary type="html"><![CDATA[While most of this blog is about Bayesian statistics, in this post we will try and give an overview to some of the most relevant concepts about frequentist statistics.]]></summary></entry><entry><title type="html">Introduction to causal graphs</title><link href="http://localhost:4000/causal-graphs/" rel="alternate" type="text/html" title="Introduction to causal graphs" /><published>2023-09-04T00:00:00+02:00</published><updated>2023-09-04T00:00:00+02:00</updated><id>http://localhost:4000/causal-graphs</id><content type="html" xml:base="http://localhost:4000/causal-graphs/"><![CDATA[<p>Causality is a relation between events, and one of the easiest to interpret
+representations of items and relations is by using graphs.
+In our discussion we will roughly follow (in a slightly less rigorous and precise way) chapter 3 of <a href="https://www.bradyneal.com/Introduction_to_Causal_Inference-Dec17_2020-Neal.pdf">Brady Neal’s notes</a>.
+Since our relation, causality, is directional (either $A$ causes $B$ or $B$ causes $A$)
+we must use directed graph or digraphs.</p>
+
+<p>Formally a digraph $\mathcal{G}$ is a pair $(V, E)$ where $V$ represents
+the collection of the vertices</p>
+
+\[V=\{x_1, x_2,...,x_N\}\]
+
+<p>The elements of $V$ are also called nodes or points.</p>
+
+<p>$E$ is the collection of the edges</p>
+
+\[E \subseteq \{(x, y) \in V \times V | x \neq y\}\]
+
+<p>We must make a further requirement: we must forbid cases where
+$A$ causes $B$, $B$ causes $C$ and $C$ causes $A$, as it doesn’t make sense
+to have a circular causality relation. We thus must represent the causality
+relation as a <strong>Directed Acyclic Graph</strong> or DAG.</p>
+
+<p>Of course, if we only have 2 elements, either there is a relation between them
+or there isn’t, so the only possible set of edges between $x$ and $y$
+are</p>
+
+\[\{\}\]
+
+\[\{(x, y)\}\]
+
+\[\{(y, x)\}\]
+
+<p>In our representation, we assume that <strong>every parent is direct cause of its children</strong>,
+so in the first case we have that $x$ and $y$ are independent,
+in the second one we have that $x$ causes $y$, while in the last one we have that
+$y$ causes $x$.</p>
+
+<p>In terms of probabilities, we have that the probability can be represented
+ as $p(x)p(y)$, $p(x)p(y \vert x)$ or $p(y)p(x \vert y)$ respectively.</p>
+
+<h2 id="building-blocks">Building blocks</h2>
+
+<p>Let us take a look at what we might have with three vertices and two arrows:</p>
+
+<p>The first possible case is called the <strong>chain</strong>, such that $p(x, y, z)=p(x)p(y\vert x)p(z\vert y)$</p>
+
+<p style="text-align: center;"><img src="/docs/assets/images/causal_graphs/test-1.svg" alt="The chain" width="450" /></p>
+
+<p>We then have the <strong>fork</strong>, where $p(x, y, z) = p(y) p(x \vert y) p(z \vert y)$</p>
+
+<p style="text-align: center;"><img src="/docs/assets/images/causal_graphs/test-2.svg" alt="The chain" width="280" /></p>
+
+<p>And we finally have the <strong>immorality</strong> $p(x, y, z) = p(x)p(z)p(y\vert x, z)$</p>
+
+<p style="text-align: center;"><img src="/docs/assets/images/causal_graphs/test-3.svg" alt="The chain" width="280" /></p>
+
+<h2 id="association-flow">Association flow</h2>
+
+<p>Let us check the flow of association for the three graphs.
+For the chain we have that, when $x$ changes we have a change in $y$, and a change
+in $y$ causes a change in $z$, so we will see some association flow between $x$ and $z$.</p>
+
+<p>For the fork, analogously, we have that a change in $y$ will cause both
+a change in $x$ and in $z$, so they will change together and we will see some
+flow of association.</p>
+
+<p>Vice versa, in the case of immorality, $x$ and $z$ will vary in a totally independent
+way, and we will generally not see an association between them.</p>
+
+<p>Let us see this mathematically.</p>
+
+<p>For the chain:</p>
+
+\[\begin{align}
+&amp;
+p(x, y, z) = p(x) p(y\vert x) p(z \vert y)
+\\
+&amp;
+p(x, z) = \int dy p(x, y, z) = p(x) \int dy p(y \vert x) p(z \vert y) = p(x) p(z \vert x) \neq p(x)p(z)
+\end{align}\]
+
+<p>So if we simply ignore the intermediate variable $y$, we see an association between $x$ and $z$.
+Analogously, for the fork:</p>
+
+\[\begin{align}
+&amp;
+p(x, y, z) = p(y) p(x\vert y) p(z \vert y)
+\\
+&amp;
+p(x, z) = \int dy p(x, y, z) = \int dy p(y) p(x \vert y) p(z \vert y)  = \int dy p(x) p(y \vert x) p(z \vert y) = p(x) \int dy p(y \vert x) p(z \vert y) = p(x) p(z \vert x) \neq p(x) p(z)
+\end{align}\]
+
+<p>For the immorality, on the other hand:</p>
+
+\[\begin{align}
+&amp;
+p(x, y, z) = p(x) p(z) p(y \vert x, z)
+\\
+&amp;
+p(x, z) = \int dy  p(x) p(z) p(y \vert x, z) =  p(x) p(z) \int dy p(y \vert x, z) = p(x) p(z)
+\end{align}\]
+
+<h2 id="blocking">Blocking</h2>
+
+<p>Let us now see what happens when we block for (or control) $y$:</p>
+
+\[\begin{align}
+&amp;
+p(x, y, z) = p(x) p(y\vert x) p(z \vert y)
+\\
+&amp;
+p(x, z | y) = \frac{ p(x) p(y \vert x)  }{p(y)} p(z \vert y) = p(x \vert y) p(z \vert y)
+\end{align}\]
+
+<p>The last equality follows from Bayes theorem $p(y \vert x) p(x) = p(x \vert y) p(y)\,.$
+We can now prove unconfoundedness:</p>
+
+\[p(z \vert x, y) = \frac{p(x, z \vert y)}{p(x \vert y)} = p(z \vert y)\]
+
+<p>Let us now check the same for the fork:</p>
+
+\[\begin{align}
+&amp;
+p(x, y, z) = p(y) p(x\vert y) p(z \vert y)
+\\
+&amp;
+p(x, z \vert y) = \frac{p(x, y, z)}{p(y)} = p(x \vert y) p(z \vert y)
+\\
+&amp;
+p(z \vert x, y) = \frac{p(x, z \vert y)}{p(x \vert y)} = p(z \vert y)
+\end{align}\]
+
+<p>This cannot be done for the immorality:</p>
+
+\[\begin{align}
+&amp;
+p(x, y, z) = p(x) p(z) p(y\vert x, z)
+\\
+&amp;
+p(x, z \vert y) = p(x) \frac{p(y \vert x, z)p(z)}{p(y)} = p(z) p(z\vert x, y)
+\end{align}\]
+
+<p>We can now compute</p>
+
+\[p(z \vert y) = \int dx p(x, z \vert y) = p(z) \int dx p(z \vert x, y) \neq p(z \vert x, y)\]
+
+<p>This implies that controlling for an immorality introduces an association between
+the variables.</p>
+
+<h2 id="types-of-paths-and-d-separation">Types of paths and d-separation</h2>
+
+<p>We can now consider an arbitrary path \(\{x_1, x_2, ..., x_N\}\),
+where $x_2,…,x_{N-1}$ are the central vertices of either forks or chains or
+inverted chains.
+We say that the path is <strong>d-separated</strong> by a set of blocked nodes $C$
+if</p>
+<ul>
+  <li>the path contains a chain (or fork), and the middle vertex of the chain (fork) is in $C$</li>
+  <li>or if the path contains an inverted chain, and nor the middle vertex of the inverted fork $Z$ neither any descendant of $Z$ is in $C$.</li>
+</ul>
+
+<p>We say that two vertices $A$ and $B$ are <strong>blocked</strong> by a set of nodes $C$
+if all the paths from $A$ to $B$ are d-separated by $C$.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/causal-graphs/" /><summary type="html"><![CDATA[Causality is a relation between events, and one of the easiest to interpret representations of items and relations is by using graphs. In our discussion we will roughly follow (in a slightly less rigorous and precise way) chapter 3 of Brady Neal’s notes. Since our relation, causality, is directional (either $A$ causes $B$ or $B$ causes $A$) we must use directed graph or digraphs.]]></summary></entry><entry><title type="html">Causal inference: a general introduction</title><link href="http://localhost:4000/causal-intro/" rel="alternate" type="text/html" title="Causal inference: a general introduction" /><published>2023-09-02T00:00:00+02:00</published><updated>2023-09-02T00:00:00+02:00</updated><id>http://localhost:4000/causal-intro</id><content type="html" xml:base="http://localhost:4000/causal-intro/"><![CDATA[<h2 id="causality-as-counterfactual-evidence">Causality as counterfactual evidence</h2>
+
+<p>In the last years causal inference gained a lot of attention, both from academia and outside from it.
+Of course, you heard that <em>association does not imply causation</em>, as you will find an association
+between ice-cream consumption and the number of deaths by drowing.
+However, outside from the classes for statisticians, the very important question <em>when does association imply causation</em>
+is rarely discussed.
+We should first try and clarify what do we mean by causation, as the popular concept of causation
+is too vague for any rigorous discussion.
+This topic has been debated is philosophy since centuries, and if you are interested about this aspect
+I found <a href="https://iep.utm.edu/causation/">this</a> introductory article very helpful.</p>
+
+<p>We won’t dig into the philosophical debate, and simply use the <strong>counterfactual</strong> approach:
+we say that an action $T$, which is usually called treatment or intervention,
+causes $Y$ if, $T$ changes, then $Y$ changes, so then when the cause $T$ disappears, then the effect $Y$ disappears too.
+Our definition implies that we must switch off $T$ so,
+in order for our definition to be meaningful, we must be able <em>at least hypothetically</em>
+to manipulate $T$, and in this case we say that $T$ is <strong>manipulable</strong>.</p>
+
+<p>A meaningful question is if a medicine cures the illness, as we may or may not take the medicine,
+but we cannot ask whether age causes heart attack, as we can hardly imagine to change one person’s age.
+The concept of manipulability depends on the context, as we may ask if increasing age causes a reduction
+in the chances to be considered for a certain working position. In this case we may manipulate the age by simply
+changing it on the CV and check if the company calls for a job interview.</p>
+
+<p>The counterfactual definition is not precise enough,
+as it may happen that $Y$ appears only when both $T$ and $Z$ appears, so in this
+case an obvious question is whether $T$ or $Z$ is the cause of $Y$.
+We will always assume that we want to investigate only one cause at time, so either we want to determine
+if, given $T$, then $Z$ is a cause of $Y$ or vice versa if, given $Z$, then $T$ causes $Y$.
+This imply that, when we investigate causality, we must change the hypothetical cause
+by keeping everything else unchanged.</p>
+
+<p>A very common source of confusion is the question causal inference tries and answer:
+as explained in Gelman’s preprint <a href="https://arxiv.org/pdf/1003.2619.pdf">Causality and Statistical Learning</a>
+when talking about causality, there are two main questions one could ask:</p>
+<ul>
+  <li>backward causal inference: what are the causes of a given effect?</li>
+  <li>forward causal inference: what are the effects of a given cause?</li>
+</ul>
+
+<p>While there are many accepted methods to investigate the forward causal inference,
+backward causal inference is a slippery terrain, as one could also 
+say that the cause of the cause is the cause.
+In fact, it is not uncommon to have that $A$ causes $B$, $B$ causes $C$ and $C$ causes $D$,
+and in this case we will consider both $A$, $B$ and $C$ as causes of $D$.</p>
+
+<h2 id="the-fundamental-problem-of-causal-inference">The fundamental problem of causal inference</h2>
+
+<p>Let us assume for now that $T$ is a binary quantity with values $0$ and $1$, and let us indicate
+the value of $Y$ when $T=0$ as $y_0$ while $y_1$ is the value of $Y$ whet $T=1$.
+In order to assess whether $T$ causes $Y$ we must compare $y_1$ with $y_0$.</p>
+
+<p>The exact way we want to compare these two quantities depends on the context.
+Most of the time what one wants to quantify is the so called effect, defined as $\delta = y_1-y_0$, but in some cases one may prefer to
+obtain informations about the relative risk $y_1/y_0$.
+In any case, what we want to do is to compare both quantities and verify if they differ.</p>
+
+<p>In most textbooks one defines the function</p>
+
+\[Y(\tau) = \tau y_1 + (1-\tau) y_0\]
+
+<p>so</p>
+
+\[\delta = Y(1) - Y(0)\]
+
+<p>One generally refers to the quantities $Y(0)$ and $Y(1)$ as the potential outcomes.
+More precisely, the potential outcome is represented by the previous quantities before the experiment,
+while during the experiment one measures the observed outcome, and the remaining quantity is the counterfactual outcome.
+Since we assume that these quantities are the same, we will always refer to the potential outcomes.</p>
+
+<p>As we previously stated, $y_1$ and $y_0$ represent $Y$ when $T=1$ or $0$ respectively, but everything else is
+unchanged. This makes always impossible to measure the causal effect, as we cannot simultaneously realize $T=0$
+and $T=1$ by keeping everything else, included the moment and the individual, unchanged,
+and this is called the <strong>fundamental problem of causal inference</strong>.</p>
+
+<p>In order to better understand why this is a problem, let us assume that we have a population,
+and that we somehow split the population into two subpopulation.
+The first subpopulation is then treated, so they are assigned to the $T=1$ group,
+while the second one is not, and for them $T=0$.
+We then take the average on each subpopulation what we are estimating is
+$\mathbb{E}[Y | T=1]$ and $\mathbb{E}[Y | T=0]$ respectively.
+On the other hand, what we really want to quantify in order to assess the average effect over the entire population is</p>
+
+\[\mathbb{E}[\delta] = \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}[Y(1)] - \mathbb{E}[Y(0)]\]
+
+<p>This quantity is called the <strong>average treatment effect</strong> (ATE).</p>
+
+<p>Let us indicate with $y^i_\tau$ the observed outcome on the individual $i$ of the population
+when this undergoes to treatment $\tau$.
+We generally have that the outcome will both on the treatment and on some set of
+relevant covariate (auxiliary quantities) $X$, that we assumed we measured for each individual.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>i</th>
+      <th>T</th>
+      <th>Y</th>
+      <th>Y(0)</th>
+      <th>Y(1)</th>
+      <th>X</th>
+      <th>Y(1) - Y(0)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>$y^1_0$</td>
+      <td>$y^1_0$</td>
+      <td>$y^1_1=?$</td>
+      <td>$x^1$</td>
+      <td>$y^1_1-y^1_0=?$</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>$y^2_0$</td>
+      <td>$y^2_0$</td>
+      <td>$y^2_1=?$</td>
+      <td>$x^2$</td>
+      <td>$y^2_1-y^2_0=?$</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>$y^3_0$</td>
+      <td>$y^3_0$</td>
+      <td>$y^3_1=?$</td>
+      <td>$x^3$</td>
+      <td>$y^3_1-y^3_0=?$</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>1</td>
+      <td>$y^4_1$</td>
+      <td>$y^4_0=?$</td>
+      <td>$y^4_1$</td>
+      <td>$x^4$</td>
+      <td>$y^4_1-y^4_0=?$</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>1</td>
+      <td>$y^5_1$</td>
+      <td>$y^5_0=?$</td>
+      <td>$y^5_1$</td>
+      <td>$x^5$</td>
+      <td>$y^5_1-y^5_0=?$</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>1</td>
+      <td>$y^6_1$</td>
+      <td>$y^6_0=?$</td>
+      <td>$y^6_1$</td>
+      <td>$x^6$</td>
+      <td>$y^6_1-y^6_0=?$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Let us stuck for a moment to the frequentist framework, we have that</p>
+
+\[\begin{aligned}
+&amp;
+\mathbb{E}[Y | T=0] = \frac{y^1_0 + y^2_0 + y^3_0}{3}
+\\
+&amp;
+\mathbb{E}[Y | T=1] = \frac{y^4_1 + y^5_1 + y^6_1}{3}
+\end{aligned}\]
+
+<p>on the other hand</p>
+
+\[\begin{aligned}
+&amp;
+\mathbb{E}[Y(0)] = \frac{y^1_0 + y^2_0 + y^3_0 + y^4_0 + y^5_0 + y^6_0}{6}
+\\
+&amp;
+\mathbb{E}[Y(1)] = \frac{y^1_1 + y^2_1 + y^3_1 + y^4_1 + y^5_1 + y^6_1}{6}
+\end{aligned}\]
+
+<p>We cannot measure the quantities marked with the question mark,
+so the fundamental problem of causal inference is a missing value problem.
+The different terms entering into the two expressions don’t allow us
+to simply substitute the associational quantities with the causal ones,
+and this is why association is not causation.</p>
+
+<p>As we will show briefly, however, when a set of rather stringent condition
+holds, we are allowed to replace the causal quantities with the associational ones.</p>
+
+<p>The stronger condition that might hold is <strong>ignorability</strong>, also called <strong>exchangeability</strong></p>
+
+\[Y(0), Y(1) \perp\!\!\!\!\perp T\]
+
+<p>The same requirement can be stated as:</p>
+
+\[p(T | Y(0), Y(1)) = p(T)\]
+
+<p>We are thus assuming that the probability of being treated, given the potential outcomes, is both independent on the potential outcomes and on any other quantity.
+This is of course a very strong assumption, and the fact that in most observational
+studies this condition is not met implies a wrong estimation of the effect.
+As an example, if we are performing an observational study on a medicine, usually only people which
+are sick and so will benefit by the medicine, will take the medicine and, so, will be included in the
+treated group, while in the untreated group we may have sick people as well as healthy people.</p>
+
+<p>The ignorability assumption states that we must be allowed to exchange the two groups without affecting the outcome.
+Under this condition we have that</p>
+
+\[\mathbb{E}[Y | T=1] - \mathbb{E}[Y | T=0] = \mathbb{E}[Y(1) | T=1] - \mathbb{E}[Y(0) | T=0] = \mathbb{E}[Y(1)] - \mathbb{E}[Y(0)] = \mathbb{E}[Y(1)-Y(0)] = \mathbb{E}[\delta]\]
+
+<p>In the previous equation we used another important assumption:</p>
+
+\[\mathbb{E}[Y | T=t] = \mathbb{E}[Y(t) | T=t]\]
+
+<p>This only holds if we assume that, if $T=t$, then $Y = Y(T=t)$.
+This assumption goes under the name on <strong>consistency</strong>, and it is not only a mathematical
+requirement, but an operational one.
+Consistency requires that the treatment must be well specified:
+the treatment must not be “get some medicine” but should rather be “take 15 mg of medicine every 8 hours for 7 days”.</p>
+
+<p>A slightly weaker condition with respect to ignorability is <strong>conditional ignorability</strong> or <strong>unconfoundedness</strong></p>
+
+\[Y(0), Y(1) \perp\!\!\!\!\perp T | X\]
+
+<p>So given the confounders $X$, the treatment probability $T$ is independent on the
+potential outcome.</p>
+
+\[p(T | Y(0), Y(1), X) = p(T | X)\]
+
+<p>Let us assume we want to quantify the blood pressure reduction of a medicine.
+It is more likely that people with a high blood pressure will take it.
+We furthermore assume that the effect is higher on people with a high blood pressure.</p>
+
+<p>Since it is more likely that people with high blood pressure will take the treatment,
+ignorability doesn’t generally hold in observational studies.
+We can randomly sample from the population to overcome this, but it will be very hard to obtain
+a representative sample of the population.
+An easier way is to stratify by initial blood pressure,
+and for each stratum randomly assign with a given probability
+to the treatment group or to the test group, and in this way we are fulfilling conditional
+ignorability.</p>
+
+<p>Thus, unconfoundedness states that we are “controlling for” all the relevant quantities which
+may affect the outcome, except the treatment.
+This may only approximately hold: if the outcome depends on some genetic aspect of the individual
+which is more common in a particular ethnic group, controlling for ethnicity would partially fulfill 
+unconfoundedness.</p>
+
+<p>When we assign the population we must be sure that, for each stratum,
+both groups have at least one individual:</p>
+
+\[0 &lt; P(T=t | X) &lt; 1 \, \forall t\]
+
+<p>The previous hypothesis is named the positivity assumption.
+Positivity implies that we can compare the treatment effect with the control for each value of the
+covariates, since
+for each subgroup we both have units which receive the treatment and units which
+does not receive it.</p>
+
+<p>If conditional ignorability holds:</p>
+
+\[\begin{aligned}
+ \mathbb{E}[Y(1)-Y(0)|X] 
+ &amp; = \mathbb{E}[Y(1)|X] - \mathbb{E}[Y(0)|X] \\
+ &amp; = \mathbb{E}[Y(1)| T=1, X] - \mathbb{E}[Y(0)|T=0, X] \\
+ &amp; = \mathbb{E}[Y| T=1, X] - \mathbb{E}[Y|T=0, X] \\
+\end{aligned}\]
+
+<p>By taking the average over $X$</p>
+
+\[\mathbb{E}[\delta] = \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}_X[ \mathbb{E}[Y(1) - Y(0) | X] ] 
+ = \mathbb{E}_X[ \mathbb{E}[Y |T=1, X] ] - \mathbb{E}_X[ \mathbb{E}[Y |T=0, X] ]\]
+
+<p>The equality between the first and the last term of this equation is called the <strong>adjustment formula</strong>.</p>
+
+<p>Let us now write explicitly the adjustment formula for $X$ discrete:</p>
+
+\[\begin{align}
+&amp;
+\mathbb{E}_X[ \mathbb{E}[Y |T=1, X] ] - \mathbb{E}_X[ \mathbb{E}[Y |T=0, X] ]  
+\\
+&amp; =  \sum_{x}P(X=x) \sum_{y} y \left(P(Y=y|T=1, X=x) - P(Y=y| T=0, X=x) \right) \\
+&amp; =   \sum_{x}P(X=x) \sum_{y} y \left(\frac{P(Y=y,T=1, X=x)}{P(T=1, X=x)} - \frac{P(Y=y,T=0, X=x)}{P(T=0, X=x)}\right) \\
+= &amp; \sum_{x}P(X=x) \sum_{y} y \left(\frac{P(Y=y,T=1, X=x)}{P(T=1| X=x) P(X=x)} - \frac{P(Y=y,T=0, X=x)}{P(T=0| X=x) P(X=x)}\right) 
+\\
+&amp; = 
+\sum_{x}\sum_{y} y \left(\frac{P(Y=y,T=1, X=x)}{P(T=1| X=x)} - \frac{P(Y=y,T=0, X=x)}{P(T=0| X=x)}\right) 
+\end{align}\]
+
+<p>The first equivalence comes from the definition of conditional probability,
+the second one from the hypothesis that $P(T, X) = P(T | X) P(X) $ so that $T$ causally depends on $X\,.$
+You should notice that the denominators are finite thanks to the positivity hypothesis.</p>
+
+<p>There is one more hypothesis that we have hidden into our discussion:
+we have been assuming all the time that the outcome of the i-th unit only depend on the i-th treatment unit,
+and does not depends on the other treatment’s unit.
+This requirement is of course not always satisfied, and it’s called the <strong>no interference</strong> assumptions:</p>
+
+\[Y_i(t_1, t_2, ..., t_{i-1}, t_i, t_{i+1}, ..., t_n) = Y_i(t_i)\]
+
+<p>So each individual’s outcome only depends on his own treatment and not on the treatment of other individuals.
+This implies that, if we are checking the effect of a product in some tomato field, we must be sure that the product does not goes in another studied field by mistake.
+Another case can be a study where we are studying an experimental study program in a class.
+If a student is selected in the treatment group and a friend of his is not, the latter could be sad for not being selected and his outcome could be lowered.
+Generally, a good strategy to enforce this requirement is to take well separated units and isolating each unit from the other units during the experiment.</p>
+
+<h2 id="conclusion-and-take-home-message">Conclusion and take home message</h2>
+
+<p>As we can see, under some strict assumptions we can perform causal inference in observational studies as well as in randomized studies.
+However, quoting Cochran:</p>
+
+<p><strong><em>observational studies are are interesting and challenging field which demands a good deal of humility, since our claim are groping toward the truth.</em></strong></p>
+
+<h2 id="additional-readings">Additional readings</h2>
+
+<p><a href="https://www.hsph.harvard.edu/wp-content/uploads/sites/1268/2022/11/hernanrobins_WhatIf_13nov22.pdf">Hernàn, Robins; <strong>Causal inference, what if</strong>, Chapman &amp; Hall/CRC (2020)</a></p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/causal-intro/" /><summary type="html"><![CDATA[When association implies causation]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/causal_graphs/dominoes-4020617_960_720.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/causal_graphs/dominoes-4020617_960_720.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introduction to the hierarchical models</title><link href="http://localhost:4000/hierarchical/" rel="alternate" type="text/html" title="Introduction to the hierarchical models" /><published>2023-09-01T00:00:00+02:00</published><updated>2023-09-01T00:00:00+02:00</updated><id>http://localhost:4000/hierarchical</id><content type="html" xml:base="http://localhost:4000/hierarchical/"><![CDATA[<p>Hierarchical models are one of the most important model families
+in Bayesian statistics, and most important, it does not have an analogous
+in frequentist statistics, and the reason will be clear soon <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<p>One of the possible applications of the hierarchical models is when you are dealing
+with data which have a hierarchy of parameters.</p>
+
+<p>As an example, think about a case where you have many districts,
+for each district we have many schools and for each school we have many student,
+and you want to analyze the grades of the students.</p>
+
+<p>It wouldn’t make much sense to assume that students coming from different
+schools have the same grade distribution.</p>
+
+<p>In Bayesian statistics you can use a prior for each school,
+and you can also extend the hierarchy allowing for all the priors related
+to schools of the same district to have a common prior, and you can
+finally put a common prior do these probability distribution.</p>
+
+<p>Let us see how to do this in practice by comparing hierarchical models
+to the so-called pool models and no-pool models</p>
+
+<h2 id="the-space-x-launch-failures">The Space-X launch failures</h2>
+<p>From the Space-X Wikipedia page have taken, for each Space-X mission, the number of incidents.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="n">scipy.stats</span> <span class="k">as</span> <span class="n">st</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">df_spacex</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span><span class="sh">'</span><span class="s">Mission</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="sh">'</span><span class="s">Falcon 1</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Falcon 9</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Falcon Heavy</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">Starship</span><span class="sh">'</span><span class="p">],</span> <span class="sh">'</span><span class="s">N</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">227</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">224</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">0</span><span class="p">]})</span>
+
+<span class="n">df_spacex</span><span class="p">[</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_spacex</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">]</span><span class="o">/</span><span class="n">df_spacex</span><span class="p">[</span><span class="sh">'</span><span class="s">N</span><span class="sh">'</span><span class="p">]</span>
+
+<span class="n">df_spacex</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: left">Mission</th>
+      <th style="text-align: right">N</th>
+      <th style="text-align: right">y</th>
+      <th style="text-align: right">mu</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: left">Falcon 1</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">0.4</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: left">Falcon 9</td>
+      <td style="text-align: right">227</td>
+      <td style="text-align: right">224</td>
+      <td style="text-align: right">0.986784</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left">Falcon Heavy</td>
+      <td style="text-align: right">6</td>
+      <td style="text-align: right">6</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: left">Starship</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As you can see, the Falcon-9 and the Falcon Heavy have success rate close to 1,
+while the Falcon 1 has a much lower success rate, and the Starship
+has no successes at all.
+We have different rocket types, each one with its own characteristics, so if we want to assess the success rate of each mission we have to assess if we want to consider them separately or together. In other words, we must decide the <strong>pooling level</strong>.</p>
+
+<h3 id="no-pooling">No pooling</h3>
+<p>We could argue that those are different missions, and it probably doesn’t make much sense
+to think that the probability of success of a Starship is the same as
+the one of a Falcon 9, so it is not much reasonable to put a common prior to them.
+In this case, we could proceed with a no pooling model, where we consider each group separately.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">spacex_model_no_pooling</span><span class="p">:</span>  
+  <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Beta</span><span class="p">(</span><span class="sh">'</span><span class="s">theta</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nf">len</span><span class="p">(</span><span class="n">df_spacex</span><span class="p">[</span><span class="sh">'</span><span class="s">N</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">))</span>
+  <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Binomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="sh">'</span><span class="s">N</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span>
+                  <span class="n">observed</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+
+<span class="n">pm</span><span class="p">.</span><span class="nf">model_to_graphviz</span><span class="p">(</span><span class="n">spacex_model_no_pooling</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/model_no_pooling.svg" alt="The no-pooling model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">spacex_model_no_pooling</span><span class="p">:</span>
+  <span class="n">trace_spacex_no_pooling</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                           <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_spacex_no_pooling</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/trace_no_pooling.png" alt="The no-pooling trace" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_forest</span><span class="p">(</span><span class="n">trace_spacex_no_pooling</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/forest_no_pooling.png" alt="Forest plot for the no-pooling model" /></p>
+
+<p>The parameter value depends on the mission, and of course in the case
+of the Starship it will be heavily influenced by the prior, while
+for the Falcon 9 it will be almost completely fixed by the data.
+Moreover, each rocket is considered separately,
+so if a new rocket is built, we wouldn’t have any obvious
+way to decide its success probability.</p>
+
+<h3 id="complete-pooling">Complete pooling</h3>
+<p>Alternatively, we could take a common prior for the four missions.
+In other words, we could assume that the missions are independent identically distributed.
+This is of course quite a strong assumption, and this will strongly affect
+our inference.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">spacex_model_full_pooling</span><span class="p">:</span>  
+  <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Beta</span><span class="p">(</span><span class="sh">'</span><span class="s">theta</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+  <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Binomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="sh">'</span><span class="s">N</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span>
+                  <span class="n">observed</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+
+<span class="n">pm</span><span class="p">.</span><span class="nf">model_to_graphviz</span><span class="p">(</span><span class="n">spacex_model_full_pooling</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/model_full_pooling.svg" alt="The ful-pooling model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">spacex_model_full_pooling</span><span class="p">:</span>
+  <span class="n">trace_spacex_full_pooling</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                           <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_spacex_full_pooling</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/trace_full_pooling.png" alt="The full-pooling trace" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_forest</span><span class="p">(</span><span class="n">trace_spacex_full_pooling</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/forest_full_pooling.png" alt="Forest plot for the full-pooling model" /></p>
+
+<p>In this case, of course, all the missions have the same prior,
+so we would bet that a second Starship mission would almost surely have no
+failures, and I am not sure I would be a good idea to do so,
+as maybe the Starship has some intrinsic issue which is not shared 
+with the other missions.</p>
+
+<h3 id="partial-pooling-or-hierarchical-models">Partial pooling or hierarchical models</h3>
+
+<p>Bayesian statistics offers us another way to proceed: we can consider the success probability separately, but instead of using numbers for the hyperparameters $a$ and $b$ we can promote them to probabilities and put a common prior to them, and this is how <strong>hierarchical models</strong> are built.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">spacex_model_hierarchical</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfNormal</span><span class="p">(</span><span class="sh">"</span><span class="s">alpha</span><span class="sh">"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfNormal</span><span class="p">(</span><span class="sh">"</span><span class="s">beta</span><span class="sh">"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Deterministic</span><span class="p">(</span><span class="sh">"</span><span class="s">mu</span><span class="sh">"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">/</span><span class="p">(</span><span class="n">alpha</span><span class="o">+</span><span class="n">beta</span><span class="p">))</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Beta</span><span class="p">(</span><span class="sh">'</span><span class="s">theta</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nf">len</span><span class="p">(</span><span class="n">df_spacex</span><span class="p">[</span><span class="sh">'</span><span class="s">N</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Binomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="sh">'</span><span class="s">N</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span>
+                  <span class="n">observed</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+
+<span class="n">pm</span><span class="p">.</span><span class="nf">model_to_graphviz</span><span class="p">(</span><span class="n">spacex_model_hierarchical</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/model_partial_pooling.svg" alt="The partial-pooling model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">spacex_model_hierarchical</span><span class="p">:</span>
+    <span class="n">trace_spacex_hierarchical</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_spacex_hierarchical</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/trace_partial_pooling.png" alt="The partial-pooling trace" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_forest</span><span class="p">(</span><span class="n">trace_spacex_hierarchical</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/forest_partial_pooling.png" alt="Forest plot for the partial-pooling model" /></p>
+
+<p>The additional parameters allow us to account for the uncertainties due to the reduced 
+number of flights of the Starship and of the Falcon 1, as our no-pooled model
+did.
+However, there is a major advantage of this approach with respect to the no-pooled one:
+we can predict the failure probability of a new rocket type.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">spacex_model_hierarchical</span><span class="p">:</span>
+    <span class="n">theta_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Beta</span><span class="p">(</span><span class="sh">'</span><span class="s">theta_new</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
+    <span class="n">ppc_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_spacex_hierarchical</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">theta_new</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">ppc_new</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">theta_new</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">gcf</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/theta_new.png" alt="Prior for a new mission" /></p>
+
+<p>We can also plot the distribution for the mean of the thetas.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">map_mu</span> <span class="o">=</span> <span class="n">st</span><span class="p">.</span><span class="nf">mode</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">digitize</span><span class="p">(</span><span class="n">trace_spacex_hierarchical</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="sh">"</span><span class="s">mu</span><span class="sh">"</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">))).</span><span class="n">mode</span><span class="o">/</span><span class="mi">100</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_posterior</span><span class="p">(</span><span class="n">trace_spacex_hierarchical</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">"</span><span class="s">mu</span><span class="sh">"</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">text</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="sa">f</span><span class="sh">'</span><span class="s">MAP: </span><span class="si">{</span><span class="n">map_mu</span><span class="si">}</span><span class="sh">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/mu_plot.png" alt="  " /></p>
+
+<p>In this case the expected success rate for a new rocket is much more careful
+than the one produced by the fully pooled,
+as the bad performances of some of the rocket types are properly taken into account.</p>
+
+<h2 id="application-to-meta-analysis">Application to meta-analysis</h2>
+
+<p>Bayesian hierarchical model are often used in meta-analysis and reviews,
+<em>i.e.</em> in academic publications where the results of many studies are collected,
+criticized and combined together.
+In this kind of study using a full pooling would not be appropriate,
+as each study is performed at its own conditions,
+so a hierarchical model is much more appropriate to combine the results together.</p>
+
+<p>We will take as an example the dataset of
+<a href="https://bmcinfectdis.biomedcentral.com/articles/10.1186/s12879-021-06536-3">this</a>
+study where the authors performed a meta-analysis to estimate the
+COVID-19 mortality rate <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_mortality</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">data/dt_mortality.csv</span><span class="sh">'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sh">'</span><span class="s"> </span><span class="sh">'</span><span class="p">)</span>
+<span class="n">df_mortality</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">y</th>
+      <th style="text-align: right">N</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">89</td>
+      <td style="text-align: right">432</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">219</td>
+      <td style="text-align: right">828</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">103</td>
+      <td style="text-align: right">607</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">1131</td>
+      <td style="text-align: right">4035</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">75</td>
+      <td style="text-align: right">565</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Here $N$ represents the infected number, while $y$ represents the number of deceased.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">hierarchical_mortality</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfNormal</span><span class="p">(</span><span class="sh">"</span><span class="s">alpha</span><span class="sh">"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfNormal</span><span class="p">(</span><span class="sh">"</span><span class="s">beta</span><span class="sh">"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="c1"># Here we will compute both the logit of the mean and the log of the effective size of the posterior
+</span>    <span class="n">logit_mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Deterministic</span><span class="p">(</span><span class="sh">"</span><span class="s">logit_mu</span><span class="sh">"</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="n">alpha</span><span class="o">/</span><span class="n">beta</span><span class="p">))</span>
+    <span class="n">log_neff</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Deterministic</span><span class="p">(</span><span class="sh">"</span><span class="s">log_neff</span><span class="sh">"</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="n">alpha</span><span class="o">+</span><span class="n">beta</span><span class="p">))</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Beta</span><span class="p">(</span><span class="sh">'</span><span class="s">theta</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nf">len</span><span class="p">(</span><span class="n">df_mortality</span><span class="p">[</span><span class="sh">'</span><span class="s">N</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Binomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">df_mortality</span><span class="p">[</span><span class="sh">'</span><span class="s">N</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span>
+                  <span class="n">observed</span><span class="o">=</span><span class="n">df_mortality</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+
+    <span class="n">trace_hm</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_hm</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/trace_meta.png" alt="The trace for our model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_forest</span><span class="p">(</span><span class="n">trace_hm</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="sh">'</span><span class="s">theta</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">gcf</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>Let us look at the estimated mortality rate for each study.</p>
+
+<p><img src="/docs/assets/images/hierarchical/forest_mortality.png" alt="The forest plot for the mortality rate" /></p>
+
+<p>We now plot the logit of the mean against the logarithm of the 
+effective size of the posterior.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_pair</span><span class="p">(</span><span class="n">trace_hm</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">"</span><span class="s">logit_mu</span><span class="sh">"</span><span class="p">,</span> <span class="sh">"</span><span class="s">log_neff</span><span class="sh">"</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="sh">"</span><span class="s">kde</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">gcf</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/hierarchical/kde_mortality.png" alt="The forest plot for the mortality rate" /></p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Nor in the likelihood school, since this framework does not allow for priors. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>Please remember that who writes has no knowledge of epidemiology, needed to assess the goodness of the analyzed studies, we will just use the dataset for illustrative purpose.). <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/composite/" /><category term="/hierarchical/" /><summary type="html"><![CDATA[Hierarchical models are one of the most important model families in Bayesian statistics, and most important, it does not have an analogous in frequentist statistics, and the reason will be clear soon 1. Nor in the likelihood school, since this framework does not allow for priors. &#8617;]]></summary></entry><entry><title type="html">Mixture models</title><link href="http://localhost:4000/mixture/" rel="alternate" type="text/html" title="Mixture models" /><published>2023-08-30T00:00:00+02:00</published><updated>2023-08-30T00:00:00+02:00</updated><id>http://localhost:4000/mixture</id><content type="html" xml:base="http://localhost:4000/mixture/"><![CDATA[<p>In some case we may have that our population is composed by sub-populations, each one with his own distribution. If we are not able to identify the subgroup we can use a mixture model to take into account of this.</p>
+
+<h2 id="normal-mixture-models">Normal Mixture Models</h2>
+
+<p>The first class of MM we will look at is the normal mixture model.
+In this kind of model we are trying and describe some real observable $y$,
+and the population is divided into $K$ sub-populations,
+and each element has probability $w_i, i=1,…,K$, to belong to the i-th
+sub-population.
+For each sub-population, we are assuming that $y$ is normally distributed,
+with mean $\mu_i$ and variance $\sigma_i$.</p>
+
+<p>Let us apply this model to seaborn’s geyser dataset</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">random</span>
+<span class="kn">import</span> <span class="n">xarray</span> <span class="k">as</span> <span class="n">xr</span>
+<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">scipy</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="n">pymc.sampling_jax</span> <span class="k">as</span> <span class="n">pmj</span>
+<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">cmap</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="nf">color_palette</span><span class="p">(</span><span class="sh">"</span><span class="s">rocket</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">geyser</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="nf">load_dataset</span><span class="p">(</span><span class="sh">'</span><span class="s">geyser</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">geyser</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">duration</th>
+      <th style="text-align: right">waiting</th>
+      <th style="text-align: left">kind</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">3.6</td>
+      <td style="text-align: right">79</td>
+      <td style="text-align: left">long</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">1.8</td>
+      <td style="text-align: right">54</td>
+      <td style="text-align: left">short</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">3.333</td>
+      <td style="text-align: right">74</td>
+      <td style="text-align: left">long</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">2.283</td>
+      <td style="text-align: right">62</td>
+      <td style="text-align: left">short</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">4.533</td>
+      <td style="text-align: right">85</td>
+      <td style="text-align: left">long</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The dataset represents the waiting time between eruptions and the duration of the
+eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="nf">pairplot</span><span class="p">(</span><span class="n">geyser</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="sh">'</span><span class="s">kind</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/mixture/normal_mixture/geiser.png" alt="The geyser dataset" /></p>
+
+<p>We can see that we both the duration and the waiting time between eruptions
+are well separated for the two categories, and for each category
+they look normally distributed.
+The label “kind” is of course a human label, and it’s not a measured
+quantity, so let us assume that we have no idea about it, and that
+we must find the distribution of the eruption duration for each category.
+In order to do this, we will use a normal mixture model,
+with two sub-populations, each one with its own mean and variance.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">mix_model</span><span class="p">:</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">pi</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Dirichlet</span><span class="p">(</span><span class="sh">'</span><span class="s">pi</span><span class="sh">'</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span>
+    <span class="n">phi</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">.</span><span class="nf">dist</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Mixture</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">pi</span><span class="p">,</span> <span class="n">comp_dists</span> <span class="o">=</span> <span class="n">phi</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">geyser</span><span class="p">[</span><span class="sh">'</span><span class="s">duration</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">trace_mix</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_mix</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/mixture/normal_mixture/trace_geiser.png" alt="The trace of our model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">summary</span><span class="p">(</span><span class="n">trace_mix</span><span class="p">)</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">sd</th>
+      <th style="text-align: right">hdi_3%</th>
+      <th style="text-align: right">hdi_97%</th>
+      <th style="text-align: right">mcse_mean</th>
+      <th style="text-align: right">mcse_sd</th>
+      <th style="text-align: right">ess_bulk</th>
+      <th style="text-align: right">ess_tail</th>
+      <th style="text-align: right">r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">mu[0]</td>
+      <td style="text-align: right">2.021</td>
+      <td style="text-align: right">0.027</td>
+      <td style="text-align: right">1.97</td>
+      <td style="text-align: right">2.07</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">8026</td>
+      <td style="text-align: right">6010</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">mu[1]</td>
+      <td style="text-align: right">4.275</td>
+      <td style="text-align: right">0.034</td>
+      <td style="text-align: right">4.21</td>
+      <td style="text-align: right">4.337</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">10403</td>
+      <td style="text-align: right">6927</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">sigma[0]</td>
+      <td style="text-align: right">0.244</td>
+      <td style="text-align: right">0.024</td>
+      <td style="text-align: right">0.2</td>
+      <td style="text-align: right">0.287</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">7226</td>
+      <td style="text-align: right">6688</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">sigma[1]</td>
+      <td style="text-align: right">0.438</td>
+      <td style="text-align: right">0.028</td>
+      <td style="text-align: right">0.386</td>
+      <td style="text-align: right">0.49</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">7052</td>
+      <td style="text-align: right">6363</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">pi[0]</td>
+      <td style="text-align: right">0.35</td>
+      <td style="text-align: right">0.029</td>
+      <td style="text-align: right">0.293</td>
+      <td style="text-align: right">0.401</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">10929</td>
+      <td style="text-align: right">6276</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">pi[1]</td>
+      <td style="text-align: right">0.65</td>
+      <td style="text-align: right">0.029</td>
+      <td style="text-align: right">0.599</td>
+      <td style="text-align: right">0.707</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">10929</td>
+      <td style="text-align: right">6276</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Both the mean and the variance of our normal distributions looks well separated,
+and their traces looks good.
+Let us look at the posterior predictive distribution.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">mix_model</span><span class="p">:</span>
+    <span class="n">ppc_mix</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_mix</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_mix</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">num_pp_samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/mixture/normal_mixture/geiser_ppc.png" alt="The PPC of our model" /></p>
+
+<p>The posterior predictive is not perfect, probably a Student-t mixture would
+have been more appropriate, but it catches the general behavior of the data.</p>
+
+<h2 id="zero-inflated-models">Zero inflated models</h2>
+<p>Another commonly used mixture model are the so-called zero-inflated models.</p>
+
+<p>When dealing with count data it may happen that the count of the zeros is over-represented with respect to our model. Usually this happens because there is some kind of filter in the data, as an example a failure in our counter. Zero inflated models include this possibility in the count model, so we can build a zero-inflated Poisson model or a zero-inflated negative binomial model. Zero-inflated models are a class of mixture models for discrete data where, given the starting probability
+$P_0(x \vert \theta)$
+the likelihood takes the following form:</p>
+
+\[P(x \vert w, \theta) = (1-w) \delta_{x, 0} + w P_0(x \vert \theta)\]
+
+<p>One can also build zero-inflated continuous models by replacing the discrete delta function with the Dirac delta, but we will not cover this topic.
+We will apply this model to the fish (sometimes called camper) dataset.
+The dataset contains data on 250 groups that went to a park. Each group was questioned about how many fish they caught (count), how many children were in the group (child), how many people were in the group (persons), if they used a live bait and whether or not they brought a camper to the park (camper).</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">https://stats.idre.ucla.edu/stat/data/fish.csv</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">df</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">nofish</th>
+      <th style="text-align: right">livebait</th>
+      <th style="text-align: right">camper</th>
+      <th style="text-align: right">persons</th>
+      <th style="text-align: right">child</th>
+      <th style="text-align: right">xb</th>
+      <th style="text-align: right">zg</th>
+      <th style="text-align: right">count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">-0.896315</td>
+      <td style="text-align: right">3.0504</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">-0.558345</td>
+      <td style="text-align: right">1.74615</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">-0.401731</td>
+      <td style="text-align: right">0.279939</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">-0.956298</td>
+      <td style="text-align: right">-0.601526</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0.436891</td>
+      <td style="text-align: right">0.527709</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We won’t perform a regression, as we are only interested in assessing
+the distribution of the fish number.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="nf">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/mixture/zero_inflated/fish.png" alt="The fish number distribution" /></p>
+
+<p>The number of observed 0 looks much higher than the number of ones, so we will
+use a zero-inflated negative binomial to fit the data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">inflated_model</span><span class="p">:</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Beta</span><span class="p">(</span><span class="sh">'</span><span class="s">w</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">ZeroInflatedNegativeBinomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">trace_inflated</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_inflated</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/mixture/zero_inflated/trace.png" alt="The trace of our model" /></p>
+
+<pre><code class="language-pyhton">az.summary(trace_inflated)
+</code></pre>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">sd</th>
+      <th style="text-align: right">hdi_3%</th>
+      <th style="text-align: right">hdi_97%</th>
+      <th style="text-align: right">mcse_mean</th>
+      <th style="text-align: right">mcse_sd</th>
+      <th style="text-align: right">ess_bulk</th>
+      <th style="text-align: right">ess_tail</th>
+      <th style="text-align: right">r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">w</td>
+      <td style="text-align: right">0.898</td>
+      <td style="text-align: right">0.079</td>
+      <td style="text-align: right">0.748</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0.002</td>
+      <td style="text-align: right">0.002</td>
+      <td style="text-align: right">1967</td>
+      <td style="text-align: right">714</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">mu</td>
+      <td style="text-align: right">3.823</td>
+      <td style="text-align: right">0.684</td>
+      <td style="text-align: right">2.636</td>
+      <td style="text-align: right">5.131</td>
+      <td style="text-align: right">0.015</td>
+      <td style="text-align: right">0.011</td>
+      <td style="text-align: right">2719</td>
+      <td style="text-align: right">1802</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">alpha</td>
+      <td style="text-align: right">0.219</td>
+      <td style="text-align: right">0.044</td>
+      <td style="text-align: right">0.147</td>
+      <td style="text-align: right">0.3</td>
+      <td style="text-align: right">0.002</td>
+      <td style="text-align: right">0.001</td>
+      <td style="text-align: right">1417</td>
+      <td style="text-align: right">599</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Our trace doesn’t show any issue, so we can check if our model is able to reproduce
+the data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">inflated_model</span><span class="p">:</span>
+    <span class="n">ppc_inflated</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_inflated</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">]))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">ppc_inflated</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">PPC</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">],</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">data</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/mixture/zero_inflated/ppc.png" alt="The posterior predictive" /></p>
+
+<p>The model reproduces very accurately the observed data,
+and as we can see the variable $w$ spans from 0.75 to 1, so it looks
+appropriate to use a zero-inflated model rather than a pure negative binomial.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/composite/" /><category term="/mixture/" /><summary type="html"><![CDATA[In some case we may have that our population is composed by sub-populations, each one with his own distribution. If we are not able to identify the subgroup we can use a mixture model to take into account of this.]]></summary></entry><entry><title type="html">Generalized linear models</title><link href="http://localhost:4000/generalized-linear-models/" rel="alternate" type="text/html" title="Generalized linear models" /><published>2023-08-29T00:00:00+02:00</published><updated>2023-08-29T00:00:00+02:00</updated><id>http://localhost:4000/generalized-linear-models</id><content type="html" xml:base="http://localhost:4000/generalized-linear-models/"><![CDATA[<p>Normal model allows you to fit data belonging to the entire real domain,
+but you will face situations where you want to put some additional constrain
+to your model.
+If you are dealing with binary data, with count data or with probabilities,
+then the ordinary linear regression may not be appropriate, as your model
+would allow for values which are outside from the mathematical domain of your
+data.</p>
+
+<p>Generalized Linear Models (GLMs for short) simply use an appropriate link
+function to map the output of your linear model to the domain you choose.</p>
+
+<p>For those who want a deeper dive into this kind of model,
+I reccomend the McCullagh Nelder textbook, freely available <a href="https://www.utstat.toronto.edu/~brunner/oldclass/2201s11/readings/glmbook.pdf">here</a>.</p>
+
+<h2 id="the-logistic-model-and-the-challenger-disaster">The logistic model and the Challenger disaster</h2>
+<p>The logistic model can be used to estimate the probability of a dichotomous
+variable, namely a variable which can take two possible values:
+1 (success) or 0 (failure).
+As we have seen in a previous example, when we model a dichotomous variable we
+can use the Binomial distribution, whose parameter must belong
+to the $[0,1]$ interval.
+In the logistic model we use the logistic function:</p>
+
+\[f(x) = \frac{e^x}{1-e^x}\]
+
+<p>to map the output of a linear regression to the $[0,1]$ interval.</p>
+
+<p><img src="/docs/assets/images/glm/logistic/logistic.png" alt="The logistic function" />
+<em>The logistic function</em></p>
+
+<p>We will roughly follow <a href="https://bookdown.org/theodds/StatModelingNotes/generalized-linear-models.html">these</a>
+notes, and we will apply the logistic regression to the so-called Challenger O-ring dataset.
+The notes reproduce <a href="https://www.jstor.org/stable/2290069">this</a> article by Dalal <em>et al.</em>, where the author used the data collected before the Challenger
+disaster to examine whether it would have been possible to predict the Challenger disaster before it happened.</p>
+
+<p>On January 28 1986 the shuttle broke during the launch, killing several people.
+The USA president formed a commission to investigate on the causes of the incident,
+and one of the member of the commission was the famous physicist Richard Feynman.
+NASA officials claimed that the chance of failure of the shuttle was about 1 in 100000,
+while Feynman estimated that this number was actually closer to 1 in 100.
+He also learned that rubber used to seal the solid rocket booster joints using O-rings,
+failed to expand when the temperature was at or below 32 degrees F (0 degrees C).
+The temperature at the time of the Challenger liftoff was 32 degrees F.</p>
+
+<p>Feynman proved that the incident was caused by a loss of fuel due to the low temperature
+<a href="https://en.wikipedia.org/wiki/Space_Shuttle_Challenger_disaster">Wikipedia page</a>)</p>
+
+<p>Here we will take the data on the number of O-rings damaged in each mission of the 
+challenger and we will provide an estimate on the probability that one O-ring becomes
+damaged as a function of the temperature.
+The original data can be found <a href="https://archive.ics.uci.edu/dataset/92/challenger+usa+space+shuttle+o+ring">here</a>.</p>
+
+<p>The logistic model is already implemented into PyMC,
+but to see how it works we will implement it from scratch.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">pymc.sampling_jax</span> <span class="k">as</span> <span class="n">pmjax</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+
+<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">df_oring_challenger</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">.</span><span class="nf">from_dict</span><span class="p">({</span>
+    <span class="sh">"</span><span class="s">temperature</span><span class="sh">"</span><span class="p">:</span> <span class="p">[</span><span class="mi">53</span><span class="p">,</span> <span class="mi">57</span><span class="p">,</span> <span class="mi">58</span><span class="p">,</span> <span class="mi">63</span><span class="p">,</span> <span class="mi">66</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">67</span><span class="p">,</span> <span class="mi">68</span><span class="p">,</span> <span class="mi">69</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">70</span><span class="p">,</span> <span class="mi">72</span><span class="p">,</span> <span class="mi">73</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">75</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">76</span><span class="p">,</span> <span class="mi">78</span><span class="p">,</span> <span class="mi">79</span><span class="p">,</span> <span class="mi">81</span><span class="p">],</span>
+    <span class="sh">"</span><span class="s">damaged</span><span class="sh">"</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+    <span class="sh">"</span><span class="s">undamaged</span><span class="sh">"</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">]</span>
+    <span class="p">})</span>
+</code></pre></div></div>
+
+<p>In the above dataset there are collected, for a set of Challenger launches,
+the recorded temperature in Fahrenheit degrees, together with the number of damaged
+and undamaged O-rings.
+Let us rearrange the dataset as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_oring</span> <span class="o">=</span> <span class="n">df_oring_challenger</span><span class="p">.</span><span class="nf">groupby</span><span class="p">(</span><span class="sh">'</span><span class="s">temperature</span><span class="sh">'</span><span class="p">)[[</span><span class="sh">'</span><span class="s">damaged</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">undamaged</span><span class="sh">'</span><span class="p">]].</span><span class="nf">apply</span><span class="p">(</span><span class="nb">sum</span><span class="p">).</span><span class="nf">reset_index</span><span class="p">()</span>
+<span class="n">df_oring</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_oring</span><span class="p">[</span><span class="sh">'</span><span class="s">damaged</span><span class="sh">'</span><span class="p">]</span> <span class="o">+</span> <span class="n">df_oring</span><span class="p">[</span><span class="sh">'</span><span class="s">undamaged</span><span class="sh">'</span><span class="p">]</span>
+<span class="n">df_oring</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">temperature</th>
+      <th style="text-align: right">damaged</th>
+      <th style="text-align: right">undamaged</th>
+      <th style="text-align: right">count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">53</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">6</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">57</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">6</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">58</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">6</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">63</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">6</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">66</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">6</td>
+      <td style="text-align: right">6</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We can now build our model as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">logistic</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">log_theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Deterministic</span><span class="p">(</span><span class="sh">'</span><span class="s">log_theta</span><span class="sh">'</span><span class="p">,</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span><span class="o">*</span><span class="n">df_oring</span><span class="p">[</span><span class="sh">'</span><span class="s">temperature</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Deterministic</span><span class="p">(</span><span class="sh">'</span><span class="s">theta</span><span class="sh">'</span><span class="p">,</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="n">log_theta</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="n">log_theta</span><span class="p">)))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Binomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">df_oring</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">],</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_oring</span><span class="p">[</span><span class="sh">'</span><span class="s">undamaged</span><span class="sh">'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>For those who don’t like math too much, let us show the Bayesian network
+associated to the model:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pm</span><span class="p">.</span><span class="nf">model_to_graphviz</span><span class="p">(</span><span class="n">logistic</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/glm/logistic/model.svg" alt="The logistic model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">logistic</span><span class="p">:</span>
+    <span class="n">trace_logistic</span> <span class="o">=</span> <span class="n">pmjax</span><span class="p">.</span><span class="nf">sample_numpyro_nuts</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">20000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                      <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Here we used the powerful numpyro sampler to run four chains, each composed by
+20000 warm up draws and 20000 remaining draws.
+This sampler is much faster then the ordinary PyMC sampler, since it pre-compiles 
+the code.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_logistic</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/glm/logistic/trace.png" alt="Our traces" /></p>
+
+<p>The traces looks very clean, but let us take a look at the trace summary</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">summary</span><span class="p">(</span><span class="n">trace_logistic</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">sd</th>
+      <th style="text-align: right">hdi_3%</th>
+      <th style="text-align: right">hdi_97%</th>
+      <th style="text-align: right">mcse_mean</th>
+      <th style="text-align: right">mcse_sd</th>
+      <th style="text-align: right">ess_bulk</th>
+      <th style="text-align: right">ess_tail</th>
+      <th style="text-align: right">r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">alpha</td>
+      <td style="text-align: right">-11.868</td>
+      <td style="text-align: right">3.342</td>
+      <td style="text-align: right">-18.24</td>
+      <td style="text-align: right">-5.658</td>
+      <td style="text-align: right">0.033</td>
+      <td style="text-align: right">0.023</td>
+      <td style="text-align: right">10494</td>
+      <td style="text-align: right">11515</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">beta</td>
+      <td style="text-align: right">0.221</td>
+      <td style="text-align: right">0.054</td>
+      <td style="text-align: right">0.119</td>
+      <td style="text-align: right">0.322</td>
+      <td style="text-align: right">0.001</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">10502</td>
+      <td style="text-align: right">11476</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Let us now plot our estimate for the O-ring failure probability</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">trace_logistic</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">80000</span><span class="p">))</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">ones</span><span class="p">(</span>
+    <span class="nf">len</span><span class="p">(</span><span class="n">temp</span><span class="p">)).</span><span class="nf">reshape</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">trace_logistic</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span>
+    <span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">80000</span><span class="p">))</span><span class="o">*</span><span class="n">temp</span><span class="p">.</span><span class="nf">reshape</span><span class="p">((</span><span class="nf">len</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">prob</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="n">z</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
+
+<span class="n">prob_mean</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">prob_975</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">quantile</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">prob_025</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">quantile</span><span class="p">(</span><span class="n">prob</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">fill_between</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">prob_025</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">prob_975</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">grey</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">95% CI</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="o">-</span><span class="n">prob_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">k</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">mean probability</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">df_oring</span><span class="p">[</span><span class="sh">'</span><span class="s">temperature</span><span class="sh">'</span><span class="p">],</span> <span class="n">df_oring</span><span class="p">[</span><span class="sh">'</span><span class="s">damaged</span><span class="sh">'</span><span class="p">]</span><span class="o">/</span><span class="n">df_oring</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">],</span>
+           <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">x</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">raw data estimate</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">legend</span><span class="o">=</span><span class="n">fig</span><span class="p">.</span><span class="nf">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="sh">'</span><span class="s">upper right</span><span class="sh">'</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">T $^0F$</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">P(damaged)</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/glm/logistic/probability.png" alt="Our final estimate" /></p>
+
+<p>We are slightly too optimistic at low temperature, since the lowest point
+is outside from the 95% CI, but let us trust for a moment to our model.</p>
+
+<p>The previous plot is quite hard to understand, as it is not clear the exact
+value of the probability when $y$ is close to its boundaries.
+A more easily interpretable quantity is given by the odds ratio:</p>
+
+\[OR = \frac{p}{1-p}\]
+
+<p>The odds ratio represents how much you should bet on one result with respect on the other.
+We will plot it in a log scale in order to make the plot more readable,
+and will plot the odds ratio for the $y=0$ outcome, which is the inverse
+of the standard $y=1$ odds ratio.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">odds_ratio</span> <span class="o">=</span> <span class="n">prob</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">prob</span><span class="p">)</span>
+<span class="n">or_mean</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">mean</span><span class="p">(</span><span class="n">odds_ratio</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">or_975</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">quantile</span><span class="p">(</span><span class="n">odds_ratio</span><span class="p">,</span> <span class="mf">0.975</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">or_025</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">quantile</span><span class="p">(</span><span class="n">odds_ratio</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">fill_between</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">or_025</span><span class="p">,</span> <span class="n">or_975</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">grey</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+                <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">95% CI</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">temp</span><span class="p">,</span> <span class="n">or_mean</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">k</span><span class="sh">'</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">Mean</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_yscale</span><span class="p">(</span><span class="sh">'</span><span class="s">log</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">legend</span><span class="o">=</span><span class="n">fig</span><span class="p">.</span><span class="nf">legend</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="sh">'</span><span class="s">upper center</span><span class="sh">'</span><span class="p">,</span> <span class="n">framealpha</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">T $^0F$</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="sh">"</span><span class="s">Odds Ratio (damaged)</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/glm/logistic/odds_ratio.png" alt="The odds ratio" /></p>
+
+<p>Since the odds ratio at 30 Fahrenheit degrees is close to $1000$ we have that
+the failure probability, for a single O-ring, is roughly 1000 times the probability
+that the O-ring will not be damaged: we can be almost sure that the O-ring will brake.</p>
+
+<p>Of course, only one failure in not sufficient to have an incident. What is the probability that we have the simultaneous failure of all six O-ring at 0 Celsius degrees
+(so 32 Fahrenheit degrees)?</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">logistic</span><span class="p">:</span>
+    <span class="n">theta_1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="mi">32</span><span class="o">*</span><span class="n">beta</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">np</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="n">alpha</span> <span class="o">+</span> <span class="mi">32</span><span class="o">*</span><span class="n">beta</span><span class="p">))</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Binomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y1</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta_1</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+    <span class="n">ppc_6_32</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_logistic</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">y1</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="n">h</span> <span class="o">=</span> <span class="p">[(</span><span class="n">ppc_6_32</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y1</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="n">k</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">).</span><span class="nf">sum</span><span class="p">()</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">7</span><span class="p">)]</span>
+<span class="n">h_pl</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">7</span><span class="p">)]</span>
+<span class="n">df_h</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nc">DataFrame</span><span class="p">({</span><span class="sh">'</span><span class="s">n</span><span class="sh">'</span><span class="p">:</span> <span class="n">h_pl</span><span class="p">,</span> <span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">:</span> <span class="n">h</span><span class="p">})</span>
+<span class="n">df_h</span><span class="p">[</span><span class="sh">'</span><span class="s">prob</span><span class="sh">'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_h</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">]</span><span class="o">/</span><span class="n">df_h</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">].</span><span class="nf">sum</span><span class="p">()</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="nf">barplot</span><span class="p">(</span><span class="n">df_h</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="sh">'</span><span class="s">n</span><span class="sh">'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="sh">'</span><span class="s">prob</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/glm/logistic/p_32_6.png" alt="The probability mass function at 32 degrees" /></p>
+
+<p>As we can see, there is a little chance (less than 10%) that more than one O-ring remains undamaged.</p>
+
+<h2 id="the-poisson-glm">The Poisson GLM</h2>
+<p>The GLM can be extended to a large variety of models, and here we will look at another example taken from 
+<a href="https://bookdown.org/theodds/StatModelingNotes/generalized-linear-models.html">the same tutorial as before</a>,
+which has been proposed in the Nelder-Mead textbook, sec. 6.3.2.
+In this example the author re-analyzed a dataset containing the number of damaged incidents to a set of cargo ships,
+aggregated by ship category, months of service, year of construction and period of operation.
+The dataset is available from the MASS R repository, as documented <a href="https://rdrr.io/cran/MASS/man/ships.html">here</a>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_ships</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">data/ships.csv</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">df_ships</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: left">type</th>
+      <th style="text-align: right">year</th>
+      <th style="text-align: right">period</th>
+      <th style="text-align: right">service</th>
+      <th style="text-align: right">incidents</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: left">A</td>
+      <td style="text-align: right">60</td>
+      <td style="text-align: right">60</td>
+      <td style="text-align: right">127</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: left">A</td>
+      <td style="text-align: right">60</td>
+      <td style="text-align: right">75</td>
+      <td style="text-align: right">63</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left">A</td>
+      <td style="text-align: right">65</td>
+      <td style="text-align: right">60</td>
+      <td style="text-align: right">1095</td>
+      <td style="text-align: right">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: left">A</td>
+      <td style="text-align: right">65</td>
+      <td style="text-align: right">75</td>
+      <td style="text-align: right">1095</td>
+      <td style="text-align: right">4</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: left">A</td>
+      <td style="text-align: right">70</td>
+      <td style="text-align: right">60</td>
+      <td style="text-align: right">1512</td>
+      <td style="text-align: right">6</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We will only keep the ships which had some service, and it doesn’t make sense to treat the year as a numeric variable, we should rather treat it as a category.
+The same holds for the type. We will take
+as the value which has category=0 for both year and type. 
+If the ship A had a working period twice as the ship B, on average it should have twice as many incidents. We can encode all of this as follows.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_sf</span> <span class="o">=</span> <span class="n">df_ships</span><span class="p">[</span><span class="n">df_ships</span><span class="p">[</span><span class="sh">'</span><span class="s">service</span><span class="sh">'</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">x_year</span> <span class="o">=</span> <span class="p">[(</span><span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">year</span><span class="sh">'</span><span class="p">]</span> <span class="o">==</span> <span class="n">elem</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">year</span><span class="sh">'</span><span class="p">].</span><span class="nf">drop_duplicates</span><span class="p">()]</span>
+<span class="n">x_type</span> <span class="o">=</span> <span class="p">[(</span><span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">type</span><span class="sh">'</span><span class="p">]</span> <span class="o">==</span> <span class="n">elem</span><span class="p">).</span><span class="nf">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">type</span><span class="sh">'</span><span class="p">].</span><span class="nf">drop_duplicates</span><span class="p">()]</span>
+</code></pre></div></div>
+
+<p>We will use a Poisson likelihood, which has as parameter $\mu&gt;0$, and in order to ensure this constrain
+we will use an exponential link function.
+However, since it doesn’t make much sense to assume that the period enters exponentially (doubling the period would
+translate in multiplying the average incident ratio by four) we will use the logarithm of the service period as a covariate.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">poisson_model</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">x_year</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">gamma</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">x_type</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">period</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">x_year</span><span class="p">)):</span>
+        <span class="n">theta</span> <span class="o">+=</span> <span class="n">beta</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x_year</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">x_type</span><span class="p">)):</span>
+        <span class="n">theta</span> <span class="o">+=</span> <span class="n">gamma</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x_type</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Poisson</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">incidents</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+    
+    <span class="n">trace_poisson</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+    <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">idata_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">log_likelihood</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_poisson</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/glm/poisson/trace.png" alt="Our trace" /></p>
+
+<p>The trace looks fine, we can now check how did our model performed.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">poisson_model</span><span class="p">:</span>
+    <span class="n">ppc_poisson</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_poisson</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_poisson</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/glm/poisson/ppc_poisson.png" alt="PPC" /></p>
+
+<p>The two distributions do not look very close one to the other one. Let us take a closer look to the data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x_pl</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">incidents</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">))</span>
+<span class="n">y_poisson</span> <span class="o">=</span> <span class="n">ppc_poisson</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">incidents</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)))</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">y_i</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">shape</span><span class="p">(</span><span class="n">y_poisson</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_pl</span><span class="p">,</span> <span class="n">y_poisson</span><span class="p">[</span><span class="n">y_i</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">x</span><span class="sh">'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">r</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_pl</span><span class="p">,</span> <span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">incidents</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/glm/poisson/glm_plot.png" alt="GLM plot" /></p>
+
+<p>It looks like there are many points which fall outside from the predicted range.
+In order to correct for this problem, the author suggested an interaction term:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">poisson_model_inter</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">x_year</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">gamma</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">x_type</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">delta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">delta</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">x_year</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">x_type</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">period</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">x_year</span><span class="p">)):</span>
+        <span class="n">theta</span> <span class="o">+=</span> <span class="n">beta</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x_year</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">x_type</span><span class="p">)):</span>
+        <span class="n">theta</span> <span class="o">+=</span> <span class="n">gamma</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x_type</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">x_year</span><span class="p">)):</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">x_type</span><span class="p">)):</span>
+            <span class="n">theta</span> <span class="o">+=</span> <span class="n">delta</span><span class="p">[</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">s</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x_year</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">x_type</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Poisson</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">incidents</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+    <span class="n">trace_poisson_inter</span> <span class="o">=</span> <span class="n">pmjax</span><span class="p">.</span><span class="nf">sample_numpyro_nuts</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                                    <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">idata_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">log_likelihood</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span>
+                                                   <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_poisson_inter</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/glm/poisson/trace_inter.png" alt="Our trace for the interaction model" /></p>
+
+<p>Also in this case the trace looks good.
+Let us look at the predicted incident rate distribution for the new model</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">poisson_model_inter</span><span class="p">:</span>
+    <span class="n">ppc_poisson_inter</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_poisson_inter</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_poisson_inter</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/glm/poisson/ppc_poisson_inter.png" alt="The PPC for the interaction model" /></p>
+
+<p>The agreement with the data looks much better, let us look at each ship’s probability:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">y_poisson_inter</span> <span class="o">=</span> <span class="n">ppc_poisson_inter</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">incidents</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)))</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+    <span class="n">y_i</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">choice</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">shape</span><span class="p">(</span><span class="n">y_poisson_inter</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_pl</span><span class="p">,</span> <span class="n">y_poisson_inter</span><span class="p">[</span><span class="n">y_i</span><span class="p">],</span> <span class="n">marker</span><span class="o">=</span><span class="sh">'</span><span class="s">x</span><span class="sh">'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">r</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x_pl</span><span class="p">,</span> <span class="n">df_sf</span><span class="p">[</span><span class="sh">'</span><span class="s">incidents</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/glm/poisson/glm_plot_inter.png" alt="GLM plot for the interactive model" /></p>
+
+<p>Our model definitely improved its agreement with the data. Let us see what does the LOO metric tells us.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loo_a</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">loo</span><span class="p">(</span><span class="n">trace_poisson</span><span class="p">,</span> <span class="n">poisson_model</span><span class="p">)</span>
+<span class="n">loo_b</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">loo</span><span class="p">(</span><span class="n">trace_poisson_inter</span><span class="p">,</span> <span class="n">poisson_model_inter</span><span class="p">)</span>
+<span class="n">model_compare</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">compare</span><span class="p">({</span><span class="sh">'</span><span class="s">Non-interacting</span><span class="sh">'</span><span class="p">:</span> <span class="n">loo_a</span><span class="p">,</span> <span class="sh">'</span><span class="s">Interacting</span><span class="sh">'</span><span class="p">:</span> <span class="n">loo_b</span><span class="p">})</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_compare</span><span class="p">(</span><span class="n">model_compare</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/glm/poisson/loo_plot.png" alt="Comparison between the two models" /></p>
+
+<p>The LOO metrics favours by far the interactive model, suggesting that 
+we should consider the aging for each ship category separately.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/composite/" /><category term="/generalized-linear-models/" /><summary type="html"><![CDATA[Normal model allows you to fit data belonging to the entire real domain, but you will face situations where you want to put some additional constrain to your model. If you are dealing with binary data, with count data or with probabilities, then the ordinary linear regression may not be appropriate, as your model would allow for values which are outside from the mathematical domain of your data.]]></summary></entry><entry><title type="html">Notation</title><link href="http://localhost:4000/notation/" rel="alternate" type="text/html" title="Notation" /><published>2023-08-28T00:00:00+02:00</published><updated>2023-08-28T00:00:00+02:00</updated><id>http://localhost:4000/notation</id><content type="html" xml:base="http://localhost:4000/notation/"><![CDATA[<p>I will adhere to Gelman’s notation, and divide the quantities in <em>observable or potentially observable quantities</em>,
+which will be indicated with Latin letters,
+and in <em>unobservable quantities</em>, which will indicated with Greek letters.</p>
+
+<p>The observable quantity that we are modelling will be usually indicated with the letter $y$
+and it is called the <em>outcome variable</em>.</p>
+
+<p>When doing regression we also have data that we are not interested in modelling.
+These quantities, namely the <em>covariates</em>, <em>explanatory variables</em> or <em>regressor variables</em>, will be indicated with the letter $x$
+if we only refer to one variable, they will be otherwise indicated with $x^i$.
+We will sometimes indicate $\mathbf{x}$ the vector of the covariates.</p>
+
+<p>We will also follow Gelman’s convention for the probability notation and indicate all the probability density functions
+and probability mass functions with the letter $p\,,$ regardless if they indicate
+a prior or a likelihood.</p>
+
+<p>Thus, if we have no covariates, we will make inference by using the following form of the Bayes theorem:</p>
+
+\[p(\theta \vert y) \propto p(y \vert \theta) p(\theta)\,.\]
+
+<p>Here $p(y \vert \theta)$ is the <em>likelihood</em>, $p(\theta)$ is the <em>prior</em> and $p(\theta \vert y)$ is the <em>posterior</em>.</p>
+
+<p>Usually $y$ is made up by a set of observations, and each observation will be indicated with $y_i$.
+If each observation is independent on the other observations we have that</p>
+
+\[p(y \vert \theta) = \prod_{i=1}^N p(y_i \vert \theta)\,.\]
+
+<p>Unobserved data will be indicated with $\tilde{y}$ 
+The probability of some unobserved $\tilde{y}$ conditional to the observed data is called the <em>posterior predictive</em> distribution,
+and can be written as</p>
+
+\[p(\tilde{y} \vert y) = \int d\theta p(\tilde{y} \vert \theta) p(\theta \vert y)\,.\]
+
+<p>On the other hand, the <em>prior predictive</em> distribution is given by</p>
+
+\[p(\tilde{y}) = \int d\theta p(\tilde{y} \vert \theta) p(\theta) \,.\]
+
+<p>Following Gelman, we indicate</p>
+
+\[E[u] = \int du u p(u)\]
+
+<p>and more generally</p>
+
+\[E[f(u)] = \int du f(u) p(u)\]
+
+<p>In particular</p>
+
+\[var[u] = E[(u-E[u])^2] = \int du (u-E[u])^2 p(u)\]]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/appendices/" /><category term="/notation/" /><summary type="html"><![CDATA[I will adhere to Gelman’s notation, and divide the quantities in observable or potentially observable quantities, which will be indicated with Latin letters, and in unobservable quantities, which will indicated with Greek letters.]]></summary></entry></feed>

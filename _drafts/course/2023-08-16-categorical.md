@@ -3,6 +3,8 @@ layout: post
 title: "Categorical data"
 categories: course/intro/
 tags: /categorical/
+
+description: "When two categories are not enough"
 ---
 
 In a [previous post](/count/) we saw how we can deal for categorical data when we have two categories.

@@ -20,4 +20,6 @@ permalink: :title/
 collections:
   category:
     output: true
-gems: [jekyll-mermaid]
+gems: [jekyll-mermaid, jekyll-paginate]
+show_excerpts: false
+paginate: false

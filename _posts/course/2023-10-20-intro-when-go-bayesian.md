@@ -1,6 +1,9 @@
 ---
 layout: post
 title: "Why (and when) should you go for Bayesian"
+# image: "/docs/assets/images/beta_binom/yeast_count.jpg"
+image: "/docs/assets/images/intro/doubt.jpg"
+description: "Because there is no silver bullet"
 ---
 I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes.
 Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process.
