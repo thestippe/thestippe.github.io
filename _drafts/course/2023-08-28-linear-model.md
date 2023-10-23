@@ -109,7 +109,7 @@ fig = plt.figure()
 ax = fig.add_subplot(111)
 
 for i in range(20):
-    t = np.random.randint(t, high=500)
+    t = np.random.randint(low=0, high=500)
     ax.scatter(x_0, lm_prior_pred.prior_predictive.y.values[0,t,:], marker='+', color='navy')
 ax.scatter(x_0, df_lungs['FEV'].values, color='green')
 ax.set_xlabel('AGE [Y]')

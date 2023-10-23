@@ -44,13 +44,13 @@ df = pd.read_csv('data/earthqakes.csv', sep='|')
 df.head()
 ```
 
-|    |   #EventID | Time                       |   Latitude |   Longitude |   Depth/Km | Author               |   Catalog |   Contributor |   ContributorID | MagType   |   Magnitude | MagAuthor   | EventLocationName                                | EventType   |
-|---:|-----------:|:---------------------------|-----------:|------------:|-----------:|:---------------------|----------:|--------------:|----------------:|:----------|------------:|:------------|:-------------------------------------------------|:------------|
-|  0 |   35812591 | 2023-08-13 00:08:52.680000 |    40.4975 |     16.173  |       33.4 | SURVEY-INGV          |       nan |           nan |             nan | ML        |         1.3 | --          | 1 km E Accettura (MT)                            | earthquake  |
-|  1 |   35812671 | 2023-08-13 00:44:32.400000 |    37.8388 |     15.5168 |       10.3 | SURVEY-INGV          |       nan |           nan |             nan | ML        |         1.3 | --          | Stretto di Messina (Reggio di Calabria, Messina) | earthquake  |
-|  2 |   35812691 | 2023-08-13 01:00:51.650000 |    46.6427 |      8.3947 |       10.8 | SURVEY-INGV          |       nan |           nan |             nan | ML        |         1.7 | --          | Svizzera (SVIZZERA)                              | earthquake  |
-|  3 |   35812831 | 2023-08-13 01:50:30.440000 |    43.013  |     13.0773 |        7.6 | SURVEY-INGV          |       nan |           nan |             nan | ML        |         0.7 | --          | 3 km SW Fiordimonte (MC)                         | earthquake  |
-|  4 |   35812921 | 2023-08-13 02:17:17.329000 |    40.8217 |     14.1372 |        0.9 | SURVEY-INGV-OV#SiSmi |       nan |           nan |             nan | Md        |         1.1 | --          | Campi Flegrei                                    | earthquake  |
+|    |   #EventID | Time                       |   Latitude |   Longitude |   Depth/Km | Author                           |   Catalog |   Contributor |   ContributorID | MagType   |   Magnitude | MagAuthor   | EventLocationName                      | EventType   |
+|---:|-----------:|:---------------------------|-----------:|------------:|-----------:|:---------------------------------|----------:|--------------:|----------------:|:----------|------------:|:------------|:---------------------------------------|:------------|
+|  0 |   35633631 | 2023-07-24 00:30:05.420000 |    42.8808 |     13.0897 |       10.8 | SURVEY-INGV                      |       nan |           nan |             nan | ML        |         0.9 | --          | 4 km E Preci (PG)                      | earthquake  |
+|  1 |   35633671 | 2023-07-24 00:51:50.980000 |    39.859  |     15.3635 |       10   | SURVEY-INGV                      |       nan |           nan |             nan | ML        |         2.1 | --          | Golfo di Policastro (Salerno, Potenza) | earthquake  |
+|  2 |   35634111 | 2023-07-24 02:55:44.630000 |    37.743  |     15.068  |        3.8 | SURVEY-INGV-CT#SeismPicker_SO-OE |       nan |           nan |             nan | ML        |         2.5 | --          | 5 km W Milo (CT)                       | earthquake  |
+|  3 |   35633921 | 2023-07-24 03:01:19.100000 |    37.742  |     15.061  |        4   | SURVEY-INGV-CT                   |       nan |           nan |             nan | ML        |         3.1 | --          | 5 km W Milo (CT)                       | earthquake  |
+|  4 |   35634091 | 2023-07-24 03:08:10.740000 |    43.437  |     12.6908 |       12.6 | SURVEY-INGV                      |       nan |           nan |             nan | ML        |         0.6 | --          | 4 km NE Scheggia e Pascelupo (PG)      | earthquake  |
 
 ```python
 df['Time'] = pd.to_datetime(df['Time'])
@@ -75,8 +75,7 @@ delta_hours = df['Time'].diff().dropna().dt.total_seconds().values/360
 with pm.Model() as eq_model:
     lam = pm.Gamma('lam', alpha=0.1, beta=0.1)
     y = pm.Exponential('y', lam=lam, observed=delta_hours)
-    trace_eq = pmjax.sample_numpyro_nuts(draws=2000, tune=2000, chains=4,
-                      return_inferencedata=True, random_seed=rng)
+    trace_eq = pmjax.sample_numpyro_nuts(draws=2000, tune=2000, chains=4, random_seed=rng)
 
 az.plot_trace(trace_eq)
 ```

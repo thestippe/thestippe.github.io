@@ -224,8 +224,12 @@ with logistic:
     y1 = pm.Binomial('y1', p=theta_1, n=6)
     ppc_6_32 = pm.sample_posterior_predictive(trace_logistic, var_names=['y1'])
 
-h = [(ppc_6_32.posterior_predictive['y1'].values.reshape(-1)==k).astype(int) for k in range(7)]
-sns.barplot(h)
+h = [(ppc_6_32.posterior_predictive['y1'].values.reshape(-1)==k).astype(int).sum() for k in range(7)]
+h_pl = [k for k in range(7)]
+df_h = pd.DataFrame({'n': h_pl, 'count': h})
+df_h['prob'] = df_h['count']/df_h['count'].sum()
+
+sns.barplot(df_h, x='n', y='prob')
 ```
 
 ![The probability mass function at 32 degrees](/docs/assets/images/glm/logistic/p_32_6.png)
