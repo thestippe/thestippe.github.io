@@ -3,6 +3,7 @@ layout: post
 title: "Conjugate models"
 categories: course/intro/
 tags: /conjugate/
+description: "If you want to tackle your problem analytically"
 ---
 
 We previously mentioned the concept of conjugate models, in this

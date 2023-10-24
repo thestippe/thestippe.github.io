@@ -3,6 +3,8 @@ layout: post
 title: "The exponential model"
 categories: course/intro/
 tags: /exponential/
+image: "/docs/assets/images/exponential/events.png"
+description: "Describing waiting times and other positive quantities"
 ---
 
 In the [last](/normal/) post we used the normal and the Student-t distribution

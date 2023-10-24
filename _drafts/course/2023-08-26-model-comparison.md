@@ -3,6 +3,8 @@ layout: post
 title: "Model comparison"
 categories: course/intro/
 tags: /model-comparison/
+image: "/docs/assets/images/model_comparison/loo.jpg"
+description: "Understanding good and bad aspects of your models"
 ---
 
 In the [last](/predictive-checks/) post we looked at how one can assess a model's ability to reproduce the data.

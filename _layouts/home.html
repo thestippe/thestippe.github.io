@@ -37,7 +37,9 @@ layout: base
         {%- endif -%}
         {% if post.image %}
         <div>
-                <img src={{ post.image }} style="height:360px;width:480px;">
+                <a  href="{{ post.url | relative_url }}">
+                        <img src={{ post.image }} style="height:360px;width:480px;">
+                </a>
         </div>
         {% endif %}
         {% if post.description %}

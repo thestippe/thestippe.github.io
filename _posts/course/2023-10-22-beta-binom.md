@@ -42,8 +42,8 @@ In the figure shown above:
 |  **total**     | 72   | 9  |
 
 Let us see how can we estimate the viability.
-In the following, we will indicate with $n_a$ the number of alive cells (which is 70)
-and with $n_d$ the number of death cells
+In the following, we will indicate with $n_a$ the number of alive cells (which is 72)
+and with $n_d$ the number of death cells (9).
 In order to do this, let us first open our Jupyter notebook, import some libraries
 and define the data
 
@@ -70,8 +70,8 @@ total = alive + death
 
 
 ## The home-brewer's textbook way
-The home-brewer's solution is fast and simple: if we have 70
-alive cells out of 79 cells, then the probability of having
+The home-brewer's solution is fast and simple: if we have 72
+alive cells out of 81 cells, then the probability of having
 and alive cell is simply
 
 $$ \theta_{hb} = \frac{n_a}{n_a + n_d}  $$

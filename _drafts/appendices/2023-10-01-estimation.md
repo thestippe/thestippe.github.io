@@ -3,6 +3,8 @@ layout: page
 title: "The frequentist perspective"
 categories: course/appendices/
 tags: /estimation/
+image: "/docs/assets/images/frequentist/freq_xkcd.jpg"
+description: "Some common misconceptions"
 ---
 
 While most of this blog is about Bayesian statistics, in this post

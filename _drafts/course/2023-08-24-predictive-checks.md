@@ -3,6 +3,8 @@ layout: post
 title: "Predictive checks"
 categories: course/intro/
 tags: /predictive-checks/
+description: "Does my model make sense?"
+image: "/docs/assets/images/predictive_checks/posterior_predictive_housefly_pp_0.jpg"
 ---
 
 In the previous post we saw some methods which allows

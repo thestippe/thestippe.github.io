@@ -3,7 +3,7 @@ layout: post
 title: "Categorical data"
 categories: course/intro/
 tags: /categorical/
-
+image: "/docs/assets/images/multinomial/survey1.jpg"
 description: "When two categories are not enough"
 ---
 

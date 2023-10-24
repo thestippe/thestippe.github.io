@@ -3,6 +3,8 @@ layout: post
 title: "Introduction to the hierarchical models"
 categories: course/composite/
 tags: /hierarchical/
+description: "How to embed hierarchies in your models"
+image: "/docs/assets/images/hierarchical/front.svg"
 ---
 
 Hierarchical models are one of the most important model families

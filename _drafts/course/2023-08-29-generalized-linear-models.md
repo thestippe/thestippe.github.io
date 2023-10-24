@@ -3,6 +3,9 @@ layout: post
 title: "Generalized linear models"
 categories: course/composite/
 tags: /generalized-linear-models/
+description: "When linearity is not manifest"
+
+image: "/docs/assets/images/glm/logistic/odds_ratio.png"
 ---
 
 Normal model allows you to fit data belonging to the entire real domain,

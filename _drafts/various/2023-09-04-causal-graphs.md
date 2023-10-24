@@ -3,6 +3,8 @@ layout: post
 title: "Introduction to causal graphs"
 categories: course/various/
 tags: /causal-graphs/
+image: "/docs/assets/images/causal_graphs/covariates.png"
+description: "Representing causality flows"
 ---
 
 Causality is a relation between events, and one of the easiest to interpret

@@ -3,6 +3,8 @@ layout: post
 title: "The linear model"
 categories: course/composite/
 tags: /linear-model/
+description: "The simplest regression problem"
+image: "/docs/assets/images/linear_model/lung_data.jpg"
 ---
 
 In this post we will start looking at some regression problem,
