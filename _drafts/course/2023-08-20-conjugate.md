@@ -4,6 +4,7 @@ title: "Conjugate models"
 categories: course/intro/
 tags: /conjugate/
 description: "If you want to tackle your problem analytically"
+image: "/docs/assets/images/conjugate/Bayes_icon.png"
 ---
 
 We previously mentioned the concept of conjugate models, in this
@@ -137,5 +138,5 @@ in Andrew Gelman's textbook (see the [resources](/links/) page).
 
 ## Conclusions and take-home message
 - Conjugate models allow you to have an analytical way to link your parameters to observable quantities
-- You can easily formulate a constraint on your priors in terms of effects on the posteriors (I choose my prior in such a way that, f I see this outcome I want my posterior to behave this way).
+- You can easily formulate a constraint on your priors in terms of effects on the posteriors (I choose my prior in such a way that, if I see this outcome I want my posterior to behave this way).
 - Priors chosen in terms of effects on the posterior are very easy to understand, criticize and, if necessary, improve.
