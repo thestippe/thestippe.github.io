@@ -107,7 +107,7 @@ from matplotlib import pyplot as plt
 from scipy.stats import beta
 import numpy as np
 
-plt.style.use("seaborn-v0_8-darkgrid")
+plt.style.use("seaborn-v0_8-whitegrid")
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
