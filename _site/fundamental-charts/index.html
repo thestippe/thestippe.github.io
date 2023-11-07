@@ -64,7 +64,7 @@
 
   <div class="post-content e-content" itemprop="articleBody">
     <p>In this post we will take a look at some of the most fundamental charts
-that one encounters in data visualization <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
+that one encounters in data visualization <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
 
 <h2 id="categorical-and-quantitative-data">Categorical and quantitative data</h2>
 
@@ -77,7 +77,7 @@ Here we will only plot a sub-sample of the dataset, while the full dataset
 can be found <a href="https://github.com/MainakRepositor/Datasets/blob/master/Tokyo-Olympics/Medals.csv">here</a>.</p>
 
 <!-- Load d3.js -->
-<script src="https://d3js.org/d3.v6.js"></script>
+<script src="https://d3js.org/d3.v5.js"></script>
 
 <!-- Create a div where the graph will take place -->
 <div id="barchart"> </div>
@@ -97,7 +97,9 @@ reorder the categories with respect to the plotted quantity to improve readabili
 
 <p>The second kind of graph we will talk about is the
 line chart, where you can visualize how does a quantitative variable changes with
-respect to another quantity.</p>
+respect to another quantity, which often represents time.
+To better explain this graph, let us take a look at the gold
+price in the period 1978-2021.</p>
 
 <div id="linechart"> </div>
 <script src="/docs/assets/javascript/linechart.js"> </script>
@@ -110,7 +112,9 @@ never use the line chart.</p>
 <h2 id="scatterplot">Scatterplot</h2>
 
 <p>In a scatterplot we show the distribution of two
-quantities across the items.</p>
+quantities across the items.
+As an example, here we show how the sepal length and the sepal width are
+varying across the items of the well known Iris dataset.</p>
 
 <div id="my_scatterplot"> </div>
 
@@ -119,13 +123,43 @@ quantities across the items.</p>
 <h2 id="matrix-chart">Matrix chart</h2>
 
 <p>In a matrix we want to visualize how does a quantity
-distributes across two categorical variables.</p>
+distributes across two categorical variables.
+As an example, here we visualize how many points each team of the Six Nations Championship
+performed against each opponent in the period 2016-2023.</p>
 
 <div id="my_matrix_chart"> </div>
+
+<script src="/docs/assets/javascript/matrix.js"> </script>
+
+<p>As we will discuss in a future post, this representation is never optimal,
+as the two spatial dimensions are already encoding the categorical
+variables, so one must rely on another channel, typically area or color,
+to encode the quantitative variable. 
+The issue is that our perception of scale variations in both channels
+are prone to errors, so one may find difficulties to correctly
+decode the quantitative informations.</p>
+
+<h2 id="symbol-map">Symbol map</h2>
+<p>The fifth and last type of visualization we will discuss here is the
+symbol map, where we show how a quantity varies across two spatial
+coordinates.</p>
+
+<p>As an example, here I plot some of the places where I lived, where the area is proportional to the
+time I lived in each location.</p>
+
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+
+<div id="my_symbol_chart"> </div>
+
+<script src="/docs/assets/javascript/symbol.js"> </script>
+
 <div class="footnotes" role="doc-endnotes">
   <ol>
     <li id="fn:1" role="doc-endnote">
       <p>Here we will follow Enrico Bertini’s Coursera lecture on fundamental graphs, which I suggest you to watch together with his entire <a href="https://www.coursera.org/specializations/information-visualization">specialization in data visualization</a>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>Well, to be honest this post is also an excuse to try and see how to draw charts with <a href="https://d3js.org/">D3.js</a>, and up to the moment it looks an amazing tool! <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
 </div>
