@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Fundamental charts | Just another Bayesian enthusiast</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Fundamental charts" />
+<meta name="author" content="Stippe" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An overview to some of the most common data visualizations" />
+<meta property="og:description" content="An overview to some of the most common data visualizations" />
+<link rel="canonical" href="http://localhost:4000/fundamental-charts/" />
+<meta property="og:url" content="http://localhost:4000/fundamental-charts/" />
+<meta property="og:site_name" content="Just another Bayesian enthusiast" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-10-30T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Fundamental charts" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Stippe"},"dateModified":"2023-10-30T00:00:00+01:00","datePublished":"2023-10-30T00:00:00+01:00","description":"An overview to some of the most common data visualizations","headline":"Fundamental charts","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/fundamental-charts/"},"url":"http://localhost:4000/fundamental-charts/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Just another Bayesian enthusiast" />
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+<body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/">Just another Bayesian enthusiast</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about">About me</a><a class="page-link" href="/index">Home</a><a class="page-link" href="/notes">List of the notes</a><a class="page-link" href="/links">Some useful resources</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Fundamental charts</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-10-30T00:00:00+01:00" itemprop="datePublished">
+        Oct 30, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In this post we will take a look at some of the most fundamental charts
+that one encounters in data visualization <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<h2 id="categorical-and-quantitative-data">Categorical and quantitative data</h2>
+
+<p>The first kind of graph we will discuss is the bar chart, where we show
+the how a quantitative attribute changes across a set of categories.</p>
+
+<p>As an example, we can visualize the number of gold medals
+that each country won in the 2020 Olympic games.
+Here we will only plot a sub-sample of the dataset, while the full dataset
+can be found <a href="https://github.com/MainakRepositor/Datasets/blob/master/Tokyo-Olympics/Medals.csv">here</a>.</p>
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v6.js"></script>
+
+<!-- Create a div where the graph will take place -->
+<div id="barchart"> </div>
+
+<script src="/docs/assets/javascript/barchart.js"> </script>
+
+<p>In this case the categorical variable is the team, while the quantitative variable
+is the number of gold medals.</p>
+
+<p>The bar chart can be rotated by 90 degrees, but the vertical version (which we used)
+allows for a larger number of categories to be shown.</p>
+
+<p>If the categories don’t have any natural order it may be a good idea to
+reorder the categories with respect to the plotted quantity to improve readability.</p>
+
+<h2 id="relation-between-two-quantitative-variables">Relation between two quantitative variables</h2>
+
+<p>The second kind of graph we will talk about is the
+line chart, where you can visualize how does a quantitative variable changes with
+respect to another quantity.</p>
+
+<div id="linechart"> </div>
+<script src="/docs/assets/javascript/linechart.js"> </script>
+
+<p>Line chart is often abused, as the line naturally both encodes order
+and a concept of distance between the values in
+the x axes, so if x is not a quantitative variable one should
+never use the line chart.</p>
+
+<h2 id="scatterplot">Scatterplot</h2>
+
+<p>In a scatterplot we show the distribution of two
+quantities across the items.</p>
+
+<div id="my_scatterplot"> </div>
+
+<script src="/docs/assets/javascript/scatterplot.js"> </script>
+
+<h2 id="matrix-chart">Matrix chart</h2>
+
+<p>In a matrix we want to visualize how does a quantity
+distributes across two categorical variables.</p>
+
+<div id="my_matrix_chart"> </div>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>Here we will follow Enrico Bertini’s Coursera lecture on fundamental graphs, which I suggest you to watch together with his entire <a href="https://www.coursera.org/specializations/information-visualization">specialization in data visualization</a>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </div><a class="u-url" href="/fundamental-charts/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Stippe</li>
+          <li><a class="u-email" href="mailto:smaurizio87@protonmail.com">smaurizio87@protonmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
+
