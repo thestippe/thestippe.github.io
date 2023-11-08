@@ -31,7 +31,7 @@ can be found [here](https://github.com/MainakRepositor/Datasets/blob/master/Toky
 <!-- Create a div where the graph will take place -->
 <div id="barchart"> </div>
 
-<script src="/docs/assets/javascript/barchart.js"> </script>
+<script src="/docs//assets/javascript/fundamental_charts/barchart.js"> </script>
 
 In this case the categorical variable is the team, while the quantitative variable
 is the number of gold medals.
@@ -52,7 +52,7 @@ price in the period 1978-2021.
 
 
 <div id="linechart"> </div>
-<script src="/docs/assets/javascript/linechart.js"> </script>
+<script src="/docs//assets/javascript/fundamental_charts/linechart.js"> </script>
 
 Line chart is often abused, as the line naturally both encodes order
 and a concept of distance between the values in
@@ -69,7 +69,7 @@ varying across the items of the well known Iris dataset.
 
 <div id="my_scatterplot"> </div>
 
-<script src="/docs/assets/javascript/scatterplot.js"> </script>
+<script src="/docs//assets/javascript/fundamental_charts/scatterplot.js"> </script>
 
 ## Matrix chart
 
@@ -80,7 +80,7 @@ performed against each opponent in the period 2016-2023.
 
 <div id="my_matrix_chart"> </div>
 
-<script src="/docs/assets/javascript/matrix.js"> </script>
+<script src="/docs//assets/javascript/fundamental_charts/matrix.js"> </script>
 
 As we will discuss in a future post, this representation is never optimal,
 as the two spatial dimensions are already encoding the categorical
@@ -102,6 +102,6 @@ time I lived in each location.
 
 <div id="my_symbol_chart"> </div>
 
-<script src="/docs/assets/javascript/symbol.js"> </script>
+<script src="/docs//assets/javascript/fundamental_charts/symbol.js"> </script>
 
 

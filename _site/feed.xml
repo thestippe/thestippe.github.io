@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-07T18:12:23+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-08T08:22:53+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another Bayesian enthusiast</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
 images.
 Typically the human eye can detect light in the range of wavelengths going
 from 380 nanometers (violet) to 700 nanometers (red).
@@ -99,7 +99,7 @@ can be found <a href="https://github.com/MainakRepositor/Datasets/blob/master/To
 <!-- Create a div where the graph will take place -->
 <div id="barchart"> </div>
 
-<script src="/docs/assets/javascript/barchart.js"> </script>
+<script src="/docs//assets/javascript/fundamental_charts/barchart.js"> </script>
 
 <p>In this case the categorical variable is the team, while the quantitative variable
 is the number of gold medals.</p>
@@ -119,7 +119,7 @@ To better explain this graph, let us take a look at the gold
 price in the period 1978-2021.</p>
 
 <div id="linechart"> </div>
-<script src="/docs/assets/javascript/linechart.js"> </script>
+<script src="/docs//assets/javascript/fundamental_charts/linechart.js"> </script>
 
 <p>Line chart is often abused, as the line naturally both encodes order
 and a concept of distance between the values in
@@ -135,7 +135,7 @@ varying across the items of the well known Iris dataset.</p>
 
 <div id="my_scatterplot"> </div>
 
-<script src="/docs/assets/javascript/scatterplot.js"> </script>
+<script src="/docs//assets/javascript/fundamental_charts/scatterplot.js"> </script>
 
 <h2 id="matrix-chart">Matrix chart</h2>
 
@@ -146,7 +146,7 @@ performed against each opponent in the period 2016-2023.</p>
 
 <div id="my_matrix_chart"> </div>
 
-<script src="/docs/assets/javascript/matrix.js"> </script>
+<script src="/docs//assets/javascript/fundamental_charts/matrix.js"> </script>
 
 <p>As we will discuss in a future post, this representation is never optimal,
 as the two spatial dimensions are already encoding the categorical
@@ -168,7 +168,7 @@ time I lived in each location.</p>
 
 <div id="my_symbol_chart"> </div>
 
-<script src="/docs/assets/javascript/symbol.js"> </script>
+<script src="/docs//assets/javascript/fundamental_charts/symbol.js"> </script>
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
