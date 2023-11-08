@@ -6,6 +6,7 @@ permalink: /notes
 
 {% assign postlist = site.posts | reverse %}
 
+<br>
 ## Introductory material
 
 Here you will find the ABC of Bayesian statistics with PyMC
@@ -17,6 +18,7 @@ Here you will find the ABC of Bayesian statistics with PyMC
         {% endif %}
 {% endfor %}
 
+<br>
 ## Composite models
 
 In this section we will collect somehow more advanced models.
@@ -28,6 +30,7 @@ In this section we will collect somehow more advanced models.
         {% endif %}
 {% endfor %}
 
+<br>
 ## Appendices
 
 Some more mathematical stuff.
@@ -39,6 +42,7 @@ Some more mathematical stuff.
         {% endif %}
 {% endfor %}
 
+<br>
 ## Various
 
 Ideas and models related to other topics.

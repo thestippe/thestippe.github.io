@@ -3,7 +3,7 @@ layout: home
 title: "Home"
 permalink: /index
 ---
-## A personal blog about Bayesian statistics
+## A personal blog about Bayesian statistics and dataviz
 
 Welcome to my blog!
 
