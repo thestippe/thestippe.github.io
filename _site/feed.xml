@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-08T18:23:16+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Just another data lover</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-12T12:52:41+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
 images.
 Typically the human eye can detect light in the range of wavelengths going
 from 380 nanometers (violet) to 700 nanometers (red).
@@ -580,7 +580,237 @@ in the World, I hope I will help a lot of people.</p>
       <p>See <a href="https://www.nature.com/articles/520612a">this other article of Nature</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><summary type="html"><![CDATA[Because there is no silver bullet]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/intro/doubt.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/intro/doubt.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Data visualization</title><link href="http://localhost:4000/dataviz/" rel="alternate" type="text/html" title="Data visualization" /><published>2023-10-11T00:00:00+02:00</published><updated>2023-10-11T00:00:00+02:00</updated><id>http://localhost:4000/dataviz</id><content type="html" xml:base="http://localhost:4000/dataviz/"><![CDATA[<p>I started to plot data since many years, but only few months ago I really went into
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><summary type="html"><![CDATA[Because there is no silver bullet]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/intro/doubt.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/intro/doubt.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Marks and channels</title><link href="http://localhost:4000/marks-channels/" rel="alternate" type="text/html" title="Marks and channels" /><published>2023-10-14T00:00:00+02:00</published><updated>2023-10-14T00:00:00+02:00</updated><id>http://localhost:4000/marks-channels</id><content type="html" xml:base="http://localhost:4000/marks-channels/"><![CDATA[<p>When we build a data visualization we are building vocabulary
+to translate our data into a message, and this vocabulary can be decomposed in 
+a certain number of elements.
+We always do that, even if you may not conscious about it.
+Being aware of this helps us to think about how to better build this vocabulary
+and, ultimately, how to make your message more effective.</p>
+
+<p>Here we will discuss these components, together with the
+fundamental design principles of data visualization, which are a set of 
+guidelines to help us finding the most appropriate representation for our data.</p>
+
+<h2 id="marks-and-channels">Marks and channels</h2>
+
+<p>Marks and channels are the first two fundamental building blocks of a
+data visualization.</p>
+
+<h3 id="marks">Marks</h3>
+<p>Marks are the geometric elements that we use to identify the items
+of our dataset <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.
+Since we are plotting on a two dimensional surface, we can use any geometric entity
+with dimensionality less or equal to two to represent our items, so we can use:</p>
+
+<svg height="180" width="95%" style="margin:2%; font-weight: bold">
+<text x="30" y="15"> POINTS </text>
+  <circle cx="20" cy="40" r="10" fill="steelblue" />
+  <circle cx="45" cy="45" r="10" fill="steelblue" />
+  <circle cx="70" cy="55" r="10" fill="steelblue" />
+  <rect x="100" y="25" width="20" height="20" fill="steelblue" />
+  <rect x="100" y="50" width="20" height="20" fill="steelblue" />
+
+<text x="315" y="15"> LINES </text>
+<line x1="270" y1="40" x2="420" y2="40" style="color:black; width:20px; stroke:black; stroke-width:3px" />
+<line x1="270" y1="80" x2="420" y2="60" style="color:black; width:20px; stroke:black; stroke-width:3px" />
+<line x1="270" y1="100" x2="420" y2="120" style="color:black; width:20px; stroke:black; stroke-width:3px" />
+
+
+<text x="630" y="15"> AREAS </text>
+<rect x="600" y="25" width="120" height="80" fill="steelblue" style="stroke:black; stroke-width:3px" />
+<rect x="600" y="25" width="80" height="80" fill="steelblue" style="stroke:black; stroke-width:3px" />
+<rect x="600" y="25" width="80" height="40" fill="steelblue" style="stroke:black; stroke-width:3px" />
+</svg>
+
+<div class="emphbox">
+Someone also uses three dimensional objects as markers.
+Please, don't! 
+<br />
+Their encoding implies that we must model the perspective,
+and this causes a distortion into our perceived values, making them not suitable
+for data visualization.
+</div>
+
+<h3 id="channels">Channels</h3>
+<p>We then have the channels, and they encode the values of the data associated to our items.</p>
+
+<p>The most commonly channels used to encode quantitative information are</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Channel</th>
+      <th style="text-align: left">Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">Position on aligned axis</td>
+      <td style="text-align: left"><svg height="50" width="200"><line x1="10" y1="10" x2="200" y2="10" style="color:black; width:20px; stroke:black; stroke-width:3px"></line> <circle cx="45" cy="10" r="10" fill="grey"></circle> <line x1="10" y1="30" x2="200" y2="30" style="color:black; width:20px; stroke:black; stroke-width:3px"></line> <circle cx="125" cy="30" r="10" fill="grey"></circle></svg></td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Position on unaligned axis</td>
+      <td style="text-align: left"><svg height="50" width="200"><line x1="10" y1="10" x2="160" y2="10" style="color:black; width:20px; stroke:black; stroke-width:3px"></line> <circle cx="45" cy="10" r="10" fill="grey"></circle> <line x1="50" y1="30" x2="200" y2="30" style="color:black; width:20px; stroke:black; stroke-width:3px"></line> <circle cx="125" cy="30" r="10" fill="grey"></circle></svg></td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Length</td>
+      <td style="text-align: left"><svg height="50" width="200"><line x1="10" y1="10" x2="200" y2="10" style="color:black; width:20px; stroke:black; stroke-width:3px"></line>  <line x1="10" y1="30" x2="150" y2="30" style="color:black; width:20px; stroke:black; stroke-width:3px"></line> </svg></td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Width</td>
+      <td style="text-align: left"><svg height="50" width="200"><line x1="10" y1="10" x2="200" y2="10" style="color:black; width:20px; stroke:black; stroke-width:3px"></line>  <line x1="10" y1="30" x2="200" y2="30" style="color:black; width:30px; stroke:black; stroke-width:5px"></line> </svg></td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Angle/Slope</td>
+      <td style="text-align: left"><svg height="50" width="200"><line x1="10" y1="10" x2="70" y2="10" style="color:black; width:20px; stroke:black; stroke-width:3px"></line>  <line x1="10" y1="10" x2="70" y2="30" style="color:black; width:20px; stroke:black; stroke-width:3px"></line> <line x1="150" y1="10" x2="200" y2="10" style="color:black; width:20px; stroke:black; stroke-width:3px"></line>  <line x1="150" y1="10" x2="200" y2="40" style="color:black; width:20px; stroke:black; stroke-width:3px"></line></svg></td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Area</td>
+      <td style="text-align: left"><svg height="50" width="200"> <circle cx="20" cy="20" r="10" fill="grey"></circle> <circle cx="100" cy="20" r="15" fill="grey"></circle> <circle cx="180" cy="20" r="20" fill="grey"></circle> </svg></td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Color luminance</td>
+      <td style="text-align: left"><svg height="50" width="200"> <rect x="5" y="5" height="40" width="40" fill="lightgray"></rect> <rect x="85" y="5" height="40" width="40" fill="gray"></rect><rect x="160" y="5" height="40" width="40" fill="black"></rect>  </svg></td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Color saturation</td>
+      <td style="text-align: left"><svg height="50" width="200"> <rect x="5" y="5" height="40" width="40" fill="#61679e"></rect> <rect x="85" y="5" height="40" width="40" fill="#3644c9"></rect><rect x="160" y="5" height="40" width="40" fill="#0019ff"></rect>  </svg></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>On the other hand, if we want to encode a categorical information, we have the following
+channels:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">Channel</th>
+      <th style="text-align: left">Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">Spatial region</td>
+      <td style="text-align: left"><svg height="60" width="200"> <rect x="5" y="5" height="40" width="40" fill="gray"></rect> <rect x="85" y="15" height="40" width="40" fill="gray"></rect><rect x="160" y="5" height="30" width="30" fill="gray"></rect>  </svg></td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Color saturation</td>
+      <td style="text-align: left"><svg height="50" width="200"> <rect x="5" y="5" height="40" width="40" fill="#a31919"></rect> <rect x="85" y="5" height="40" width="40" fill="#19a319"></rect><rect x="160" y="5" height="40" width="40" fill="#1919a3"></rect>  </svg></td>
+    </tr>
+    <tr>
+      <td style="text-align: right">Shape/Texture</td>
+      <td style="text-align: left"><svg height="50" width="200"> <rect x="5" y="5" height="40" width="40" fill="grey"></rect> <circle cx="105" cy="25" r="20" fill="grey"></circle> <polygon points="180,45 160,5 200,5" fill="grey"></polygon> </svg></td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The order of the items in the above tables is not random, but it reflects how easily we
+translate the visual information either into a quantity or into different categories,
+and this property is called <strong>effectiveness</strong>.</p>
+
+<h3 id="other-components">Other components</h3>
+
+<p>Marks and channels are the components which encode information about our data, but
+they are not the only components which constitute a data visualization.
+Other components are the ones which allow us to interpret, compare and give context
+to our data.</p>
+
+<ul>
+  <li>axis</li>
+  <li>grids</li>
+  <li>annotations</li>
+  <li>legends</li>
+  <li>labels</li>
+  <li>ticks</li>
+  <li>reference lines</li>
+</ul>
+
+<div class="emphbox"> Annotations may also be used to draw attention to patterns of interest.</div>
+
+<p>Use this components only if they really help your reader.
+Remember that, most of the time, you want the reader to easily compare the values of your data, not to be able to assess the exact value of
+your data.
+You should keep your visualization as clean as possible, and in order to do so:</p>
+
+<ul>
+  <li>Avoid useless boxes.</li>
+  <li>Don’t use grids if they don’t help understanding the data.</li>
+  <li>Avoid too many ticks <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</li>
+</ul>
+
+<h2 id="design-principles">Design principles</h2>
+
+<p>The above mentioned concept should be applied, as much as possible, according to the
+principles of data visualization design.
+These principles, that we will discuss in the rest of this post, will allow the reader
+to easily understand and decode the visualization, reducing the risk of a misinterpretation and so making the communication between you and your reader clearer.</p>
+
+<h3 id="expressiveness-principle">Expressiveness principle</h3>
+<p>The expressiveness principle essentially states that we should make the message
+as clear as possible, without neglecting information and, probably most important,
+without adding, either implicitly or explicitly, information.</p>
+
+<div class="emphbox">
+The visual representation should represent all and
+only the relations that exist in the data.
+</div>
+
+<p>Some examples of violation to this principle are:</p>
+<ul>
+  <li>Line chart used to represent categorical data</li>
+  <li>Different color intensities to encode different categories</li>
+  <li>A diverging color map to represent a quantity that does not have an origin (a zero).</li>
+  <li>Using a channel that don’t encode any data.</li>
+</ul>
+
+<h3 id="effectiveness-principle">Effectiveness principle</h3>
+<p>The effectiveness principle is another principle that
+helps us finding the most appropriate channel for each variable.</p>
+
+<div class="emphbox">
+The relevance of the information should match the effectiveness of the channel.
+</div>
+
+<p>The first obvious consequence of this principle is that the most important variable
+should always be encoded by using a spatial dimension.
+On the other hand, one should not rely on color to effectively communicate
+relevant quantities.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We have first seen what are the main components of any data visualization.
+We have then mentioned two important recommendations on how to translate our dataset into
+a graph.</p>
+
+<p>You should always keep them in mind, but you should also balance them by taking
+into account your audience and your message.</p>
+
+<!-- 
+Train!
+
+Establish visual hierarchy (play with contrast, brightness)
+data pops, legends and rest of frame supports
+put the accent on the relevant data points
+don's put boxes. Work with alignments and grids
+choose right font
+
+Let you go
+Use your hands/easy sketching software (at the beginning you want speed, not perfection)
+
+Review critically
+-->
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>If we are representing a network rather than a tabular dataset, they are used to represents the links too. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>The ticks are the graphical components that are used to mark the values of the axis. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/marks-channels/" /><summary type="html"><![CDATA[The building blocks of data visualization]]></summary></entry><entry><title type="html">Data visualization</title><link href="http://localhost:4000/dataviz/" rel="alternate" type="text/html" title="Data visualization" /><published>2023-10-11T00:00:00+02:00</published><updated>2023-10-11T00:00:00+02:00</updated><id>http://localhost:4000/dataviz</id><content type="html" xml:base="http://localhost:4000/dataviz/"><![CDATA[<p>I started to plot data since many years, but only few months ago I really went into
 data visualization (or dataviz, if you prefer).
 I attended some Coursera course of prof. Enrico Bertini, who also has a very interesting
 podcast named <a href="https://datastori.es/">Data Stories</a> together with Moritz Stefaner (who is the author, among the other things,
@@ -1602,409 +1832,4 @@ effective size of the posterior.</p>
       <p>Please remember that who writes has no knowledge of epidemiology, needed to assess the goodness of the analyzed studies, we will just use the dataset for illustrative purpose.). <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/composite/" /><category term="/hierarchical/" /><summary type="html"><![CDATA[How to embed hierarchies in your models]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/hierarchical/front.svg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/hierarchical/front.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Mixture models</title><link href="http://localhost:4000/mixture/" rel="alternate" type="text/html" title="Mixture models" /><published>2023-08-30T00:00:00+02:00</published><updated>2023-08-30T00:00:00+02:00</updated><id>http://localhost:4000/mixture</id><content type="html" xml:base="http://localhost:4000/mixture/"><![CDATA[<p>In some case we may have that our population is composed by sub-populations, each one with his own distribution. If we are not able to identify the subgroup we can use a mixture model to take into account of this.</p>
-
-<h2 id="normal-mixture-models">Normal Mixture Models</h2>
-
-<p>The first class of MM we will look at is the normal mixture model.
-In this kind of model we are trying and describe some real observable $y$,
-and the population is divided into $K$ sub-populations,
-and each element has probability $w_i, i=1,…,K$, to belong to the i-th
-sub-population.
-For each sub-population, we are assuming that $y$ is normally distributed,
-with mean $\mu_i$ and variance $\sigma_i$.</p>
-
-<p>Let us apply this model to seaborn’s geyser dataset</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">random</span>
-<span class="kn">import</span> <span class="n">xarray</span> <span class="k">as</span> <span class="n">xr</span>
-<span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">import</span> <span class="n">scipy</span>
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
-<span class="kn">import</span> <span class="n">pymc.sampling_jax</span> <span class="k">as</span> <span class="n">pmj</span>
-<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
-<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
-
-<span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="n">cmap</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="nf">color_palette</span><span class="p">(</span><span class="sh">"</span><span class="s">rocket</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="n">geyser</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="nf">load_dataset</span><span class="p">(</span><span class="sh">'</span><span class="s">geyser</span><span class="sh">'</span><span class="p">)</span>
-
-<span class="n">geyser</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
-</code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right"> </th>
-      <th style="text-align: right">duration</th>
-      <th style="text-align: right">waiting</th>
-      <th style="text-align: left">kind</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">3.6</td>
-      <td style="text-align: right">79</td>
-      <td style="text-align: left">long</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">1.8</td>
-      <td style="text-align: right">54</td>
-      <td style="text-align: left">short</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">2</td>
-      <td style="text-align: right">3.333</td>
-      <td style="text-align: right">74</td>
-      <td style="text-align: left">long</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">3</td>
-      <td style="text-align: right">2.283</td>
-      <td style="text-align: right">62</td>
-      <td style="text-align: left">short</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">4</td>
-      <td style="text-align: right">4.533</td>
-      <td style="text-align: right">85</td>
-      <td style="text-align: left">long</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The dataset represents the waiting time between eruptions and the duration of the
-eruption for the Old Faithful geyser in Yellowstone National Park, Wyoming, USA.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="nf">pairplot</span><span class="p">(</span><span class="n">geyser</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="sh">'</span><span class="s">kind</span><span class="sh">'</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/mixture/normal_mixture/geiser.png" alt="The geyser dataset" /></p>
-
-<p>We can see that we both the duration and the waiting time between eruptions
-are well separated for the two categories, and for each category
-they look normally distributed.
-The label “kind” is of course a human label, and it’s not a measured
-quantity, so let us assume that we have no idea about it, and that
-we must find the distribution of the eruption duration for each category.
-In order to do this, we will use a normal mixture model,
-with two sub-populations, each one with its own mean and variance.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">mix_model</span><span class="p">:</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">pi</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Dirichlet</span><span class="p">(</span><span class="sh">'</span><span class="s">pi</span><span class="sh">'</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">ones</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span><span class="p">)</span>
-    <span class="n">phi</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">.</span><span class="nf">dist</span><span class="p">(</span><span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Mixture</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">w</span><span class="o">=</span><span class="n">pi</span><span class="p">,</span> <span class="n">comp_dists</span> <span class="o">=</span> <span class="n">phi</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">geyser</span><span class="p">[</span><span class="sh">'</span><span class="s">duration</span><span class="sh">'</span><span class="p">])</span>
-    <span class="n">trace_mix</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_mix</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/mixture/normal_mixture/trace_geiser.png" alt="The trace of our model" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">summary</span><span class="p">(</span><span class="n">trace_mix</span><span class="p">)</span>
-</code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left"> </th>
-      <th style="text-align: right">mean</th>
-      <th style="text-align: right">sd</th>
-      <th style="text-align: right">hdi_3%</th>
-      <th style="text-align: right">hdi_97%</th>
-      <th style="text-align: right">mcse_mean</th>
-      <th style="text-align: right">mcse_sd</th>
-      <th style="text-align: right">ess_bulk</th>
-      <th style="text-align: right">ess_tail</th>
-      <th style="text-align: right">r_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">mu[0]</td>
-      <td style="text-align: right">2.021</td>
-      <td style="text-align: right">0.027</td>
-      <td style="text-align: right">1.97</td>
-      <td style="text-align: right">2.07</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">8026</td>
-      <td style="text-align: right">6010</td>
-      <td style="text-align: right">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">mu[1]</td>
-      <td style="text-align: right">4.275</td>
-      <td style="text-align: right">0.034</td>
-      <td style="text-align: right">4.21</td>
-      <td style="text-align: right">4.337</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">10403</td>
-      <td style="text-align: right">6927</td>
-      <td style="text-align: right">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">sigma[0]</td>
-      <td style="text-align: right">0.244</td>
-      <td style="text-align: right">0.024</td>
-      <td style="text-align: right">0.2</td>
-      <td style="text-align: right">0.287</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">7226</td>
-      <td style="text-align: right">6688</td>
-      <td style="text-align: right">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">sigma[1]</td>
-      <td style="text-align: right">0.438</td>
-      <td style="text-align: right">0.028</td>
-      <td style="text-align: right">0.386</td>
-      <td style="text-align: right">0.49</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">7052</td>
-      <td style="text-align: right">6363</td>
-      <td style="text-align: right">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">pi[0]</td>
-      <td style="text-align: right">0.35</td>
-      <td style="text-align: right">0.029</td>
-      <td style="text-align: right">0.293</td>
-      <td style="text-align: right">0.401</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">10929</td>
-      <td style="text-align: right">6276</td>
-      <td style="text-align: right">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">pi[1]</td>
-      <td style="text-align: right">0.65</td>
-      <td style="text-align: right">0.029</td>
-      <td style="text-align: right">0.599</td>
-      <td style="text-align: right">0.707</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">10929</td>
-      <td style="text-align: right">6276</td>
-      <td style="text-align: right">1</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Both the mean and the variance of our normal distributions looks well separated,
-and their traces looks good.
-Let us look at the posterior predictive distribution.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">mix_model</span><span class="p">:</span>
-    <span class="n">ppc_mix</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_mix</span><span class="p">)</span>
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_mix</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">num_pp_samples</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/mixture/normal_mixture/geiser_ppc.png" alt="The PPC of our model" /></p>
-
-<p>The posterior predictive is not perfect, probably a Student-t mixture would
-have been more appropriate, but it catches the general behavior of the data.</p>
-
-<h2 id="zero-inflated-models">Zero inflated models</h2>
-<p>Another commonly used mixture model are the so-called zero-inflated models.</p>
-
-<p>When dealing with count data it may happen that the count of the zeros is over-represented with respect to our model. Usually this happens because there is some kind of filter in the data, as an example a failure in our counter. Zero inflated models include this possibility in the count model, so we can build a zero-inflated Poisson model or a zero-inflated negative binomial model. Zero-inflated models are a class of mixture models for discrete data where, given the starting probability
-$P_0(x \vert \theta)$
-the likelihood takes the following form:</p>
-
-\[P(x \vert w, \theta) = (1-w) \delta_{x, 0} + w P_0(x \vert \theta)\]
-
-<p>One can also build zero-inflated continuous models by replacing the discrete delta function with the Dirac delta, but we will not cover this topic.
-We will apply this model to the fish (sometimes called camper) dataset.
-The dataset contains data on 250 groups that went to a park. Each group was questioned about how many fish they caught (count), how many children were in the group (child), how many people were in the group (persons), if they used a live bait and whether or not they brought a camper to the park (camper).</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">https://stats.idre.ucla.edu/stat/data/fish.csv</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">df</span><span class="p">.</span><span class="nf">head</span><span class="p">()</span>
-</code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right"> </th>
-      <th style="text-align: right">nofish</th>
-      <th style="text-align: right">livebait</th>
-      <th style="text-align: right">camper</th>
-      <th style="text-align: right">persons</th>
-      <th style="text-align: right">child</th>
-      <th style="text-align: right">xb</th>
-      <th style="text-align: right">zg</th>
-      <th style="text-align: right">count</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">-0.896315</td>
-      <td style="text-align: right">3.0504</td>
-      <td style="text-align: right">0</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">-0.558345</td>
-      <td style="text-align: right">1.74615</td>
-      <td style="text-align: right">0</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">2</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">-0.401731</td>
-      <td style="text-align: right">0.279939</td>
-      <td style="text-align: right">0</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">3</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">2</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">-0.956298</td>
-      <td style="text-align: right">-0.601526</td>
-      <td style="text-align: right">0</td>
-    </tr>
-    <tr>
-      <td style="text-align: right">4</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">0.436891</td>
-      <td style="text-align: right">0.527709</td>
-      <td style="text-align: right">1</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>We won’t perform a regression, as we are only interested in assessing
-the distribution of the fish number.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="nf">histplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/mixture/zero_inflated/fish.png" alt="The fish number distribution" /></p>
-
-<p>The number of observed 0 looks much higher than the number of ones, so we will
-use a zero-inflated negative binomial to fit the data.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">inflated_model</span><span class="p">:</span>
-    <span class="n">w</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Beta</span><span class="p">(</span><span class="sh">'</span><span class="s">w</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">ZeroInflatedNegativeBinomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">psi</span><span class="o">=</span><span class="n">w</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">])</span>
-    <span class="n">trace_inflated</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_inflated</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/mixture/zero_inflated/trace.png" alt="The trace of our model" /></p>
-
-<pre><code class="language-pyhton">az.summary(trace_inflated)
-</code></pre>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left"> </th>
-      <th style="text-align: right">mean</th>
-      <th style="text-align: right">sd</th>
-      <th style="text-align: right">hdi_3%</th>
-      <th style="text-align: right">hdi_97%</th>
-      <th style="text-align: right">mcse_mean</th>
-      <th style="text-align: right">mcse_sd</th>
-      <th style="text-align: right">ess_bulk</th>
-      <th style="text-align: right">ess_tail</th>
-      <th style="text-align: right">r_hat</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">w</td>
-      <td style="text-align: right">0.898</td>
-      <td style="text-align: right">0.079</td>
-      <td style="text-align: right">0.748</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">0.002</td>
-      <td style="text-align: right">0.002</td>
-      <td style="text-align: right">1967</td>
-      <td style="text-align: right">714</td>
-      <td style="text-align: right">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">mu</td>
-      <td style="text-align: right">3.823</td>
-      <td style="text-align: right">0.684</td>
-      <td style="text-align: right">2.636</td>
-      <td style="text-align: right">5.131</td>
-      <td style="text-align: right">0.015</td>
-      <td style="text-align: right">0.011</td>
-      <td style="text-align: right">2719</td>
-      <td style="text-align: right">1802</td>
-      <td style="text-align: right">1</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">alpha</td>
-      <td style="text-align: right">0.219</td>
-      <td style="text-align: right">0.044</td>
-      <td style="text-align: right">0.147</td>
-      <td style="text-align: right">0.3</td>
-      <td style="text-align: right">0.002</td>
-      <td style="text-align: right">0.001</td>
-      <td style="text-align: right">1417</td>
-      <td style="text-align: right">599</td>
-      <td style="text-align: right">1</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Our trace doesn’t show any issue, so we can check if our model is able to reproduce
-the data.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">inflated_model</span><span class="p">:</span>
-    <span class="n">ppc_inflated</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_inflated</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
-<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">]))</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">ppc_inflated</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">30</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">PPC</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">hist</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">],</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">50</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sh">'</span><span class="s">data</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">legend</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/mixture/zero_inflated/ppc.png" alt="The posterior predictive" /></p>
-
-<p>The model reproduces very accurately the observed data,
-and as we can see the variable $w$ spans from 0.75 to 1, so it looks
-appropriate to use a zero-inflated model rather than a pure negative binomial.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/composite/" /><category term="/mixture/" /><summary type="html"><![CDATA[Describing complex data with simple models]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/mixture/normal_mixture/geiser.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/mixture/normal_mixture/geiser.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/composite/" /><category term="/hierarchical/" /><summary type="html"><![CDATA[How to embed hierarchies in your models]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/hierarchical/front.svg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/hierarchical/front.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

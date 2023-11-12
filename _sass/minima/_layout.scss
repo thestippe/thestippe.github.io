@@ -78,6 +78,7 @@
     line-height: $base-line-height;
     display: block;
     padding: 5px 10px;
+    font-size: 140%;
 
     // Gaps between nav items, but not on the last one
     &:not(:last-child) {
@@ -338,4 +339,17 @@
   .one-half {
     width: calc(50% - (#{$spacing-unit} / 2));
   }
+}
+
+.site-masthead {
+  display: block;
+  width: 220px;
+  height: 120px;
+  align-content: left;
+  margin-left: 0px;
+  margin-right: auto;
+  margin-top: 0px;
+  margin-bottom: -60px;
+  // padding-top: $spacing-unit;
+  // padding-bottom: $spacing-unit;
 }

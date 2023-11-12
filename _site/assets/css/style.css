@@ -435,14 +435,28 @@ table td {
 }
 
 .emphbox {
-  background-color: ivory;
+  # background-color: ivory;
   padding: 25px;
-  border: 3px solid grey;
-  border-radius: 10px;
-  width: 90%;
+  # border: 3px solid grey;
+  # border-radius: 10px;
   margin: auto;
-  margin-top: 30px;
-  margin-bottom: 30px;
+  margin-top: 35px;
+  margin-left: 40px;
+  margin-bottom: 35px;
+  width: 95%;
+  font-style: oblique;
+  font-size: 120%;
+  font-family: "DejaVu Sans";
+  letter-spacing: -0.5px;
+  color: darkslategray;
+}
+
+table {
+  max-width: 600px;
+  align: center;
+  margin-top: 40px;
+  margin-bottom: 40px;
+  margin-left: 40px;
 }
 
 /**
@@ -516,6 +530,7 @@ table td {
   line-height: 1.5;
   display: block;
   padding: 5px 10px;
+  font-size: 140%;
   margin-left: 20px;
 }
 .site-nav .page-link:not(:last-child) {
@@ -753,6 +768,17 @@ table td {
     width: calc(50% - (10px / 2));
   }
 }
+.site-masthead {
+  display: block;
+  width: 220px;
+  height: 120px;
+  align-content: left;
+  margin-left: 0px;
+  margin-right: auto;
+  margin-top: 0px;
+  margin-bottom: -60px;
+}
+
 @font-face {
   font-family: "DejavuSerif";
   font-style: normal;

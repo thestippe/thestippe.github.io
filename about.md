@@ -3,6 +3,7 @@ layout: post
 title: "About me"
 permalink: /about
 ---
+
 I am Stefano, and I am currently working as data scientist.
 I worked as data scientist in a variety of fields, as credit risk assessment, portfolio allocation and healthcare.
 I studied as a physicist, and during my research studies I always applied numerical methods to nuclear physics [^2].
@@ -22,6 +23,10 @@ I would like to thank anyone who shared his/her knowledge in this beautiful fiel
 On the other hand, any error in these notes is my own responsibility, and if you find any please let my know by writing an email.
 Finally, I would like to point out that views are my own, and opinions expressed here are not necessarily shared by the authors
 of the cited articles.
+
+<!---
+<img src="/docs/assets/images/pic_1.jpg" width="100%" height="400px" style="opacity: 0.8">
+--->
 
 [^1]: It is almost impossible to build any non-trivial model without using a programming language.
 [^2]: I started with C and C++ but I soon switched to Python, which is way more friendly, and I soon get passionate about it and by Linux in general.
