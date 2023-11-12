@@ -80,7 +80,7 @@ channels:
 | Channel | Example |
 |---------:|:---------|
 | Spatial region | <svg height="60" width="200"> <rect x="5" y="5" height="40" width="40" fill="gray"/> <rect x="85" y="15" height="40" width="40" fill="gray"/><rect x="160" y="5" height="30" width="30" fill="gray"/>  </svg>  | 
-| Color saturation | <svg height="50" width="200"> <rect x="5" y="5" height="40" width="40" fill="#a31919"/> <rect x="85" y="5" height="40" width="40" fill="#19a319"/><rect x="160" y="5" height="40" width="40" fill="#1919a3"/>  </svg>  | 
+| Color hue | <svg height="50" width="200"> <rect x="5" y="5" height="40" width="40" fill="#a31919"/> <rect x="85" y="5" height="40" width="40" fill="#19a319"/><rect x="160" y="5" height="40" width="40" fill="#1919a3"/>  </svg>  | 
 | Shape/Texture | <svg height="50" width="200"> <rect x="5" y="5" height="40" width="40" fill="grey"/> <circle cx="105" cy="25" r="20" fill="grey"/> <polygon points="180,45 160,5 200,5" fill="grey" /> </svg>  | 
 
 The order of the items in the above tables is not random, but it reflects how easily we
