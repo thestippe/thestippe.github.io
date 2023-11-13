@@ -100,8 +100,8 @@ time I lived in each location.
 
 <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
-<div id="my_symbol_chart"> </div>
+<div id="my_symbol_chart"></div>
 
-<script src="/docs//assets/javascript/fundamental_charts/symbol.js"> </script>
+<script src="/docs/assets/javascript/fundamental_charts/symbol.js"> </script>
 
 

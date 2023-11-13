@@ -58,10 +58,10 @@ function plotLinechart(data){
         svg.append("g").selectAll("points")
                 .data(data).enter()
                 .append("circle")
-                .attr("r", 3)
-                .attr("fill", "steelblue")
+                .attr("r", 2.5)
+                .attr("fill", "none")
                 .attr("stroke", "steelblue")
-                .attr("stroke-width", 3)
+                .attr("stroke-width", 1.5)
                 .attr("cx", function(d) { return x(d.sepal_length) })
                 .attr("cy", function(d) { return y(d.sepal_width) })
 }

@@ -19,8 +19,8 @@ d3.json("https://raw.githubusercontent.com/openpolis/geojson-italy/master/geojso
 
 function showData([map]){
 
-var width = 3000
-var height = 3000
+var width = 500
+var height = 500
 
 var svg = mapContainer.append("svg")
         .attr("id", 'myid')
@@ -32,8 +32,8 @@ var size = d3.scaleSqrt()
         .range([0, 20]);
 
 // Map and projection
-var projection = d3.geoMercator().center([47, 13])
-    .scale(width  / 1.5)
+var projection = d3.geoMercator().center([12.5, 42])
+    .scale(width  * 3.5)
     .translate([width / 2, height / 2])
 
     // Draw the map
