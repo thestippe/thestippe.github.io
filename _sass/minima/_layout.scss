@@ -343,13 +343,14 @@
 
 .site-masthead {
   display: block;
-  width: 220px;
-  height: 120px;
+  // width: 220px;
+  height: 45px;
+  aspect-ratio: initial;
   align-content: left;
   margin-left: 0px;
   margin-right: auto;
-  margin-top: 0px;
-  margin-bottom: -60px;
+  margin-top: 10px;
+  margin-bottom: -40px;
   // padding-top: $spacing-unit;
   // padding-bottom: $spacing-unit;
 }
