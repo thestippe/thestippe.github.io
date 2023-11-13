@@ -7,8 +7,6 @@ permalink: /about
 I am Stefano, and I am currently working as data scientist.
 I worked as data scientist in a variety of fields, as credit risk assessment, portfolio allocation and healthcare.
 I studied as a physicist, and during my research studies I always applied numerical methods to nuclear physics [^2].
-Soon I met Monte Carlo methods, as Gibbs sampling is one of the main tool to study the atomic nuclei in Lattice Quantum Field Theory.
-In my spare time I try and give some contribution to the Italian Skeptic Community, named [CICAP](https://cicap.org), and whenever I can I travel.
 
 During my career as data scientist, I found that Bayesian statistics can be a very useful tool, but all the lectures about Bayesian statistics
 I could find were using R as programming language, as this is the most common programming language among statisticians [^1].
@@ -29,4 +27,3 @@ of the cited articles.
 --->
 
 [^1]: It is almost impossible to build any non-trivial model without using a programming language.
-[^2]: I started with C and C++ but I soon switched to Python, which is way more friendly, and I soon get passionate about it and by Linux in general.
