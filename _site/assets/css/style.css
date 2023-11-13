@@ -770,13 +770,13 @@ table {
 }
 .site-masthead {
   display: block;
-  height: 45px;
+  height: 55px;
   aspect-ratio: initial;
   align-content: left;
   margin-left: 0px;
-  margin-right: auto;
-  margin-top: 10px;
-  margin-bottom: -40px;
+  margin-top: 8px;
+  margin-bottom: 0px;
+  margin-right: 290px;
 }
 
 @font-face {
