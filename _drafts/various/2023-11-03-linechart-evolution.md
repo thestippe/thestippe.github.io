@@ -25,5 +25,5 @@ As we have already seen, in the line chart we have
 <script src="https://d3js.org/d3.v5.js"></script>
 
 <div id="linechart"> </div>
-<script src="/docs//assets/javascript/fundamental_charts/linechart.js"> </script>
+<script src="/docs/assets/javascript/linechart_evolution/linechart.js"> </script>
 
