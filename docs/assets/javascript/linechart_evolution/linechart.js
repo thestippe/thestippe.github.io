@@ -1,9 +1,10 @@
 let lineContainer = d3.select("#linechart") 
-d3.csv("https://raw.githubusercontent.com/MainakRepositor/Datasets/master/Gold%20Rates/annual_gold_rate.csv",
+d3.csv("https://raw.githubusercontent.com/thestippe/thestippe.github.io/main/data/temperatures.csv",
         d3.autoType).then(plotLinechart) // do not rely on default data types!
 
 function plotLinechart(data){
-        var maxval = 1.1*d3.max(data, d=> d.USD) // find the appropriate scale, with some margin
+        console.log(data.dt)
+        var maxval = 1.1*d3.max(data, d=> d.Italy) // find the appropriate scale, with some margin
 
 
         // We first create an empty svg with the appropriate dimensions
