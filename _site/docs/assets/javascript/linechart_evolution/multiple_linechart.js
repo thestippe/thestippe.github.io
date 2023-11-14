@@ -1,19 +1,18 @@
-let lineContainer = d3.select("#linechart") 
+let multiplelineContainer = d3.select("#multiple_linechart") 
 d3.csv("https://raw.githubusercontent.com/thestippe/thestippe.github.io/main/data/yearly_mean_temperatures.csv",
         d3.autoType).then(plotLinechart) // do not rely on default data types!
 
 function plotLinechart(data){
-        var maxval = 1.1*d3.max(data, d=> d.Greece) // find the appropriate scale, with some margin
-        var minval = 0.95*d3.min(data, d=> d.Greece) // find the appropriate scale, with some margin
-
 
         // We first create an empty svg with the appropriate dimensions
-        var svg = lineContainer.append("svg")
+        var svg = multiplelineContainer.append("svg")
                 .attr("id", 'myid')
                 .attr("width", 800)
                 .attr("height", 550)
 
-
+        const countries = ["Italy", "Spain", "Greece", "Portugal"]
+        var maxval = 19
+        var minval = 10
 
         var x = d3.scaleTime()
                 .range([ 100, 700 ])
@@ -27,12 +26,16 @@ function plotLinechart(data){
                 domain([maxval, minval]). //Warning: it is reversed: in svg y goes from top to bottom
                 range([0, 500])
 
+        var colorscheme = d3.scaleOrdinal().range(
+        [ "#7fc97f", "#beaed4", "#fdc086", "#386cb0" ])
+                .domain(countries)
+
         svg.append("g")
                 .call(d3.axisLeft(y).ticks(5)).attr("transform", "translate(100, 0)")
 
         svg.append("text")
-                .text("Greece yearly average temperature")
-                .attr("x", 300)
+                .text("Yearly average temperature")
+                .attr("x", 400)
                 .attr("y", 20)
 
         svg.append("text")
@@ -42,17 +45,25 @@ function plotLinechart(data){
 
         svg.append("text")
                 .text("Year")
-                .attr("x", 350)
+                .attr("x", 450)
                 .attr("y", 540)
+
+        for(country of countries){
+
+        svg.append("text").text(country)
+                .attr("x", 720)
+                .attr("y",y(data[data.length-1][country]))
+      .style("fill", function(){ return colorscheme(country) })
 
     svg.append("path")
       .datum(data)
       .attr("fill", "none")
-      .attr("stroke", "steelblue")
+      .attr("stroke", function(){ return colorscheme(country) })
       .attr("stroke-width", 3)
       .attr("d", d3.line()
         .x(function(d) { return x(d.year) })
-        .y(function(d) { return y(d["Greece"]) }))
+        .y(function(d) { return y(d[country]) }))
         }
+}
 
 

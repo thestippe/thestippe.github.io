@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-14T10:50:19+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-14T15:28:46+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
 which are the basic building blocks for data visualization.</p>
 
 <p>Datasets can become very complex, and you should adapt your data visualization
@@ -15,11 +15,54 @@ do so by using the line chart as fundamental visualization.</p>
   <li>a quantitative variable on the $y$ axis</li>
 </ul>
 
+<p>As an example, let us take a look at the average yearly temperature which can be found
+<a href="https://github.com/thestippe/thestippe.github.io/blob/main/data/yearly_mean_temperatures.csv">here</a>.</p>
+
+<p>The dataset is based on <a href="https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data">this</a> Kaggle dataset.</p>
+
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v5.js"></script>
 
 <div id="linechart"> </div>
-<script src="/docs/assets/javascript/linechart_evolution/linechart.js"> </script>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
+<script src="/docs/assets/javascript/linechart_evolution/linechart.js"> </script>
+
+<p>This visualization allow us to see how a quantity (the yearly average temperature)
+changes over time, and it does that in a decent way.</p>
+
+<h2 id="issues-with-the-line-chart">Issues with the line chart</h2>
+
+<p>But what does it happen when we try and visualize more than one Country in
+a single plot?
+Let us start by using color to code the Country</p>
+
+<div id="multiple_linechart"> </div>
+<script src="/docs/assets/javascript/linechart_evolution/multiple_linechart.js"> </script>
+
+<p>As the number of lines grows, the graph soon becomes more and more cluttered.
+Already with a small number of lines it becomes difficult to catch the behavior
+of a single line.</p>
+
+<p>We have two main alternatives to the multiple line chart:</p>
+<ul>
+  <li>we can put one line chart per graph and we create a small multiples</li>
+  <li>we can use another channel to encode the temperature
+or, of course, we can combine the two techniques.</li>
+</ul>
+
+<h2 id="small-multiples">Small multiples</h2>
+
+<p>Broadly speaking, when you build a small multiple you draw more than
+one visualization, and each visualization is indexed by a label which is not
+used in any of the single images.</p>
+
+<div id="sm_linechart"> </div>
+<script src="/docs/assets/javascript/linechart_evolution/sm_linechart.js"> </script>
+
+<p>Here we used small multiples to put one visualization under the previous,
+but you can also order them horizontally or build a grid.</p>
+
+<p>The main advantage of the small multiples is that they reduce clutter,
+but it becomes more difficult to compare the single lines.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
 images.
 Typically the human eye can detect light in the range of wavelengths going
 from 380 nanometers (violet) to 700 nanometers (red).
