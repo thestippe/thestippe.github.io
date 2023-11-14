@@ -22,9 +22,9 @@ As we have already seen, in the line chart we have
 - a quantitative variable on the $y$ axis
 
 As an example, let us take a look at the average yearly temperature which can be found
-[here](https://github.com/thestippe/thestippe.github.io/blob/main/data/yearly_mean_temperatures.csv).
+[here](https://github.com/thestippe/thestippe.github.io/blob/main/data/gdp_per_capita_filtered.csv).
 
-The dataset is based on [this](https://www.kaggle.com/datasets/berkeleyearth/climate-change-earth-surface-temperature-data) Kaggle dataset.
+The dataset is based on [this](https://github.com/RaafatSaleh/GDP-per-capita-and-its-effect-on-the-man-life-quality/blob/master/Data/gdppercapita_us_inflation_adjusted.csv) repo.
 
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v5.js"></script>

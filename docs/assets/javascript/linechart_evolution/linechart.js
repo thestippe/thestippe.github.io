@@ -1,5 +1,5 @@
 let lineContainer = d3.select("#linechart") 
-d3.csv("https://raw.githubusercontent.com/thestippe/thestippe.github.io/main/data/yearly_mean_temperatures.csv",
+d3.csv("https://raw.githubusercontent.com/thestippe/thestippe.github.io/main/data/gdp_per_capita_filtered.csv",
         d3.autoType).then(plotLinechart) // do not rely on default data types!
 
 function plotLinechart(data){
@@ -17,7 +17,7 @@ function plotLinechart(data){
 
         var x = d3.scaleTime()
                 .range([ 100, 700 ])
-                .domain([1900, 2013])
+                .domain([1970, 2017])
 
         svg.append("g")
                 .call(d3.axisBottom(x)
@@ -52,7 +52,7 @@ function plotLinechart(data){
       .attr("stroke-width", 3)
       .attr("d", d3.line()
         .x(function(d) { return x(d.year) })
-        .y(function(d) { return y(d["Greece"]) }))
+        .y(function(d) { return y(d["Italy"]) }))
         }
 
 
