@@ -10,6 +10,22 @@ Corpo
 Conclusione
 -->
 
+
+<div class="emphbox">
+Hi, I am Stefano, and I am a data scientist.
+<br>
+I have been working as data scientist in healthcare, financial risk assessment and credit risk assessment.
+<br>
+I have an academic background in physics, focused on models in nuclear and particle physics.
+<br>
+In my job I always strive for clarity and transparency, and I always look for new ways to enforce these principles.
+<br>
+I love Bayesian methods, as they naturally allow you to transparently combine data
+and expert knowledge.
+I am also a dataviz enthusiast, and I keep looking for new ways to understand data.
+</div>
+
+<!--
 I am Stefano, and I am currently working as data scientist.
 I worked as data scientist in a variety of fields, as credit risk assessment, portfolio allocation and healthcare.
 I studied as a physicist, and during my research studies I always applied numerical methods to nuclear physics [^2].
@@ -27,6 +43,7 @@ I would like to thank anyone who shared his/her knowledge in this beautiful fiel
 On the other hand, any error in these notes is my own responsibility, and if you find any please let my know by writing an email.
 Finally, I would like to point out that views are my own, and opinions expressed here are not necessarily shared by the authors
 of the cited articles.
+-->
 
 <!---
 <img src="/docs/assets/images/pic_1.jpg" width="100%" height="400px" style="opacity: 0.8">
