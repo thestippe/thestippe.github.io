@@ -82,7 +82,7 @@ do so by using the line chart as fundamental visualization.</p>
   <li>a quantitative variable on the $y$ axis</li>
 </ul>
 
-<p>As an example, let us take a look at the average yearly temperature which can be found
+<p>As an example, let us take a look at the Italian GDP per capita expressed in US dollars adjusted by the US inflation, which can be found
 <a href="https://github.com/thestippe/thestippe.github.io/blob/main/data/gdp_per_capita_filtered.csv">here</a>.</p>
 
 <p>The dataset is based on <a href="https://github.com/RaafatSaleh/GDP-per-capita-and-its-effect-on-the-man-life-quality/blob/master/Data/gdppercapita_us_inflation_adjusted.csv">this</a> repo.</p>
@@ -93,7 +93,7 @@ do so by using the line chart as fundamental visualization.</p>
 <div id="linechart"> </div>
 <script src="/docs/assets/javascript/linechart_evolution/linechart.js"> </script>
 
-<p>This visualization allow us to see how a quantity (the yearly average temperature)
+<p>This visualization allow us to see how a quantity (the GDP per capita)
 changes over time, and it does that in a decent way.</p>
 
 <h2 id="issues-with-the-line-chart">Issues with the line chart</h2>
@@ -125,11 +125,22 @@ used in any of the single images.</p>
 <div id="sm_linechart"> </div>
 <script src="/docs/assets/javascript/linechart_evolution/sm_linechart.js"> </script>
 
-<p>Here we used small multiples to put one visualization under the previous,
-but you can also order them horizontally or build a grid.</p>
+<p>Here we used small multiples to put one visualization on the right of the previous,
+but you can also order them vertically or build a grid.</p>
 
 <p>The main advantage of the small multiples is that they reduce clutter,
 but it becomes more difficult to compare the single lines.</p>
+
+<h2 id="stacked-area-chart">Stacked area chart</h2>
+
+<p>Another possible solution is to stack the lines one above the other one,
+and this is done in the stacked area chart.</p>
+
+<div id="stacked_chart"> </div>
+<script src="/docs/assets/javascript/linechart_evolution/stacked_chart.js"> </script>
+
+<p>The major issue with this solution is that, for all but the lowest curve,
+the baseline is not constant, and this makes difficult to quantify the values.</p>
 
   </div><a class="u-url" href="/linechart-evolution/" hidden></a>
 </article>

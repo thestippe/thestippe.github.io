@@ -1,5 +1,6 @@
 let smContainer = d3.select("#sm_linechart") 
-d3.csv("https://raw.githubusercontent.com/thestippe/thestippe.github.io/main/data/yearly_mean_temperatures.csv",
+
+d3.csv("https://raw.githubusercontent.com/thestippe/thestippe.github.io/main/data/gdp_per_capita_filtered.csv",
         d3.autoType).then(plotLinechart) // do not rely on default data types!
 
 function plotLinechart(data){
@@ -7,12 +8,12 @@ function plotLinechart(data){
         // We first create an empty svg with the appropriate dimensions
         var svg = smContainer.append("svg")
                 .attr("id", 'myid')
-                .attr("width", 800)
-                .attr("height",1000)
+                .attr("width", 1200)
+                .attr("height",300)
 
         const countries = ["Italy", "Spain", "Greece", "Portugal"]
-        var maxval = 19
-        var minval = 10
+        var maxval = 45000
+        var minval = 0
 
         const step = 200
         const dy = 250
@@ -20,23 +21,26 @@ function plotLinechart(data){
         var i = 0
 
         for(country of countries){
+        x0 = 50 + i*250
+        x1 = x0 + 200
+        xt = x0 + 100
         var x = d3.scaleTime()
-                .range([ 100, 700 ])
-                .domain([1900, 2013])
+                .range([ x0, x1 ])
+                .domain([1970, 2017])
         var k = i*dy+delta
 
         svg.append("g")
                 .call(d3.axisBottom(x)
-    .tickFormat(d3.format('d')).ticks(5)).attr("transform", "translate(0, "+k+")")
+    .tickFormat(d3.format('d')).ticks(5)).attr("transform", "translate(0, 200)")
 
         var y = d3.scaleLinear().
                 domain([maxval, minval]). //Warning: it is reversed: in svg y goes from top to bottom
-                range([0 + i*dy, i*dy + delta])
+                range([0, delta])
 
         svg.append("g")
-                .call(d3.axisLeft(y).ticks(5)).attr("transform", "translate(100, 0)")
+                .call(d3.axisLeft(y).ticks(5)).attr("transform", "translate("+ x0 +", 0)")
 
-        svg.append("text").text(country).attr("x", 380).attr("y", k-180)
+        svg.append("text").text(country).attr("x", xt).attr("y", 20)
 
         // svg.append("text")
         //         .text("Yearly average temperature")

@@ -21,7 +21,7 @@ As we have already seen, in the line chart we have
 - an ordered variable on the $x$ axis
 - a quantitative variable on the $y$ axis
 
-As an example, let us take a look at the average yearly temperature which can be found
+As an example, let us take a look at the Italian GDP per capita expressed in US dollars adjusted by the US inflation, which can be found
 [here](https://github.com/thestippe/thestippe.github.io/blob/main/data/gdp_per_capita_filtered.csv).
 
 The dataset is based on [this](https://github.com/RaafatSaleh/GDP-per-capita-and-its-effect-on-the-man-life-quality/blob/master/Data/gdppercapita_us_inflation_adjusted.csv) repo.
@@ -32,7 +32,7 @@ The dataset is based on [this](https://github.com/RaafatSaleh/GDP-per-capita-and
 <div id="linechart"> </div>
 <script src="/docs/assets/javascript/linechart_evolution/linechart.js"> </script>
 
-This visualization allow us to see how a quantity (the yearly average temperature)
+This visualization allow us to see how a quantity (the GDP per capita)
 changes over time, and it does that in a decent way.
 
 ## Issues with the line chart
@@ -63,8 +63,20 @@ used in any of the single images.
 <div id="sm_linechart"> </div>
 <script src="/docs/assets/javascript/linechart_evolution/sm_linechart.js"> </script>
 
-Here we used small multiples to put one visualization under the previous,
-but you can also order them horizontally or build a grid.
+Here we used small multiples to put one visualization on the right of the previous,
+but you can also order them vertically or build a grid.
 
 The main advantage of the small multiples is that they reduce clutter,
 but it becomes more difficult to compare the single lines.
+
+
+## Stacked area chart
+
+Another possible solution is to stack the lines one above the other one,
+and this is done in the stacked area chart.
+
+<div id="stacked_chart"> </div>
+<script src="/docs/assets/javascript/linechart_evolution/stacked_chart.js"> </script>
+
+The major issue with this solution is that, for all but the lowest curve,
+the baseline is not constant, and this makes difficult to quantify the values.
