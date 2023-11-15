@@ -43,7 +43,10 @@ Our brain then elaborates the images and reconstructs a map by using many moveme
 giving us the feeling of a higher resolution.
 
 This has a very important impact on data visualization: 
-**attention plays  a major role into what we perceive**.
+
+<div class="emphbox">
+Attention plays  a major role into what we perceive.
+</div>
 
 ## Preattentive features
 
@@ -78,4 +81,15 @@ four kind of features: **form, color, motion** and **spatial positioning**.
 - 2D position
 - Stereoscopic depth
 - Convex/concave shape from shading
+
+<div class="emphbox">
+Whenever you want to encode a relevant information in your visualization,
+you should use one of the above features.
+</div>
+
+Using them, unfortunately, is far from being easy, especially when
+you want to combine more than one feature.
+Some feature combinations are still preattentive, while other are
+no more preattentive, and at the best of my knowledge there are no
+exhaustive studies where these combinations are analyzed.
 

@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-N0NYCTSJCT"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-N0NYCTSJCT');
+</script>
           <link rel="icon" 
                 type="image/png" 
                 href="/docs/assets/images/dp_icon.png">
@@ -109,8 +118,11 @@ named <a href="https://en.wikipedia.org/wiki/Saccade"><strong>saccadic movements
 Our brain then elaborates the images and reconstructs a map by using many movements,
 giving us the feeling of a higher resolution.</p>
 
-<p>This has a very important impact on data visualization: 
-<strong>attention plays  a major role into what we perceive</strong>.</p>
+<p>This has a very important impact on data visualization:</p>
+
+<div class="emphbox">
+Attention plays  a major role into what we perceive.
+</div>
 
 <h2 id="preattentive-features">Preattentive features</h2>
 
@@ -153,6 +165,17 @@ four kind of features: <strong>form, color, motion</strong> and <strong>spatial 
   <li>Stereoscopic depth</li>
   <li>Convex/concave shape from shading</li>
 </ul>
+
+<div class="emphbox">
+Whenever you want to encode a relevant information in your visualization,
+you should use one of the above features.
+</div>
+
+<p>Using them, unfortunately, is far from being easy, especially when
+you want to combine more than one feature.
+Some feature combinations are still preattentive, while other are
+no more preattentive, and at the best of my knowledge there are no
+exhaustive studies where these combinations are analyzed.</p>
 
 
   </div><a class="u-url" href="/perception/" hidden></a>

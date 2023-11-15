@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-15T11:55:13+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-15T12:25:28+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
 which are the basic building blocks for data visualization.</p>
 
 <p>Datasets can become very complex, and you should adapt your data visualization
@@ -112,8 +112,11 @@ named <a href="https://en.wikipedia.org/wiki/Saccade"><strong>saccadic movements
 Our brain then elaborates the images and reconstructs a map by using many movements,
 giving us the feeling of a higher resolution.</p>
 
-<p>This has a very important impact on data visualization: 
-<strong>attention plays  a major role into what we perceive</strong>.</p>
+<p>This has a very important impact on data visualization:</p>
+
+<div class="emphbox">
+Attention plays  a major role into what we perceive.
+</div>
 
 <h2 id="preattentive-features">Preattentive features</h2>
 
@@ -155,7 +158,18 @@ four kind of features: <strong>form, color, motion</strong> and <strong>spatial 
   <li>2D position</li>
   <li>Stereoscopic depth</li>
   <li>Convex/concave shape from shading</li>
-</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<p>In this post we will take a look at some of the most fundamental charts
+</ul>
+
+<div class="emphbox">
+Whenever you want to encode a relevant information in your visualization,
+you should use one of the above features.
+</div>
+
+<p>Using them, unfortunately, is far from being easy, especially when
+you want to combine more than one feature.
+Some feature combinations are still preattentive, while other are
+no more preattentive, and at the best of my knowledge there are no
+exhaustive studies where these combinations are analyzed.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<p>In this post we will take a look at some of the most fundamental charts
 that one encounters in data visualization <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
 
 <h2 id="categorical-and-quantitative-data">Categorical and quantitative data</h2>
