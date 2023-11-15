@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-15T14:33:04+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-16T00:20:09+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
 which are the basic building blocks for data visualization.</p>
 
 <p>Datasets can become very complex, and you should adapt your data visualization
@@ -165,11 +165,47 @@ Whenever you want to encode a relevant information in your visualization,
 you should use one of the above features.
 </div>
 
-<p>Using them, unfortunately, is far from being easy, especially when
+<p>Not all of them take the same amount of time to be processed.
+As an example, it takes a very short time to recognize a red circle
+between many blue circles.
+If you don’t trust me you can try and click on the red circle in the figure below.
+Each time you will hit it a new figure will appear, and you will get visualize
+the distribution of the time needed to hit it.</p>
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.js"></script>
+
+<div id="preattentive_color"> </div>
+
+<!-- Create a div where the graph will take place -->
+
+<p>You can now try and perform the same task, but this time you will be required
+and hit the blue square.</p>
+
+<div id="preattentive_size"> </div>
+<!--
+ Create a div where the graph will take place -->
+
+<p>Properly using the preattentive features,
+unfortunately, is far from being easy, especially when
 you want to combine more than one feature.
 Some feature combinations are still preattentive, while other are
 no more preattentive, and at the best of my knowledge there are no
-exhaustive studies where these combinations are analyzed.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<p>In this post we will take a look at some of the most fundamental charts
+exhaustive studies where these combinations are analyzed.</p>
+
+<h2 id="bonus-the-results-of-your-test">Bonus: the results of your test</h2>
+
+<h3 id="color-difference">Color difference</h3>
+
+<div id="preattentive_color_list"> </div>
+
+<h3 id="size-difference">Size difference</h3>
+
+<div id="preattentive_size_list"> </div>
+
+<script src="/docs//assets/javascript/perception/preattentive_color.js"> </script>
+
+<script src="/docs//assets/javascript/perception/preattentive_size.js"> </script>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<p>In this post we will take a look at some of the most fundamental charts
 that one encounters in data visualization <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
 
 <h2 id="categorical-and-quantitative-data">Categorical and quantitative data</h2>

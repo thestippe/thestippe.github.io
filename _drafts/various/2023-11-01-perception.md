@@ -87,9 +87,48 @@ Whenever you want to encode a relevant information in your visualization,
 you should use one of the above features.
 </div>
 
-Using them, unfortunately, is far from being easy, especially when
+Not all of them take the same amount of time to be processed.
+As an example, it takes a very short time to recognize a red circle
+between many blue circles.
+If you don't trust me you can try and click on the red circle in the figure below.
+Each time you will hit it a new figure will appear, and you will get visualize
+the distribution of the time needed to hit it.
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.js"></script>
+
+<div id="preattentive_color"> </div>
+
+
+<!-- Create a div where the graph will take place -->
+
+You can now try and perform the same task, but this time you will be required
+and hit the blue square.
+
+<div id="preattentive_size"> </div>
+<!--
+ Create a div where the graph will take place -->
+
+
+Properly using the preattentive features,
+unfortunately, is far from being easy, especially when
 you want to combine more than one feature.
 Some feature combinations are still preattentive, while other are
 no more preattentive, and at the best of my knowledge there are no
 exhaustive studies where these combinations are analyzed.
+
+
+## Bonus: the results of your test
+
+### Color difference
+
+<div id="preattentive_color_list"> </div>
+
+### Size difference
+
+<div id="preattentive_size_list"> </div>
+
+<script src="/docs//assets/javascript/perception/preattentive_color.js"> </script>
+
+<script src="/docs//assets/javascript/perception/preattentive_size.js"> </script>
 
