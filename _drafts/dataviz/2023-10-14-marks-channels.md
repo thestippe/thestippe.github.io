@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Marks and channels"
-categories: course/various/
+categories: /dataviz/
 tags: /marks-channels/
 description: "The building blocks of data visualization"
 ---

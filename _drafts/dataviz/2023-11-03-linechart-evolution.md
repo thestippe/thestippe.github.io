@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Evolutions of the line chart"
-categories: course/various/
+categories: /dataviz/
 tags: /linechart-evolution/
 description: "When a linechart is not enough"
 ---

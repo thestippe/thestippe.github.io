@@ -53,3 +53,14 @@ Ideas and models related to other topics.
 1. [{{p.title}}]({{p.tags}})
         {% endif %}
 {% endfor %}
+
+## Dataviz
+
+Let's talk about data visualization
+
+{% for p in postlist %}
+        {% assign cat = p.categories | first %}
+        {% if cat contains "dataviz" %}
+1. [{{p.title}}]({{p.tags}})
+        {% endif %}
+{% endfor %}

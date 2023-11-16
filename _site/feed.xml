@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-16T00:20:09+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-16T08:23:24+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
 which are the basic building blocks for data visualization.</p>
 
 <p>Datasets can become very complex, and you should adapt your data visualization
@@ -73,7 +73,7 @@ and this is done in the stacked area chart.</p>
 <script src="/docs/assets/javascript/linechart_evolution/stacked_chart.js"> </script>
 
 <p>The major issue with this solution is that, for all but the lowest curve,
-the baseline is not constant, and this makes difficult to quantify the values.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
+the baseline is not constant, and this makes difficult to quantify the values.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
 images.
 Typically the human eye can detect light in the range of wavelengths going
 from 380 nanometers (violet) to 700 nanometers (red).
@@ -179,12 +179,21 @@ the distribution of the time needed to hit it.</p>
 
 <!-- Create a div where the graph will take place -->
 
-<p>You can now try and perform the same task, but this time you will be required
+<p>I am quite sure it was quite an easy task,
+as most of us can clearly see the red circle
+immediately.
+For this reason we say that the red circle
+pops out.
+You can now try and perform the same task, but this time you will be required
 and hit the blue square.</p>
 
 <div id="preattentive_size"> </div>
-<!--
- Create a div where the graph will take place -->
+
+<p>I am quite sure it was quite easy, but not
+as easy as the exercise before.
+Now try and compare your time distributions.
+Is the first one typically smaller than the second one?
+Do the two distributions overlap?</p>
 
 <p>Properly using the preattentive features,
 unfortunately, is far from being easy, especially when
@@ -205,7 +214,7 @@ exhaustive studies where these combinations are analyzed.</p>
 
 <script src="/docs//assets/javascript/perception/preattentive_color.js"> </script>
 
-<script src="/docs//assets/javascript/perception/preattentive_size.js"> </script>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<p>In this post we will take a look at some of the most fundamental charts
+<script src="/docs//assets/javascript/perception/preattentive_size.js"> </script>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<p>In this post we will take a look at some of the most fundamental charts
 that one encounters in data visualization <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
 
 <h2 id="categorical-and-quantitative-data">Categorical and quantitative data</h2>
@@ -304,7 +313,7 @@ time I lived in each location.</p>
       <p>Well, to be honest this post is also an excuse to try and see how to draw charts with <a href="https://d3js.org/">D3.js</a>, and up to the moment it looks an amazing tool! <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/fundamental_charts/" /><summary type="html"><![CDATA[An overview to some of the most common data visualizations]]></summary></entry><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/beta-binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-10-22T00:00:00+02:00</published><updated>2023-10-22T00:00:00+02:00</updated><id>http://localhost:4000/beta-binom</id><content type="html" xml:base="http://localhost:4000/beta-binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/fundamental_charts/" /><summary type="html"><![CDATA[An overview to some of the most common data visualizations]]></summary></entry><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/beta-binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-10-22T00:00:00+02:00</published><updated>2023-10-22T00:00:00+02:00</updated><id>http://localhost:4000/beta-binom</id><content type="html" xml:base="http://localhost:4000/beta-binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
 with water, malt, hop and yeast. One of the most important things to do in order
 to produce a good beer is to have a good quality yeast, and one of the metrics
 used to quantify the goodness of the yeast is the <strong>yeast viability</strong>, which corresponds to the percentage of alive cells in your yeast.
@@ -935,7 +944,7 @@ Review critically
       <p>The ticks are the graphical components that are used to mark the values of the axis. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/marks-channels/" /><summary type="html"><![CDATA[The building blocks of data visualization]]></summary></entry><entry><title type="html">Data visualization</title><link href="http://localhost:4000/dataviz/" rel="alternate" type="text/html" title="Data visualization" /><published>2023-10-11T00:00:00+02:00</published><updated>2023-10-11T00:00:00+02:00</updated><id>http://localhost:4000/dataviz</id><content type="html" xml:base="http://localhost:4000/dataviz/"><![CDATA[<p>I started to plot data since many years, but only few months ago I really went into
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/marks-channels/" /><summary type="html"><![CDATA[The building blocks of data visualization]]></summary></entry><entry><title type="html">Data visualization</title><link href="http://localhost:4000/dataviz/" rel="alternate" type="text/html" title="Data visualization" /><published>2023-10-11T00:00:00+02:00</published><updated>2023-10-11T00:00:00+02:00</updated><id>http://localhost:4000/dataviz</id><content type="html" xml:base="http://localhost:4000/dataviz/"><![CDATA[<p>I started to plot data since many years, but only few months ago I really went into
 data visualization (or dataviz, if you prefer).
 I attended some Coursera course of prof. Enrico Bertini, who also has a very interesting
 podcast named <a href="https://datastori.es/">Data Stories</a> together with Moritz Stefaner (who is the author, among the other things,
@@ -1065,7 +1074,7 @@ I will try and share some resources about this topic in some future post, as wel
     }], {
 	margin: { t: 0 } } );
 </script>
--->]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/dataviz/" /><summary type="html"><![CDATA[How to help people understanding you]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/visualization/London_Tube_Map.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/visualization/London_Tube_Map.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The frequentist perspective</title><link href="http://localhost:4000/estimation/" rel="alternate" type="text/html" title="The frequentist perspective" /><published>2023-10-01T00:00:00+02:00</published><updated>2023-10-01T00:00:00+02:00</updated><id>http://localhost:4000/estimation</id><content type="html" xml:base="http://localhost:4000/estimation/"><![CDATA[<p>While most of this blog is about Bayesian statistics, in this post
+-->]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/dataviz/" /><summary type="html"><![CDATA[How to help people understanding you]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/visualization/London_Tube_Map.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/visualization/London_Tube_Map.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The frequentist perspective</title><link href="http://localhost:4000/estimation/" rel="alternate" type="text/html" title="The frequentist perspective" /><published>2023-10-01T00:00:00+02:00</published><updated>2023-10-01T00:00:00+02:00</updated><id>http://localhost:4000/estimation</id><content type="html" xml:base="http://localhost:4000/estimation/"><![CDATA[<p>While most of this blog is about Bayesian statistics, in this post
 we will try and give an overview to some of the most relevant concepts
 about frequentist statistics.</p>
 

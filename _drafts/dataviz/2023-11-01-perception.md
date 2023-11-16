@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "Perception"
-categories: course/various/
+categories: /dataviz/
 tags: /perception/
 image: "/docs/assets/images/perception/eye.jpg"
 description: "How do we see what surrounds us"
@@ -102,12 +102,21 @@ the distribution of the time needed to hit it.
 
 <!-- Create a div where the graph will take place -->
 
+I am quite sure it was quite an easy task,
+as most of us can clearly see the red circle
+immediately.
+For this reason we say that the red circle
+pops out.
 You can now try and perform the same task, but this time you will be required
 and hit the blue square.
 
 <div id="preattentive_size"> </div>
-<!--
- Create a div where the graph will take place -->
+
+I am quite sure it was quite easy, but not
+as easy as the exercise before.
+Now try and compare your time distributions.
+Is the first one typically smaller than the second one?
+Do the two distributions overlap?
 
 
 Properly using the preattentive features,
