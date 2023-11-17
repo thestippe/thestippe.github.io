@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-16T08:23:24+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-17T15:28:13+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
 which are the basic building blocks for data visualization.</p>
 
 <p>Datasets can become very complex, and you should adapt your data visualization
@@ -73,7 +73,13 @@ and this is done in the stacked area chart.</p>
 <script src="/docs/assets/javascript/linechart_evolution/stacked_chart.js"> </script>
 
 <p>The major issue with this solution is that, for all but the lowest curve,
-the baseline is not constant, and this makes difficult to quantify the values.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
+the baseline is not constant, and this makes difficult to quantify the values.</p>
+
+<h2 id="conclusions-and-take-home-message">Conclusions and take-home message</h2>
+
+<p>We have seen few possible evolutions of the line chart.
+Those alternatives are appropriate when you want to plot the evolution of a quantitative variable
+for a set of categories.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
 images.
 Typically the human eye can detect light in the range of wavelengths going
 from 380 nanometers (violet) to 700 nanometers (red).
@@ -193,16 +199,46 @@ and hit the blue square.</p>
 as easy as the exercise before.
 Now try and compare your time distributions.
 Is the first one typically smaller than the second one?
-Do the two distributions overlap?</p>
+Do the two distributions overlap?
+Here you can find the kernel density estimate for my results,
+which I collected for few days, trying the exercises in different moments
+and in different order.</p>
 
-<p>Properly using the preattentive features,
-unfortunately, is far from being easy, especially when
+<p><img src="/docs/assets/images/perception/hist.png" alt="" /></p>
+
+<p>The heavy tails likely correspond to some missed click, so it took some time
+to click a second time.
+The two distributions are similar but definitely not identical,
+the one corresponding to the shape is shifted on the right with respect to
+the one corresponding to the color.</p>
+
+<p>Of course this cannot be considered an experiment, I am just trying and give you
+some evidence that finding a blue square between many blue circles takes
+some more time than finding a red circle between many blue circles.</p>
+
+<h2 id="conclusion-and-future-outlook">Conclusion and future outlook</h2>
+
+<p>We had a broad overview about how do we perceive what surrounds us, and we have
+seen that there is a class of visual features, namely the preattentive
+features, which govern our attention.
+We can leverage them to draw the attention of our audience where we think
+it’s most relevant</p>
+
+<p>Unfortunately, as we will see, properly using the preattentive features is far from being easy, especially when
 you want to combine more than one feature.
 Some feature combinations are still preattentive, while other are
 no more preattentive, and at the best of my knowledge there are no
 exhaustive studies where these combinations are analyzed.</p>
 
-<h2 id="bonus-the-results-of-your-test">Bonus: the results of your test</h2>
+<p>For this post we will limit our discussion about one feature at time, but
+we will discuss how we can combine more than one feature to obtain different
+effects.</p>
+
+<h2 id="bonus-the-results-of-your-tests">Bonus: the results of your tests</h2>
+
+<p>In the following are listed the results of both of your test.</p>
+
+<div id="combined_chart"> </div>
 
 <h3 id="color-difference">Color difference</h3>
 
@@ -214,7 +250,9 @@ exhaustive studies where these combinations are analyzed.</p>
 
 <script src="/docs//assets/javascript/perception/preattentive_color.js"> </script>
 
-<script src="/docs//assets/javascript/perception/preattentive_size.js"> </script>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<p>In this post we will take a look at some of the most fundamental charts
+<script src="/docs//assets/javascript/perception/preattentive_size.js"> </script>
+
+<script src="/docs/assets/javascript/perception/combined_chart.js"> </script>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<p>In this post we will take a look at some of the most fundamental charts
 that one encounters in data visualization <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
 
 <h2 id="categorical-and-quantitative-data">Categorical and quantitative data</h2>
@@ -313,7 +351,7 @@ time I lived in each location.</p>
       <p>Well, to be honest this post is also an excuse to try and see how to draw charts with <a href="https://d3js.org/">D3.js</a>, and up to the moment it looks an amazing tool! <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/fundamental_charts/" /><summary type="html"><![CDATA[An overview to some of the most common data visualizations]]></summary></entry><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/beta-binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-10-22T00:00:00+02:00</published><updated>2023-10-22T00:00:00+02:00</updated><id>http://localhost:4000/beta-binom</id><content type="html" xml:base="http://localhost:4000/beta-binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/fundamental_charts/" /><summary type="html"><![CDATA[An overview to some of the most common data visualizations]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/charts/charttypes.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/charts/charttypes.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/beta-binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-10-22T00:00:00+02:00</published><updated>2023-10-22T00:00:00+02:00</updated><id>http://localhost:4000/beta-binom</id><content type="html" xml:base="http://localhost:4000/beta-binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
 with water, malt, hop and yeast. One of the most important things to do in order
 to produce a good beer is to have a good quality yeast, and one of the metrics
 used to quantify the goodness of the yeast is the <strong>yeast viability</strong>, which corresponds to the percentage of alive cells in your yeast.
@@ -966,6 +1004,8 @@ Moreover, as Tufte himself wrote in his book Beautiful Evidence, “as teachers 
   <li>When presenting the results to the audience</li>
 </ul>
 
+<p>Here we will mostly talk about the second case, named <strong>explanatory</strong> data visualization.</p>
+
 <p>Let us first clarify that, although you will be tempted to use the figures from the first phases in the last phase, you shouldn’t
 do that.
 In the first phases what you are trying to do is to understand something by scraping the data and looking at the data from different
@@ -986,7 +1026,39 @@ but doing so in the explanatory context might be dangerous, as this could be see
 <p>In this blog, when talking about data visualization, unless otherwise specified we will usually refer to explanatory data visualization.</p>
 
 <h2 id="why-you-should-use-it">Why you should use it</h2>
+<p>The raw form for most of the data is usually a tabular form,
+where one has a set of attributes for a given number of items.
+However we can only keep in mind a limited number of values, and typically this
+number is of the order of 10, unless you don’t rely on special techniques.</p>
 
+<div class="emphbox">
+While the tabular format is good to inspect each item's properties,
+it is hard to understand if there is
+any pattern into the data, especially if the number of items grows.
+</div>
+
+<p>One could think and rely on statistical, ML or other fancier models, but they may be misused, and 
+a model may give results which may look reasonable but are actually wrong.
+I love statistical models, but one should always ensure that the model makes sense for the dataset,
+in Bayesian statistics this is usually done by using posterior predictive checks.</p>
+
+<p>Even in a one dimensional model you may be tempted to use the mean to summarize the typical value of the data,
+but this wouldn’t makes sense at all for a multimodal distribution, and the easiest way to spot multimodality
+is to simply plot the data.</p>
+
+<p><img src="/docs/assets/images/visualization/anscombe.png" alt="The Anscombe quartet" /></p>
+
+<p>The one shown before is the celeb Anscombe quartet.
+It is a dataset composed by four different subsets of data,
+and it has been constructed to show that the same statistical model may give identical
+results for many different data.
+As you can see, the four fits are identical, but the underlying data are very different.</p>
+
+<div class="emphbox">
+Always use data visualization to make sure that the model is appropriate for your data.
+</div>
+
+<h2 id="what-do-you-risk-by-misinterpreting-the-data">What do you risk by misinterpreting the data</h2>
 <p><img src="/docs/assets/images/visualization/cat.png" alt="An image from a Computerized Axial Tomography" /></p>
 
 <p>Data visualization became a part of everyday life, but by using it

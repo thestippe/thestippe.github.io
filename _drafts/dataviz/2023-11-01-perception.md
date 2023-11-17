@@ -117,17 +117,46 @@ as easy as the exercise before.
 Now try and compare your time distributions.
 Is the first one typically smaller than the second one?
 Do the two distributions overlap?
+Here you can find the kernel density estimate for my results,
+which I collected for few days, trying the exercises in different moments
+and in different order.
 
+![](/docs/assets/images/perception/hist.png)
 
-Properly using the preattentive features,
-unfortunately, is far from being easy, especially when
+The heavy tails likely correspond to some missed click, so it took some time
+to click a second time.
+The two distributions are similar but definitely not identical,
+the one corresponding to the shape is shifted on the right with respect to
+the one corresponding to the color.
+
+Of course this cannot be considered an experiment, I am just trying and give you
+some evidence that finding a blue square between many blue circles takes
+some more time than finding a red circle between many blue circles.
+
+## Conclusion and future outlook
+
+We had a broad overview about how do we perceive what surrounds us, and we have
+seen that there is a class of visual features, namely the preattentive
+features, which govern our attention.
+We can leverage them to draw the attention of our audience where we think
+it's most relevant
+
+Unfortunately, as we will see, properly using the preattentive features is far from being easy, especially when
 you want to combine more than one feature.
 Some feature combinations are still preattentive, while other are
 no more preattentive, and at the best of my knowledge there are no
 exhaustive studies where these combinations are analyzed.
 
+For this post we will limit our discussion about one feature at time, but
+we will discuss how we can combine more than one feature to obtain different
+effects.
 
-## Bonus: the results of your test
+## Bonus: the results of your tests
+
+In the following are listed the results of both of your test.
+
+
+<div id="combined_chart"> </div>
 
 ### Color difference
 
@@ -141,3 +170,4 @@ exhaustive studies where these combinations are analyzed.
 
 <script src="/docs//assets/javascript/perception/preattentive_size.js"> </script>
 
+<script src="/docs/assets/javascript/perception/combined_chart.js"> </script>

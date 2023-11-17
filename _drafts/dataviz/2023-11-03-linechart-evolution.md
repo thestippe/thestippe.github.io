@@ -3,6 +3,7 @@ layout: post
 title: "Evolutions of the line chart"
 categories: /dataviz/
 tags: /linechart-evolution/
+image: "/docs/assets/images/linechart_evolutions/areaplot.png"
 description: "When a linechart is not enough"
 ---
 
@@ -80,3 +81,11 @@ and this is done in the stacked area chart.
 
 The major issue with this solution is that, for all but the lowest curve,
 the baseline is not constant, and this makes difficult to quantify the values.
+
+
+## Conclusions and take-home message
+
+We have seen few possible evolutions of the line chart.
+Those alternatives are appropriate when you want to plot the evolution of a quantitative variable
+for a set of categories.
+
