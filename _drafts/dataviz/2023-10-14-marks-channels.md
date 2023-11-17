@@ -3,6 +3,7 @@ layout: post
 title: "Marks and channels"
 categories: /dataviz/
 tags: /marks-channels/
+image: "/docs/assets/images/markers_channels/markers.png"
 description: "The building blocks of data visualization"
 ---
 

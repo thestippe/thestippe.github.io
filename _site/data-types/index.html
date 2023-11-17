@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Data classification | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Data classification" />
+<meta name="author" content="Stippe" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An introduction to data abstraction" />
+<meta property="og:description" content="An introduction to data abstraction" />
+<link rel="canonical" href="http://localhost:4000/data-types/" />
+<meta property="og:url" content="http://localhost:4000/data-types/" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-10-13T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Data classification" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Stippe"},"dateModified":"2023-10-13T00:00:00+02:00","datePublished":"2023-10-13T00:00:00+02:00","description":"An introduction to data abstraction","headline":"Data classification","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/data-types/"},"url":"http://localhost:4000/data-types/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+</head>
+<body><header class="site-header">
+
+<div>
+  <div class="wrapper" style="display:flex;"><a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" /></a><nav class="site-nav" style="display:flex;">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/about">About me</a><a class="page-link" href="/index">Home</a><a class="page-link" href="/notes">List of the notes</a><a class="page-link" href="/links">Some useful resources</a></div>
+      </nav></div>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Data classification</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-10-13T00:00:00+02:00" itemprop="datePublished">
+        Oct 13, 2023
+      </time></p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Data can come into many different flavors, and in this post we will take a look at how
+we can classify them depending on their qualities and on our previous knowledge.</p>
+
+<p>In the simplest case our dataset will consist into a collection of
+<strong>items</strong>, and each item will have a set of <strong>attribute</strong>.</p>
+
+<p>In this case we are dealing with a <strong>tabular</strong> dataset.
+A more involved case is the one we also have <strong>relationships</strong> between the
+items, and in this case we are working with a <strong>network</strong>.</p>
+
+<p>For the moment we won’t talk about networks, and we will focus on tabular datasets.
+A tabular dataset can be represented, as the name suggests, with a table:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>item</th>
+      <th>attribute 1</th>
+      <th>attribute 2</th>
+      <th>…</th>
+      <th>attribute N</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>$a_1$</td>
+      <td>$b_1$</td>
+      <td>…</td>
+      <td>$z_1$</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>$a_2$</td>
+      <td>$b_2$</td>
+      <td>…</td>
+      <td>$z_2$</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>$a_3$</td>
+      <td>$b_3$</td>
+      <td>…</td>
+      <td>$z_3$</td>
+    </tr>
+    <tr>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+      <td>…</td>
+    </tr>
+    <tr>
+      <td>M</td>
+      <td>$a_M$</td>
+      <td>$b_M$</td>
+      <td>…</td>
+      <td>$z_M$</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Each attribute can be classified in a large number of ways, and here we will only
+discuss the main ones.</p>
+
+<h2 id="attribute-types">Attribute types</h2>
+
+<p>Attribute types define the mathematical operations that makes sense to do
+on an attribute.</p>
+
+<p>If an attribute doesn’t have a natural order we call it <strong>categorical</strong>
+or <strong>nominal</strong>.</p>
+
+<p>Examples of nominal attributes are</p>
+<ul>
+  <li>City names</li>
+  <li>Gender (assuming it’s a discrete quantity).</li>
+  <li>Eye color</li>
+</ul>
+
+<p>If an attribute has a natural order but we can’t define
+a distance between their values we say it’s <strong>ordinal</strong>.</p>
+
+<p>Ordinal attributes are</p>
+<ul>
+  <li>Grade</li>
+  <li>Education level</li>
+  <li>Sport ranking</li>
+</ul>
+
+<p>In this case, it doesn’t makes sense to sum, subtract or do any other
+arithmetic operations over the attribute.</p>
+
+<p>If our attribute comes with a concept of distance we have
+<strong>quantitative</strong> attributes.</p>
+
+<p>Quantitative attributes can be further sub-classified depending if they
+have a natural zero or not.
+Attributes which don’t have a natural zero are called <strong>interval</strong> attributes,
+while those which have are named <strong>ratio</strong> attributes.</p>
+
+<p>Example of interval attributes are</p>
+
+<ul>
+  <li>Temperatures expressed in Fahrenheit or Celsius degrees</li>
+  <li>pH</li>
+</ul>
+
+<p>While ratio attributes are:</p>
+
+<ul>
+  <li>Temperatures expressed in Kelvin degrees</li>
+  <li>Length</li>
+  <li>Mass</li>
+  <li>any percentage</li>
+  <li>Earnings (where negative earning means loss)</li>
+</ul>
+
+<h2 id="attribute-semantics">Attribute semantics</h2>
+
+<p>The mathematical operations we can perform with an attribute
+isn’t of course the only meaningful way we can classify the data.
+Another very important aspect of an attribute that we should
+consider when choosing how to visualize an attribute is its meaning.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Semantic</th>
+      <th>Meaning</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Spatial</td>
+      <td>Our attribute has a geographical connotation</td>
+      <td>zip code, latitude, city name</td>
+    </tr>
+    <tr>
+      <td>Temporal</td>
+      <td>Our attribute is associated with time</td>
+      <td>seconds, day of the week</td>
+    </tr>
+    <tr>
+      <td>Hierarchical</td>
+      <td>Two or more attributes have a natural hierarchy</td>
+      <td>year, month, day, hour but also continent, country, city</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Moreover we can also classify our attribute depending if it is periodic or not,
+if it is we say it is <strong>seasonal</strong>, <strong>periodic</strong> or <strong>cyclic</strong>.
+Example of cyclic attributes are seasons or months.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Before deciding how to visualize your dataset you must first of all consider
+what are the types of the attribute you want to visualize and
+whether they have some special connotation.
+Here we have seen how to determine the attribute type and the most
+common attribute semantic.
+In the next post we will discuss some of the most common visualizations
+associated with each data type.</p>
+
+  </div><a class="u-url" href="/data-types/" hidden></a>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Stippe</li>
+          <li><a class="u-email" href="mailto:smaurizio87@protonmail.com">smaurizio87@protonmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
+
