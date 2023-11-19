@@ -1,9 +1,9 @@
 ---
 layout: post
-title: "Data classification"
+title: "Data abstraction"
 categories: /dataviz/
 tags: /data-types/
-description: "An introduction to data abstraction"
+description: "Thinking about data"
 ---
 
 Data can come into many different flavors, and in this post we will take a look at how
