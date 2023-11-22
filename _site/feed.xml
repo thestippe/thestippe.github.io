@@ -1,4 +1,145 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-19T18:59:12+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-22T09:59:00+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
+suitable way to tackle your problem is not always easy.
+This is the case of the challenge launched by Sarah Leo, a visual data journalist
+working at the Economist in <a href="https://medium.economist.com/mistakes-weve-drawn-a-few-8cdd8a42d368">this post</a>.</p>
+
+<p>Among designers there is a well know saying which states “Designing is redesigning”, and this also holds 
+when you are designing a data visualization.
+In the above post, Sarah critically analyzes some issues of the past visualizations of her journal,
+and she explain how she would have corrected them.
+When talking about dataviz, the Economist is one of my favourites journals, as their graphics are usually very clean and polished.
+However, I agree with Sarah, those shown in her post are not their best works.</p>
+
+<p>In the last example, taken from
+a 2017 article titled <a href="https://www.economist.com/science-and-technology/2017/03/11/science-remains-male-dominated">“Science remains male dominated”</a>
+she analyzes the following image
+<img src="/docs/assets/images/gender_economist/original.webp" alt="gender economist" />
+and, as you may notice from the right hand side of the figure, she decided not to redesign the chart, as the space constraints are too stringent.</p>
+
+<p>I decided to try and redo it by myself, so first of all I analyzed the information we wanted to plot.</p>
+<ul>
+  <li>The first attribute is the Country, which is a categorical attribute.</li>
+  <li>We then have the research field, which is another categorical attribute.</li>
+  <li>We finally have the percentage of women, which is a quantitative attribute.</li>
+</ul>
+
+<p>As a “special” information we also have the percentage of inventors, which is somehow different from a research field,
+and of course Sarah shows this different by using a different marker for this attribute.</p>
+
+<p>Probably the best possible approach would be to draw a bar chart where, for each research field,
+we show the percentage of women, but this would take quite a large amount of space, so I immediately discarded this idea.</p>
+
+<p>The structure of the data itself should suggest another possible approach: why don’t we draw a matrix?
+This would save some space, and by using area as
+channel to encode the women percentage we could easily encode all the informations.
+Here’s the result.</p>
+
+<link rel="stylesheet" href="/docs/assets/css/gender.css" />
+
+<script src="https://d3js.org/d3.v5.js"></script>
+
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+
+<div id="gender_area"></div>
+<script src="/docs/assets/javascript/gender_economist/gender_area.js"></script>
+
+<p>The visualization is quite clear, and less cluttered than the original one.
+I don’t know which were exactly the requirements of the editor,
+but comparing the size of the above image with the original one, maybe it would have
+been OK.
+Note that we also remarked the difference between the inventor percentage
+and the research fields by using a different font weight
+together with a different background color, as those
+are common tricks in graphics and typography.</p>
+
+<p>But there is some issue: how would you estimate the percentage of women
+in Australia in the healthcare sector?</p>
+
+<p>Honestly I would say about 70%, maybe even 80%.
+Well, <em>it’s exactly 50%!</em>
+I immediately asked myself if there was a bug in the code, so I printed
+the size for 100% women and the one for 50%.
+I got 60 (as expected) and 42.63, their reciprocal ratio is 0.707
+which is roughly the square root of 0.5, so there’s no bug!</p>
+
+<div class="emphbox">
+The issue is that, on average, humans are very bad at estimating
+areas, and we tend to use the size of the square side rather than
+the square area to decode the information.
+</div>
+
+<p>This is a well known issue, and we will discuss this in a future post.
+So how can we solve this issue? As we have seen when talking about
+channel effectiveness, color is even worst than area to encode
+quantitative information, but let us try and do that anyway.</p>
+
+<div id="gender_color_first"></div>
+<script src="/docs/assets/javascript/gender_economist/gender_color_first.js"></script>
+
+<p>In redrawing the figure, I removed the gray background.
+I did so because, as we will see in a future post,
+our perception of color difference is quite strongly affected by the color background, so I considered
+the information provided by the color background
+not relevant enough to risk a distortion in the perception
+of the color difference among the last column and the remaining columns.</p>
+
+<p>Actually I find slightly easier to decode the information, but still
+it’s hard to say if we are above or below 50%.
+In order to solve this issue we must rethink our visualization, and we must do that
+by keeping in mind what is the true quantity that we want to decode,
+which is the gender imbalance.</p>
+
+<p>We don’t need a channel that exactly tells us the percentage of women,
+but rather we want to know how far are we from 50% and in which direction.</p>
+
+<p>There’s a class of color palettes which is suitable for our purposes,
+and it’s the family of the diverging color palettes.
+Let’s take a look and see how would a diverging color palette
+work for our purpose.</p>
+
+<div id="gender_color"></div>
+<script src="/docs/assets/javascript/gender_economist/gender_color.js"></script>
+
+<p>Here it’s much easier to decode the relevant quantity, and we used exactly the same
+space we used in the first visualization we made.
+Now we can immediately spot that all but the firs columns are above 50%, that Japan is likely the worst
+country, that Brazil and Portugal are the best ones and that the research area where it’s morel likely
+to encounter women is health science.
+Moreover, in health science the percentage of men and women is more or less 50-50 in most countries, where the balance is
+just slightly in favour of men <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.
+We can also see that physics, engineering and math have roughly the same distribution, and that the percentage of
+women inventors is almost always lower than the percentage of women researcher in any field.
+This is quite a large amount of information in my opinion, so I feel quite satisfied by this solution.</p>
+
+<div class="emphbox">
+Use diverging color palettes to encode how far are your data from a certain point.
+</div>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>This post was about a real application, and in these situations there are many things to consider, so we touched many aspects of data visualization.
+The main things I’d like to stress you about are the following:</p>
+
+<ul>
+  <li>Always make sure that there are no bugs in your visualization.</li>
+  <li>Always keep in mind what you want to show, and state this information as clearly as possible.</li>
+  <li>Always try different designs for your visualizations, choose the ones which look more promising and refine them, then reiterate.</li>
+  <li>Data visualization is about choosing among options, and each option will have pros and cons. This is the reason why I never trust who gives me recipes, they rarely work in real life.</li>
+</ul>
+
+<p>Moreover, as secondary more practical things to keep in mind:</p>
+<ul>
+  <li>We are bad at estimating areas as well as at estimating color variations, so always consider using distance or length as channel to encode relevant informations, as suggested by the effectiveness principle.</li>
+  <li>Use diverging color palettes to encode distances from a given relevant point.</li>
+</ul>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>I preferred this color scheme with respect to the more common red-blue one because I found easier to infer if a value close to 0.5 was slightly above or below 0.5. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/redesign/" /><summary type="html"><![CDATA[How to tackle real life dataviz problems]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
 which are the basic building blocks for data visualization.</p>
 
 <p>Datasets can become very complex, and you should adapt your data visualization
@@ -1399,166 +1540,4 @@ and our confidence interval does not tell us anything about the probability
 for $\theta$ of being inside the interval.
 All we can say is that, if we repeat an experiment many times and each time
 we compute the confidence interval for the sample, a fraction
-of times $\gamma$ our confidence interval will contain the true parameter $\theta$.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/appendices/" /><category term="/estimation/" /><summary type="html"><![CDATA[Some common misconceptions]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/frequentist/freq_xkcd.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/frequentist/freq_xkcd.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Introduction to causal graphs</title><link href="http://localhost:4000/causal-graphs/" rel="alternate" type="text/html" title="Introduction to causal graphs" /><published>2023-09-04T00:00:00+02:00</published><updated>2023-09-04T00:00:00+02:00</updated><id>http://localhost:4000/causal-graphs</id><content type="html" xml:base="http://localhost:4000/causal-graphs/"><![CDATA[<p>Causality is a relation between events, and one of the easiest to interpret
-representations of items and relations is by using graphs.
-In our discussion we will roughly follow (in a slightly less rigorous and precise way) chapter 3 of <a href="https://www.bradyneal.com/Introduction_to_Causal_Inference-Dec17_2020-Neal.pdf">Brady Neal’s notes</a>.
-Since our relation, causality, is directional (either $A$ causes $B$ or $B$ causes $A$)
-we must use directed graph or digraphs.</p>
-
-<p>Formally a digraph $\mathcal{G}$ is a pair $(V, E)$ where $V$ represents
-the collection of the vertices</p>
-
-\[V=\{x_1, x_2,...,x_N\}\]
-
-<p>The elements of $V$ are also called nodes or points.</p>
-
-<p>$E$ is the collection of the edges</p>
-
-\[E \subseteq \{(x, y) \in V \times V | x \neq y\}\]
-
-<p>We must make a further requirement: we must forbid cases where
-$A$ causes $B$, $B$ causes $C$ and $C$ causes $A$, as it doesn’t make sense
-to have a circular causality relation. We thus must represent the causality
-relation as a <strong>Directed Acyclic Graph</strong> or DAG.</p>
-
-<p>Of course, if we only have 2 elements, either there is a relation between them
-or there isn’t, so the only possible set of edges between $x$ and $y$
-are</p>
-
-\[\{\}\]
-
-\[\{(x, y)\}\]
-
-\[\{(y, x)\}\]
-
-<p>In our representation, we assume that <strong>every parent is direct cause of its children</strong>,
-so in the first case we have that $x$ and $y$ are independent,
-in the second one we have that $x$ causes $y$, while in the last one we have that
-$y$ causes $x$.</p>
-
-<p>In terms of probabilities, we have that the probability can be represented
- as $p(x)p(y)$, $p(x)p(y \vert x)$ or $p(y)p(x \vert y)$ respectively.</p>
-
-<h2 id="building-blocks">Building blocks</h2>
-
-<p>Let us take a look at what we might have with three vertices and two arrows:</p>
-
-<p>The first possible case is called the <strong>chain</strong>, such that $p(x, y, z)=p(x)p(y\vert x)p(z\vert y)$</p>
-
-<p style="text-align: center;"><img src="/docs/assets/images/causal_graphs/test-1.svg" alt="The chain" width="450" /></p>
-
-<p>We then have the <strong>fork</strong>, where $p(x, y, z) = p(y) p(x \vert y) p(z \vert y)$</p>
-
-<p style="text-align: center;"><img src="/docs/assets/images/causal_graphs/test-2.svg" alt="The chain" width="280" /></p>
-
-<p>And we finally have the <strong>immorality</strong> $p(x, y, z) = p(x)p(z)p(y\vert x, z)$</p>
-
-<p style="text-align: center;"><img src="/docs/assets/images/causal_graphs/test-3.svg" alt="The chain" width="280" /></p>
-
-<h2 id="association-flow">Association flow</h2>
-
-<p>Let us check the flow of association for the three graphs.
-For the chain we have that, when $x$ changes we have a change in $y$, and a change
-in $y$ causes a change in $z$, so we will see some association flow between $x$ and $z$.</p>
-
-<p>For the fork, analogously, we have that a change in $y$ will cause both
-a change in $x$ and in $z$, so they will change together and we will see some
-flow of association.</p>
-
-<p>Vice versa, in the case of immorality, $x$ and $z$ will vary in a totally independent
-way, and we will generally not see an association between them.</p>
-
-<p>Let us see this mathematically.</p>
-
-<p>For the chain:</p>
-
-\[\begin{align}
-&amp;
-p(x, y, z) = p(x) p(y\vert x) p(z \vert y)
-\\
-&amp;
-p(x, z) = \int dy p(x, y, z) = p(x) \int dy p(y \vert x) p(z \vert y) = p(x) p(z \vert x) \neq p(x)p(z)
-\end{align}\]
-
-<p>So if we simply ignore the intermediate variable $y$, we see an association between $x$ and $z$.
-Analogously, for the fork:</p>
-
-\[\begin{align}
-&amp;
-p(x, y, z) = p(y) p(x\vert y) p(z \vert y)
-\\
-&amp;
-p(x, z) = \int dy p(x, y, z) = \int dy p(y) p(x \vert y) p(z \vert y)  = \int dy p(x) p(y \vert x) p(z \vert y) = p(x) \int dy p(y \vert x) p(z \vert y) = p(x) p(z \vert x) \neq p(x) p(z)
-\end{align}\]
-
-<p>For the immorality, on the other hand:</p>
-
-\[\begin{align}
-&amp;
-p(x, y, z) = p(x) p(z) p(y \vert x, z)
-\\
-&amp;
-p(x, z) = \int dy  p(x) p(z) p(y \vert x, z) =  p(x) p(z) \int dy p(y \vert x, z) = p(x) p(z)
-\end{align}\]
-
-<h2 id="blocking">Blocking</h2>
-
-<p>Let us now see what happens when we block for (or control) $y$:</p>
-
-\[\begin{align}
-&amp;
-p(x, y, z) = p(x) p(y\vert x) p(z \vert y)
-\\
-&amp;
-p(x, z | y) = \frac{ p(x) p(y \vert x)  }{p(y)} p(z \vert y) = p(x \vert y) p(z \vert y)
-\end{align}\]
-
-<p>The last equality follows from Bayes theorem $p(y \vert x) p(x) = p(x \vert y) p(y)\,.$
-We can now prove unconfoundedness:</p>
-
-\[p(z \vert x, y) = \frac{p(x, z \vert y)}{p(x \vert y)} = p(z \vert y)\]
-
-<p>Let us now check the same for the fork:</p>
-
-\[\begin{align}
-&amp;
-p(x, y, z) = p(y) p(x\vert y) p(z \vert y)
-\\
-&amp;
-p(x, z \vert y) = \frac{p(x, y, z)}{p(y)} = p(x \vert y) p(z \vert y)
-\\
-&amp;
-p(z \vert x, y) = \frac{p(x, z \vert y)}{p(x \vert y)} = p(z \vert y)
-\end{align}\]
-
-<p>This cannot be done for the immorality:</p>
-
-\[\begin{align}
-&amp;
-p(x, y, z) = p(x) p(z) p(y\vert x, z)
-\\
-&amp;
-p(x, z \vert y) = p(x) \frac{p(y \vert x, z)p(z)}{p(y)} = p(z) p(z\vert x, y)
-\end{align}\]
-
-<p>We can now compute</p>
-
-\[p(z \vert y) = \int dx p(x, z \vert y) = p(z) \int dx p(z \vert x, y) \neq p(z \vert x, y)\]
-
-<p>This implies that controlling for an immorality introduces an association between
-the variables.</p>
-
-<h2 id="types-of-paths-and-d-separation">Types of paths and d-separation</h2>
-
-<p>We can now consider an arbitrary path \(\{x_1, x_2, ..., x_N\}\),
-where $x_2,…,x_{N-1}$ are the central vertices of either forks or chains or
-inverted chains.
-We say that the path is <strong>d-separated</strong> by a set of blocked nodes $C$
-if</p>
-<ul>
-  <li>the path contains a chain (or fork), and the middle vertex of the chain (fork) is in $C$</li>
-  <li>or if the path contains an inverted chain, and nor the middle vertex of the inverted fork $Z$ neither any descendant of $Z$ is in $C$.</li>
-</ul>
-
-<p>We say that two vertices $A$ and $B$ are <strong>blocked</strong> by a set of nodes $C$
-if all the paths from $A$ to $B$ are d-separated by $C$.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/various/" /><category term="/causal-graphs/" /><summary type="html"><![CDATA[Representing causality flows]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/causal_graphs/covariates.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/causal_graphs/covariates.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+of times $\gamma$ our confidence interval will contain the true parameter $\theta$.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/appendices/" /><category term="/estimation/" /><summary type="html"><![CDATA[Some common misconceptions]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/frequentist/freq_xkcd.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/frequentist/freq_xkcd.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

@@ -205,6 +205,11 @@ dl, dd, ol, ul, figure {
   padding: 0;
 }
 
+h1, h2 {
+  padding-bottom: 3px;
+  padding-top: 3px;
+}
+
 /**
  * Basic styling
  */
@@ -780,14 +785,14 @@ table {
 }
 
 @font-face {
-  font-family: "DejavuSerif";
+  font-family: "DejaVu Serif";
   font-style: normal;
   font-weight: 400;
-  src: url("/docs/assets/fonts");
+  src: url("/docs/assets/fonts/DejaVuSerif.ttf");
 }
 html, body, form, fieldset, table, tr, td, img {
   font-size: 100%;
-  font-family: "DejavuSerif", Georgia;
+  font-family: "DejaVu Serif", serif;
 }
 
 body {
