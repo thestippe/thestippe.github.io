@@ -790,6 +790,12 @@ table {
   font-weight: 400;
   src: url("/docs/assets/fonts/DejaVuSerif.ttf");
 }
+@font-face {
+  font-family: "Black Chancery";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/docs/assets/fonts/BLKCHCRY.TTF");
+}
 html, body, form, fieldset, table, tr, td, img {
   font-size: 100%;
   font-family: "DejaVu Serif", serif;
