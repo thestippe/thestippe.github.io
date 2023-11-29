@@ -16,7 +16,14 @@ In this case we are dealing with a **tabular** dataset.
 A more involved case is the one we also have **relationships** between the
 items, and in this case we are working with a **network**.
 
-For the moment we won't talk about networks, and we will focus on tabular datasets.
+There are also more involved kinds of datasets, which we won't discuss here.
+Some examples are field datasets, where one displays the value
+of a certain quantity for each point of a discretized space,
+or geometry dataset, where one has a collection of shapes belonging to some space.
+Field datasets are very common when one deals with weather maps or topography maps, while an example
+of geometry dataset is given by a street map or by the map of the regions or of the cities of a certain country.
+
+For the moment we will only focus on tabular datasets.
 A tabular dataset can be represented, as the name suggests, with a table:
 
 | item | attribute 1 | attribute 2 | ... | attribute N |
@@ -29,6 +36,9 @@ A tabular dataset can be represented, as the name suggests, with a table:
 
 Each attribute can be classified in a large number of ways, and here we will only
 discuss the main ones.
+
+Here we will mostly follow Tamara Munzner's textbook
+[Visualization Analysis and Design](https://www.cs.ubc.ca/~tmm/vadbook/).
 
 ## Attribute types
 
@@ -72,8 +82,20 @@ While ratio attributes are:
 - Temperatures expressed in Kelvin degrees
 - Length
 - Mass
-- any percentage
+- Any percentage
 - Earnings (where negative earning means loss)
+
+
+Moreover, we can also classify any ordered attribute attribute depending on the possible range of values it can take.
+- A **sequential** attribute is an attribute which can take any value between a minimum and a maximum. Examples of sequential attributes are height or weight.
+- A **diverging** attribute is an attribute which can be decomposed into two directions, a positive one and a negative one. Examples of diverging attributes are latitude (North/South) or elevation (above or below the sea level).
+
+Finally, a **cyclic** attribute is an attribute where the minimum possible value corresponds to the maximum possible value. Examples of cyclic attributes are longitude, hour of the day and day of the week.
+
+From our examples you may have noticed that
+a cyclic attribute can be either sequential,
+as the hour of the day, or diverging,
+as the longitude.
 
 ## Attribute semantics
 
@@ -81,16 +103,15 @@ The mathematical operations we can perform with an attribute
 isn't of course the only meaningful way we can classify the data.
 Another very important aspect of an attribute that we should
 consider when choosing how to visualize an attribute is its meaning.
+The semantic classification I found more useful in my personal experience is the one used by Tamara Munzner 
+in her textbook .
 
 | Semantic | Meaning | Example |
 |----------|---------|---------|
+| Key vs Value | A key attribute is used to identify an element, a value attribute does not | City name vs city population, date vs temperature |
 | Spatial | Our attribute has a geographical connotation | zip code, latitude, city name |
 | Temporal | Our attribute is associated with time | seconds, day of the week |
 | Hierarchical | Two or more attributes have a natural hierarchy | year, month, day, hour but also continent, country, city |
-
-Moreover we can also classify our attribute depending if it is periodic or not,
-if it is we say it is **seasonal**, **periodic** or **cyclic**.
-Example of cyclic attributes are seasons or months.
 
 ## Conclusions
 

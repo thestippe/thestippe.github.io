@@ -92,11 +92,11 @@ do so by using the line chart as fundamental visualization.</p>
 
 <p>As we have already seen, in the line chart we have</p>
 <ul>
-  <li>an ordered variable on the $x$ axis</li>
-  <li>a quantitative variable on the $y$ axis</li>
+  <li>an ordered key attribute on the $x$ axis</li>
+  <li>a quantitative value attribute on the $y$ axis</li>
 </ul>
 
-<p>As an example, let us take a look at the Italian GDP per capita expressed in US dollars adjusted by the US inflation, which can be found
+<p>As an example, let us take a look at evolution over the years the Italian GDP per capita expressed in US dollars adjusted by the US inflation, which can be found
 <a href="https://github.com/thestippe/thestippe.github.io/blob/main/data/gdp_per_capita_filtered.csv">here</a>.</p>
 
 <p>The dataset is based on <a href="https://github.com/RaafatSaleh/GDP-per-capita-and-its-effect-on-the-man-life-quality/blob/master/Data/gdppercapita_us_inflation_adjusted.csv">this</a> repo.</p>
@@ -112,9 +112,10 @@ changes over time, and it does that in a decent way.</p>
 
 <h2 id="issues-with-the-line-chart">Issues with the line chart</h2>
 
-<p>But what does it happen when we try and visualize more than one Country in
-a single plot?
-Let us start by using color to code the Country</p>
+<p>But what does it happen when we add a second categorical key attribute?
+As an example, let’s try and visualize more than one Country in
+a single plot.
+Let us start by using color to encode the Country</p>
 
 <div id="multiple_linechart"> </div>
 <script src="/docs/assets/javascript/linechart_evolution/multiple_linechart.js"> </script>
@@ -125,8 +126,8 @@ of a single line.</p>
 
 <p>We have two main alternatives to the multiple line chart:</p>
 <ul>
-  <li>we can put one line chart per graph and we create a small multiples</li>
-  <li>we can use another channel to encode the temperature
+  <li>we can put one line chart per graph and we create a <strong>small multiples</strong></li>
+  <li>we can use another channel to encode the value attribute
 or, of course, we can combine the two techniques.</li>
 </ul>
 
@@ -134,7 +135,8 @@ or, of course, we can combine the two techniques.</li>
 
 <p>Broadly speaking, when you build a small multiple you draw more than
 one visualization, and each visualization is indexed by a label which is not
-used in any of the single images.</p>
+used in any of the single images.
+This technique is also called faceting.</p>
 
 <div id="sm_linechart"> </div>
 <script src="/docs/assets/javascript/linechart_evolution/sm_linechart.js"> </script>
@@ -147,7 +149,7 @@ but it becomes more difficult to compare the single lines.</p>
 
 <h2 id="stacked-area-chart">Stacked area chart</h2>
 
-<p>Another possible solution is to stack the lines one above the other one,
+<p>If the value attribute is sequential as in our case (the GDP cannot become negative), another possible solution is to stack the lines one above the other one,
 and this is done in the stacked area chart.</p>
 
 <div id="stacked_chart"> </div>
@@ -160,7 +162,9 @@ the baseline is not constant, and this makes difficult to quantify the values.</
 
 <p>We have seen few possible evolutions of the line chart.
 Those alternatives are appropriate when you want to plot the evolution of a quantitative variable
-for a set of categories.</p>
+for a set of categories.
+Faceting can be combined with anyone of the visualizations we have previous discussed, while stacking can 
+only be applied to bar chart or line chart.</p>
 
 
   </div><a class="u-url" href="/linechart-evolution/" hidden></a>

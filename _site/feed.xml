@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-22T11:46:48+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-29T16:43:14+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
 suitable way to tackle your problem is not always easy.
 This is the case of the challenge launched by Sarah Leo, a visual data journalist
 working at the Economist in <a href="https://medium.economist.com/mistakes-weve-drawn-a-few-8cdd8a42d368">this post</a>.</p>
@@ -139,7 +139,17 @@ The main things I’d like to stress you about are the following:</p>
       <p>I preferred this color scheme with respect to the more common red-blue one because I found easier to infer if a value close to 0.5 was slightly above or below 0.5. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/redesign/" /><summary type="html"><![CDATA[How to tackle real life dataviz problems]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/redesign/" /><summary type="html"><![CDATA[How to tackle real life dataviz problems]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Channel effectiveness</title><link href="http://localhost:4000/effectiveness/" rel="alternate" type="text/html" title="Channel effectiveness" /><published>2023-11-05T00:00:00+01:00</published><updated>2023-11-05T00:00:00+01:00</updated><id>http://localhost:4000/effectiveness</id><content type="html" xml:base="http://localhost:4000/effectiveness/"><![CDATA[<p>When we have been talking about <a href="/marks-channels">marks and channels</a>
+we mentioned the concept of effectiveness, by saying it
+reflects how easily we translate the visual information encoded into the
+corresponding channel.</p>
+
+<p>Effectiveness is not a fundamental quantity, but it rather summarizes a
+number of possible features:</p>
+<ul>
+  <li>accuracy</li>
+  <li>discriminability</li>
+</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/effectiveness/" /><summary type="html"><![CDATA[Quantifying the goodness of a channel to show an information]]></summary></entry><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
 which are the basic building blocks for data visualization.</p>
 
 <p>Datasets can become very complex, and you should adapt your data visualization
@@ -152,11 +162,11 @@ do so by using the line chart as fundamental visualization.</p>
 
 <p>As we have already seen, in the line chart we have</p>
 <ul>
-  <li>an ordered variable on the $x$ axis</li>
-  <li>a quantitative variable on the $y$ axis</li>
+  <li>an ordered key attribute on the $x$ axis</li>
+  <li>a quantitative value attribute on the $y$ axis</li>
 </ul>
 
-<p>As an example, let us take a look at the Italian GDP per capita expressed in US dollars adjusted by the US inflation, which can be found
+<p>As an example, let us take a look at evolution over the years the Italian GDP per capita expressed in US dollars adjusted by the US inflation, which can be found
 <a href="https://github.com/thestippe/thestippe.github.io/blob/main/data/gdp_per_capita_filtered.csv">here</a>.</p>
 
 <p>The dataset is based on <a href="https://github.com/RaafatSaleh/GDP-per-capita-and-its-effect-on-the-man-life-quality/blob/master/Data/gdppercapita_us_inflation_adjusted.csv">this</a> repo.</p>
@@ -172,9 +182,10 @@ changes over time, and it does that in a decent way.</p>
 
 <h2 id="issues-with-the-line-chart">Issues with the line chart</h2>
 
-<p>But what does it happen when we try and visualize more than one Country in
-a single plot?
-Let us start by using color to code the Country</p>
+<p>But what does it happen when we add a second categorical key attribute?
+As an example, let’s try and visualize more than one Country in
+a single plot.
+Let us start by using color to encode the Country</p>
 
 <div id="multiple_linechart"> </div>
 <script src="/docs/assets/javascript/linechart_evolution/multiple_linechart.js"> </script>
@@ -185,8 +196,8 @@ of a single line.</p>
 
 <p>We have two main alternatives to the multiple line chart:</p>
 <ul>
-  <li>we can put one line chart per graph and we create a small multiples</li>
-  <li>we can use another channel to encode the temperature
+  <li>we can put one line chart per graph and we create a <strong>small multiples</strong></li>
+  <li>we can use another channel to encode the value attribute
 or, of course, we can combine the two techniques.</li>
 </ul>
 
@@ -194,7 +205,8 @@ or, of course, we can combine the two techniques.</li>
 
 <p>Broadly speaking, when you build a small multiple you draw more than
 one visualization, and each visualization is indexed by a label which is not
-used in any of the single images.</p>
+used in any of the single images.
+This technique is also called faceting.</p>
 
 <div id="sm_linechart"> </div>
 <script src="/docs/assets/javascript/linechart_evolution/sm_linechart.js"> </script>
@@ -207,7 +219,7 @@ but it becomes more difficult to compare the single lines.</p>
 
 <h2 id="stacked-area-chart">Stacked area chart</h2>
 
-<p>Another possible solution is to stack the lines one above the other one,
+<p>If the value attribute is sequential as in our case (the GDP cannot become negative), another possible solution is to stack the lines one above the other one,
 and this is done in the stacked area chart.</p>
 
 <div id="stacked_chart"> </div>
@@ -220,7 +232,9 @@ the baseline is not constant, and this makes difficult to quantify the values.</
 
 <p>We have seen few possible evolutions of the line chart.
 Those alternatives are appropriate when you want to plot the evolution of a quantitative variable
-for a set of categories.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
+for a set of categories.
+Faceting can be combined with anyone of the visualizations we have previous discussed, while stacking can 
+only be applied to bar chart or line chart.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
 images.
 Typically the human eye can detect light in the range of wavelengths going
 from 380 nanometers (violet) to 700 nanometers (red).
@@ -393,21 +407,55 @@ effects.</p>
 
 <script src="/docs//assets/javascript/perception/preattentive_size.js"> </script>
 
-<script src="/docs/assets/javascript/perception/combined_chart.js"> </script>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<p>In this post we will take a look at some of the most fundamental charts
+<script src="/docs/assets/javascript/perception/combined_chart.js"> </script>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.js"></script>
+
+<p>In this post we will take a look at some of the most fundamental charts
 that one encounters in data visualization <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
 
-<h2 id="categorical-and-quantitative-data">Categorical and quantitative data</h2>
+<h2 id="1-d-scatterplot">1-D Scatterplot</h2>
 
-<p>The first kind of graph we will discuss is the bar chart, where we show
-the how a quantitative attribute changes across a set of categories.</p>
+<p>Although not very common in explanatory visualization, one may decide to simply visualize
+a single value attribute across some items, and in this case we 
+can use a one dimensional scatterplot.
+In this example we will show the distribution of the sepal width for the well known Iris dataset.</p>
+
+<div id="my_scatterplot1d"> </div>
+
+<script src="/docs//assets/javascript/fundamental_charts/scatterplot1d.js"> </script>
+
+<p>The one dimensional scatterplot may be used to visualize the distribution of our attribute
+across our items or to find possible outliers.</p>
+
+<h2 id="2-d-scatterplot">2-D Scatterplot</h2>
+
+<p>In a two dimensional scatterplot we show the distribution of two
+quantities across the items.
+In this case we have no key attribute.
+As an example, here we show how the sepal length and the sepal width are
+varying across the items of the already used Iris dataset.</p>
+
+<div id="my_scatterplot"> </div>
+
+<script src="/docs//assets/javascript/fundamental_charts/scatterplot.js"> </script>
+
+<p>This visualization can be helpful to determine the underlying distribution
+for our attributes, to find whether there exist some correlation among the two
+variables or to look for clusters.</p>
+
+<h2 id="bar-chart">Bar chart</h2>
+
+<p>In a bar chart we show
+the how a quantitative attribute changes across a set of categories,
+which represent our key attribute.</p>
+
+<p>Here and in the future will work under the hypothesis that there are no duplicates among the categories.
+In the database language, we may say that our key is a primary key.</p>
 
 <p>As an example, we can visualize the number of gold medals
 that each country won in the 2020 Olympic games.
 Here we will only plot a sub-sample of the dataset, while the full dataset
 can be found <a href="https://github.com/MainakRepositor/Datasets/blob/master/Tokyo-Olympics/Medals.csv">here</a>.</p>
-
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v5.js"></script>
 
 <!-- Create a div where the graph will take place -->
 <div id="barchart"> </div>
@@ -423,37 +471,32 @@ allows for a larger number of categories to be shown.</p>
 <p>If the categories don’t have any natural order it may be a good idea to
 reorder the categories with respect to the plotted quantity to improve readability.</p>
 
-<h2 id="relation-between-two-quantitative-variables">Relation between two quantitative variables</h2>
+<p>A bar chart can be very useful when one wants to compare the values of
+the attributes across the categories.</p>
 
-<p>The second kind of graph we will talk about is the
-line chart, where you can visualize how does a quantitative variable changes with
-respect to another quantity, which often represents time.
+<h2 id="line-chart">Line chart</h2>
+
+<p>In a line chart you can visualize how does a quantitative variable,
+which represent our value attribute, changes with
+respect to another quantity, which is a key attribute, and it often represents time.
 To better explain this graph, let us take a look at the gold
 price in the period 1978-2021.</p>
 
 <div id="linechart"> </div>
 <script src="/docs//assets/javascript/fundamental_charts/linechart.js"> </script>
 
+<p>This visualization can be useful to extract information between the
+value attribute and the key attribute.</p>
+
 <p>Line chart is often abused, as the line naturally both encodes order
 and a concept of distance between the values in
 the x axes, so if x is not a quantitative variable one should
 never use the line chart.</p>
 
-<h2 id="scatterplot">Scatterplot</h2>
-
-<p>In a scatterplot we show the distribution of two
-quantities across the items.
-As an example, here we show how the sepal length and the sepal width are
-varying across the items of the well known Iris dataset.</p>
-
-<div id="my_scatterplot"> </div>
-
-<script src="/docs//assets/javascript/fundamental_charts/scatterplot.js"> </script>
-
 <h2 id="matrix-chart">Matrix chart</h2>
 
-<p>In a matrix we want to visualize how does a quantity
-distributes across two categorical variables.
+<p>In a matrix we want to visualize how does a quantity (our value)
+distributes across two categorical variables, which are our key attributes.
 As an example, here we visualize how many points each team of the Six Nations Championship
 performed against each opponent in the period 2016-2023.</p>
 
@@ -469,6 +512,8 @@ The issue is that our perception of scale variations in both channels
 are prone to errors, so one may find difficulties to correctly
 decode the quantitative informations.</p>
 
+<p>Matrix charts are typically used to find outliers or clusters.</p>
+
 <h2 id="symbol-map">Symbol map</h2>
 <p>The fifth and last type of visualization we will discuss here is the
 symbol map, where we show how a quantity varies across two spatial
@@ -482,6 +527,8 @@ time I lived in each location.</p>
 <div id="my_symbol_chart"></div>
 
 <script src="/docs/assets/javascript/fundamental_charts/symbol.js"> </script>
+
+<p>Symbol maps can be used to determine the spatial distribution of a certain quantities.</p>
 
 <div class="footnotes" role="doc-endnotes">
   <ol>
@@ -1133,7 +1180,14 @@ we can classify them depending on their qualities and on our previous knowledge.
 A more involved case is the one we also have <strong>relationships</strong> between the
 items, and in this case we are working with a <strong>network</strong>.</p>
 
-<p>For the moment we won’t talk about networks, and we will focus on tabular datasets.
+<p>There are also more involved kinds of datasets, which we won’t discuss here.
+Some examples are field datasets, where one displays the value
+of a certain quantity for each point of a discretized space,
+or geometry dataset, where one has a collection of shapes belonging to some space.
+Field datasets are very common when one deals with weather maps or topography maps, while an example
+of geometry dataset is given by a street map or by the map of the regions or of the cities of a certain country.</p>
+
+<p>For the moment we will only focus on tabular datasets.
 A tabular dataset can be represented, as the name suggests, with a table:</p>
 
 <table>
@@ -1188,6 +1242,9 @@ A tabular dataset can be represented, as the name suggests, with a table:</p>
 <p>Each attribute can be classified in a large number of ways, and here we will only
 discuss the main ones.</p>
 
+<p>Here we will mostly follow Tamara Munzner’s textbook
+<a href="https://www.cs.ubc.ca/~tmm/vadbook/">Visualization Analysis and Design</a>.</p>
+
 <h2 id="attribute-types">Attribute types</h2>
 
 <p>Attribute types define the mathematical operations that makes sense to do
@@ -1237,16 +1294,31 @@ while those which have are named <strong>ratio</strong> attributes.</p>
   <li>Temperatures expressed in Kelvin degrees</li>
   <li>Length</li>
   <li>Mass</li>
-  <li>any percentage</li>
+  <li>Any percentage</li>
   <li>Earnings (where negative earning means loss)</li>
 </ul>
+
+<p>Moreover, we can also classify any ordered attribute attribute depending on the possible range of values it can take.</p>
+<ul>
+  <li>A <strong>sequential</strong> attribute is an attribute which can take any value between a minimum and a maximum. Examples of sequential attributes are height or weight.</li>
+  <li>A <strong>diverging</strong> attribute is an attribute which can be decomposed into two directions, a positive one and a negative one. Examples of diverging attributes are latitude (North/South) or elevation (above or below the sea level).</li>
+</ul>
+
+<p>Finally, a <strong>cyclic</strong> attribute is an attribute where the minimum possible value corresponds to the maximum possible value. Examples of cyclic attributes are longitude, hour of the day and day of the week.</p>
+
+<p>From our examples you may have noticed that
+a cyclic attribute can be either sequential,
+as the hour of the day, or diverging,
+as the longitude.</p>
 
 <h2 id="attribute-semantics">Attribute semantics</h2>
 
 <p>The mathematical operations we can perform with an attribute
 isn’t of course the only meaningful way we can classify the data.
 Another very important aspect of an attribute that we should
-consider when choosing how to visualize an attribute is its meaning.</p>
+consider when choosing how to visualize an attribute is its meaning.
+The semantic classification I found more useful in my personal experience is the one used by Tamara Munzner 
+in her textbook .</p>
 
 <table>
   <thead>
@@ -1257,6 +1329,11 @@ consider when choosing how to visualize an attribute is its meaning.</p>
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td>Key vs Value</td>
+      <td>A key attribute is used to identify an element, a value attribute does not</td>
+      <td>City name vs city population, date vs temperature</td>
+    </tr>
     <tr>
       <td>Spatial</td>
       <td>Our attribute has a geographical connotation</td>
@@ -1274,10 +1351,6 @@ consider when choosing how to visualize an attribute is its meaning.</p>
     </tr>
   </tbody>
 </table>
-
-<p>Moreover we can also classify our attribute depending if it is periodic or not,
-if it is we say it is <strong>seasonal</strong>, <strong>periodic</strong> or <strong>cyclic</strong>.
-Example of cyclic attributes are seasons or months.</p>
 
 <h2 id="conclusions">Conclusions</h2>
 
@@ -1453,91 +1526,4 @@ I will try and share some resources about this topic in some future post, as wel
     }], {
 	margin: { t: 0 } } );
 </script>
--->]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/dataviz/" /><summary type="html"><![CDATA[How to help people understanding you]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/visualization/London_Tube_Map.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/visualization/London_Tube_Map.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The frequentist perspective</title><link href="http://localhost:4000/estimation/" rel="alternate" type="text/html" title="The frequentist perspective" /><published>2023-10-01T00:00:00+02:00</published><updated>2023-10-01T00:00:00+02:00</updated><id>http://localhost:4000/estimation</id><content type="html" xml:base="http://localhost:4000/estimation/"><![CDATA[<p>While most of this blog is about Bayesian statistics, in this post
-we will try and give an overview to some of the most relevant concepts
-about frequentist statistics.</p>
-
-<p>We generally assume that we are trying and make some statements about the properties
-of a population $\mathbb{P}$.
-In <strong>parametric inferential statistics</strong> we assume that our population
-is distributed according to some family of distributions.
-As an example, we could assume that our population is distributed according to
-a normal distribution with unknown mean and known variance, and we would like to determine
-if the mean of the distribution is somehow compatible with zero.</p>
-
-<p>There are many ways to build those family of distributions, and one of the
-most useful is the <strong>exponential family form</strong>.
-For this kind of families we assume that the probability distribution
-function takes the form</p>
-
-\[p(x \vert \theta) = h(x) g(\theta)e^{T(x)\eta(\theta)}\,.\]
-
-<p>We define a <strong>sufficient statistic</strong> a statistic (which is nothing
-but a quantity that can be computed from the data) such that no other statistic
-can provide additional informations about our distribution.
-As an example, in our previous example, a sufficient statistics
-for the mean of the distribution $\mu$ is the arithmetic mean of the population:</p>
-
-\[T(x) = \frac{1}{N}\sum_{j=1}^N x_i\,.\]
-
-<p>A necessary and sufficient condition for a distribution family to admit a sufficient statistics is to be an exponential family distribution,
-and in this case the sufficient statistics is $T(x)$.</p>
-
-<p>In this context, $\eta$ is called the <strong>natural parameter</strong> of the distribution family,
-while one refers to $e^{A(\eta)}$ as the partition function.</p>
-
-<p>In the jargon one often refers to the distribution family as the distribution
-itself. This is not very precise, as the distribution is an element
-of the distribution family, but it is commonly accepted.</p>
-
-<p>In most case we won’t deal with the entire population, but only with a (possibly random)
-sub-sample of it \(\{X_1,...,X_n\}\).
-In this case we cannot exactly calculate the parameter of interest, but we can only
-<strong>estimate</strong> it, and this is why we refer to the parameter as the <strong>estimand</strong>.
-We call an <strong>estimator</strong> a map from the sample space to the space of the estimates.</p>
-
-<p>In our usual example, the arithmetic mean of the sample is an estimator of the 
-parameter $\mu$.</p>
-
-<p>Given an estimator \(\hat{\theta}\) of a parameter $\theta$ we define its bias as</p>
-
-\[E[\hat{\theta}-\theta]\]
-
-<p>We say that an estimator is unbiased it the bias is zero.</p>
-
-<p>Let us consider a sample of $n$ iid normally distributed observations
-with mean $\mu$ and variance $\sigma^2$.</p>
-
-<p>The arithmetic mean of the sample,
-defined as
-\(\bar{X} = \frac{1}{n}\sum_{i=1}^n X_i\)
-is an unbiased estimator of the population mean $\mu\,,$ w</p>
-
-<p>On the other hand, the uncorrected estimator for the sample variance,
-defined as</p>
-
-\[S^2 = \frac{1}{n}\sum_{i=1}^n (X_i - \bar{X})^2\]
-
-<p>is a biased estimator, while the unbiased estimator is $\frac{n}{n-1}S^2$.</p>
-
-<p>There are two kind of estimates: <strong>point estimates</strong> and <strong>interval estimates</strong>.
-In the case of point estimate, the estimate space has the same dimension
-of the parameter space, as the estimate provides a point in the parameter
-space.
-The main issue of point estimates is that they provide no information
-about the uncertainty that is associated with the estimate itself.</p>
-
-<p>Confidence interval/region estimates, on the other hand, provide an interval/region
-(depending if we are working with a one dimensional parameter space or with a
-higher dimensional space).
-More precisely, a confidence interval for $\theta$ with confidence level
-$\gamma = 1-\alpha$ is an interval $(u(X), v(X))$ such that</p>
-
-\[P(u(X)\leq \theta \leq v(X)) = \gamma\]
-
-<p>We should always keep in mind that our parameter $\theta$ is given,
-and our confidence interval does not tell us anything about the probability
-for $\theta$ of being inside the interval.
-All we can say is that, if we repeat an experiment many times and each time
-we compute the confidence interval for the sample, a fraction
-of times $\gamma$ our confidence interval will contain the true parameter $\theta$.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/appendices/" /><category term="/estimation/" /><summary type="html"><![CDATA[Some common misconceptions]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/frequentist/freq_xkcd.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/frequentist/freq_xkcd.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+-->]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/dataviz/" /><summary type="html"><![CDATA[How to help people understanding you]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/visualization/London_Tube_Map.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/visualization/London_Tube_Map.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

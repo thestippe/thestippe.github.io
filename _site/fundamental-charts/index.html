@@ -79,21 +79,55 @@
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>In this post we will take a look at some of the most fundamental charts
+    <!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.js"></script>
+
+<p>In this post we will take a look at some of the most fundamental charts
 that one encounters in data visualization <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
 
-<h2 id="categorical-and-quantitative-data">Categorical and quantitative data</h2>
+<h2 id="1-d-scatterplot">1-D Scatterplot</h2>
 
-<p>The first kind of graph we will discuss is the bar chart, where we show
-the how a quantitative attribute changes across a set of categories.</p>
+<p>Although not very common in explanatory visualization, one may decide to simply visualize
+a single value attribute across some items, and in this case we 
+can use a one dimensional scatterplot.
+In this example we will show the distribution of the sepal width for the well known Iris dataset.</p>
+
+<div id="my_scatterplot1d"> </div>
+
+<script src="/docs//assets/javascript/fundamental_charts/scatterplot1d.js"> </script>
+
+<p>The one dimensional scatterplot may be used to visualize the distribution of our attribute
+across our items or to find possible outliers.</p>
+
+<h2 id="2-d-scatterplot">2-D Scatterplot</h2>
+
+<p>In a two dimensional scatterplot we show the distribution of two
+quantities across the items.
+In this case we have no key attribute.
+As an example, here we show how the sepal length and the sepal width are
+varying across the items of the already used Iris dataset.</p>
+
+<div id="my_scatterplot"> </div>
+
+<script src="/docs//assets/javascript/fundamental_charts/scatterplot.js"> </script>
+
+<p>This visualization can be helpful to determine the underlying distribution
+for our attributes, to find whether there exist some correlation among the two
+variables or to look for clusters.</p>
+
+<h2 id="bar-chart">Bar chart</h2>
+
+<p>In a bar chart we show
+the how a quantitative attribute changes across a set of categories,
+which represent our key attribute.</p>
+
+<p>Here and in the future will work under the hypothesis that there are no duplicates among the categories.
+In the database language, we may say that our key is a primary key.</p>
 
 <p>As an example, we can visualize the number of gold medals
 that each country won in the 2020 Olympic games.
 Here we will only plot a sub-sample of the dataset, while the full dataset
 can be found <a href="https://github.com/MainakRepositor/Datasets/blob/master/Tokyo-Olympics/Medals.csv">here</a>.</p>
-
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v5.js"></script>
 
 <!-- Create a div where the graph will take place -->
 <div id="barchart"> </div>
@@ -109,37 +143,32 @@ allows for a larger number of categories to be shown.</p>
 <p>If the categories don’t have any natural order it may be a good idea to
 reorder the categories with respect to the plotted quantity to improve readability.</p>
 
-<h2 id="relation-between-two-quantitative-variables">Relation between two quantitative variables</h2>
+<p>A bar chart can be very useful when one wants to compare the values of
+the attributes across the categories.</p>
 
-<p>The second kind of graph we will talk about is the
-line chart, where you can visualize how does a quantitative variable changes with
-respect to another quantity, which often represents time.
+<h2 id="line-chart">Line chart</h2>
+
+<p>In a line chart you can visualize how does a quantitative variable,
+which represent our value attribute, changes with
+respect to another quantity, which is a key attribute, and it often represents time.
 To better explain this graph, let us take a look at the gold
 price in the period 1978-2021.</p>
 
 <div id="linechart"> </div>
 <script src="/docs//assets/javascript/fundamental_charts/linechart.js"> </script>
 
+<p>This visualization can be useful to extract information between the
+value attribute and the key attribute.</p>
+
 <p>Line chart is often abused, as the line naturally both encodes order
 and a concept of distance between the values in
 the x axes, so if x is not a quantitative variable one should
 never use the line chart.</p>
 
-<h2 id="scatterplot">Scatterplot</h2>
-
-<p>In a scatterplot we show the distribution of two
-quantities across the items.
-As an example, here we show how the sepal length and the sepal width are
-varying across the items of the well known Iris dataset.</p>
-
-<div id="my_scatterplot"> </div>
-
-<script src="/docs//assets/javascript/fundamental_charts/scatterplot.js"> </script>
-
 <h2 id="matrix-chart">Matrix chart</h2>
 
-<p>In a matrix we want to visualize how does a quantity
-distributes across two categorical variables.
+<p>In a matrix we want to visualize how does a quantity (our value)
+distributes across two categorical variables, which are our key attributes.
 As an example, here we visualize how many points each team of the Six Nations Championship
 performed against each opponent in the period 2016-2023.</p>
 
@@ -155,6 +184,8 @@ The issue is that our perception of scale variations in both channels
 are prone to errors, so one may find difficulties to correctly
 decode the quantitative informations.</p>
 
+<p>Matrix charts are typically used to find outliers or clusters.</p>
+
 <h2 id="symbol-map">Symbol map</h2>
 <p>The fifth and last type of visualization we will discuss here is the
 symbol map, where we show how a quantity varies across two spatial
@@ -168,6 +199,8 @@ time I lived in each location.</p>
 <div id="my_symbol_chart"></div>
 
 <script src="/docs/assets/javascript/fundamental_charts/symbol.js"> </script>
+
+<p>Symbol maps can be used to determine the spatial distribution of a certain quantities.</p>
 
 <div class="footnotes" role="doc-endnotes">
   <ol>

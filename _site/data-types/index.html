@@ -87,7 +87,14 @@ we can classify them depending on their qualities and on our previous knowledge.
 A more involved case is the one we also have <strong>relationships</strong> between the
 items, and in this case we are working with a <strong>network</strong>.</p>
 
-<p>For the moment we won’t talk about networks, and we will focus on tabular datasets.
+<p>There are also more involved kinds of datasets, which we won’t discuss here.
+Some examples are field datasets, where one displays the value
+of a certain quantity for each point of a discretized space,
+or geometry dataset, where one has a collection of shapes belonging to some space.
+Field datasets are very common when one deals with weather maps or topography maps, while an example
+of geometry dataset is given by a street map or by the map of the regions or of the cities of a certain country.</p>
+
+<p>For the moment we will only focus on tabular datasets.
 A tabular dataset can be represented, as the name suggests, with a table:</p>
 
 <table>
@@ -142,6 +149,9 @@ A tabular dataset can be represented, as the name suggests, with a table:</p>
 <p>Each attribute can be classified in a large number of ways, and here we will only
 discuss the main ones.</p>
 
+<p>Here we will mostly follow Tamara Munzner’s textbook
+<a href="https://www.cs.ubc.ca/~tmm/vadbook/">Visualization Analysis and Design</a>.</p>
+
 <h2 id="attribute-types">Attribute types</h2>
 
 <p>Attribute types define the mathematical operations that makes sense to do
@@ -191,16 +201,31 @@ while those which have are named <strong>ratio</strong> attributes.</p>
   <li>Temperatures expressed in Kelvin degrees</li>
   <li>Length</li>
   <li>Mass</li>
-  <li>any percentage</li>
+  <li>Any percentage</li>
   <li>Earnings (where negative earning means loss)</li>
 </ul>
+
+<p>Moreover, we can also classify any ordered attribute attribute depending on the possible range of values it can take.</p>
+<ul>
+  <li>A <strong>sequential</strong> attribute is an attribute which can take any value between a minimum and a maximum. Examples of sequential attributes are height or weight.</li>
+  <li>A <strong>diverging</strong> attribute is an attribute which can be decomposed into two directions, a positive one and a negative one. Examples of diverging attributes are latitude (North/South) or elevation (above or below the sea level).</li>
+</ul>
+
+<p>Finally, a <strong>cyclic</strong> attribute is an attribute where the minimum possible value corresponds to the maximum possible value. Examples of cyclic attributes are longitude, hour of the day and day of the week.</p>
+
+<p>From our examples you may have noticed that
+a cyclic attribute can be either sequential,
+as the hour of the day, or diverging,
+as the longitude.</p>
 
 <h2 id="attribute-semantics">Attribute semantics</h2>
 
 <p>The mathematical operations we can perform with an attribute
 isn’t of course the only meaningful way we can classify the data.
 Another very important aspect of an attribute that we should
-consider when choosing how to visualize an attribute is its meaning.</p>
+consider when choosing how to visualize an attribute is its meaning.
+The semantic classification I found more useful in my personal experience is the one used by Tamara Munzner 
+in her textbook .</p>
 
 <table>
   <thead>
@@ -211,6 +236,11 @@ consider when choosing how to visualize an attribute is its meaning.</p>
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td>Key vs Value</td>
+      <td>A key attribute is used to identify an element, a value attribute does not</td>
+      <td>City name vs city population, date vs temperature</td>
+    </tr>
     <tr>
       <td>Spatial</td>
       <td>Our attribute has a geographical connotation</td>
@@ -228,10 +258,6 @@ consider when choosing how to visualize an attribute is its meaning.</p>
     </tr>
   </tbody>
 </table>
-
-<p>Moreover we can also classify our attribute depending if it is periodic or not,
-if it is we say it is <strong>seasonal</strong>, <strong>periodic</strong> or <strong>cyclic</strong>.
-Example of cyclic attributes are seasons or months.</p>
 
 <h2 id="conclusions">Conclusions</h2>
 
