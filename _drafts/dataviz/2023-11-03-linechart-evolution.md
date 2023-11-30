@@ -7,7 +7,7 @@ image: "/docs/assets/images/linechart_evolutions/areaplot.png"
 description: "When a linechart is not enough"
 ---
 
-In a previous post we saw some of the most fundamental charts,
+In a [previous post](/fundamental-charts) we saw some of the most fundamental charts,
 which are the basic building blocks for data visualization.
 
 Datasets can become very complex, and you should adapt your data visualization
@@ -84,6 +84,19 @@ and this is done in the stacked area chart.
 The major issue with this solution is that, for all but the lowest curve,
 the baseline is not constant, and this makes difficult to quantify the values.
 
+## Streamgraph
+
+A stacked bar chart can become cumbersome when one has many channels, and in this
+case one may use a streamgraph.
+
+<div id="steamgraph"> </div>
+<script src="/docs/assets/javascript/linechart_evolution/steamgraph.js"> </script>
+
+The streamgraph is obtained by allowing the lower
+line to vary, and either by making it symmetric with respect to the $x$ axis or by choosing it exact shape by minimizing some target quantity.
+This method allows you to show
+a large number of categories, but the main drawback
+is that one needs some practice to read it.
 
 ## Conclusions and take-home message
 
@@ -92,4 +105,5 @@ Those alternatives are appropriate when you want to plot the evolution of a quan
 for a set of categories.
 Faceting can be combined with anyone of the visualizations we have previous discussed, while stacking can 
 only be applied to bar chart or line chart.
-
+Finally, we have seen the streamgraph,
+which uses an alternative way of stacking the lines.

@@ -16,7 +16,7 @@ In this case we are dealing with a **tabular** dataset.
 A more involved case is the one we also have **relationships** between the
 items, and in this case we are working with a **network**.
 
-There are also more involved kinds of datasets, which we won't discuss here.
+There are also more involved kinds of datasets, which we won't discuss here for now.
 Some examples are field datasets, where one displays the value
 of a certain quantity for each point of a discretized space,
 or geometry dataset, where one has a collection of shapes belonging to some space.
@@ -87,8 +87,8 @@ While ratio attributes are:
 
 
 Moreover, we can also classify any ordered attribute attribute depending on the possible range of values it can take.
-- A **sequential** attribute is an attribute which can take any value between a minimum and a maximum. Examples of sequential attributes are height or weight.
-- A **diverging** attribute is an attribute which can be decomposed into two directions, a positive one and a negative one. Examples of diverging attributes are latitude (North/South) or elevation (above or below the sea level).
+- A **sequential** attribute is an attribute which can take any value between a minimum and a maximum. Examples of sequential attributes are the day of the week as well as height or weight.
+- A **diverging** attribute is an attribute which can be decomposed into two directions, a positive one and a negative one. Examples of diverging attributes are hours of the day (AM/PM), latitude (North/South) or elevation (above or below the sea level).
 
 Finally, a **cyclic** attribute is an attribute where the minimum possible value corresponds to the maximum possible value. Examples of cyclic attributes are longitude, hour of the day and day of the week.
 

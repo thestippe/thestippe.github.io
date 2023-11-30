@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-29T16:43:14+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-11-30T15:08:56+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
 suitable way to tackle your problem is not always easy.
 This is the case of the challenge launched by Sarah Leo, a visual data journalist
 working at the Economist in <a href="https://medium.economist.com/mistakes-weve-drawn-a-few-8cdd8a42d368">this post</a>.</p>
@@ -139,7 +139,10 @@ The main things I’d like to stress you about are the following:</p>
       <p>I preferred this color scheme with respect to the more common red-blue one because I found easier to infer if a value close to 0.5 was slightly above or below 0.5. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/redesign/" /><summary type="html"><![CDATA[How to tackle real life dataviz problems]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Channel effectiveness</title><link href="http://localhost:4000/effectiveness/" rel="alternate" type="text/html" title="Channel effectiveness" /><published>2023-11-05T00:00:00+01:00</published><updated>2023-11-05T00:00:00+01:00</updated><id>http://localhost:4000/effectiveness</id><content type="html" xml:base="http://localhost:4000/effectiveness/"><![CDATA[<p>When we have been talking about <a href="/marks-channels">marks and channels</a>
+</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/redesign/" /><summary type="html"><![CDATA[How to tackle real life dataviz problems]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Channel effectiveness</title><link href="http://localhost:4000/effectiveness/" rel="alternate" type="text/html" title="Channel effectiveness" /><published>2023-11-05T00:00:00+01:00</published><updated>2023-11-05T00:00:00+01:00</updated><id>http://localhost:4000/effectiveness</id><content type="html" xml:base="http://localhost:4000/effectiveness/"><![CDATA[<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.js"></script>
+
+<p>When we have been talking about <a href="/marks-channels">marks and channels</a>
 we mentioned the concept of effectiveness, by saying it
 reflects how easily we translate the visual information encoded into the
 corresponding channel.</p>
@@ -147,9 +150,109 @@ corresponding channel.</p>
 <p>Effectiveness is not a fundamental quantity, but it rather summarizes a
 number of possible features:</p>
 <ul>
-  <li>accuracy</li>
-  <li>discriminability</li>
-</ul>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/effectiveness/" /><summary type="html"><![CDATA[Quantifying the goodness of a channel to show an information]]></summary></entry><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a previous post we saw some of the most fundamental charts,
+  <li>Accuracy</li>
+  <li>Discriminability</li>
+  <li>Salience</li>
+  <li>Separability</li>
+  <li>Grouping</li>
+</ul>
+
+<p>In this post we will discuss the meaning of these terms, and we will 
+see how to determine which channel is the most effective for your task.</p>
+
+<h2 id="accuracy">Accuracy</h2>
+<p>Accuracy quantifies how good is a channel in conveying the value of an attribute.
+Not all channels are equally accurate, as we perceive different
+channels in different ways.
+Research showed that, on average, there is a power law relationship between the 
+change in the stimulus and the perceived change, and this law goes under the name
+of <strong>Stevens’ power law</strong></p>
+
+\[\psi_k(I) \propto I^{a_k}\]
+
+<p>where $a_k$ is the exponent associated with the stimulus of type $k$,
+$I$ is the intensity of the stimulus and $\psi$ represents the perceived
+value.
+Here we show the relation for some of the main channels we will use.</p>
+
+<div id="stevens"> </div>
+<script src="/docs/assets/javascript/effectiveness/stevens.js"> </script>
+
+<p>As we see, the only quantity which we perceive linearly is the length,
+while we are on average worst at estimating any other quantity.</p>
+
+<p>As an example, try and estimate the length ratio between the two
+lines and the area ratio between the two circles:</p>
+
+<p><br />
+<br /></p>
+
+<svg height="150" width="600">
+  <line x1="0" y1="40" x2="150" y2="40" style="stroke:crimson;stroke-width:10" />
+  <line x1="0" y1="60" x2="450" y2="60" style="stroke:steelblue;stroke-width:10" />
+</svg>
+
+<svg height="150" width="500">
+  <circle cx="150" cy="50" r="28.87" fill="crimson" />
+  <circle cx="250" cy="50" r="50" fill="steelblue" />
+</svg>
+
+<p>Both the ratios are equal to 3. Was it hard to do that? How accurate
+have you been?</p>
+
+<h2 id="discriminability">Discriminability</h2>
+
+<p>Discriminability quantifies how many different values can we encode into
+a certain channel by letting them being perceived differently.
+Of course, this only becomes a problem as you approach the discriminability
+limit of the channel.</p>
+
+<p>Here we show 30 different tones of
+red. Can we distinguish all of them? Honestly I think it’s quite a hard task.</p>
+
+<div id="discriminability"> </div>
+<script src="/docs/assets/javascript/effectiveness/discriminability.js"> </script>
+
+<h2 id="salience">Salience</h2>
+
+<p>Salience tells us how easy it is for us to find differences among objects
+by using a certain channel.
+As we have previously seen, it’s very easy to spot a red circle between
+blue circles, so color hue has good salience capabilities.
+Color luminance is much worst in this task, as it is very hard to spot
+objects with different color luminance, so color luminance has 
+worst salience (or worst popout properties) than color hue.</p>
+
+<h2 id="separability">Separability</h2>
+
+<p>Channels cannot be treated independently one on the others,
+but the properties of one channels depend on the other channels
+used in the visualization.
+There are channels among this interaction is stronger, and those
+channels are called <strong>integral</strong>, as well as channels where the interaction
+is almost negligible, and they are called <strong>separable</strong>.</p>
+
+<svg height="150" width="500">
+  <circle cy="50" cx="50" r="1.5" fill="crimson" />
+  <circle cy="50" cx="100" r="3" fill="crimson" />
+  <circle cy="50" cx="150" r="6" fill="crimson" />
+  <circle cy="50" cx="200" r="12" fill="crimson" />
+  <circle cy="50" cx="250" r="24" fill="crimson" />
+</svg>
+
+<p>In the above figure, do you always perceive the same color? Or do
+you rather think that the color of the ball changes with the circle?
+Most of the people would say that the color changes among the circles,
+and they would be wrong.
+This is because color interacts with size, especially for small objects.</p>
+
+<h2 id="grouping">Grouping</h2>
+
+<p>Grouping tells us how easy it is for us to spot patterns in the data.
+In psychology it has been extensively studied what we perceive as grouped,
+and these results are collected into the <strong>Gestalt principles</strong>. 
+Gestalt principles are well known to whoever studied design, and we will
+discuss them into a separate post.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/effectiveness/" /><summary type="html"><![CDATA[Quantifying the goodness of a channel to show an information]]></summary></entry><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a <a href="/fundamental-charts">previous post</a> we saw some of the most fundamental charts,
 which are the basic building blocks for data visualization.</p>
 
 <p>Datasets can become very complex, and you should adapt your data visualization
@@ -228,13 +331,29 @@ and this is done in the stacked area chart.</p>
 <p>The major issue with this solution is that, for all but the lowest curve,
 the baseline is not constant, and this makes difficult to quantify the values.</p>
 
+<h2 id="streamgraph">Streamgraph</h2>
+
+<p>A stacked bar chart can become cumbersome when one has many channels, and in this
+case one may use a streamgraph.</p>
+
+<div id="steamgraph"> </div>
+<script src="/docs/assets/javascript/linechart_evolution/steamgraph.js"> </script>
+
+<p>The streamgraph is obtained by allowing the lower
+line to vary, and either by making it symmetric with respect to the $x$ axis or by choosing it exact shape by minimizing some target quantity.
+This method allows you to show
+a large number of categories, but the main drawback
+is that one needs some practice to read it.</p>
+
 <h2 id="conclusions-and-take-home-message">Conclusions and take-home message</h2>
 
 <p>We have seen few possible evolutions of the line chart.
 Those alternatives are appropriate when you want to plot the evolution of a quantitative variable
 for a set of categories.
 Faceting can be combined with anyone of the visualizations we have previous discussed, while stacking can 
-only be applied to bar chart or line chart.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
+only be applied to bar chart or line chart.
+Finally, we have seen the streamgraph,
+which uses an alternative way of stacking the lines.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
 images.
 Typically the human eye can detect light in the range of wavelengths going
 from 380 nanometers (violet) to 700 nanometers (red).
@@ -1180,7 +1299,7 @@ we can classify them depending on their qualities and on our previous knowledge.
 A more involved case is the one we also have <strong>relationships</strong> between the
 items, and in this case we are working with a <strong>network</strong>.</p>
 
-<p>There are also more involved kinds of datasets, which we won’t discuss here.
+<p>There are also more involved kinds of datasets, which we won’t discuss here for now.
 Some examples are field datasets, where one displays the value
 of a certain quantity for each point of a discretized space,
 or geometry dataset, where one has a collection of shapes belonging to some space.
@@ -1300,8 +1419,8 @@ while those which have are named <strong>ratio</strong> attributes.</p>
 
 <p>Moreover, we can also classify any ordered attribute attribute depending on the possible range of values it can take.</p>
 <ul>
-  <li>A <strong>sequential</strong> attribute is an attribute which can take any value between a minimum and a maximum. Examples of sequential attributes are height or weight.</li>
-  <li>A <strong>diverging</strong> attribute is an attribute which can be decomposed into two directions, a positive one and a negative one. Examples of diverging attributes are latitude (North/South) or elevation (above or below the sea level).</li>
+  <li>A <strong>sequential</strong> attribute is an attribute which can take any value between a minimum and a maximum. Examples of sequential attributes are the day of the week as well as height or weight.</li>
+  <li>A <strong>diverging</strong> attribute is an attribute which can be decomposed into two directions, a positive one and a negative one. Examples of diverging attributes are hours of the day (AM/PM), latitude (North/South) or elevation (above or below the sea level).</li>
 </ul>
 
 <p>Finally, a <strong>cyclic</strong> attribute is an attribute where the minimum possible value corresponds to the maximum possible value. Examples of cyclic attributes are longitude, hour of the day and day of the week.</p>

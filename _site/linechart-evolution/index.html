@@ -79,7 +79,7 @@
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>In a previous post we saw some of the most fundamental charts,
+    <p>In a <a href="/fundamental-charts">previous post</a> we saw some of the most fundamental charts,
 which are the basic building blocks for data visualization.</p>
 
 <p>Datasets can become very complex, and you should adapt your data visualization
@@ -158,14 +158,29 @@ and this is done in the stacked area chart.</p>
 <p>The major issue with this solution is that, for all but the lowest curve,
 the baseline is not constant, and this makes difficult to quantify the values.</p>
 
+<h2 id="streamgraph">Streamgraph</h2>
+
+<p>A stacked bar chart can become cumbersome when one has many channels, and in this
+case one may use a streamgraph.</p>
+
+<div id="steamgraph"> </div>
+<script src="/docs/assets/javascript/linechart_evolution/steamgraph.js"> </script>
+
+<p>The streamgraph is obtained by allowing the lower
+line to vary, and either by making it symmetric with respect to the $x$ axis or by choosing it exact shape by minimizing some target quantity.
+This method allows you to show
+a large number of categories, but the main drawback
+is that one needs some practice to read it.</p>
+
 <h2 id="conclusions-and-take-home-message">Conclusions and take-home message</h2>
 
 <p>We have seen few possible evolutions of the line chart.
 Those alternatives are appropriate when you want to plot the evolution of a quantitative variable
 for a set of categories.
 Faceting can be combined with anyone of the visualizations we have previous discussed, while stacking can 
-only be applied to bar chart or line chart.</p>
-
+only be applied to bar chart or line chart.
+Finally, we have seen the streamgraph,
+which uses an alternative way of stacking the lines.</p>
 
   </div><a class="u-url" href="/linechart-evolution/" hidden></a>
 </article>
