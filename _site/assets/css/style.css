@@ -814,6 +814,12 @@ table {
   src: url("/docs/assets/fonts/DejaVuSerif.ttf");
 }
 @font-face {
+  font-family: "DejaVu Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/docs/assets/fonts/DejaVuSans.ttf");
+}
+@font-face {
   font-family: "Metropolis";
   font-style: normal;
   font-weight: 400;
