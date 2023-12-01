@@ -28,7 +28,7 @@ h1, h2, h3 {
 font-family: 'Gotham','Metropolis';
 }
 
-@media screen and (min-width: $on-large) {
+@media screen and (min-width: 800px) {
 
         h2 {
                 margin-left: -20px;
