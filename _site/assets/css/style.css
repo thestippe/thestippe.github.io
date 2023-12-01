@@ -216,7 +216,7 @@ h2 {
 }
 
 h1, h2, h3 {
-  font-family: "Gotham";
+  font-family: "Gotham", "Metropolis";
 }
 
 @media screen and (min-width: 800px) {
@@ -230,7 +230,7 @@ h1, h2, h3 {
   }
 }
 nav {
-  font-family: "Gotham";
+  font-family: "Gotham", "Metropolis";
 }
 
 /**
@@ -812,6 +812,12 @@ table {
   font-style: normal;
   font-weight: 400;
   src: url("/docs/assets/fonts/DejaVuSerif.ttf");
+}
+@font-face {
+  font-family: "Metropolis";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/docs/assets/fonts/metropolis/Metropolis Font family/Metropolis-Light.otf");
 }
 @font-face {
   font-family: "Black Chancery";

@@ -25,7 +25,7 @@ h2 {
 }
 
 h1, h2, h3 {
-font-family: 'Gotham';
+font-family: 'Gotham','Metropolis';
 }
 
 @media screen and (min-width: $on-large) {
@@ -46,7 +46,7 @@ article p:first-child::first-letter {
 
 nav {
 
-font-family: 'Gotham';
+font-family: 'Gotham','Metropolis';
 }
 
 
