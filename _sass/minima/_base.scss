@@ -16,13 +16,11 @@ dl, dd, ol, ul, figure {
 h1 {
         margin-top: 30px;
         margin-bottom: 5px;
-        font-weight: 'bold'
 }
 
 h2 {
   padding-bottom: 3px;
   padding-top: 3px;
-  font-weight: 'bold'
 
 }
 
@@ -30,12 +28,16 @@ h1, h2, h3 {
 font-family: 'Gotham';
 }
 
-h2 {
-        margin-left: -20px;
-}
+@media screen and (min-width: $on-large) {
+        h2 {
+                margin-left: -20px;
+                width:100%;
+        }
 
-h1 {
-        margin-left: -40px;
+        h1 {
+                margin-left: -40px;
+                width:100%;
+        }
 }
 
 article p:first-child::first-letter {
