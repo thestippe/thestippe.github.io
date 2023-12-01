@@ -107,16 +107,54 @@ is almost negligible, and they are called **separable**.
   <circle cy="50" cx="250" r="24"  fill="crimson" />
 </svg> 
 
+
 In the above figure, do you always perceive the same color? Or do
 you rather think that the color of the ball changes with the circle?
 Most of the people would say that the color changes among the circles,
 and they would be wrong.
 This is because color interacts with size, especially for small objects.
 
+The interaction also goes the other way round:
+
+<br>
+<div style="background-color:black;">
+<p style="color:red;font-size:60px;">
+Most people perceive this as bigger</p>
+<p style="color:blue;font-size:60px;">But the two
+lines have the same size</p>
+</div>
+
+<br>
+In the first case the color was affected by the size,
+in the second case the other way round happened.
+
 ## Grouping
 
 Grouping tells us how easy it is for us to spot patterns in the data.
 In psychology it has been extensively studied what we perceive as grouped,
 and these results are collected into the **Gestalt principles**. 
+
+
+<svg height="150" width="500">
+  <circle cy="50" cx="50" r="1.5"  fill="crimson" />
+</svg> 
+
 Gestalt principles are well known to whoever studied design, and we will
 discuss them into a separate post.
+
+## Our perception depends on the context
+What we perceive strongly depends
+on the context.
+
+
+
+## Conclusions
+We have seen different criteria to assess
+the effectiveness of a channel.
+Depending on your task, you should find
+the most appropriate way to assess the effectiveness
+of a visualization.
+If you want to precisely compare values, you
+should probably favour more accurate channels,
+while if you want to check if your
+clustering algorithm is doing its job, then you should consider using channels where grouping is easier.
