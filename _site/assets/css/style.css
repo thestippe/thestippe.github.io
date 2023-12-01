@@ -228,9 +228,19 @@ h1, h2, h3 {
     margin-left: -40px;
     width: 100%;
   }
+  #logo {
+    margin-left: -40px;
+  }
+  #navlink {
+    align-content: flex-end;
+    align-items: flex-end;
+    margin-left: 15px;
+    margin-right: 10px;
+  }
 }
 nav {
   font-family: "Gotham", "Metropolis";
+  vertical-align: text-top;
 }
 
 /**
@@ -426,7 +436,7 @@ pre > code {
   height: 1.25em;
   display: inline-block;
   fill: currentColor;
-  vertical-align: text-bottom;
+  vertical-align: text-top;
 }
 
 /**
