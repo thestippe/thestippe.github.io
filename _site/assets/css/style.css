@@ -473,20 +473,18 @@ table td {
 }
 
 .emphbox {
-  # background-color: ivory;
   padding: 25px;
-  # border: 3px solid grey;
-  # border-radius: 10px;
   margin: auto;
   margin-top: 35px;
   margin-left: 40px;
   margin-bottom: 35px;
   width: 90%;
-  font-style: oblique;
+  font-style: italic;
   font-size: 120%;
   font-family: "DejaVu Sans";
-  letter-spacing: -0.5px;
+  letter-spacing: -0.2px;
   color: #405059;
+  align: right;
 }
 
 table {
@@ -494,7 +492,7 @@ table {
   align: center;
   margin-top: 40px;
   margin-bottom: 40px;
-  margin-left: 40px;
+  margin-left: 0px;
 }
 
 /**
@@ -843,7 +841,7 @@ table {
 }
 html, body, form, fieldset, table, tr, td, img {
   font-size: 100%;
-  font-family: "DejaVu Serif", serif;
+  font-family: "DejaVu Sans", serif;
 }
 
 body {

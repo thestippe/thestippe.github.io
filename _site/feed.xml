@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-01T13:22:18+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-03T09:48:07+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
 suitable way to tackle your problem is not always easy.
 This is the case of the challenge launched by Sarah Leo, a visual data journalist
 working at the Economist in <a href="https://medium.economist.com/mistakes-weve-drawn-a-few-8cdd8a42d368">this post</a>.</p>
@@ -142,15 +142,18 @@ The main things I’d like to stress you about are the following:</p>
 </div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/redesign/" /><summary type="html"><![CDATA[How to tackle real life dataviz problems]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The Gestalt principles</title><link href="http://localhost:4000/gestalt/" rel="alternate" type="text/html" title="The Gestalt principles" /><published>2023-11-07T00:00:00+01:00</published><updated>2023-11-07T00:00:00+01:00</updated><id>http://localhost:4000/gestalt</id><content type="html" xml:base="http://localhost:4000/gestalt/"><![CDATA[<!-- Load d3.js -->
 <script src="https://d3js.org/d3.v5.js"></script>
 
-<p>Gestalt principles are largely used in design
-in order to convey grouping among items in 
+<p>Gestalt principles are widely used in design in order to convey grouping among items in 
 a visualization.
-Here we will discuss them in order to understand
-how to leverage them in dataviz.</p>
+Here we will discuss them in order to understand how to leverage them in dataviz.</p>
+
+<p>I found many versions of the Gestalt principles online, and I collected
+and reorganized all of them as best as I could.</p>
 
 <h2 id="proximity">Proximity</h2>
 
-<p>The proximity principle states that nearby objects are perceived as a group.</p>
+<div class="emphbox">
+Nearby objects are perceived as a group.
+</div>
 
 <script src="/docs/assets/javascript/gestalt/proximity.js">
 </script>
@@ -166,14 +169,186 @@ of columns and in the third one a
 collection of rows.</p>
 
 <h2 id="similarity">Similarity</h2>
+<div class="emphbox">
+Similar objects are perceived as a group.
+</div>
+
+<script src="/docs/assets/javascript/gestalt/similarity.js">
+</script>
+
+<div id="similarity">
+</div>
+
+<p>In this case, even if our objects are equally spaced, we naturally perceive
+two groups of objects, and each group has a different color.</p>
 
 <h2 id="connection">Connection</h2>
 
-<h2 id="closure">Closure</h2>
+<div class="emphbox">
+Objects which look connected are perceived as a group.
+</div>
+
+<svg height="400" width="400">
+<rect x="100" y="100" width="100" height="100" style="fill:steelblue" /> 
+<rect x="100" y="300" width="100" height="100" style="fill:steelblue" /> 
+<rect x="300" y="100" width="100" height="100" style="fill:steelblue" /> 
+<rect x="300" y="300" width="100" height="100" style="fill:steelblue" /> 
+
+<line x1="200" y1="150" x2="300" y2="150" stroke="gray" style="stroke-width:3;" />
+<line x1="200" y1="350" x2="300" y2="350" stroke="gray" style="stroke-width:3;" />
+</svg>
+
+<p>In the above figure, according to the Gestalt principles, you should
+perceive the two squares in the first line as connected, as well
+as the two squares in the second line.
+This principle is used in many charts, like the parallel coordinates plot.</p>
 
 <h2 id="enclosure">Enclosure</h2>
 
-<h2 id="continuity">Continuity</h2>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/gestalt/" /><summary type="html"><![CDATA[How does our brain build patterns]]></summary></entry><entry><title type="html">Channel effectiveness</title><link href="http://localhost:4000/effectiveness/" rel="alternate" type="text/html" title="Channel effectiveness" /><published>2023-11-05T00:00:00+01:00</published><updated>2023-11-05T00:00:00+01:00</updated><id>http://localhost:4000/effectiveness</id><content type="html" xml:base="http://localhost:4000/effectiveness/"><![CDATA[<!-- Load d3.js -->
+<div class="emphbox">
+Objects which are enclosed within a perimeter are perceived as a group.
+</div>
+
+<svg height="500" width="500">
+<rect x="100" y="100" width="100" height="100" style="fill:steelblue" /> 
+<rect x="100" y="300" width="100" height="100" style="fill:steelblue" /> 
+<rect x="300" y="100" width="100" height="100" style="fill:steelblue" /> 
+<rect x="300" y="300" width="100" height="100" style="fill:steelblue" /> 
+
+<line x1="50" y1="50" x2="450" y2="50" stroke="gray" style="stroke-width:3;" />
+<line x1="450" y1="50" x2="450" y2="250" stroke="gray" style="stroke-width:3;" />
+<line x1="450" y1="250" x2="50" y2="250" stroke="gray" style="stroke-width:3;" />
+<line x1="50" y1="250" x2="50" y2="50" stroke="gray" style="stroke-width:3;" />
+</svg>
+
+<p>In this example, the objects enclosed within the gray lines are perceived
+as grouped together.</p>
+
+<h2 id="closure-and-continuity">Closure and continuity</h2>
+
+<div class="emphbox">
+We see complete figures even if part of the
+information is missing.
+</div>
+
+<svg id="triangle" height="400" width="400">
+<circle cx="150" cy="165" r="40" style="fill:steelblue" />
+<circle cx="200" cy="250" r="40" style="fill:steelblue" />
+<circle cx="100" cy="250" r="40" style="fill:steelblue" />
+<polygon points="150 165, 200 250, 100 250" style="fill:#fffcfa" />
+</svg>
+
+<p>In the above figure we see a triangle, even if
+there are pieces of its perimeter which
+are missing.</p>
+
+<p>The same principle also applies to lines,
+but in this case it is often called continuity
+principle.</p>
+
+<div id="continuity">
+</div>
+
+<script src="/docs/assets/javascript/gestalt/continuity.js">
+</script>
+
+<p>In this figure this principle is applied twice: we both perceive many small circles even if the lines are dashed,
+and we perceive one big circle even if there is no circle drawn.</p>
+
+<h2 id="figure-ground">Figure-ground</h2>
+
+<div class="emphbox">
+When we look at objects in one image, we wither instinctively identify them
+as foreground or as background.
+</div>
+
+<p><img src="/docs/assets/images/gestalt/Cup_or_faces_paradox.svg" alt="" /></p>
+
+<p><br /></p>
+
+<p>The Rubin vase is a common example of this principle,
+where one either identifies two faces or a vase, and switching between
+one idea and the other is rather difficult.</p>
+
+<p>This fact is related to the following principle</p>
+
+<h2 id="multistability">Multistability</h2>
+
+<div class="emphbox">
+When an image has more than one interpretation, we cannot
+see more than one simultaneously.
+</div>
+
+<p>Switching between different interpretations is called multistability.</p>
+
+<h2 id="invariance">Invariance</h2>
+
+<div class="emphbox">
+We are able to recognize objects even if they are deformed or rotated.
+</div>
+
+<p><img src="/docs/assets/images/gestalt/captcha.svg" alt="" /></p>
+
+<p>This principle is the one leveraged by captchas.</p>
+
+<h2 id="continuation">Continuation</h2>
+
+<div class="emphbox">
+When two or more objects are intersecting we perceive each of them 
+as uninterrupted.
+</div>
+
+<svg height="300" width="400">
+<g transform="rotate(45 110 200)">
+<rect x="100" y="100" height="200" width="20" style="fill:crimson" />
+</g>
+
+<g transform="rotate(-45 110 200)">
+<rect x="100" y="100" height="200" width="20" style="fill:steelblue" />
+</g>
+</svg>
+
+<p><br /></p>
+
+<p>We perceive the above objects as a blue bar and a red bar,
+despite the fact that what we actually see are a blue bar and two
+red bars.</p>
+
+<h2 id="symmetry">Symmetry</h2>
+
+<div class="emphbox">
+When there is a lack of symmetry, our attention is attracted by it.
+</div>
+
+<svg height="400" width="700">
+<rect x="100" y="100" width="80" height="80" style="fill:crimson" /> 
+<rect x="200" y="100" width="80" height="80" style="fill:crimson" /> 
+<rect x="300" y="100" width="80" height="80" style="fill:crimson" /> 
+<rect x="400" y="100" width="80" height="80" style="fill:crimson" /> 
+<rect x="500" y="100" width="80" height="80" style="fill:green" /> 
+</svg>
+
+<p>In the previous image, your eye will probably fall
+on the green square, as it looks different from
+the other squares.</p>
+
+<h2 id="common-fate">Common fate</h2>
+
+<div class="emphbox">
+Objects that point to (or appear to be moving in) the same direction at the same
+speed are perceived as a group.
+</div>
+
+<div id="fate">
+</div>
+
+<script src="/docs/assets/javascript/gestalt/fate.js">
+</script>
+
+<p>In the above example, one can clearly distinguish a group
+as the circles moving together around a same point.</p>
+
+<p>Notice that we don’t need them to actually move.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/gestalt/" /><summary type="html"><![CDATA[How does our brain build patterns]]></summary></entry><entry><title type="html">Channel effectiveness</title><link href="http://localhost:4000/effectiveness/" rel="alternate" type="text/html" title="Channel effectiveness" /><published>2023-11-05T00:00:00+01:00</published><updated>2023-11-05T00:00:00+01:00</updated><id>http://localhost:4000/effectiveness</id><content type="html" xml:base="http://localhost:4000/effectiveness/"><![CDATA[<!-- Load d3.js -->
 <script src="https://d3js.org/d3.v5.js"></script>
 
 <p>When we have been talking about <a href="/marks-channels">marks and channels</a>
