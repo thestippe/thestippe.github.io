@@ -236,12 +236,6 @@ h5 {
     margin-left: -40px;
     margin-right: 50px;
   }
-  #navlink {
-    align-items: end;
-    margin-left: 15px;
-    margin-right: 20px;
-    float: right;
-  }
 }
 nav {
   font-family: "Gotham", "Metropolis";
@@ -876,5 +870,3 @@ body {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
-/*# sourceMappingURL=style.css.map */
