@@ -4,6 +4,7 @@ title: "Data abstraction"
 categories: /dataviz/
 tags: /data-types/
 description: "Thinking about data"
+image: "/docs/assets/images/data_types/chart.png"
 ---
 
 Data can come into many different flavors, and in this post we will take a look at how
@@ -85,6 +86,7 @@ While ratio attributes are:
 - Any percentage
 - Earnings (where negative earning means loss)
 
+![](/docs/assets/images/data_types/chart.png)
 
 Moreover, we can also classify any ordered attribute attribute depending on the possible range of values it can take.
 - A **sequential** attribute is an attribute which can take any value between a minimum and a maximum. Examples of sequential attributes are the day of the week as well as height or weight.

@@ -24,6 +24,7 @@ layout: base
             {%- if forloop.last == false %}, {% endif -%}
         {% endfor %}
       {%- endif -%}</p>
+    <p class="post-meta"> Reading time: {% include reading_time.html %}</p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
