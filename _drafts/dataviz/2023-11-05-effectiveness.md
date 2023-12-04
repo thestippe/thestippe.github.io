@@ -3,6 +3,7 @@ layout: post
 title: "Channel effectiveness"
 categories: /dataviz/
 tags: /effectiveness/
+image: "/docs/assets/images/effectiveness/effectiveness.png"
 description: "Quantifying the goodness of a channel to show an information"
 ---
 

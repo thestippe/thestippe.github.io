@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-04T07:36:02+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-04T12:32:42+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
 suitable way to tackle your problem is not always easy.
 This is the case of the challenge launched by Sarah Leo, a visual data journalist
 working at the Economist in <a href="https://medium.economist.com/mistakes-weve-drawn-a-few-8cdd8a42d368">this post</a>.</p>
@@ -139,7 +139,7 @@ The main things I’d like to stress you about are the following:</p>
       <p>I preferred this color scheme with respect to the more common red-blue one because I found easier to infer if a value close to 0.5 was slightly above or below 0.5. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/redesign/" /><summary type="html"><![CDATA[How to tackle real life dataviz problems]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The Gestalt principles</title><link href="http://localhost:4000/gestalt/" rel="alternate" type="text/html" title="The Gestalt principles" /><published>2023-11-07T00:00:00+01:00</published><updated>2023-11-07T00:00:00+01:00</updated><id>http://localhost:4000/gestalt</id><content type="html" xml:base="http://localhost:4000/gestalt/"><![CDATA[<!-- Load d3.js -->
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/redesign/" /><summary type="html"><![CDATA[How to tackle real life dataviz problems]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The Gestalt principles</title><link href="http://localhost:4000/gestalt/" rel="alternate" type="text/html" title="The Gestalt principles" /><published>2023-11-07T00:00:00+01:00</published><updated>2023-11-07T00:00:00+01:00</updated><id>http://localhost:4000/gestalt</id><content type="html" xml:base="http://localhost:4000/gestalt/"><![CDATA[<!-- Load d3.js -->
 <script src="https://d3js.org/d3.v5.js"></script>
 
 <p>Gestalt principles are widely used in design in order to convey grouping among items in 
@@ -348,7 +348,7 @@ speed are perceived as a group.
 <p>In the above example, one can clearly distinguish a group
 as the circles moving together around a same point.</p>
 
-<p>Notice that we don’t need them to actually move.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/gestalt/" /><summary type="html"><![CDATA[How does our brain build patterns]]></summary></entry><entry><title type="html">Channel effectiveness</title><link href="http://localhost:4000/effectiveness/" rel="alternate" type="text/html" title="Channel effectiveness" /><published>2023-11-05T00:00:00+01:00</published><updated>2023-11-05T00:00:00+01:00</updated><id>http://localhost:4000/effectiveness</id><content type="html" xml:base="http://localhost:4000/effectiveness/"><![CDATA[<!-- Load d3.js -->
+<p>Notice that we don’t need them to actually move.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/gestalt/" /><summary type="html"><![CDATA[How does our brain build patterns]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gestalt/Cup_or_faces_paradox.svg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gestalt/Cup_or_faces_paradox.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Channel effectiveness</title><link href="http://localhost:4000/effectiveness/" rel="alternate" type="text/html" title="Channel effectiveness" /><published>2023-11-05T00:00:00+01:00</published><updated>2023-11-05T00:00:00+01:00</updated><id>http://localhost:4000/effectiveness</id><content type="html" xml:base="http://localhost:4000/effectiveness/"><![CDATA[<!-- Load d3.js -->
 <script src="https://d3js.org/d3.v5.js"></script>
 
 <p>When we have been talking about <a href="/marks-channels">marks and channels</a>
@@ -495,7 +495,7 @@ of a visualization.
 If you want to precisely compare values, you
 should probably favour more accurate channels,
 while if you want to check if your
-clustering algorithm is doing its job, then you should consider using channels where grouping is easier.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/effectiveness/" /><summary type="html"><![CDATA[Quantifying the goodness of a channel to show an information]]></summary></entry><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a <a href="/fundamental-charts">previous post</a> we saw some of the most fundamental charts,
+clustering algorithm is doing its job, then you should consider using channels where grouping is easier.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/effectiveness/" /><summary type="html"><![CDATA[Quantifying the goodness of a channel to show an information]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/effectiveness/effectiveness.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/effectiveness/effectiveness.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Evolutions of the line chart</title><link href="http://localhost:4000/linechart-evolution/" rel="alternate" type="text/html" title="Evolutions of the line chart" /><published>2023-11-03T00:00:00+01:00</published><updated>2023-11-03T00:00:00+01:00</updated><id>http://localhost:4000/linechart-evolution</id><content type="html" xml:base="http://localhost:4000/linechart-evolution/"><![CDATA[<p>In a <a href="/fundamental-charts">previous post</a> we saw some of the most fundamental charts,
 which are the basic building blocks for data visualization.</p>
 
 <p>Datasets can become very complex, and you should adapt your data visualization
@@ -596,7 +596,7 @@ for a set of categories.
 Faceting can be combined with anyone of the visualizations we have previous discussed, while stacking can 
 only be applied to bar chart or line chart.
 Finally, we have seen the streamgraph,
-which uses an alternative way of stacking the lines.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
+which uses an alternative way of stacking the lines.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
 images.
 Typically the human eye can detect light in the range of wavelengths going
 from 380 nanometers (violet) to 700 nanometers (red).
@@ -769,7 +769,7 @@ effects.</p>
 
 <script src="/docs//assets/javascript/perception/preattentive_size.js"> </script>
 
-<script src="/docs/assets/javascript/perception/combined_chart.js"> </script>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<!-- Load d3.js -->
+<script src="/docs/assets/javascript/perception/combined_chart.js"> </script>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<!-- Load d3.js -->
 <script src="https://d3js.org/d3.v5.js"></script>
 
 <p>In this post we will take a look at some of the most fundamental charts
@@ -901,408 +901,7 @@ time I lived in each location.</p>
       <p>Well, to be honest this post is also an excuse to try and see how to draw charts with <a href="https://d3js.org/">D3.js</a>, and up to the moment it looks an amazing tool! <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/fundamental_charts/" /><summary type="html"><![CDATA[An overview to some of the most common data visualizations]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/charts/charttypes.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/charts/charttypes.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Beer and the Beta-Binomial model</title><link href="http://localhost:4000/beta-binom/" rel="alternate" type="text/html" title="Beer and the Beta-Binomial model" /><published>2023-10-22T00:00:00+02:00</published><updated>2023-10-22T00:00:00+02:00</updated><id>http://localhost:4000/beta-binom</id><content type="html" xml:base="http://localhost:4000/beta-binom/"><![CDATA[<p>I love beer, and whenever I have a free day I brew. As you probably know, beer is made
-with water, malt, hop and yeast. One of the most important things to do in order
-to produce a good beer is to have a good quality yeast, and one of the metrics
-used to quantify the goodness of the yeast is the <strong>yeast viability</strong>, which corresponds to the percentage of alive cells in your yeast.
-This procedure is time consuming, as you must count by hand the number of dead
-and alive cells in a sample, so it is usually performed with small samples. It is therefore important to quantify the uncertainties in your estimate.</p>
-
-<p>Unfortunately, most home-brew textbooks will only give you a way to
-estimate the mean yeast viability, and you may get fooled by your count and think that
-you are working with a good yeast while you simply overestimated the yeast viability.
-If you want to know more about how to experimentally count the yeast cells,
-you can take a look to <a href="https://escarpmentlabs.com/blogs/resources/crop-pray-count-yeast-counting-guide">this</a>
-link, where the procedure to count the yeast cells is illustrated.</p>
-
-<p>In the standard procedure, one has a $5\times 5$ grid and one counts the alive
-cells and the death ones, where one can distinguish the cells thanks to the
-Trypan Blu which will color the death cells.
-A simulated example of what one will see is shown below:</p>
-
-<p><img src="/docs/assets/images/beta_binom/yeast_count.jpg" alt="Alt text" /></p>
-
-<p>Since counting all the cells would require a lot of time, one usually counts
-five well separated squares, usually the four corner squares and the center one.
-In the figure shown above:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>square</th>
-      <th>alive</th>
-      <th>death</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>top left</td>
-      <td>15</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>top right</td>
-      <td>11</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>bottom left</td>
-      <td>10</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>bottom right</td>
-      <td>14</td>
-      <td>2</td>
-    </tr>
-    <tr>
-      <td>center</td>
-      <td>22</td>
-      <td>1</td>
-    </tr>
-    <tr>
-      <td><strong>total</strong></td>
-      <td>72</td>
-      <td>9</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Let us see how can we estimate the viability.
-In the following, we will indicate with $n_a$ the number of alive cells (which is 72)
-and with $n_d$ the number of death cells (9).
-In order to do this, let us first open our Jupyter notebook, import some libraries
-and define the data</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
-<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
-
-<span class="c1"># Let us improve the graphics a little bit
-</span><span class="n">plt</span><span class="p">.</span><span class="n">style</span><span class="p">.</span><span class="nf">use</span><span class="p">(</span><span class="sh">"</span><span class="s">seaborn-v0_8-darkgrid</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="n">cmap</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="nf">color_palette</span><span class="p">(</span><span class="sh">"</span><span class="s">rocket</span><span class="sh">"</span><span class="p">)</span>
-
-<span class="c1"># For reproducibility
-</span><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="n">alive</span> <span class="o">=</span> <span class="mi">72</span>
-<span class="n">death</span> <span class="o">=</span> <span class="mi">9</span>
-<span class="n">total</span> <span class="o">=</span> <span class="n">alive</span> <span class="o">+</span> <span class="n">death</span>
-</code></pre></div></div>
-
-<h2 id="the-home-brewers-textbook-way">The home-brewer’s textbook way</h2>
-<p>The home-brewer’s solution is fast and simple: if we have 72
-alive cells out of 81 cells, then the probability of having
-and alive cell is simply</p>
-
-\[\theta_{hb} = \frac{n_a}{n_a + n_d}\]
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">theta_hb</span> <span class="o">=</span> <span class="n">alive</span> <span class="o">/</span> <span class="n">total</span>
-</code></pre></div></div>
-<blockquote>
-  <p>0.88889</p>
-</blockquote>
-
-<p>This is a quick solution, however we cannot associate any uncertainty to this number
-for the moment.</p>
-
-<h2 id="the-frequentist-statisticians-way">The frequentist statistician’s way</h2>
-
-<p>A frequentist statistician would first of all setup a model for this problem.
-The state of each cell can take two values:</p>
-
-\[y_i = 
-\begin{cases}
-1 \text{ (alive) } &amp; \text{ with probability } \theta \\
-0 \text{ (death) } &amp; \text{ with probability } 1-\theta
-\end{cases}\]
-
-<p>If we assume that the probability of being alive of each cell is independent on the probability of the remaining cells
-of being alive and that the probability is the same for each cell, we have that the probability of finding $y$ alive cells out of $n$ total counted cells must follow a binomial distribution:</p>
-
-\[p(y|p, n) \propto \theta^{y} (1-\theta)^{n-y}\]
-
-<p>which can be written as</p>
-
-\[y \sim Binomial(\theta, n)\]
-
-<p>where the binomial distribution has probability mass</p>
-
-\[p(y | p, n) = \binom{n}{y} \theta^y (1-\theta)^{n-y}\]
-
-<p>and</p>
-
-\[y = \sum_{i=1}^n y_i\]
-
-<p>and $ \binom{n}{y} = \frac{n!}{y!(n-y)!}$ is a multiplicative normalization factor.
-Once the model is built, we want to find $p$ such that the $p(y | \theta, n)$ is maximum, namely the <em>Maximum Likelihood Estimator</em> or MLE for the
-sake of brevity.
-$p(y | p, n)$ is a positive quantity for $\theta \in (0, 1)$, and this allows us to take its logarithm, which is a monotone increasing function, and 
-this implies that the maximum of $\log p$ is the maximum of $p\,.$</p>
-
-\[\log p(y | \theta, n) \propto y \log \theta + (n-y) \log(1-\theta)\]
-
-\[\frac{\partial \log p(y | \theta, n)}{\partial \theta} = \frac{y}{\theta} + \frac{n-y}{\theta-1}\]
-
-\[\left. \frac{\partial \log p(y | \theta, n)}{\partial \theta}\right|_{\theta=\hat{\theta}} = 0 \Rightarrow \frac{y}{\hat{\theta}} = \frac{n-y}{1-\hat{\theta}} \Rightarrow \hat{\theta}(n-y) = (1-\hat{\theta}) y
-\Rightarrow \hat{\theta} n = y\]
-
-<p>Which gives us, again, $\hat{\theta} = \frac{y}{n}\,,$ which is the same value that we got by using the home-brewer textbook’s way.</p>
-
-<p>We can easily verify that it is a maximum:</p>
-
-\[\frac{\partial^2 \log p(y | \theta, n)}{\partial \theta^2} = -(n - y)/(\theta - 1)^2 - y/\theta^2\]
-
-\[\left. \frac{\partial^2 \log p(y | \theta, n)}{\partial \theta^2}\right|_{\theta=\hat{\theta}} =
--\frac{n^3}{y (n - y) }\]
-
-<p>and the last quantity is always negative, for $0&lt;y&lt;n\,.$</p>
-
-<p>The frequentist statistician, however, knows that his estimate for the alive cell
-fraction is not exact, and he would like to provide an uncertainty interval
-associated to the estimate.
-He can use the central limit theorem, which says that, if $n$ is large, then the binomial distribution can be approximated with the normal distribution
-with the same mean and variance of the binomial distribution, which corresponds to $\mu = n\hat{\theta}$ and $\sigma^2= n\hat{\theta}(1-\hat{\theta})\,.$
-He would use this theorem to provide the $95\%$ Confidence Interval for this distribution.</p>
-
-<p>For a normal distribution with mean $\mu$ and variance $\sigma$ the $95\%$ CI
-is given by</p>
-
-\[\mu \pm z_{1-0.05/2}\sigma\]
-
-<p>where $z_{1-0.05/2}=1.96$ is the $0.975$ normal quantile.
-So we can easily obtain the $95\%$ confidence interval for $\theta$ as</p>
-
-\[\frac{\mu \pm \sigma}{n} = \hat{\theta} \pm  z_{1-0.05/2} \sqrt{\frac{\hat{\theta}(1-\hat{\theta})}{n}} 
- = \hat{\theta} \pm  1.96 \sqrt{\frac{\hat{\theta}(1-\hat{\theta})}{n}}  = [0.84, 0.94]\]
-
-<p>The calculation is quite straightforward, but one should pay a lot of attention in giving the correct interpretation to this interval.
-In the frequentist paradigm, one imagines to repeat the experiment many times, and what one can say is that, by doing this,
-if the confidence interval is constructed with the procedure given above, in the $95\%$ of the repetitions it will contain the true
-fraction of alive cells.
-However, it doesn’t tell us anything about the confidence we have that the fraction of alive cells is in the interval $[0.84, 0.94]\,.$</p>
-
-<p><strong>For the frequentist statistician, the probability that the true value lies inside [0.84, 0.94] is either 1 if it is inside 
-or 0 if it is not inside, but he cannot say which one is correct!</strong></p>
-
-<p>This fact is often misinterpreted, even by many researchers and data scientists.</p>
-
-<h2 id="the-bayesian-rookies-way">The Bayesian rookie’s way</h2>
-
-<p>The Bayesian statistician would take the same likelihood for the model, however in his framework the parameter $\theta$ is
-simply another random variable, and it is described by some other probability distribution $p(\theta)$ namely by the <strong>prior</strong> associated
-to the parameter $\theta\,.$</p>
-
-<p>$\theta$ can take any value between 0 and 1, but he has no preference about any value, so he assumes that $\theta$ is distributed
-according to the uniform distribution over $[0, 1]\,.$</p>
-
-\[\theta \sim Uniform(0, 1)\]
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">beta_binom_model</span><span class="p">:</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Uniform</span><span class="p">(</span><span class="sh">'</span><span class="s">theta</span><span class="sh">'</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Binomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">total</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">alive</span><span class="p">)</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/beta_binom/trace_bb.jpg" alt="Alt text" /></p>
-
-<p>He used PyMC to sample $p$ many times according to its posterior probability distribution,
-obtained by using the Bayes theorem</p>
-
-\[p(\theta | y, n) \propto p(y | \theta, n) p(\theta)\]
-
-<p>and the sampled values are those shown in the figure.
-The details about how does PyMC’s sampler works will be explained in a future post,
-as well as the main methods to exclude problems in the sampling procedure.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_posterior</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/beta_binom/posterior_bb.jpg" alt="Alt text" /></p>
-
-<p>We can see that the mean is very close to the MLE value, and the (Bayesian)
-$95\%$ CI (which corresponds to the two printed numbers) is close to
- the frequentist one too.
-However in this case the interpretation is straightforward:</p>
-
-<p><strong>the Bayesian statistic simply updated his/her initial guess for $p$ by means of Bayes’ theorem.</strong></p>
-
-<p>For the Bayesian statistician there is the $95\%$ of chance that the true
-value of $p$ lies inside the $95\%$ CI associated to $\theta$.</p>
-
-<p>Another major advantage of the Bayesian approach is that we did not had to rely
-on the Central Limit Theorem, which only holds if the sample is large enough.
-The Bayesian approach is always valid, regardless on the size of the sample.</p>
-
-<h2 id="the-wise-bayesians-way">The wise Bayesian’s way</h2>
-
-<p>The wise Bayesian would follow an analogous procedure, he would however
-take the less informative prior as possible, where a strongly informative
-prior is a prior which influences a lot the posterior probability distribution.
-The uniform distribution is not a very informative distribution.
-However, as we will show, we can even choose a less informative prior, namely
-the <strong>Jeffreys’ prior</strong> for the binomial distribution</p>
-
-\[\theta \sim Beta(1/2, 1/2)\]
-
-<p>where the Beta has pdf</p>
-
-\[p(\theta | \alpha, \beta) = \frac{1}{B(\alpha, \beta) } \theta^\alpha (1-\theta)^\beta\]
-
-<p>and $B(x, y)$ is the Beta function.
-However, he knows he knows he must pay a lot of attention, as often -but not
-in this case- the Jeffreys’ prior is not a proper prior
-(it cannot be integrated to one) <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">beta_binom_model_wise</span><span class="p">:</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Beta</span><span class="p">(</span><span class="sh">'</span><span class="s">theta</span><span class="sh">'</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Binomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">total</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">alive</span><span class="p">)</span>
-    <span class="n">trace_wise</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_wise</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/beta_binom/trace_bb_wise.jpg" alt="Alt text" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_posterior</span><span class="p">(</span><span class="n">trace_wise</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/beta_binom/posterior_bb_wise.jpg" alt="Alt text" /></p>
-
-<p>As we can see, this result is almost identical to the previous one.
-In the Bayesian framework one can, and should, investigate the goodness
-of his results by trying out different priors and assess how
-much does the results on his/her inference depend on the choice of the priors.</p>
-
-<h2 id="conclusions-and-take-home-message">Conclusions and take-home message</h2>
-
-<ul>
-  <li>PyMC allows you to easily implement Bayesian models.</li>
-  <li>In many cases Bayesian statistics offers results which are more transparent than their frequentist counterparts. We have seen this for a very simple model, but this becomes even more evident as the complexity of the model grows.</li>
-  <li>You can apply Bayesian statistics to any kind of problem, even home-brewing!</li>
-</ul>
-
-<p>In the <a href="/count/">next</a> example we will apply Bayesian statistics to study
-data which can take more than two values.</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:1" role="doc-endnote">
-      <p>This topic will be discussed in a future post. For the moment, if you are curious, you can take a look at the <a href="https://en.wikipedia.org/wiki/Jeffreys_prior#">Wikipedia</a> page. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="course/intro/" /><category term="/beta-binom/" /><summary type="html"><![CDATA[How to describe dichotomous variables]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/beta_binom/bar-209148_960_720.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/beta_binom/bar-209148_960_720.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Why (and when) should you go for Bayesian</title><link href="http://localhost:4000/intro-when-go-bayesian/" rel="alternate" type="text/html" title="Why (and when) should you go for Bayesian" /><published>2023-10-20T00:00:00+02:00</published><updated>2023-10-20T00:00:00+02:00</updated><id>http://localhost:4000/intro-when-go-bayesian</id><content type="html" xml:base="http://localhost:4000/intro-when-go-bayesian/"><![CDATA[<p>I feel I am quite a pragmatic person, so I prefer choosing my tools depending on my needs rather than by relying on some personal believes.
-Bayesian statistics allows you to build custom and structured models by simply specifying the data generating process.
-The model can be divided into two parts:</p>
-<ul>
-  <li>The likelihood $p(y \vert \theta)$, which determines how the data you want to model $y$ are generated given the parameter(s) $\theta$.</li>
-  <li>The priors $p(\theta)$, which specifies your initial hypothesis about the distribution of the parameters of the model.</li>
-</ul>
-
-<p>The only mathematical requirements for both the likelihood and for the priors is that they are non-negative and sum up to one.
-There is a huge literature about the model building, and you can easily start by using one of the already available models and adapt it
-to your problem.</p>
-
-<p>Once that the model is specified you can use $PyMC$ or any other Probabilistic Programming Language
-sample the entire posterior probability distribution,
-which is determined by means of Bayes theorem.</p>
-
-\[p(\theta \vert y) = \frac{p(y \vert \theta) p(\theta)}{p(y)} \propto  p(y \vert \theta) p(\theta)\]
-
-<p>Here $\propto$ means proportional to, which means equal up to some multiplicative positive constant,
-where by constant we mean independent on $\theta$.
-The constant $p(y)$ can be fixed by requiring that $p(\theta \vert y)$ is normalized to one:</p>
-
-\[1 = \int d\theta p(\theta | y) = \frac{1}{p(y)}\int d\theta p(y \vert \theta) p(\theta)\]
-
-<p>so</p>
-
-\[p(y) = \int d\theta p(y|\theta)p(\theta)\,.\]
-
-<p>The fact that you sample the entire probability distribution $p(\theta \vert y)$
-makes Bayesian statistics very attractive if you are building a statistical
-model to make a decision, as you can easily make inference about any kind of quantity
-regarding your model.
-This is rarely possible if you only have a point estimate or an interval estimate, as it happens in Machine Learning.</p>
-
-<p>Moreover, Bayesian statistics is easily interpretable: what you are doing
-is simply to use the data to update your initial believes.
-In fact, in the Bayesian interpretation, $p(\theta)$ represents your opinion about the possible
-values that $\theta$ may take before you make an experiment and observe $y\,.$
-On the other hand $p(\theta \vert y)$ represents your updated opinion about the value of $\theta$
-after the experiment.</p>
-
-<p>So why is not everyone using it? In my experience there are multiple reasons, some of them
-are historical, others are more pragmatic.</p>
-
-<p>First of all, the possibility to easily implement a numerical simulation
-and to run it within a reasonable amount of time is relatively recent and not
-yet spread outside the statistical community.
-Bayesian statistics was the only available framework up to the end of the nineteenth 
-century, and in has been largely abandoned at the beginning of the last century,
-when Fisher and his collaborators developed frequentist statistics.
-People in fact considered Bayesian statistics very difficult,
-as the normalization factor $p(y)$
-can only be computed for a very limited number of models
-(the so-called <em>conjugate</em> models).
-De Finetti, Savage, Jeffreys and others tried to convince
-people to abandon the frequentist framework as they did not considered the
-frequentist interpretation satisfactory, but they never managed to convince
-the majority of the community.
-Things changed when, during the Manhattan project, Metropolis, Von Neumann, Ulam and
-others invented the
-Markov Chain Monte Carlo methods, and this allowed physicists and later statisticians
-too to 
-draw random samples from an arbitrary probability distribution.
-Moreover, nowadays, the misuse and misinterpretation of tools of frequentist statistics is considered 
-one of the main reason for the so-called <em>reproducibility crisis in science</em>
-and a <strong>proper</strong> use of Bayesian methods is considered a valid alternative to those
-tools <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup> <sup id="fnref:3" role="doc-noteref"><a href="#fn:3" class="footnote" rel="footnote">3</a></sup>.
-Of course, Bayesian statistics can be misused too, but there are few very clear guidelines from the academic community which will make this less likely to happen.
-Moreover, in most cases, a problem in your model will show up in a problem in your simulation, and this makes Bayesian inference less error-prone than frequentist inference.
-In fact, when talking about frequentist statistics or machine learning, most of the time what you are computing
-is either an optimization problem or the average of some quantity.
-Since what you obtain from this kind of procedure is a number rather than a sample,
-in this kind of task may be quite hard to spot.</p>
-
-<p>However, the major practical drawback of Bayesian statistics is that you need to run your
-simulation thousands of times, and this may take some time if the number
-of parameters in your model is large.
-Thus, I do not reccomend you to use Bayesian statistics if your task is a simple
-and fast fit-predict problem.</p>
-
-<p>There is another drawback, and this is where these notes come into play:
-building a model without a basic knowledge about model building and assessment
-is not an easy task. There are many beautiful online courses about Bayesian
-statistics in R, which is the most common programming language between statisticians.
-The choice of the programming language implies that either you already know R, or you need to learn Bayesian
-statistics <em>and</em> R.
-This blog is written to make this task simpler for anyone who has a basic knowledge
-about Python, and since Python is the most widely spread programming language
-in the World, I hope I will help a lot of people.</p>
-
-<p>I hope you enjoyed,</p>
-
-<p>Stefano</p>
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:1" role="doc-endnote">
-      <p>This is somehow a misleading name, as this crisis is not only affecting academia, but it is a problem in industry too. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:2" role="doc-endnote">
-      <p>See <a href="https://www.nature.com/articles/533452a">this article on Nature</a> <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:3" role="doc-endnote">
-      <p>See <a href="https://www.nature.com/articles/520612a">this other article of Nature</a> <a href="#fnref:3" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><summary type="html"><![CDATA[Because there is no silver bullet]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/intro/doubt.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/intro/doubt.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Marks and channels</title><link href="http://localhost:4000/marks-channels/" rel="alternate" type="text/html" title="Marks and channels" /><published>2023-10-14T00:00:00+02:00</published><updated>2023-10-14T00:00:00+02:00</updated><id>http://localhost:4000/marks-channels</id><content type="html" xml:base="http://localhost:4000/marks-channels/"><![CDATA[<p>When we build a data visualization we are building vocabulary
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/fundamental_charts/" /><summary type="html"><![CDATA[An overview to some of the most common data visualizations]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/charts/charttypes.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/charts/charttypes.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Marks and channels</title><link href="http://localhost:4000/marks-channels/" rel="alternate" type="text/html" title="Marks and channels" /><published>2023-10-14T00:00:00+02:00</published><updated>2023-10-14T00:00:00+02:00</updated><id>http://localhost:4000/marks-channels</id><content type="html" xml:base="http://localhost:4000/marks-channels/"><![CDATA[<p>When we build a data visualization we are building vocabulary
 to translate our data into a message, and this vocabulary can be decomposed in 
 a certain number of elements.
 We always do that, even if you may not conscious about it.
@@ -1532,7 +1131,7 @@ Review critically
       <p>The ticks are the graphical components that are used to mark the values of the axis. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/marks-channels/" /><summary type="html"><![CDATA[The building blocks of data visualization]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/markers_channels/markers.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/markers_channels/markers.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Data abstraction</title><link href="http://localhost:4000/data-types/" rel="alternate" type="text/html" title="Data abstraction" /><published>2023-10-13T00:00:00+02:00</published><updated>2023-10-13T00:00:00+02:00</updated><id>http://localhost:4000/data-types</id><content type="html" xml:base="http://localhost:4000/data-types/"><![CDATA[<p>Data can come into many different flavors, and in this post we will take a look at how
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/marks-channels/" /><summary type="html"><![CDATA[The building blocks of data visualization]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/markers_channels/markers.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/markers_channels/markers.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Data abstraction</title><link href="http://localhost:4000/data-types/" rel="alternate" type="text/html" title="Data abstraction" /><published>2023-10-13T00:00:00+02:00</published><updated>2023-10-13T00:00:00+02:00</updated><id>http://localhost:4000/data-types</id><content type="html" xml:base="http://localhost:4000/data-types/"><![CDATA[<p>Data can come into many different flavors, and in this post we will take a look at how
 we can classify them depending on their qualities and on our previous knowledge.</p>
 
 <p>In the simplest case our dataset will consist into a collection of
@@ -1722,4 +1321,170 @@ whether they have some special connotation.
 Here we have seen how to determine the attribute type and the most
 common attribute semantic.
 In the next post we will discuss some of the most common visualizations
-associated with each data type.</p>]]></content><author><name>Stippe</name><email>smaurizio87@protonmail.com</email></author><category term="/dataviz/" /><category term="/data-types/" /><summary type="html"><![CDATA[Thinking about data]]></summary></entry></feed>
+associated with each data type.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/data-types/" /><summary type="html"><![CDATA[Thinking about data]]></summary></entry><entry><title type="html">Data visualization</title><link href="http://localhost:4000/dataviz/" rel="alternate" type="text/html" title="Data visualization" /><published>2023-10-11T00:00:00+02:00</published><updated>2023-10-11T00:00:00+02:00</updated><id>http://localhost:4000/dataviz</id><content type="html" xml:base="http://localhost:4000/dataviz/"><![CDATA[<p>I started to plot data since many years, but only few months ago I really went into
+data visualization (or dataviz, if you prefer).
+I attended some Coursera course of prof. Enrico Bertini, who also has a very interesting
+podcast named <a href="https://datastori.es/">Data Stories</a> together with Moritz Stefaner (who is the author, among the other things,
+of some of my favourite illustrations on Scientific American).
+The course allows you design and decide what is the best data visualization by
+starting from what is currently known about our brain’s processes in visual perception.</p>
+
+<p>Since I discovered this research field I started reading books talking about this field,
+and I began with the ones written written by the data visualization pioneer <a href="https://it.wikipedia.org/wiki/Edward_Tufte">Edward Tufte</a>.</p>
+
+<p>I would like to share some (hopefully intelligent) though about data visualization.
+Moreover, as Tufte himself wrote in his book Beautiful Evidence, “as teachers know, a very good way to learn something is to teach it”, so let’s try.</p>
+
+<h2 id="data-visualization-in-the-scientific-process">Data visualization in the scientific process</h2>
+<p>Data visualization plays a major role in most phases of the scientific processes:</p>
+<ul>
+  <li>In the exploratory phase, when one wants to understand the structure of the data and find recurrent patterns</li>
+  <li>During the model building, when one wants to compare the model with the data</li>
+  <li>When presenting the results to the audience</li>
+</ul>
+
+<p>Here we will mostly talk about the second case, named <strong>explanatory</strong> data visualization.</p>
+
+<p>Let us first clarify that, although you will be tempted to use the figures from the first phases in the last phase, you shouldn’t
+do that.
+In the first phases what you are trying to do is to understand something by scraping the data and looking at the data from different
+perspectives.
+On the other hand, the aim of the last phase is to summarize what you found by using data visualization.
+Since you have two different objectives, you should consider using different tools and languages to do that, and the (graphical)
+language you should use in the last phase strongly depends on your audience.</p>
+
+<p>When trying to understand the structure of your data, any quantitative assessment will be helpful, while you won’t likely
+put annotations on your plots.
+If you want your audience to easily catch some particular message from your data, annotations may be helpful,
+and maybe the audience you are presenting your data to is not able to give a broader context to the numerical values of the data,
+so adding the ticks may be superfluous.</p>
+
+<p>Moving the axis away from zero in the exploratory phase is common if one wants to clearly spot any kind of pattern in the data,
+but doing so in the explanatory context might be dangerous, as this could be seen as an attempt to trick your audience.</p>
+
+<p>In this blog, when talking about data visualization, unless otherwise specified we will usually refer to explanatory data visualization.</p>
+
+<h2 id="why-you-should-use-it">Why you should use it</h2>
+<p>The raw form for most of the data is usually a tabular form,
+where one has a set of attributes for a given number of items.
+However we can only keep in mind a limited number of values, and typically this
+number is of the order of 10, unless you don’t rely on special techniques.</p>
+
+<div class="emphbox">
+While the tabular format is good to inspect each item's properties,
+it is hard to understand if there is
+any pattern into the data, especially if the number of items grows.
+</div>
+
+<p>One could think and rely on statistical, ML or other fancier models, but they may be misused, and 
+a model may give results which may look reasonable but are actually wrong.
+I love statistical models, but one should always ensure that the model makes sense for the dataset,
+in Bayesian statistics this is usually done by using posterior predictive checks.</p>
+
+<p>Even in a one dimensional model you may be tempted to use the mean to summarize the typical value of the data,
+but this wouldn’t makes sense at all for a multimodal distribution, and the easiest way to spot multimodality
+is to simply plot the data.</p>
+
+<p><img src="/docs/assets/images/visualization/anscombe.png" alt="The Anscombe quartet" /></p>
+
+<p>The one shown before is the celeb Anscombe quartet.
+It is a dataset composed by four different subsets of data,
+and it has been constructed to show that the same statistical model may give identical
+results for many different data.
+As you can see, the four fits are identical, but the underlying data are very different.</p>
+
+<div class="emphbox">
+Always use data visualization to make sure that the model is appropriate for your data.
+</div>
+
+<h2 id="what-do-you-risk-by-misinterpreting-the-data">What do you risk by misinterpreting the data</h2>
+<p><img src="/docs/assets/images/visualization/cat.png" alt="An image from a Computerized Axial Tomography" /></p>
+
+<p>Data visualization became a part of everyday life, but by using it
+in the wrong way one may encounter many risk.
+The above image is taken from the Wikipedia page of the CT scan,
+and it uses a very common color palette, the well known rainbow color map.
+Unfortunately, in the dataviz community, it is well known that this is
+one of the worst color map you could use when you want your
+audience to be able and quickly quantify the numerical value
+associated with the color.</p>
+
+<p>If your audience is not able to assess the numerical variation associated
+to a color variation, they may take wrong decisions such as giving the wrong
+therapy or making the wrong investment as they cannot properly
+quantify the risk.</p>
+
+<p>This is simply an example, but the more data visualization enters in our
+life, the more are the risks associated to a miscommunication problems
+due to improper visualizations.</p>
+
+<div class="emphbox">
+Data visualization is about assessing the quality of a visualization
+from a scientific point of view, and it relies on what is known about
+how our brain perceives images.
+</div>
+
+<p>In the following we will give an overview about this topic, but the reader
+should keep in mind that this is not a blog about neuroscience, so we will
+limit our discussion to what is necessary in order to achieve our
+goal.</p>
+
+<!--
+
+Before doing so it's better to put here some vocabulary.
+
+A data visualization is first of all made by **markers**, namely the graphical
+objects that we use to represent our items.
+The most common markers are:
+- points
+- lines
+- bars
+- areas
+
+For each item we will represent some quantity, and we will do so by using one or more
+**visual channels** like:
+- position
+- size (length/width/area)
+- angle/slope
+- color hue
+- color intensity
+- shape and textures
+
+Other fundamental components of the visualization are the components which allow
+us to contextualize and interpret the visualization.
+Those components can be geometric components like axes, grids, reference lines
+but also textual components such as labels and annotations.
+
+A visual representation is a combination of such components, and you will find a huge variety visual representations,
+as there is a potentially infinite number of ways to combine these ingredients.
+So how to choose one? Which is the best?
+
+As often happens, there is not **the best** representation, as we already said elsewhere in this blog, there is no silver bullet.
+A better question is
+
+> What is the most appropriate way to visualize this aspect of the data?
+
+This of course depends on many factors, and you will often find yourself in a situation where you simply
+have to decide how to balance your needs.
+Data visualization is the discipline which wants to address to this question from a scientific perspective.
+
+I will try and share some resources about this topic in some future post, as well as to share some hopefully interesting personal thoughts.
+
+<div id="tester" style="width:900px;height:900px;"></div>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<script>
+	TESTER = document.getElementById('tester');
+	Plotly.newPlot( TESTER, [{
+	y: ["Albania","Bosnia and Herzegovina","Bulgaria","Croatia","Czechia","Estonia","Hungary","Kosovo","Latvia","Lithuania","North Macedonia","Montenegro","Poland","Romania","Serbia","Slovakia","Slovenia","Armenia","Azerbaijan","Belarus","Georgia","Moldova","Russia","Ukraine","Austria","Belgium","Cyprus","Denmark","Finland","France","Germany","Greece","Iceland","Ireland","Italy","Luxembourg","Malta","Netherlands","Norway","Portugal","Spain","Sweden","Switzerland","United Kingdom"],
+	x: [296.6,187.7,1336.5,1341.2,3707.1,753.5,2774.0,108.0,819.5,1656.1,230.9,97.7,16818.9,5161.1,1443.5,2003.0,758.9,634.3,2664.8,792.2,292.7,40.1,71981.1,43983.2,3783.9,7045.0,514.6,5737.7,5089.5,56999.7,57807.7,8347.5,0.0,1207.7,34627.5,585.7,92.4,15670.8,8960.3,3647.6,20979.2,8491.5,6241.2,69998.7],
+    type: "bar",
+    orientation: "h",
+    transforms: [{
+    type: 'sort',
+    target: 'x',
+    order: "ascending"
+    }]
+    }], {
+	margin: { t: 0 } } );
+</script>
+-->]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/dataviz/" /><summary type="html"><![CDATA[How to help people understanding you]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/visualization/London_Tube_Map.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/visualization/London_Tube_Map.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

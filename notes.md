@@ -1,6 +1,6 @@
 ---
 layout: page
-title: "List of the notes"
+title: "Notes"
 permalink: /notes
 ---
 
@@ -60,10 +60,11 @@ Ideas and models related to other topics.
 <div class='emphbox'>
 Let's talk about data visualization!
 
+</div>
 {% for p in postlist %}
         {% assign cat = p.categories | first %}
         {% if cat contains "dataviz" %}
 1. [{{p.title}}]({{p.tags}})
         {% endif %}
-</div>
 {% endfor %}
+

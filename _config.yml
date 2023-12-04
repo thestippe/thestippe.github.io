@@ -1,7 +1,7 @@
 title: Data Perspectives
 author:
-  name: Stippe
-  email: smaurizio87@protonmail.com
+  name: Data-perspectives
+  email: dataperspectivesblog@gmail.com
 url: thestippe.github.io
 theme: minima
 plugins:
@@ -14,6 +14,7 @@ minima:
     - { platform: twitter, user_url: "https://twitter.com/SteffPy" }
     - { platform: stackoverflow, user_url: "https://stackoverflow.com/users/11065831/stefano" }
     - { platform: github, user_url: "https://github.com/thestippe/" }
+    - { platform: mastodon, user_url: "https://vis.social/@thestippe" }
       # - { platform: telegram, user_url "https://t.me/StefanoM87" }
   header_pages:
     - about

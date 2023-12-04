@@ -219,6 +219,10 @@ h1, h2, h3 {
   font-family: "Gotham", "Metropolis";
 }
 
+h5 {
+  color: gray;
+}
+
 @media screen and (min-width: 800px) {
   h2 {
     margin-left: -20px;
@@ -230,17 +234,19 @@ h1, h2, h3 {
   }
   #logo {
     margin-left: -40px;
+    margin-right: 50px;
   }
   #navlink {
-    align-content: flex-end;
-    align-items: flex-end;
+    align-items: end;
     margin-left: 15px;
-    margin-right: 10px;
+    margin-right: 20px;
+    float: right;
   }
 }
 nav {
   font-family: "Gotham", "Metropolis";
   vertical-align: text-top;
+  margin-right: 0px;
 }
 
 /**
@@ -493,6 +499,15 @@ table {
   margin-top: 40px;
   margin-bottom: 40px;
   margin-left: 0px;
+}
+
+.site-nav {
+  padding: none;
+  align-content: right;
+  margin: auto;
+  margin-right: 0;
+  text-align: right;
+  float: right;
 }
 
 /**
@@ -851,6 +866,7 @@ body {
 .cards {
   max-width: 1200px;
   margin: 0 auto;
+  margin-right: 0px;
   display: grid;
   gap: 1rem;
 }
