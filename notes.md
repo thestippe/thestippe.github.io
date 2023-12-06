@@ -2,6 +2,7 @@
 layout: page
 title: "Notes"
 permalink: /notes
+published: false
 ---
 
 {% assign postlist = site.posts | reverse %}
