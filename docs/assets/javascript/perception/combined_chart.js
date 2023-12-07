@@ -9,3 +9,6 @@ console.log('times')
 console.log(times)
 console.log(timesSize)
 
+dt = d3.selectAll('#preattentive_color_list ul')
+console.log(dt)
+

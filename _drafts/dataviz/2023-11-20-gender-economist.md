@@ -25,6 +25,9 @@ she analyzes the following image
 ![gender economist](/docs/assets/images/gender_economist/original.webp)
 and, as you may notice from the right hand side of the figure, she decided not to redesign the chart, as the space constraints are too stringent.
 
+
+## My first attempt
+
 I decided to try and redo it by myself, so first of all I analyzed the information we wanted to plot.
 - The first attribute is the Country, which is a categorical attribute.
 - We then have the research field, which is another categorical attribute.
@@ -74,7 +77,11 @@ the square area to decode the information.
 </div>
 
 This is a well known issue, and we will discuss this in a future post.
-So how can we solve this issue? As we have seen when talking about
+So how can we solve this issue?
+
+## Using color instead of area
+
+As we have seen when talking about
 channel effectiveness, color is even worst than area to encode
 quantitative information, but let us try and do that anyway.
 
@@ -90,6 +97,9 @@ of the color difference among the last column and the remaining columns.
 
 Actually I find slightly easier to decode the information, but still
 it's hard to say if we are above or below 50%.
+
+## Finding the appropriate palette class
+
 In order to solve this issue we must rethink our visualization, and we must do that
 by keeping in mind what is the true quantity that we want to decode,
 which is the gender imbalance.

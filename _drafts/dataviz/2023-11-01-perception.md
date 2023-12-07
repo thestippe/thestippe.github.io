@@ -9,6 +9,12 @@ description: "How do we see what surrounds us"
 
 Before digging into visualizations, we must understand how do we perceive
 images.
+We will first give an overview about how eye perceives
+light, we will then take a look at the role
+of attention in vision.
+
+## The human eye
+
 Typically the human eye can detect light in the range of wavelengths going
 from 380 nanometers (violet) to 700 nanometers (red).
 Our eye is rather complex, but to our aim we can only consider few components:
@@ -47,6 +53,14 @@ This has a very important impact on data visualization:
 <div class="emphbox">
 Attention plays  a major role into what we perceive.
 </div>
+
+<!--
+<div id="demoPerception"></div>
+
+<button onclick="startTimer()">Start</button>
+
+<script src="/docs/assets/javascript/perception/resolution.js"> </script>
+-->
 
 ## Preattentive features
 
@@ -171,3 +185,4 @@ In the following are listed the results of both of your test.
 <script src="/docs//assets/javascript/perception/preattentive_size.js"> </script>
 
 <script src="/docs/assets/javascript/perception/combined_chart.js"> </script>
+

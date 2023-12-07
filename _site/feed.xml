@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-06T08:10:15+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-07T15:40:30+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
 suitable way to tackle your problem is not always easy.
 This is the case of the challenge launched by Sarah Leo, a visual data journalist
 working at the Economist in <a href="https://medium.economist.com/mistakes-weve-drawn-a-few-8cdd8a42d368">this post</a>.</p>
@@ -15,6 +15,8 @@ a 2017 article titled <a href="https://www.economist.com/science-and-technology/
 she analyzes the following image
 <img src="/docs/assets/images/gender_economist/original.webp" alt="gender economist" />
 and, as you may notice from the right hand side of the figure, she decided not to redesign the chart, as the space constraints are too stringent.</p>
+
+<h2 id="my-first-attempt">My first attempt</h2>
 
 <p>I decided to try and redo it by myself, so first of all I analyzed the information we wanted to plot.</p>
 <ul>
@@ -69,7 +71,11 @@ the square area to decode the information.
 </div>
 
 <p>This is a well known issue, and we will discuss this in a future post.
-So how can we solve this issue? As we have seen when talking about
+So how can we solve this issue?</p>
+
+<h2 id="using-color-instead-of-area">Using color instead of area</h2>
+
+<p>As we have seen when talking about
 channel effectiveness, color is even worst than area to encode
 quantitative information, but let us try and do that anyway.</p>
 
@@ -84,8 +90,11 @@ not relevant enough to risk a distortion in the perception
 of the color difference among the last column and the remaining columns.</p>
 
 <p>Actually I find slightly easier to decode the information, but still
-it’s hard to say if we are above or below 50%.
-In order to solve this issue we must rethink our visualization, and we must do that
+it’s hard to say if we are above or below 50%.</p>
+
+<h2 id="finding-the-appropriate-palette-class">Finding the appropriate palette class</h2>
+
+<p>In order to solve this issue we must rethink our visualization, and we must do that
 by keeping in mind what is the true quantity that we want to decode,
 which is the gender imbalance.</p>
 
@@ -168,7 +177,54 @@ in the second one a collection
 of columns and in the third one a 
 collection of rows.</p>
 
+<div class="row" style="display:flex">
+<div class="column" style="flex:50%;">
+<br />
+<br />
+<br />
+<br />
+When labelling objects in a figure, you can leverage this principle
+and use proximity to let the reader easily understand to which object is 
+associated each label.
+</div>
+
+<div class="column" id="proximityLabel" style="flex:50%"></div>
+</div>
+<p><br /></p>
+
+<script src="/docs/assets/javascript/gestalt/proximityLabel.js"></script>
+
+<div class="row" style="display:flex">
+<div class="column" style="flex:50%;">
+<br />
+<br />
+<br />
+<br />
+
+This principle is also the one which let us identify clusters in a scatter plot,
+as we are naturally led to perceive close points as belonging to a common set.
+
+</div>
+
+<div class="column" style="flex:50%;">
+<svg height="300" width="300">
+<circle cx="100" cy="105" r="10" style="fill:grey" />
+<circle cx="100" cy="140" r="10" style="fill:grey" />
+<circle cx="120" cy="100" r="10" style="fill:grey" />
+<circle cx="90" cy="85" r="10" style="fill:grey" />
+
+<circle cx="205" cy="205" r="10" style="fill:grey" />
+<circle cx="200" cy="245" r="10" style="fill:grey" />
+<circle cx="220" cy="190" r="10" style="fill:grey" />
+
+</svg>
+
+</div>
+</div>
+<p><br /></p>
+
 <h2 id="similarity">Similarity</h2>
+
 <div class="emphbox">
 Similar objects are perceived as a group.
 </div>
@@ -181,6 +237,32 @@ Similar objects are perceived as a group.
 
 <p>In this case, even if our objects are equally spaced, we naturally perceive
 two groups of objects, and each group has a different color.</p>
+
+<div class="row" style="display:flex">
+<div class="column" style="flex:50%;">
+<br />
+<br />
+<br />
+<br />
+The similarity principle can be used to make objects belonging to the same category
+appear connected by encoding the category into a non-spatial channel (e.g. color, shape).
+</div>
+
+<div class="column" style="flex:50%;">
+<svg height="300" width="300">
+<circle cx="200" cy="105" r="10" style="fill:steelblue" />
+<circle cx="200" cy="140" r="10" style="fill:crimson" />
+<circle cx="220" cy="100" r="10" style="fill:crimson" />
+<circle cx="290" cy="85" r="10" style="fill:steelblue" />
+<circle cx="235" cy="205" r="10" style="fill:crimson" />
+<circle cx="230" cy="245" r="10" style="fill:steelblue" />
+<circle cx="225" cy="190" r="10" style="fill:steelblue" />
+
+</svg>
+
+</div>
+</div>
+<p><br /></p>
 
 <h2 id="connection">Connection</h2>
 
@@ -197,11 +279,72 @@ Objects which look connected are perceived as a group.
 <line x1="200" y1="150" x2="300" y2="150" stroke="gray" style="stroke-width:3;" />
 <line x1="200" y1="350" x2="300" y2="350" stroke="gray" style="stroke-width:3;" />
 </svg>
+<p><br /></p>
 
 <p>In the above figure, according to the Gestalt principles, you should
 perceive the two squares in the first line as connected, as well
-as the two squares in the second line.
-This principle is used in many charts, like the parallel coordinates plot.</p>
+as the two squares in the second line.</p>
+
+<div class="row" style="display:flex">
+<div class="column" style="flex:50%;">
+<br />
+<br />
+<br />
+<br />
+
+This principle is used in many charts, like the parallel coordinates plot
+as well as the line chart, to enforce the idea that to each line is associated one single object.
+
+</div>
+<div class="column" style="flex:50%;">
+
+<svg height="350" width="500">
+<path d="M 100 100 L 200 120 L 300 80 L 400 70" stroke="steelblue" style="fill:none; stroke-width:3;" />
+<path d="M 100 120 L 200 110 L 300 90 L 400 60" stroke="steelblue" style="fill:none; stroke-width:3;" />
+<path d="M 100 80 L 200 70 L 300 60 L 400 90" stroke="steelblue" style="fill:none; stroke-width:3;" />
+
+<path d="M 100 280 L 400 280" stroke="gray" style="fill:none; stroke-width:3;" />
+<path d="M 100 0 L 100 280" stroke="gray" style="fill:none; stroke-width:1;" />
+<path d="M 200 0 L 200 280" stroke="gray" style="fill:none; stroke-width:1;" />
+<path d="M 300 0 L 300 280" stroke="gray" style="fill:none; stroke-width:1;" />
+<path d="M 400 0 L 400 280" stroke="gray" style="fill:none; stroke-width:1;" />
+
+<text x="100" y="300" fill="gray"> A </text>
+<text x="200" y="300" fill="gray"> B </text>
+<text x="300" y="300" fill="gray"> C </text>
+<text x="400" y="300" fill="gray"> D </text>
+
+<text x="220" y="320" fill="gray"> Attribute </text>
+</svg>
+
+</div>
+</div>
+<p><br /></p>
+
+<div class="row" style="display:flex">
+<div class="column" style="flex:50%;">
+<br />
+<br />
+<br />
+<br />
+Also when drawing networks, we exploit this principle in order to convey the message
+that the network is composed by all the linked objects.
+
+</div>
+<div class="column" style="flex:50%;">
+<svg height="300" width="500">
+<path d="M 100 100 L 120 80 L 200 160" stroke="grey" style="fill:none; stroke-width:3;" />
+<path d="M 120 80 L 110 40" stroke="grey" style="fill:none; stroke-width:3;" />
+
+<circle cx="100" cy="100" r="10" style="fill:steelblue" />
+<circle cx="120" cy="80" r="10" style="fill:steelblue" />
+<circle cx="200" cy="160" r="10" style="fill:steelblue" />
+<circle cx="110" cy="40" r="10" style="fill:steelblue" />
+</svg>
+
+</div>
+</div>
+<p><br /></p>
 
 <h2 id="enclosure">Enclosure</h2>
 
@@ -223,6 +366,37 @@ Objects which are enclosed within a perimeter are perceived as a group.
 
 <p>In this example, the objects enclosed within the gray lines are perceived
 as grouped together.</p>
+
+<div class="row" style="display:flex">
+<div class="column" style="flex:50%;">
+<br />
+<br />
+<br />
+<br />
+We can use this principle to enforce the connection between different objects
+in our plots.
+
+</div>
+<div class="column" style="flex:50%;">
+
+<svg height="250" width="500">
+<rect x="100" y="100" width="30" height="100" style="fill:steelblue" /> 
+<rect x="150" y="120" width="30" height="80" style="fill:steelblue" /> 
+<rect x="200" y="80" width="30" height="120" style="fill:steelblue" /> 
+<rect x="250" y="70" width="30" height="130" style="fill:steelblue" /> 
+<rect x="300" y="110" width="30" height="90" style="fill:steelblue" /> 
+<rect x="350" y="110" width="30" height="90" style="fill:steelblue" /> 
+<line x1="80" y1="200" x2="400" y2="200" stroke="gray" style="stroke-width:3;" />
+
+<path d="M 290 220 L 390 220 L 390 50 L 290 50 z" stroke="grey" style="fill:none; stroke-width:1;" />
+
+<text x="300" y="70" fill="gray"> Relevant </text>
+<text x="300" y="90" fill="gray"> Items </text>
+</svg>
+
+</div>
+</div>
+<p><br /></p>
 
 <h2 id="closure-and-continuity">Closure and continuity</h2>
 
@@ -254,6 +428,97 @@ principle.</p>
 
 <p>In this figure this principle is applied twice: we both perceive many small circles even if the lines are dashed,
 and we perceive one big circle even if there is no circle drawn.</p>
+
+<p>Some author consider the following corollary of the above principle as an independent principle:</p>
+
+<div class="emphbox">
+When two or more objects are intersecting we perceive each of them 
+as uninterrupted.
+</div>
+
+<svg height="300" width="400">
+<g transform="rotate(45 110 200)">
+<rect x="100" y="100" height="200" width="20" style="fill:crimson" />
+</g>
+
+<g transform="rotate(-45 110 200)">
+<rect x="100" y="100" height="200" width="20" style="fill:steelblue" />
+</g>
+</svg>
+
+<p><br /></p>
+
+<p>We perceive the above objects as a blue bar and a red bar,
+despite the fact that what we actually see are a blue bar and two
+red bars.</p>
+
+<div class="row" style="display:flex">
+<div class="column" style="flex:50%;">
+<br />
+<br />
+<br />
+<br />
+
+This fact has, as immediate consequence, that we tend to draw conclusions 
+by using this principle even if we do not see the data...
+
+</div>
+<div class="column" style="flex:50%;">
+<svg height="300" width="350">
+
+<circle cx="60" cy="165" r="10" style="fill:crimson" />
+<circle cx="80" cy="165" r="10" style="fill:crimson" />
+<circle cx="100" cy="165" r="10" style="fill:crimson" />
+
+<circle cx="160" cy="165" r="10" style="fill:crimson" />
+<circle cx="180" cy="165" r="10" style="fill:crimson" />
+
+<circle cx="100" cy="185" r="10" style="fill:steelblue" />
+<circle cx="115" cy="165" r="10" style="fill:steelblue" />
+<circle cx="130" cy="151" r="10" style="fill:steelblue" />
+<circle cx="145" cy="110" r="10" style="fill:steelblue" />
+<circle cx="160" cy="105" r="10" style="fill:steelblue" />
+
+
+<circle cx="115" cy="185" r="10" style="fill:steelblue" />
+<circle cx="130" cy="161" r="10" style="fill:steelblue" />
+<circle cx="145" cy="130" r="10" style="fill:steelblue" />
+<circle cx="160" cy="125" r="10" style="fill:steelblue" />
+
+<circle cx="115" cy="205" r="12" style="fill:steelblue" />
+<circle cx="130" cy="181" r="12" style="fill:steelblue" />
+<circle cx="145" cy="150" r="12" style="fill:steelblue" />
+<circle cx="160" cy="145" r="12" style="fill:steelblue" />
+
+<circle cx="145" cy="165" r="10" style="fill:steelblue" />
+
+</svg>
+
+</div>
+</div>
+
+<div class="row" style="display:flex">
+<div class="column" style="flex:50%;">
+<br />
+<br />
+<br />
+<br />
+
+...but these conclusions may be wrong
+</div>
+<div class="column" style="flex:50%;">
+<svg height="300" width="350">
+
+<circle cx="60" cy="165" r="10" style="fill:crimson" />
+<circle cx="80" cy="165" r="10" style="fill:crimson" />
+<circle cx="100" cy="165" r="10" style="fill:crimson" />
+<circle cx="160" cy="165" r="10" style="fill:crimson" />
+<circle cx="180" cy="165" r="10" style="fill:crimson" />
+
+</svg>
+
+</div>
+</div>
 
 <h2 id="figure-ground">Figure-ground</h2>
 
@@ -289,30 +554,36 @@ We are able to recognize objects even if they are deformed or rotated.
 
 <p><img src="/docs/assets/images/gestalt/captcha.svg" alt="" /></p>
 
-<p>This principle is the one leveraged by captchas.</p>
+<p>This principle is the one leveraged by captchas, and it’s what makes the human brain
+the best pattern recognition machine on Earth, at least for the moment.</p>
 
-<h2 id="continuation">Continuation</h2>
-
-<div class="emphbox">
-When two or more objects are intersecting we perceive each of them 
-as uninterrupted.
+<div class="row" style="display:flex">
+<div class="column" style="flex:50%;">
+<br />
+<br />
+<br />
+<br />
+In fact, thanks to the invariance principle, we can easily identify 
+patterns which are only approximately realized, while this is a rather hard task
+to implement in a general form in an algorithm.
 </div>
 
-<svg height="300" width="400">
-<g transform="rotate(45 110 200)">
-<rect x="100" y="100" height="200" width="20" style="fill:crimson" />
-</g>
+<div class="column" style="flex:50%;">
 
-<g transform="rotate(-45 110 200)">
-<rect x="100" y="100" height="200" width="20" style="fill:steelblue" />
-</g>
+<svg height="350" width="350">
+
+<circle cx="100" cy="185" r="10" style="fill:steelblue" />
+<circle cx="150" cy="165" r="10" style="fill:steelblue" />
+<circle cx="200" cy="151" r="10" style="fill:steelblue" />
+<circle cx="250" cy="110" r="10" style="fill:steelblue" />
+<circle cx="300" cy="105" r="10" style="fill:steelblue" />
+
+<path d="M 20 50 L 20 300 L 350 300" stroke="gray" style="fill:none; stroke-width:3;" />
+
 </svg>
 
-<p><br /></p>
-
-<p>We perceive the above objects as a blue bar and a red bar,
-despite the fact that what we actually see are a blue bar and two
-red bars.</p>
+</div>
+</div>
 
 <h2 id="symmetry">Symmetry</h2>
 
@@ -332,6 +603,40 @@ When there is a lack of symmetry, our attention is attracted by it.
 on the green square, as it looks different from
 the other squares.</p>
 
+<div class="row" style="display:flex">
+<div class="column" style="flex:50%;">
+<br />
+<br />
+<br />
+<br />
+By using this principle we can draw the attention of the reader on 
+some specific objects in our visualization.
+
+</div>
+<div class="column" style="flex:50%;">
+
+<svg height="250" width="500">
+<rect x="100" y="100" width="30" height="100" style="fill:lightgrey" /> 
+<rect x="150" y="120" width="30" height="80" style="fill:lightgrey" /> 
+<rect x="200" y="80" width="30" height="120" style="fill:lightgrey" /> 
+<rect x="250" y="70" width="30" height="130" style="fill:steelblue" /> 
+<rect x="300" y="110" width="30" height="90" style="fill:lightgrey" /> 
+<rect x="350" y="110" width="30" height="90" style="fill:lightgrey" /> 
+<line x1="80" y1="200" x2="400" y2="200" stroke="gray" style="stroke-width:3;" />
+
+</svg>
+
+</div>
+</div>
+
+<p>Of course you can do the same by breaking
+<!--
+<span style="font-family:Courier New"> 
+any symmetry.
+</span>
+-->
+<strong><em>any symmetry</em></strong>.</p>
+
 <h2 id="common-fate">Common fate</h2>
 
 <div class="emphbox">
@@ -348,7 +653,11 @@ speed are perceived as a group.
 <p>In the above example, one can clearly distinguish a group
 as the circles moving together around a same point.</p>
 
-<p>Notice that we don’t need them to actually move.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/gestalt/" /><summary type="html"><![CDATA[How does our brain build patterns]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gestalt/Cup_or_faces_paradox.svg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gestalt/Cup_or_faces_paradox.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Channel effectiveness</title><link href="http://localhost:4000/effectiveness/" rel="alternate" type="text/html" title="Channel effectiveness" /><published>2023-11-05T00:00:00+01:00</published><updated>2023-11-05T00:00:00+01:00</updated><id>http://localhost:4000/effectiveness</id><content type="html" xml:base="http://localhost:4000/effectiveness/"><![CDATA[<!-- Load d3.js -->
+<p>Notice that we don’t need them to actually move.</p>
+
+<p>This principle does not belongs to the original Gestalt principles, but it is 
+sometimes used in web interfaces, and it finds applications in dashboard design too, so 
+I decided to include it here for the sake of completeness.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/gestalt/" /><summary type="html"><![CDATA[How does our brain build patterns]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gestalt/Cup_or_faces_paradox.svg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gestalt/Cup_or_faces_paradox.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Channel effectiveness</title><link href="http://localhost:4000/effectiveness/" rel="alternate" type="text/html" title="Channel effectiveness" /><published>2023-11-05T00:00:00+01:00</published><updated>2023-11-05T00:00:00+01:00</updated><id>http://localhost:4000/effectiveness</id><content type="html" xml:base="http://localhost:4000/effectiveness/"><![CDATA[<!-- Load d3.js -->
 <script src="https://d3js.org/d3.v5.js"></script>
 
 <p>When we have been talking about <a href="/marks-channels">marks and channels</a>
@@ -598,7 +907,13 @@ only be applied to bar chart or line chart.
 Finally, we have seen the streamgraph,
 which uses an alternative way of stacking the lines.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/perception/" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/perception</id><content type="html" xml:base="http://localhost:4000/perception/"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
 images.
-Typically the human eye can detect light in the range of wavelengths going
+We will first give an overview about how eye perceives
+light, we will then take a look at the role
+of attention in vision.</p>
+
+<h2 id="the-human-eye">The human eye</h2>
+
+<p>Typically the human eye can detect light in the range of wavelengths going
 from 380 nanometers (violet) to 700 nanometers (red).
 Our eye is rather complex, but to our aim we can only consider few components:</p>
 <ul>
@@ -640,6 +955,14 @@ giving us the feeling of a higher resolution.</p>
 <div class="emphbox">
 Attention plays  a major role into what we perceive.
 </div>
+
+<!--
+<div id="demoPerception"></div>
+
+<button onclick="startTimer()">Start</button>
+
+<script src="/docs/assets/javascript/perception/resolution.js"> </script>
+-->
 
 <h2 id="preattentive-features">Preattentive features</h2>
 

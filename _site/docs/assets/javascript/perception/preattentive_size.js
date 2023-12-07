@@ -62,7 +62,7 @@ xn = {
 
 data.push(xn)
 
-var pts1 =   svg1.append("g").selectAll("points1")
+var pts1 =  svg1.append("g").selectAll("points1")
         .data(data)
 
 
