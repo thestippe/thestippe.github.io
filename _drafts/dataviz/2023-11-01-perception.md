@@ -24,9 +24,10 @@ Our eye is rather complex, but to our aim we can only consider few components:
 - The **retina** which contains the light receptors of our eye.
 - The **optic nerve** which transmits the information from the retina to the brain.
 
-Into the retina we have two kind of receptors:
+Into the retina we have three kind of receptors:
 - The **rod cells** which are very sensitive in low light conditions. They are roughly 90 millions and are especially used into the peripheral vision and night vision. They are especially concentrated at the outer edge of our retina
 - The **cone cells** are responsible of the color vision, and are roughly 6 millions. Human eye has three kind of cone cells, and each type is more sensitive into a specific wavelengths range, corresponding approximately to **red**, **blue** and **green** wavelengths and named long, medium and short wavelengths cones.
+- The **retinal ganglion cells**, which are devoted to long term representation of ambient light, and are very important for many tasks such as the pupil control, the melatonin production and in the synchronization of the circadian rhythm.
 
 The red cones are approximately ten times the green or blue ones, this is why we are better in discriminating the red tones than the blue or green ones.
 
@@ -41,9 +42,11 @@ This should suggest you that the fovea is the region with the highest resolution
 of the retina, and since it is very small our eye can only clearly see within
 a very small region.
 In fact, our high-resolution region is limited to less than 2 degrees.
+If you want to visualize this angle, you can use the **thumb's rule**: 
+extend your arm in front of you and look at your thumb, its width has a visual angle of approximately 2 degrees.
 
 On the other hand, on average, we have the feeling that we can clearly see most
-of what surrounds us. This is because our eye makes small movements (less than 20 degrees)
+of what surrounds us. This is because our eye makes small movements (typically less than 20 degrees)
 named [**saccadic movements**](https://en.wikipedia.org/wiki/Saccade) with an average time between two movements of 225 ms.
 Our brain then elaborates the images and reconstructs a map by using many movements,
 giving us the feeling of a higher resolution.

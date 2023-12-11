@@ -38,19 +38,16 @@ function plotLinechart(data){
         //         .attr("y", 20)
 
         svg.append("text")
-      .style("font", "20px times")
                 .html("Sepal length")
                 .attr("x", 0)
                 .attr("y", 200)
 
         svg.append("text")
-      .style("font", "20px times")
                 .html("[mm]")
                 .attr("x", 25)
                 .attr("y", 225)
 
         svg.append("text")
-      .style("font", "20px times")
                 .text("Sepal width [mm]")
                 .attr("x", 450)
                 .attr("y", 540)

@@ -35,7 +35,6 @@ function plotScatter1d(data){
 
 
         svg.append("text")
-      .style("font", "20px times")
                 .text("Sepal width [mm]")
                 .attr("x", 450)
                 .attr("y", 140)

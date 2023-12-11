@@ -28,7 +28,6 @@
             .attr("transform", "translate(0, 50)")
 
                 svg.append("text")
-              .style("font", "20px times")
                         .html("Team")
                         .attr("x", 350)
                         .attr("y", 20)
@@ -39,7 +38,6 @@
                         .domain(domain_y)
 
                 svg.append("text")
-                        .style("font", "20px times")
                         .html("VS")
                         .attr("x", 0)
                         .attr("y", 300)

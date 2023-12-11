@@ -8,7 +8,5 @@ description: "How does our brain elaborates images"
 published: false
 ---
 
-In a previous post we discussed the first phases
-of the vision. In the following we will see 
-how our brain (?).
+In this post we will look more in depth at the visual pathways in our brain.
 

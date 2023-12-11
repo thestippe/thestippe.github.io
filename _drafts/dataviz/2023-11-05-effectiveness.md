@@ -135,17 +135,28 @@ Grouping tells us how easy it is for us to spot patterns in the data.
 In psychology it has been extensively studied what we perceive as grouped,
 and these results are collected into the **Gestalt principles**. 
 
-
-<svg height="150" width="500">
-  <circle cy="50" cx="50" r="1.5"  fill="crimson" />
-</svg> 
-
 Gestalt principles are well known to whoever studied design, and we will
-discuss them into a separate post.
+discuss them into a [separate post](/gestalt).
 
 ## Our perception depends on the context
 What we perceive strongly depends
 on the context.
+As an example, the color perception of an object depends on the color of the
+surrounding objects.
+
+<br>
+<br>
+
+<svg height=400 width=1100>
+<rect x=0 y=0 height=400 width=550 fill="#e7d645"/>
+<rect x=550 y=0 height=400 width=550 fill="#8d9488"/>
+<rect x=50 y=195 height=10 width=1000 fill="#b6af59"/>
+</svg>
+
+<br>
+<br>
+
+Would you always name the color of the above stripe in the same way?
 
 
 
