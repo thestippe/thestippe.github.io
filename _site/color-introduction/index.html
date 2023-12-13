@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Introduction to color perception | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Introduction to color perception" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="http://localhost:4000/color-introduction/" />
+<meta property="og:url" content="http://localhost:4000/color-introduction/" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:image" content="http://localhost:4000/docs/assets/images/color_perception/color_circle.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-24T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/docs/assets/images/color_perception/color_circle.png" />
+<meta property="twitter:title" content="Introduction to color perception" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2023-11-24T00:00:00+01:00","datePublished":"2023-11-24T00:00:00+01:00","headline":"Introduction to color perception","image":"http://localhost:4000/docs/assets/images/color_perception/color_circle.png","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/color-introduction/"},"url":"http://localhost:4000/color-introduction/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+
+  
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+  
+</head>
+<body><header class="site-header">
+<div>
+  <div class="wrapper" style="display:flex;"><a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><nav class="site-nav" style="display:flex;">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a id='navlink' class="page-link" href="/about">About me</a><a id='navlink' class="page-link" href="/index">Home</a><a id='navlink' class="page-link" href="/links">Resources</a></div>
+      </nav></div>
+</div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.png" alt="backround" style="margin:auto;display:block;width:1200px">
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">Introduction to color perception</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-11-24T00:00:00+01:00" itemprop="datePublished">
+        Nov 24, 2023
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  4&prime;
+</span>
+</p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Color is often used and misused in data visualization, as its stand out properties makes it 
+a very attractive channel for any kind of visualization.
+However, properly using color to encode any kind of attribute is far from being an easy
+task.
+Here we will start to analyze this problem by building a color space with the proper features.</p>
+
+<h2 id="the-rgb-color-space">The RGB color space</h2>
+<script src="https://d3js.org/d3.v7.js"></script>
+
+<p>As we have seen, we perceive color thanks to cones, which are divided
+into three types. Each type is more sensitive to a specific wavelength,
+corresponding to red, green and blue respectively.
+This implies that, from a perceptual point of view,
+color is a three dimensional space, as any color we see
+can be defined by providing the amount of contribution of each of the three
+channels.
+These three channels are the same channels that are used by computers to specify
+a colors: in the RGB space a color is defined by providing three numbers.
+Since computers work in binary base rather than in base 10 base, the three numbers can span from $0$ to $255=2^8-1\,,$
+and $0$ corresponds to no color in that channel, while $255$ means that 
+that channel fully contributes to that color.
+In the following you can visualize the mapping between the RGB input and the color output.</p>
+
+<p><br />
+<br /></p>
+<div class="row" style="display:flex">
+<div class="column" style="flex:20%;">
+<div class="redContainer">
+  <input type="range" min="0" max="255" value="0" class="slider" id="redRange" />
+  <p>R: <span id="redValue"></span></p>
+</div>
+
+<div class="greenContainer">
+  <input type="range" min="0" max="255" value="0" class="slider" id="greenRange" />
+  <p>G: <span id="greenValue"></span></p>
+</div>
+
+<div class="blueContainer">
+  <input type="range" min="0" max="255" value="0" class="slider" id="blueRange" />
+  <p>B: <span id="blueValue"></span></p>
+</div>
+</div>
+
+<div class="column" style="flex:80%;">
+<div class="svgContainer">
+<svg height="120" width="100" id="rgbsvg">
+<circle cx="50" cy="70" r="50" fill="rgb(0,0,0)" id="rgbCircle" stroke="black" />
+</svg>
+</div>
+</div>
+</div>
+
+<p><br />
+<br /></p>
+
+<h2 id="xyz-and-lab-color-spaces">XYZ and Lab color spaces</h2>
+
+<p>Even if both the systems work by using red, green and blue as fundamental colors, the RGB color system does not
+exactly correspond to how our eyes perceive the color, since the cones has a broad wavelength bandwidth.
+In order to account for this, the International Commission on Illuminance (CIE, from the french acronym),
+proposed in 1936 the XYZ color space, where the basis vectors X, Y and Z are given by a linear combination
+of the R,G and B component.</p>
+
+<p>While our eyes capture the R,G and B channels, this is not how the signal is elaborated by our brain.
+According to the color opponency theory, defined in the literature as one of the most important models in color perception, we combine the perceived colors into three channels:</p>
+
+<ul>
+  <li>Black-White</li>
+  <li>Blue-Yellow</li>
+  <li>Magenta-Green</li>
+</ul>
+
+<p>This theory was born from the intuition that
+we cannot perceive opponent colors simultaneously:
+there is no reddish green neither bluish yellow.
+For this reason, the CIE proposed the Lab color system, where the three coordinates are
+the luminance \(L^*\) (black-white channel) together with two chroma \(a^*\), which goes spans from magenta to green,
+and \(b^*\), which runs in the blue-yellow direction.
+The mapping between the XYZ color space to the Lab color space is non-linear in order for the Lab space
+to be <strong>perceptually uniform</strong>, which means that a variation in this space
+can be linearly mapped into a perceived color variation.
+Another space with the same features is the Luv color space, but from the methodological point of view its 
+construction is identical to the Lab color space.</p>
+
+<h2 id="hcl-color-space">HCL color space</h2>
+
+<p>This color system is, however, nor very intuitive, as it is hard to specify a color by means of its \(a^*\) and \(b^*\)
+components.
+This problem can, however, easily solved by switching to circular coordinates into the \(a-b\) plane.
+This color space, named LCh, has three coordinates:</p>
+
+<ul>
+  <li>Hue (the angular coordinate)</li>
+  <li>Chroma (the radial coordinate)</li>
+  <li>Lightness</li>
+</ul>
+
+<p>In the following we try and show the LCh color space.</p>
+
+<div class="row" style="display:flex">
+<div class="column" style="flex:40%;">
+<div id="colCircle">
+</div>
+</div>
+
+<div class="column" style="flex:40%;">
+<div class="luminanceContainer" style="margin-top:230px">
+  <input type="range" min="0" max="100" value="50" class="slider" id="luminanceRange" />
+  <p>L: <span id="luminanceValue"></span></p>
+</div>
+</div>
+</div>
+
+<script src="/docs/assets/javascript/color_introduction/colorCircle.js">
+</script>
+
+<p>Notice that the LCh color space can be both be constructed by starting from the Lab space and from the Luv space,
+so a subscript in order to specify if the LCh color space has been build on the Lab color space or on the Luv color space.</p>
+
+<div class="emphbox">
+The LCh color space is both perceptually uniform and easy to use.
+</div>
+
+<p>There have been other attempts to map the RGB color space into more friendly color spaces, and the most
+popular are HSL and HSV, but they are not perceptually uniform, so they are not well suited for data visualization.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We saw how to switch from the RGB color space to
+the HCL color space, going through the XYZ
+and the Lab/Luv color spaces.
+The HCL color space is perceptually
+uniform, so variations into the color
+space are linearly mapped to perceptual variations.
+This feature makes this color space a fundamental
+building block in data visualization, as it allows
+us to use color to map quantitative attributes
+in a non-deceptive way.
+In a future post we will see how to use this
+space to build color palettes.</p>
+
+<script src="/docs/assets/javascript/color_introduction/rgbshow.js">
+
+</script>
+
+
+  </div><a class="u-url" href="/color-introduction/" hidden></a>
+
+  <br>
+  <div id='autograph'>
+          Stippe Nov 24, 2023
+          
+</div>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <h5>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </h5>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
+

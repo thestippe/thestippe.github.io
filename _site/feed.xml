@@ -1,4 +1,147 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-11T15:37:37+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-12T22:17:35+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Introduction to color perception</title><link href="http://localhost:4000/color-introduction/" rel="alternate" type="text/html" title="Introduction to color perception" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>http://localhost:4000/color-introduction</id><content type="html" xml:base="http://localhost:4000/color-introduction/"><![CDATA[<p>Color is often used and misused in data visualization, as its stand out properties makes it 
+a very attractive channel for any kind of visualization.
+However, properly using color to encode any kind of attribute is far from being an easy
+task.
+Here we will start to analyze this problem by building a color space with the proper features.</p>
+
+<h2 id="the-rgb-color-space">The RGB color space</h2>
+<script src="https://d3js.org/d3.v7.js"></script>
+
+<p>As we have seen, we perceive color thanks to cones, which are divided
+into three types. Each type is more sensitive to a specific wavelength,
+corresponding to red, green and blue respectively.
+This implies that, from a perceptual point of view,
+color is a three dimensional space, as any color we see
+can be defined by providing the amount of contribution of each of the three
+channels.
+These three channels are the same channels that are used by computers to specify
+a colors: in the RGB space a color is defined by providing three numbers.
+Since computers work in binary base rather than in base 10 base, the three numbers can span from $0$ to $255=2^8-1\,,$
+and $0$ corresponds to no color in that channel, while $255$ means that 
+that channel fully contributes to that color.
+In the following you can visualize the mapping between the RGB input and the color output.</p>
+
+<p><br />
+<br /></p>
+<div class="row" style="display:flex">
+<div class="column" style="flex:20%;">
+<div class="redContainer">
+  <input type="range" min="0" max="255" value="0" class="slider" id="redRange" />
+  <p>R: <span id="redValue"></span></p>
+</div>
+
+<div class="greenContainer">
+  <input type="range" min="0" max="255" value="0" class="slider" id="greenRange" />
+  <p>G: <span id="greenValue"></span></p>
+</div>
+
+<div class="blueContainer">
+  <input type="range" min="0" max="255" value="0" class="slider" id="blueRange" />
+  <p>B: <span id="blueValue"></span></p>
+</div>
+</div>
+
+<div class="column" style="flex:80%;">
+<div class="svgContainer">
+<svg height="120" width="100" id="rgbsvg">
+<circle cx="50" cy="70" r="50" fill="rgb(0,0,0)" id="rgbCircle" stroke="black" />
+</svg>
+</div>
+</div>
+</div>
+
+<p><br />
+<br /></p>
+
+<h2 id="xyz-and-lab-color-spaces">XYZ and Lab color spaces</h2>
+
+<p>Even if both the systems work by using red, green and blue as fundamental colors, the RGB color system does not
+exactly correspond to how our eyes perceive the color, since the cones has a broad wavelength bandwidth.
+In order to account for this, the International Commission on Illuminance (CIE, from the french acronym),
+proposed in 1936 the XYZ color space, where the basis vectors X, Y and Z are given by a linear combination
+of the R,G and B component.</p>
+
+<p>While our eyes capture the R,G and B channels, this is not how the signal is elaborated by our brain.
+According to the color opponency theory, defined in the literature as one of the most important models in color perception, we combine the perceived colors into three channels:</p>
+
+<ul>
+  <li>Black-White</li>
+  <li>Blue-Yellow</li>
+  <li>Magenta-Green</li>
+</ul>
+
+<p>This theory was born from the intuition that
+we cannot perceive opponent colors simultaneously:
+there is no reddish green neither bluish yellow.
+For this reason, the CIE proposed the Lab color system, where the three coordinates are
+the luminance \(L^*\) (black-white channel) together with two chroma \(a^*\), which goes spans from magenta to green,
+and \(b^*\), which runs in the blue-yellow direction.
+The mapping between the XYZ color space to the Lab color space is non-linear in order for the Lab space
+to be <strong>perceptually uniform</strong>, which means that a variation in this space
+can be linearly mapped into a perceived color variation.
+Another space with the same features is the Luv color space, but from the methodological point of view its 
+construction is identical to the Lab color space.</p>
+
+<h2 id="hcl-color-space">HCL color space</h2>
+
+<p>This color system is, however, nor very intuitive, as it is hard to specify a color by means of its \(a^*\) and \(b^*\)
+components.
+This problem can, however, easily solved by switching to circular coordinates into the \(a-b\) plane.
+This color space, named LCh, has three coordinates:</p>
+
+<ul>
+  <li>Hue (the angular coordinate)</li>
+  <li>Chroma (the radial coordinate)</li>
+  <li>Lightness</li>
+</ul>
+
+<p>In the following we try and show the LCh color space.</p>
+
+<div class="row" style="display:flex">
+<div class="column" style="flex:40%;">
+<div id="colCircle">
+</div>
+</div>
+
+<div class="column" style="flex:40%;">
+<div class="luminanceContainer" style="margin-top:230px">
+  <input type="range" min="0" max="100" value="50" class="slider" id="luminanceRange" />
+  <p>L: <span id="luminanceValue"></span></p>
+</div>
+</div>
+</div>
+
+<script src="/docs/assets/javascript/color_introduction/colorCircle.js">
+</script>
+
+<p>Notice that the LCh color space can be both be constructed by starting from the Lab space and from the Luv space,
+so a subscript in order to specify if the LCh color space has been build on the Lab color space or on the Luv color space.</p>
+
+<div class="emphbox">
+The LCh color space is both perceptually uniform and easy to use.
+</div>
+
+<p>There have been other attempts to map the RGB color space into more friendly color spaces, and the most
+popular are HSL and HSV, but they are not perceptually uniform, so they are not well suited for data visualization.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We saw how to switch from the RGB color space to
+the HCL color space, going through the XYZ
+and the Lab/Luv color spaces.
+The HCL color space is perceptually
+uniform, so variations into the color
+space are linearly mapped to perceptual variations.
+This feature makes this color space a fundamental
+building block in data visualization, as it allows
+us to use color to map quantitative attributes
+in a non-deceptive way.
+In a future post we will see how to use this
+space to build color palettes.</p>
+
+<script src="/docs/assets/javascript/color_introduction/rgbshow.js">
+
+</script>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/color-introduction/" /><summary type="html"><![CDATA[Color is often used and misused in data visualization, as its stand out properties makes it a very attractive channel for any kind of visualization. However, properly using color to encode any kind of attribute is far from being an easy task. Here we will start to analyze this problem by building a color space with the proper features.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/color_perception/color_circle.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/color_perception/color_circle.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
 suitable way to tackle your problem is not always easy.
 This is the case of the challenge launched by Sarah Leo, a visual data journalist
 working at the Economist in <a href="https://medium.economist.com/mistakes-weve-drawn-a-few-8cdd8a42d368">this post</a>.</p>
@@ -1767,160 +1910,4 @@ whether they have some special connotation.
 Here we have seen how to determine the attribute type and the most
 common attribute semantic.
 In the next post we will discuss some of the most common visualizations
-associated with each data type.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/data-types/" /><summary type="html"><![CDATA[Thinking about data]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/data_types/chart.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/data_types/chart.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Data visualization</title><link href="http://localhost:4000/dataviz/" rel="alternate" type="text/html" title="Data visualization" /><published>2023-10-11T00:00:00+02:00</published><updated>2023-10-11T00:00:00+02:00</updated><id>http://localhost:4000/dataviz</id><content type="html" xml:base="http://localhost:4000/dataviz/"><![CDATA[<p>Welcome to the first post about in this data visualization blog.</p>
-
-<p>Here we will give take a first look at what dataviz is, and why it is important.</p>
-
-<h2 id="data-visualization-in-the-scientific-process">Data visualization in the scientific process</h2>
-<p>Data visualization plays a major role in most phases of the scientific processes:</p>
-<ul>
-  <li>In the exploratory phase, when one wants to understand the structure of the data and find recurrent patterns</li>
-  <li>During the model building, when one wants to compare the model with the data</li>
-  <li>When presenting the results to the audience</li>
-</ul>
-
-<p>Here we will mostly talk about the second case, named <strong>explanatory</strong> data visualization.</p>
-
-<p>Let us first clarify that, although you will be tempted to use the figures from the first phases in the last phase, you shouldn’t
-do that.
-In the first phases what you are trying to do is to understand something by scraping the data and looking at the data from different
-perspectives.
-On the other hand, the aim of the last phase is to summarize what you found by using data visualization.
-Since you have two different objectives, you should consider using different tools and languages to do that, and the (graphical)
-language you should use in the last phase strongly depends on your audience.</p>
-
-<p>When trying to understand the structure of your data, any quantitative assessment will be helpful, while you won’t likely
-put annotations on your plots.
-If you want your audience to easily catch some particular message from your data, annotations may be helpful,
-and maybe the audience you are presenting your data to is not able to give a broader context to the numerical values of the data,
-so adding the ticks may be superfluous.</p>
-
-<p>Moving the axis away from zero in the exploratory phase is common if one wants to clearly spot any kind of pattern in the data,
-but doing so in the explanatory context might be dangerous, as this could be seen as an attempt to trick your audience.</p>
-
-<p>In this blog, when talking about data visualization, unless otherwise specified we will usually refer to explanatory data visualization.</p>
-
-<h2 id="why-you-should-use-it">Why you should use it</h2>
-<p>The raw form for most of the data is usually a tabular form,
-where one has a set of attributes for a given number of items.
-However we can only keep in mind a limited number of values, and typically this
-number is of the order of 10, unless you don’t rely on special techniques.</p>
-
-<div class="emphbox">
-While the tabular format is good to inspect each item's properties,
-it is hard to understand if there is
-any pattern into the data, especially if the number of items grows.
-</div>
-
-<p>One could think and rely on statistical, ML or other fancier models, but they may be misused, and 
-a model may give results which may look reasonable but are actually wrong.
-I love statistical models, but one should always ensure that the model makes sense for the dataset,
-in Bayesian statistics this is usually done by using posterior predictive checks.</p>
-
-<p>Even in a one dimensional model you may be tempted to use the mean to summarize the typical value of the data,
-but this wouldn’t makes sense at all for a multimodal distribution, and the easiest way to spot multimodality
-is to simply plot the data.</p>
-
-<p><img src="/docs/assets/images/visualization/anscombe.png" alt="The Anscombe quartet" /></p>
-
-<p>The one shown before is the celeb Anscombe quartet.
-It is a dataset composed by four different subsets of data,
-and it has been constructed to show that the same statistical model may give identical
-results for many different data.
-As you can see, the four fits are identical, but the underlying data are very different.</p>
-
-<div class="emphbox">
-Always use data visualization to make sure that the model is appropriate for your data.
-</div>
-
-<h2 id="what-do-you-risk-by-misinterpreting-the-data">What do you risk by misinterpreting the data</h2>
-<p><img src="/docs/assets/images/visualization/cat.png" alt="An image from a Computerized Axial Tomography" /></p>
-
-<p>Data visualization became a part of everyday life, but by using it
-in the wrong way one may encounter many risk.
-The above image is taken from the Wikipedia page of the CT scan,
-and it uses a very common color palette, the well known rainbow color map.
-Unfortunately, in the dataviz community, it is well known that this is
-one of the worst color map you could use when you want your
-audience to be able and quickly quantify the numerical value
-associated with the color.</p>
-
-<p>If your audience is not able to assess the numerical variation associated
-to a color variation, they may take wrong decisions such as giving the wrong
-therapy or making the wrong investment as they cannot properly
-quantify the risk.</p>
-
-<p>This is simply an example, but the more data visualization enters in our
-life, the more are the risks associated to a miscommunication problems
-due to improper visualizations.</p>
-
-<div class="emphbox">
-Data visualization is about assessing the quality of a visualization
-from a scientific point of view, and it relies on what is known about
-how our brain perceives images.
-</div>
-
-<p>In the following we will give an overview about this topic, but the reader
-should keep in mind that this is not a blog about neuroscience, so we will
-limit our discussion to what is necessary in order to achieve our
-goal.</p>
-
-<!--
-
-Before doing so it's better to put here some vocabulary.
-
-A data visualization is first of all made by **markers**, namely the graphical
-objects that we use to represent our items.
-The most common markers are:
-- points
-- lines
-- bars
-- areas
-
-For each item we will represent some quantity, and we will do so by using one or more
-**visual channels** like:
-- position
-- size (length/width/area)
-- angle/slope
-- color hue
-- color intensity
-- shape and textures
-
-Other fundamental components of the visualization are the components which allow
-us to contextualize and interpret the visualization.
-Those components can be geometric components like axes, grids, reference lines
-but also textual components such as labels and annotations.
-
-A visual representation is a combination of such components, and you will find a huge variety visual representations,
-as there is a potentially infinite number of ways to combine these ingredients.
-So how to choose one? Which is the best?
-
-As often happens, there is not **the best** representation, as we already said elsewhere in this blog, there is no silver bullet.
-A better question is
-
-> What is the most appropriate way to visualize this aspect of the data?
-
-This of course depends on many factors, and you will often find yourself in a situation where you simply
-have to decide how to balance your needs.
-Data visualization is the discipline which wants to address to this question from a scientific perspective.
-
-I will try and share some resources about this topic in some future post, as well as to share some hopefully interesting personal thoughts.
-
-<div id="tester" style="width:900px;height:900px;"></div>
-<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
-<script>
-	TESTER = document.getElementById('tester');
-	Plotly.newPlot( TESTER, [{
-	y: ["Albania","Bosnia and Herzegovina","Bulgaria","Croatia","Czechia","Estonia","Hungary","Kosovo","Latvia","Lithuania","North Macedonia","Montenegro","Poland","Romania","Serbia","Slovakia","Slovenia","Armenia","Azerbaijan","Belarus","Georgia","Moldova","Russia","Ukraine","Austria","Belgium","Cyprus","Denmark","Finland","France","Germany","Greece","Iceland","Ireland","Italy","Luxembourg","Malta","Netherlands","Norway","Portugal","Spain","Sweden","Switzerland","United Kingdom"],
-	x: [296.6,187.7,1336.5,1341.2,3707.1,753.5,2774.0,108.0,819.5,1656.1,230.9,97.7,16818.9,5161.1,1443.5,2003.0,758.9,634.3,2664.8,792.2,292.7,40.1,71981.1,43983.2,3783.9,7045.0,514.6,5737.7,5089.5,56999.7,57807.7,8347.5,0.0,1207.7,34627.5,585.7,92.4,15670.8,8960.3,3647.6,20979.2,8491.5,6241.2,69998.7],
-    type: "bar",
-    orientation: "h",
-    transforms: [{
-    type: 'sort',
-    target: 'x',
-    order: "ascending"
-    }]
-    }], {
-	margin: { t: 0 } } );
-</script>
--->]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/dataviz/" /><summary type="html"><![CDATA[How to help people understanding you]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/visualization/London_Tube_Map.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/visualization/London_Tube_Map.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+associated with each data type.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/data-types/" /><summary type="html"><![CDATA[Thinking about data]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/data_types/chart.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/data_types/chart.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

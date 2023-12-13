@@ -12,7 +12,7 @@ function plotLinechart(data){
                 .attr("height",300)
 
         const countries = ["Italy", "Spain", "Greece", "Portugal"]
-        var maxval = 45000
+        var maxval = 50000
         var minval = 0
 
         const step = 200
@@ -35,7 +35,7 @@ function plotLinechart(data){
 
         var y = d3.scaleLinear().
                 domain([maxval, minval]). //Warning: it is reversed: in svg y goes from top to bottom
-                range([0, delta])
+                range([10, delta])
 
         svg.append("g")
                 .call(d3.axisLeft(y).ticks(5)).attr("transform", "translate("+ x0 +", 0)")

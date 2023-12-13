@@ -195,6 +195,14 @@ html {
   font-size: 16px;
 }
 
+#autograph {
+  font-family: "Autography";
+  font-size: 40px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  margin-left: -20px;
+}
+
 /**
  * Reset some basic elements
  */
@@ -829,6 +837,12 @@ table {
   margin-right: 290px;
 }
 
+@font-face {
+  font-family: "Autography";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/docs/assets/fonts/Autography.otf");
+}
 @font-face {
   font-family: "DejaVu Serif";
   font-style: normal;

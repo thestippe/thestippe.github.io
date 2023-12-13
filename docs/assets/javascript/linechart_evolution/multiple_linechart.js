@@ -12,7 +12,7 @@ function plotLinechart(data){
                 .attr("height", 900)
 
         const countries = ["Italy", "Spain", "Greece", "Portugal"]
-        var maxval = 40500
+        var maxval = 40000
         var minval = 0
 
         var x = d3.scaleTime()
@@ -25,7 +25,7 @@ function plotLinechart(data){
 
         var y = d3.scaleLinear().
                 domain([maxval, minval]). //Warning: it is reversed: in svg y goes from top to bottom
-                range([0, 800])
+                range([50, 800])
 
         var colorscheme = d3.scaleOrdinal().range(
         [ "#7fc97f", "#beaed4", "#fdc086", "#386cb0" ])

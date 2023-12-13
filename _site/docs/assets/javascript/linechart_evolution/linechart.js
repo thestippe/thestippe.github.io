@@ -5,7 +5,7 @@ d3.csv("https://raw.githubusercontent.com/thestippe/thestippe.github.io/main/dat
 function plotLinechart(data){
 
         console.log(data)
-        var maxval = 1.06*d3.max(data, d=> d.Italy) // find the appropriate scale, with some margin
+        var maxval = 40000 //d3.max(data, d=> d.Italy) // find the appropriate scale, with some margin
         var minval = 0 // 0.95*d3.min(data, d=> d.Italy) // find the appropriate scale, with some margin
 
 
@@ -27,7 +27,7 @@ function plotLinechart(data){
 
         var y = d3.scaleLinear().
                 domain([maxval, minval]). //Warning: it is reversed: in svg y goes from top to bottom
-                range([0, 850])
+                range([50, 850])
 
         svg.append("g")
                 .call(d3.axisLeft(y).ticks(5)).attr("transform", "translate(100, 0)")

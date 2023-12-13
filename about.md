@@ -11,9 +11,9 @@ Conclusione
 -->
 
 
-Hi, I am Stefano, and I am a data scientist.
+Hi, my name is Stefano, but everybody calls me Stippe.
 <br>
-I have been working as data scientist in healthcare, financial risk assessment and credit risk assessment.
+ I am a data scientist, and I have been working as data scientist in healthcare, financial risk assessment and credit risk assessment.
 <br>
 I have an academic background in physics, focused on models in nuclear and particle physics.
 <br>
