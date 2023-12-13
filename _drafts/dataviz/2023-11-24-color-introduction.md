@@ -113,6 +113,8 @@ In the following we try and show the LCh color space.
 <div class="luminanceContainer" style="margin-top:230px">
   <input type="range" min="0" max="100" value="50" class="slider" id="luminanceRange">
   <p>L: <span id="luminanceValue"></span></p>
+  <p> <span> Click on a color to get the corresponding RGB value.</span></p>
+  <p><span id="correspondingColor">RGB: </span></p>
 </div>
 </div>
 </div>

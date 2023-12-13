@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-12T22:17:35+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Introduction to color perception</title><link href="http://localhost:4000/color-introduction/" rel="alternate" type="text/html" title="Introduction to color perception" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>http://localhost:4000/color-introduction</id><content type="html" xml:base="http://localhost:4000/color-introduction/"><![CDATA[<p>Color is often used and misused in data visualization, as its stand out properties makes it 
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-13T10:49:44+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Introduction to color perception</title><link href="http://localhost:4000/color-introduction/" rel="alternate" type="text/html" title="Introduction to color perception" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>http://localhost:4000/color-introduction</id><content type="html" xml:base="http://localhost:4000/color-introduction/"><![CDATA[<p>Color is often used and misused in data visualization, as its stand out properties makes it 
 a very attractive channel for any kind of visualization.
 However, properly using color to encode any kind of attribute is far from being an easy
 task.
@@ -107,6 +107,8 @@ This color space, named LCh, has three coordinates:</p>
 <div class="luminanceContainer" style="margin-top:230px">
   <input type="range" min="0" max="100" value="50" class="slider" id="luminanceRange" />
   <p>L: <span id="luminanceValue"></span></p>
+  <p> <span> Click on a color to get the corresponding RGB value.</span></p>
+  <p><span id="correspondingColor">RGB: </span></p>
 </div>
 </div>
 </div>
