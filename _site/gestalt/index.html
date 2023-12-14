@@ -55,8 +55,12 @@
   
 </head>
 <body><header class="site-header">
+
+<script src="https://d3js.org/d3.v7.js"></script>
 <div>
-  <div class="wrapper" style="display:flex;"><a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><nav class="site-nav" style="display:flex;">
+  <div class="wrapper" style="display:flex;"><a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div>
+    <input type="search" id="searchBar" onkeydown="searchText()" placeholder="Search">
+</div><nav class="site-nav" style="display:flex;">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">
@@ -69,6 +73,35 @@
         <div class="trigger"><a id='navlink' class="page-link" href="/about">About me</a><a id='navlink' class="page-link" href="/index">Home</a><a id='navlink' class="page-link" href="/links">Resources</a></div>
       </nav></div>
 </div>
+<ul hidden="hidden" id="postList"><li>
+              How to choose a color map;/color-map/
+      </li><li>
+              Introduction to color perception;/color-introduction/
+      </li><li>
+              Drawing is redrawing;/redesign/
+      </li><li>
+              The Gestalt principles;/gestalt/
+      </li><li>
+              Channel effectiveness;/effectiveness/
+      </li><li>
+              Evolutions of the line chart;/linechart-evolution/
+      </li><li>
+              Beyond the 1D scatterplot;/beyond-scatterplot/
+      </li><li>
+              Perception;/perception/
+      </li><li>
+              Fundamental charts;/fundamental_charts/
+      </li><li>
+              Marks and channels;/marks-channels/
+      </li><li>
+              Data abstraction;/data-types/
+      </li><li>
+              Data visualization;/dataviz/
+      </li></ul>
+
+
+<script src="/docs/assets/javascript/search.js">
+</script>
 </header>
 <main class="page-content" aria-label="Content">
       <div class="wrapper">
@@ -78,6 +111,7 @@
 
         <a href='/index'>
 <img src="/docs/assets/images/background_resized.png" alt="backround" style="margin:auto;display:block;width:1200px">
+
 </a>
     <h1 class="post-title p-name" itemprop="name headline">The Gestalt principles</h1>
     <p class="post-meta"><time class="dt-published" datetime="2023-11-07T00:00:00+01:00" itemprop="datePublished">

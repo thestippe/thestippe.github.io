@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>How to choose a color map | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="How to choose a color map" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="http://localhost:4000/palettes-introduction/" />
+<meta property="og:url" content="http://localhost:4000/palettes-introduction/" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-25T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="How to choose a color map" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2023-11-25T00:00:00+01:00","datePublished":"2023-11-25T00:00:00+01:00","headline":"How to choose a color map","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/palettes-introduction/"},"url":"http://localhost:4000/palettes-introduction/"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+
+  
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+  
+</head>
+<body><header class="site-header">
+
+<script src="https://d3js.org/d3.v7.js"></script>
+<div>
+  <div class="wrapper" style="display:flex;"><a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div>
+    <input type="search" id="searchBar" onkeydown="searchText()" placeholder="Search">
+</div><nav class="site-nav" style="display:flex;">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a id='navlink' class="page-link" href="/about">About me</a><a id='navlink' class="page-link" href="/index">Home</a><a id='navlink' class="page-link" href="/links">Resources</a></div>
+      </nav></div>
+</div>
+<ul hidden="hidden" id="postList"><li>
+              How to choose a color map;/color-map/
+      </li><li>
+              Introduction to color perception;/color-introduction/
+      </li><li>
+              Drawing is redrawing;/redesign/
+      </li><li>
+              The Gestalt principles;/gestalt/
+      </li><li>
+              Channel effectiveness;/effectiveness/
+      </li><li>
+              Evolutions of the line chart;/linechart-evolution/
+      </li><li>
+              Beyond the 1D scatterplot;/beyond-scatterplot/
+      </li><li>
+              Perception;/perception/
+      </li><li>
+              Fundamental charts;/fundamental_charts/
+      </li><li>
+              Marks and channels;/marks-channels/
+      </li><li>
+              Data abstraction;/data-types/
+      </li><li>
+              Data visualization;/dataviz/
+      </li></ul>
+
+
+<script src="/docs/assets/javascript/search.js">
+</script>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.png" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">How to choose a color map</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-11-25T00:00:00+01:00" itemprop="datePublished">
+        Nov 25, 2023
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  7&prime;
+</span>
+</p>
+  </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <script src="https://d3js.org/d3.v5.js"></script>
+
+<p>In the <a href="/color-introduction/">last post</a> we defined the LCh color space and 
+explained why this is, at the moment, the best color space you can use to construct
+a color map.
+In this post we will explain how to build a color map with it.</p>
+
+<h2 id="categorical-color-maps">Categorical color maps</h2>
+
+<p>The easiest way to construct a categorical color map is to keep
+the chroma and the luminance constant, and to vary the hue.</p>
+
+<p>Varying the hue has the advantage that your audience will be able to
+refer to a particular category by simply using the color name.
+This is of course true unless you have too many colours, in this case naming the color
+could be ambiguous.
+Moreover, by keeping the luminance constant, there will be no category
+which stands out more than the other categories, so your classes
+will be all be perceived in the same way.</p>
+
+<p>Naively, you may be tempted to choose the highest luminance
+as well as the highest chroma 
+as possible in order to accommodate the highest number of classes as possible.
+From a perceptual point of view, however, this is not a good idea:
+your audience will be likely distracted by the bright colors, so using
+less brilliant colors will reduce the cognitive load of your audience.
+In order to do this, you can either decrease the chroma or the luminance
+of your color, or both.</p>
+
+<p>Keeping a high chroma and a high luminance has another issue, related to the structure of the LCh color space:
+given a chroma and a luminance, not all the hues are displayable,
+and the more you increase the chroma, the more the available hue range becomes smaller.</p>
+
+<p>Keeping the luminance constant has another issue related to a quite common inability,
+namely color blindness. Some people have a reduced or either completely absent
+capacity to perceive color hue, so keeping the luminance constant will
+imply that this part of your audience will experience problems into a correct 
+interpretation of your visualization.</p>
+
+<p>There are also design issues to take into account:
+spanning the entire hue circle will likely make your visualization look
+like an harlequin, and this will also contribute distracting your audience.
+A possible strategy to avoid this could be to restrict your hue variation
+within warm colors or cold colors.
+Additionally, you may need to consider that color may convey an implicit message,
+and this message may depend on the cultural background of your audience.
+This may be a positive fact or a negative one for you: red and blue meanings are universally
+recognized when talking about temperature, so you may consider using
+red to refer to a high volatility (which is often referred to high temperature
+in statistics) period in a market analysis and use blue to depict low volatility periods.
+On the other hand, in finance, red is associated with loss, so by using the above
+convention you may implicitly transmit the idea that high volatility
+implies loss, which is simply false (you may have a period where an
+index is always negative, and this is low volatility loss).</p>
+
+<p>There may be finally some task-specific issue to take into account.
+Companies often require that their visualizations fulfill specific
+requirements, like using the company’s palette.</p>
+
+<div class="emphbox">
+When you choose a color map, you must consider many factors, and finding 
+a good balance can be a tricky task.
+</div>
+
+<p>In order to reduce some of these issue, one should keep in mind that color
+is an appropriate channel for categorical attributes for a limited number
+of classes, possibly no more than four and never more than, say, eight <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<h2 id="quantitative-color-maps">Quantitative color maps</h2>
+
+<p>The simplest possible way to construct a quantitative color map is to keep the hue and the chroma as constant, and to let the value vary within the largest possible range.
+Many color scales have been built in this way, but this is not the only possible way to proceed.
+A very popular and valid alternative is to vary hue too.
+This has the main advantage that one may span a larger region of the color space, and this would increase the smaller possible perceived variation
+of your attribute.</p>
+
+<h2 id="diverging-color-maps">Diverging color maps</h2>
+<p>Building a diverging color map will now be very easy, as
+it simply requires to attach two color maps.
+Those color maps should:</p>
+
+<ul>
+  <li>Have the same chroma</li>
+  <li>Start from a common point</li>
+  <li>Move in different hue directions</li>
+  <li>Span the same distance in the luminance direction</li>
+</ul>
+
+<h2 id="cyclic-color-maps">Cyclic color maps</h2>
+
+<p>Sometimes you may also want to encode the fact that your attribute is cyclic, as an example when you are
+dealing with months, seasons or other periodic quantities.
+In this case you can simply put a difference between the minimum and maximum hue equal to 360.</p>
+
+<p>In case you are dealing with categorical attributes, keep in mind than you should
+increase by one the number of categories and drop the last one in order to 
+have distinct colors for distinct categories.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Choosing the correct color map may be a complicated issue.
+We have seen which are the main choices one must address in this task,
+together with some recipes to proceed.
+Sometimes the easiest choice is to simply go for a pre-build color map,
+as most dataviz libraries comes with their palettes, and they are
+usually done very well.
+This is the case of <a href="https://matplotlib.org/stable/users/explain/colors/colormaps.html">matplotlib</a> for Python or <a href="http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/">ggplot2</a> for R, as well as
+for other tools like <a href="https://help.tableau.com/current/pro/desktop/it-it/formatting_create_custom_colors.htm">Tableau</a> and of course <a href="https://observablehq.com/@d3/color-schemes">d3js</a> (which has been used almost everywhere in this blog, included this post).</p>
+
+<p>Another great resource is to take a palette from <a href="https://colorbrewer2.org/#type=sequential&amp;scheme=BuGn&amp;n=3">colorbrewer</a>, which is a collection of hand made color maps.</p>
+
+<p>Sometimes, however, this is not possible, since you
+may have requirements which are not implemented into the most popular
+palettes.</p>
+
+<p>In any case, you should keep in mind the following truth about color:</p>
+
+<div class="emphbox">
+"Above all, do not harm" - Edward Tufte
+</div>
+
+<h2 id="practice-it">Practice it</h2>
+
+<p>Now that we highlighted some of the choices you should consider when building a
+color map, let us use the above mentioned strategy to construct a color map.
+This is a very simple app that allows you to implement the above methods
+to construct a color map.
+You can choose the chroma and select a segment in the Hue-Luminance plane.
+One you are satisfied, you can generate your palette.
+Notice that, by varying the parameters, you may get out from the displayable
+region, so in order to avoid perceptual distortion the app will return black
+for the points which are not displayable.</p>
+
+<p><br /></p>
+
+<div class="row" style="display:flex">
+<div class="column" style="flex:50%;">
+
+<div>
+
+<br />
+Categories: <input type="text" id="CategoricalNumClasses" />
+<ul>
+<li>
+<input type="range" id="CategoricalChroma" min="0" max="120" onchange="updateChroma(this.value)" /> Chroma: <span id="chromaInput">45</span> 
+</li>
+<li> <input type="range" id="CategoricalminHue" min="-360" max="360" onchange="updateMinHue(this.value)" /> Hue 1: <span id="minHueInput">-70</span> 
+</li>
+<li><input type="range" id="CategoricalmaxHue" min="-360" max="360" onchange="updateMaxHue(this.value)" /> Hue 2: <span id="maxHueInput">100</span>
+</li>
+<li><input type="range" id="CategoricalValueMin" min="0" max="100" onchange="updateMinValue(this.value)" /> Luminance 1: <span id="minValueInput">15</span>
+</li>
+<li><input type="range" id="CategoricalValueMax" min="0" max="100" onchange="updateMaxValue(this.value)" /> Luminance 2: <span id="maxValueInput">95</span>
+</li>
+</ul>
+</div>
+<div>
+<br />
+
+ <button onclick="drawPalette()">Update palette</button> 
+<button onclick="createFile()">Download data</button>
+</div>
+
+<br />
+
+ <div id="catPalette"></div>
+ </div>
+<div class="column" style="flex:50%;">
+ <div id="catSurface"></div>
+ </div>
+ </div>
+
+<p><br />
+<br /></p>
+<div>
+Here you may also import your palette to visualize it.
+</div>
+<div>
+ <input type="text" id="inputPalette" />
+ <button onclick="drawExternalPalette()">Import color map</button> 
+
+<br />
+<br />
+
+<br />
+ <div id="externalPalette">
+ </div>
+
+<br />
+<br />
+
+
+<script src="/docs/assets/javascript/palettes_introduction/categorical_cmap.js">
+</script>
+</div>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>There is no agreement on the exact number of maximum categories one can easily distinguish by using color. A recent article, however, suggested that we use two different areas of the brain to count up to four and to count more objects, so without other experimental evidences I would suggest four as possible maximum value. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </div><a class="u-url" href="/palettes-introduction/" hidden></a>
+
+  <br>
+  <div id='autograph'>
+          Stippe Nov 25, 2023
+          
+</div>
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <h5>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </h5>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
+

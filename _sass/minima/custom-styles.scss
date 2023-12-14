@@ -1,2 +1,23 @@
 // Placeholder to allow defining custom styles that override everything else.
 // (Use `_sass/minima/custom-variables.scss` to override variable defaults)
+
+button {
+        font-family: inherit;
+        border-radius: 10px;
+        border-width: 2px;
+        cursor: default;
+        padding: 0.25em 0.75em;
+        min-width: 10ch;
+        min-height: 30px;
+
+}
+
+button:active {
+  box-shadow: rgba(0, 0, 0, 0.15) 0 2px 4px inset, rgba(0, 0, 0, 0.4) 0 1px 1px;
+}
+
+input[type=text] {
+  border-radius: 10px;
+  padding: 4px;
+  margin: 6px;
+}

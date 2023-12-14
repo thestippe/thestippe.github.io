@@ -4,7 +4,7 @@ title: "Introduction to color perception"
 categories: /dataviz/
 tags: /color-introduction/
 image: "/docs/assets/images/color_perception/color_circle.png"
-description: ""
+description: "Some basic concepts about color spaces"
 ---
 
 Color is often used and misused in data visualization, as its stand out properties makes it 

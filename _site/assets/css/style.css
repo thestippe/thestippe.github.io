@@ -517,6 +517,27 @@ table {
   float: right;
 }
 
+.suggestionsResults {
+  position: fixed;
+  z-index: 10;
+  margin: 10px;
+  background: #fffcfa;
+  background-color: #fffcfa;
+  opacity: 0.95;
+  border-style: solid;
+  border-color: grey;
+  border-radius: 20px;
+}
+
+#searchBar {
+  background-color: #fffcfa;
+  padding: 20px;
+  height: 20px;
+  margin-top: 15px;
+  border-radius: 20px;
+  border-radius: 20px;
+}
+
 /**
  * Site header
  */
@@ -837,6 +858,26 @@ table {
   margin-right: 290px;
 }
 
+button {
+  font-family: inherit;
+  border-radius: 10px;
+  border-width: 2px;
+  cursor: default;
+  padding: 0.25em 0.75em;
+  min-width: 10ch;
+  min-height: 30px;
+}
+
+button:active {
+  box-shadow: rgba(0, 0, 0, 0.15) 0 2px 4px inset, rgba(0, 0, 0, 0.4) 0 1px 1px;
+}
+
+input[type=text] {
+  border-radius: 10px;
+  padding: 4px;
+  margin: 6px;
+}
+
 @font-face {
   font-family: "Autography";
   font-style: normal;
@@ -873,7 +914,9 @@ html, body, form, fieldset, table, tr, td, img {
 }
 
 body {
-  background-color: #fffcfa;
+  background: #fffcfa;
+  z-index: 0;
+  opacity: 1;
 }
 
 .cards {

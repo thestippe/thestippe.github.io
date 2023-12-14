@@ -1,4 +1,6 @@
 <header class="site-header">
+
+<script src="https://d3js.org/d3.v7.js"></script>
 <div>
   <div class="wrapper" style="display:flex;">
     {%- assign default_paths = site.pages | map: "path" -%}
@@ -9,6 +11,10 @@
     {%- else -%}
     <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
     {%- endif -%}
+
+    <div>
+    <input type="search" id="searchBar" onkeydown="searchText()" placeholder="Search">
+</div>
 
     {%- if titles_size > 0 -%}
       <nav class="site-nav" style="display:flex;">
@@ -33,4 +39,16 @@
     {%- endif -%}
   </div>
 </div>
+<ul hidden="hidden" id="postList">
+
+      {%- for post in site.posts -%}
+      <li>
+              {{post.title}};{{post.tags}}
+      </li>
+      {%- endfor -%}
+</ul>
+
+
+<script src="/docs/assets/javascript/search.js">
+</script>
 </header>

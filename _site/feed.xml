@@ -1,4 +1,205 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-13T10:49:44+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Introduction to color perception</title><link href="http://localhost:4000/color-introduction/" rel="alternate" type="text/html" title="Introduction to color perception" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>http://localhost:4000/color-introduction</id><content type="html" xml:base="http://localhost:4000/color-introduction/"><![CDATA[<p>Color is often used and misused in data visualization, as its stand out properties makes it 
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-14T22:47:45+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">How to choose a color map</title><link href="http://localhost:4000/palettes-introduction/" rel="alternate" type="text/html" title="How to choose a color map" /><published>2023-11-25T00:00:00+01:00</published><updated>2023-11-25T00:00:00+01:00</updated><id>http://localhost:4000/palettes-introduction</id><content type="html" xml:base="http://localhost:4000/palettes-introduction/"><![CDATA[<script src="https://d3js.org/d3.v5.js"></script>
+
+<p>In the <a href="/color-introduction/">last post</a> we defined the LCh color space and 
+explained why this is, at the moment, the best color space you can use to construct
+a color map.
+In this post we will explain how to build a color map with it.</p>
+
+<h2 id="categorical-color-maps">Categorical color maps</h2>
+
+<p>The easiest way to construct a categorical color map is to keep
+the chroma and the luminance constant, and to vary the hue.</p>
+
+<p>Varying the hue has the advantage that your audience will be able to
+refer to a particular category by simply using the color name.
+This is of course true unless you have too many colours, in this case naming the color
+could be ambiguous.
+Moreover, by keeping the luminance constant, there will be no category
+which stands out more than the other categories, so your classes
+will be all be perceived in the same way.</p>
+
+<p>Naively, you may be tempted to choose the highest luminance
+as well as the highest chroma 
+as possible in order to accommodate the highest number of classes as possible.
+From a perceptual point of view, however, this is not a good idea:
+your audience will be likely distracted by the bright colors, so using
+less brilliant colors will reduce the cognitive load of your audience.
+In order to do this, you can either decrease the chroma or the luminance
+of your color, or both.</p>
+
+<p>Keeping a high chroma and a high luminance has another issue, related to the structure of the LCh color space:
+given a chroma and a luminance, not all the hues are displayable,
+and the more you increase the chroma, the more the available hue range becomes smaller.</p>
+
+<p>Keeping the luminance constant has another issue related to a quite common inability,
+namely color blindness. Some people have a reduced or either completely absent
+capacity to perceive color hue, so keeping the luminance constant will
+imply that this part of your audience will experience problems into a correct 
+interpretation of your visualization.</p>
+
+<p>There are also design issues to take into account:
+spanning the entire hue circle will likely make your visualization look
+like an harlequin, and this will also contribute distracting your audience.
+A possible strategy to avoid this could be to restrict your hue variation
+within warm colors or cold colors.
+Additionally, you may need to consider that color may convey an implicit message,
+and this message may depend on the cultural background of your audience.
+This may be a positive fact or a negative one for you: red and blue meanings are universally
+recognized when talking about temperature, so you may consider using
+red to refer to a high volatility (which is often referred to high temperature
+in statistics) period in a market analysis and use blue to depict low volatility periods.
+On the other hand, in finance, red is associated with loss, so by using the above
+convention you may implicitly transmit the idea that high volatility
+implies loss, which is simply false (you may have a period where an
+index is always negative, and this is low volatility loss).</p>
+
+<p>There may be finally some task-specific issue to take into account.
+Companies often require that their visualizations fulfill specific
+requirements, like using the company’s palette.</p>
+
+<div class="emphbox">
+When you choose a color map, you must consider many factors, and finding 
+a good balance can be a tricky task.
+</div>
+
+<p>In order to reduce some of these issue, one should keep in mind that color
+is an appropriate channel for categorical attributes for a limited number
+of classes, possibly no more than four and never more than, say, eight <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<h2 id="quantitative-color-maps">Quantitative color maps</h2>
+
+<p>The simplest possible way to construct a quantitative color map is to keep the hue and the chroma as constant, and to let the value vary within the largest possible range.
+Many color scales have been built in this way, but this is not the only possible way to proceed.
+A very popular and valid alternative is to vary hue too.
+This has the main advantage that one may span a larger region of the color space, and this would increase the smaller possible perceived variation
+of your attribute.</p>
+
+<h2 id="diverging-color-maps">Diverging color maps</h2>
+<p>Building a diverging color map will now be very easy, as
+it simply requires to attach two color maps.
+Those color maps should:</p>
+
+<ul>
+  <li>Have the same chroma</li>
+  <li>Start from a common point</li>
+  <li>Move in different hue directions</li>
+  <li>Span the same distance in the luminance direction</li>
+</ul>
+
+<h2 id="cyclic-color-maps">Cyclic color maps</h2>
+
+<p>Sometimes you may also want to encode the fact that your attribute is cyclic, as an example when you are
+dealing with months, seasons or other periodic quantities.
+In this case you can simply put a difference between the minimum and maximum hue equal to 360.</p>
+
+<p>In case you are dealing with categorical attributes, keep in mind than you should
+increase by one the number of categories and drop the last one in order to 
+have distinct colors for distinct categories.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Choosing the correct color map may be a complicated issue.
+We have seen which are the main choices one must address in this task,
+together with some recipes to proceed.
+Sometimes the easiest choice is to simply go for a pre-build color map,
+as most dataviz libraries comes with their palettes, and they are
+usually done very well.
+This is the case of <a href="https://matplotlib.org/stable/users/explain/colors/colormaps.html">matplotlib</a> for Python or <a href="http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/">ggplot2</a> for R, as well as
+for other tools like <a href="https://help.tableau.com/current/pro/desktop/it-it/formatting_create_custom_colors.htm">Tableau</a> and of course <a href="https://observablehq.com/@d3/color-schemes">d3js</a> (which has been used almost everywhere in this blog, included this post).</p>
+
+<p>Another great resource is to take a palette from <a href="https://colorbrewer2.org/#type=sequential&amp;scheme=BuGn&amp;n=3">colorbrewer</a>, which is a collection of hand made color maps.</p>
+
+<p>Sometimes, however, this is not possible, since you
+may have requirements which are not implemented into the most popular
+palettes.</p>
+
+<p>In any case, you should keep in mind the following truth about color:</p>
+
+<div class="emphbox">
+"Above all, do not harm" - Edward Tufte
+</div>
+
+<h2 id="practice-it">Practice it</h2>
+
+<p>Now that we highlighted some of the choices you should consider when building a
+color map, let us use the above mentioned strategy to construct a color map.
+This is a very simple app that allows you to implement the above methods
+to construct a color map.
+You can choose the chroma and select a segment in the Hue-Luminance plane.
+One you are satisfied, you can generate your palette.
+Notice that, by varying the parameters, you may get out from the displayable
+region, so in order to avoid perceptual distortion the app will return black
+for the points which are not displayable.</p>
+
+<p><br /></p>
+
+<div class="row" style="display:flex">
+<div class="column" style="flex:50%;">
+
+<div>
+
+<br />
+Categories: <input type="text" id="CategoricalNumClasses" />
+<ul>
+<li>
+<input type="range" id="CategoricalChroma" min="0" max="120" onchange="updateChroma(this.value)" /> Chroma: <span id="chromaInput">45</span> 
+</li>
+<li> <input type="range" id="CategoricalminHue" min="-360" max="360" onchange="updateMinHue(this.value)" /> Hue 1: <span id="minHueInput">-70</span> 
+</li>
+<li><input type="range" id="CategoricalmaxHue" min="-360" max="360" onchange="updateMaxHue(this.value)" /> Hue 2: <span id="maxHueInput">100</span>
+</li>
+<li><input type="range" id="CategoricalValueMin" min="0" max="100" onchange="updateMinValue(this.value)" /> Luminance 1: <span id="minValueInput">15</span>
+</li>
+<li><input type="range" id="CategoricalValueMax" min="0" max="100" onchange="updateMaxValue(this.value)" /> Luminance 2: <span id="maxValueInput">95</span>
+</li>
+</ul>
+</div>
+<div>
+<br />
+
+ <button onclick="drawPalette()">Update palette</button> 
+<button onclick="createFile()">Download data</button>
+</div>
+
+<br />
+
+ <div id="catPalette"></div>
+ </div>
+<div class="column" style="flex:50%;">
+ <div id="catSurface"></div>
+ </div>
+ </div>
+
+<p><br />
+<br /></p>
+<div>
+Here you may also import your palette to visualize it.
+</div>
+<div>
+ <input type="text" id="inputPalette" />
+ <button onclick="drawExternalPalette()">Import color map</button> 
+
+<br />
+<br />
+
+<br />
+ <div id="externalPalette">
+ </div>
+
+<br />
+<br />
+
+
+<script src="/docs/assets/javascript/palettes_introduction/categorical_cmap.js">
+</script>
+</div>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>There is no agreement on the exact number of maximum categories one can easily distinguish by using color. A recent article, however, suggested that we use two different areas of the brain to count up to four and to count more objects, so without other experimental evidences I would suggest four as possible maximum value. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/color-map/" /><summary type="html"><![CDATA[]]></summary></entry><entry><title type="html">Introduction to color perception</title><link href="http://localhost:4000/color-introduction/" rel="alternate" type="text/html" title="Introduction to color perception" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>http://localhost:4000/color-introduction</id><content type="html" xml:base="http://localhost:4000/color-introduction/"><![CDATA[<p>Color is often used and misused in data visualization, as its stand out properties makes it 
 a very attractive channel for any kind of visualization.
 However, properly using color to encode any kind of attribute is far from being an easy
 task.
@@ -143,7 +344,7 @@ space to build color palettes.</p>
 
 <script src="/docs/assets/javascript/color_introduction/rgbshow.js">
 
-</script>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/color-introduction/" /><summary type="html"><![CDATA[Color is often used and misused in data visualization, as its stand out properties makes it a very attractive channel for any kind of visualization. However, properly using color to encode any kind of attribute is far from being an easy task. Here we will start to analyze this problem by building a color space with the proper features.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/color_perception/color_circle.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/color_perception/color_circle.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
+</script>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/color-introduction/" /><summary type="html"><![CDATA[Some basic concepts about color spaces]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/color_perception/color_circle.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/color_perception/color_circle.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Drawing is redrawing</title><link href="http://localhost:4000/gender-economist/" rel="alternate" type="text/html" title="Drawing is redrawing" /><published>2023-11-20T00:00:00+01:00</published><updated>2023-11-20T00:00:00+01:00</updated><id>http://localhost:4000/gender-economist</id><content type="html" xml:base="http://localhost:4000/gender-economist/"><![CDATA[<p>Sometimes you must deal with constraints in dataviz, and finding the most
 suitable way to tackle your problem is not always easy.
 This is the case of the challenge launched by Sarah Leo, a visual data journalist
 working at the Economist in <a href="https://medium.economist.com/mistakes-weve-drawn-a-few-8cdd8a42d368">this post</a>.</p>
@@ -1720,196 +1921,4 @@ Review critically
       <p>The ticks are the graphical components that are used to mark the values of the axis. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/marks-channels/" /><summary type="html"><![CDATA[The building blocks of data visualization]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/markers_channels/markers.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/markers_channels/markers.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Data abstraction</title><link href="http://localhost:4000/data-types/" rel="alternate" type="text/html" title="Data abstraction" /><published>2023-10-13T00:00:00+02:00</published><updated>2023-10-13T00:00:00+02:00</updated><id>http://localhost:4000/data-types</id><content type="html" xml:base="http://localhost:4000/data-types/"><![CDATA[<p>Data can come into many different flavors, and in this post we will take a look at how
-we can classify them depending on their qualities and on our previous knowledge.</p>
-
-<p>In the simplest case our dataset will consist into a collection of
-<strong>items</strong>, and each item will have a set of <strong>attribute</strong>.</p>
-
-<p>In this case we are dealing with a <strong>tabular</strong> dataset.
-A more involved case is the one we also have <strong>relationships</strong> between the
-items, and in this case we are working with a <strong>network</strong>.</p>
-
-<p>There are also more involved kinds of datasets, which we won’t discuss here for now.
-Some examples are field datasets, where one displays the value
-of a certain quantity for each point of a discretized space,
-or geometry dataset, where one has a collection of shapes belonging to some space.
-Field datasets are very common when one deals with weather maps or topography maps, while an example
-of geometry dataset is given by a street map or by the map of the regions or of the cities of a certain country.</p>
-
-<p>For the moment we will only focus on tabular datasets.
-A tabular dataset can be represented, as the name suggests, with a table:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>item</th>
-      <th>attribute 1</th>
-      <th>attribute 2</th>
-      <th>…</th>
-      <th>attribute N</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>1</td>
-      <td>$a_1$</td>
-      <td>$b_1$</td>
-      <td>…</td>
-      <td>$z_1$</td>
-    </tr>
-    <tr>
-      <td>2</td>
-      <td>$a_2$</td>
-      <td>$b_2$</td>
-      <td>…</td>
-      <td>$z_2$</td>
-    </tr>
-    <tr>
-      <td>3</td>
-      <td>$a_3$</td>
-      <td>$b_3$</td>
-      <td>…</td>
-      <td>$z_3$</td>
-    </tr>
-    <tr>
-      <td>…</td>
-      <td>…</td>
-      <td>…</td>
-      <td>…</td>
-      <td>…</td>
-    </tr>
-    <tr>
-      <td>M</td>
-      <td>$a_M$</td>
-      <td>$b_M$</td>
-      <td>…</td>
-      <td>$z_M$</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Each attribute can be classified in a large number of ways, and here we will only
-discuss the main ones.</p>
-
-<p>Here we will mostly follow Tamara Munzner’s textbook
-<a href="https://www.cs.ubc.ca/~tmm/vadbook/">Visualization Analysis and Design</a>.</p>
-
-<h2 id="attribute-types">Attribute types</h2>
-
-<p>Attribute types define the mathematical operations that makes sense to do
-on an attribute.</p>
-
-<p>If an attribute doesn’t have a natural order we call it <strong>categorical</strong>
-or <strong>nominal</strong>.</p>
-
-<p>Examples of nominal attributes are</p>
-<ul>
-  <li>City names</li>
-  <li>Gender (assuming it’s a discrete quantity).</li>
-  <li>Eye color</li>
-</ul>
-
-<p>If an attribute has a natural order but we can’t define
-a distance between their values we say it’s <strong>ordinal</strong>.</p>
-
-<p>Ordinal attributes are</p>
-<ul>
-  <li>Grade</li>
-  <li>Education level</li>
-  <li>Sport ranking</li>
-</ul>
-
-<p>In this case, it doesn’t makes sense to sum, subtract or do any other
-arithmetic operations over the attribute.</p>
-
-<p>If our attribute comes with a concept of distance we have
-<strong>quantitative</strong> attributes.</p>
-
-<p>Quantitative attributes can be further sub-classified depending if they
-have a natural zero or not.
-Attributes which don’t have a natural zero are called <strong>interval</strong> attributes,
-while those which have are named <strong>ratio</strong> attributes.</p>
-
-<p>Example of interval attributes are</p>
-
-<ul>
-  <li>Temperatures expressed in Fahrenheit or Celsius degrees</li>
-  <li>pH</li>
-</ul>
-
-<p>While ratio attributes are:</p>
-
-<ul>
-  <li>Temperatures expressed in Kelvin degrees</li>
-  <li>Length</li>
-  <li>Mass</li>
-  <li>Any percentage</li>
-  <li>Earnings (where negative earning means loss)</li>
-</ul>
-
-<p><img src="/docs/assets/images/data_types/chart.png" alt="" /></p>
-
-<p>Moreover, we can also classify any ordered attribute attribute depending on the possible range of values it can take.</p>
-<ul>
-  <li>A <strong>sequential</strong> attribute is an attribute which can take any value between a minimum and a maximum. Examples of sequential attributes are the day of the week as well as height or weight.</li>
-  <li>A <strong>diverging</strong> attribute is an attribute which can be decomposed into two directions, a positive one and a negative one. Examples of diverging attributes are hours of the day (AM/PM), latitude (North/South) or elevation (above or below the sea level).</li>
-</ul>
-
-<p>Finally, a <strong>cyclic</strong> attribute is an attribute where the minimum possible value corresponds to the maximum possible value. Examples of cyclic attributes are longitude, hour of the day and day of the week.</p>
-
-<p>From our examples you may have noticed that
-a cyclic attribute can be either sequential,
-as the hour of the day, or diverging,
-as the longitude.</p>
-
-<h2 id="attribute-semantics">Attribute semantics</h2>
-
-<p>The mathematical operations we can perform with an attribute
-isn’t of course the only meaningful way we can classify the data.
-Another very important aspect of an attribute that we should
-consider when choosing how to visualize an attribute is its meaning.
-The semantic classification I found more useful in my personal experience is the one used by Tamara Munzner 
-in her textbook .</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Semantic</th>
-      <th>Meaning</th>
-      <th>Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>Key vs Value</td>
-      <td>A key attribute is used to identify an element, a value attribute does not</td>
-      <td>City name vs city population, date vs temperature</td>
-    </tr>
-    <tr>
-      <td>Spatial</td>
-      <td>Our attribute has a geographical connotation</td>
-      <td>zip code, latitude, city name</td>
-    </tr>
-    <tr>
-      <td>Temporal</td>
-      <td>Our attribute is associated with time</td>
-      <td>seconds, day of the week</td>
-    </tr>
-    <tr>
-      <td>Hierarchical</td>
-      <td>Two or more attributes have a natural hierarchy</td>
-      <td>year, month, day, hour but also continent, country, city</td>
-    </tr>
-  </tbody>
-</table>
-
-<h2 id="conclusions">Conclusions</h2>
-
-<p>Before deciding how to visualize your dataset you must first of all consider
-what are the types of the attribute you want to visualize and
-whether they have some special connotation.
-Here we have seen how to determine the attribute type and the most
-common attribute semantic.
-In the next post we will discuss some of the most common visualizations
-associated with each data type.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/data-types/" /><summary type="html"><![CDATA[Thinking about data]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/data_types/chart.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/data_types/chart.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/marks-channels/" /><summary type="html"><![CDATA[The building blocks of data visualization]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/markers_channels/markers.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/markers_channels/markers.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

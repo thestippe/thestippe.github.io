@@ -379,3 +379,27 @@ table {
         float: right;
 
 }
+
+.suggestionsResults {
+        position: fixed;
+        z-index: 10;
+        margin: 10px;
+        background: #fffcfa;
+        background-color: #fffcfa;
+        opacity: 0.95;
+        border-style: solid;
+        border-color: grey;
+        border-radius: 20px;
+}
+
+
+#searchBar {
+        background-color:#fffcfa;
+        padding:20px;
+        height:20px;
+        margin-top:15px;
+        border-radius:20px;
+        border-radius:20px;
+}
+
+
