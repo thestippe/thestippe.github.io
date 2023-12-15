@@ -4,14 +4,18 @@ layout: base
 
 <div class="home">
         <a href='/index'>
-<img src="/docs/assets/images/background_resized.png" alt="backround" style="margin:auto;display:block;width:1200px">
+                <img src="/docs/assets/images/background.png" alt="backround" style="margin:auto;display:block;width:1180px;position:fixed;">
 </a>
   {%- if page.title -%}
     <h1 class="page-heading">{{ page.title }}</h1>
   {%- endif -%}
 
+  <div id='home-content'>
   {{ content }}
   <hr>
+
+  </div>
+  <div id='home-links'>
 
 
   {% if site.paginate %}
@@ -73,5 +77,6 @@ layout: base
     {%- endif %}
 
   {%- endif -%}
+</div>
 
 </div>

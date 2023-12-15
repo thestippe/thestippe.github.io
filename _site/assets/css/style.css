@@ -538,6 +538,17 @@ table {
   border-radius: 20px;
 }
 
+#home-content {
+  position: sticky;
+  margin-top: 330px;
+}
+
+#home-links {
+  position: sticky;
+  background: #fffcfa;
+  margin-top: 330px;
+}
+
 /**
  * Site header
  */
