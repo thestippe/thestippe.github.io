@@ -1,7 +1,6 @@
 
 function searchText(){
         var event = window.event
-        console.log(event.keyCode)
         if(event.keyCode == 13){
                 openFocus()
         }
@@ -111,12 +110,10 @@ function openFocus(){
 
         activeField = document.getElementById('search_focus')
         if(+activeField.innerHTML>0){
-                console.log('opening')
 
                 let searchResult = document.getElementById('search_'+activeField.innerHTML)
                 window.open(searchResult.firstChild.href, '_self')
         }else{
-                console.log('not opening')
         }
 }
 
