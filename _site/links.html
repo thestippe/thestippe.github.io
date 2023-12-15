@@ -54,8 +54,10 @@
 <script src="https://d3js.org/d3.v7.js"></script>
 <div>
   <div class="wrapper" style="display:flex;"><a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div>
-    <input type="search" id="searchBar" onkeydown="searchText()" placeholder="Search">
-</div><nav class="site-nav" style="display:flex;">
+    <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+</div>
+
+    <div hidden='hidden' id="search_focus">0</div><nav class="site-nav" style="display:flex;">
         <input type="checkbox" id="nav-trigger" class="nav-trigger" />
         <label for="nav-trigger">
           <span class="menu-icon">

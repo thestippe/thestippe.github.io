@@ -393,7 +393,7 @@ table {
 }
 
 
-#searchBar {
+.searchBar {
         background-color:#fffcfa;
         padding:20px;
         height:20px;
@@ -411,4 +411,18 @@ table {
         position: sticky;
         background: #fffcfa;
         margin-top: 330px;
+}
+
+.searchResults {
+        border-radius: 16px;
+}
+
+.searchResults:active {
+        background: gray;
+        background-color: gray;
+        color: red;
+}
+
+.searchResults:focus {
+        background: gray;
 }

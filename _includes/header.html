@@ -13,8 +13,10 @@
     {%- endif -%}
 
     <div>
-    <input type="search" id="searchBar" onkeydown="searchText()" placeholder="Search">
+    <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
 </div>
+
+    <div hidden='hidden' id="search_focus">0</div>
 
     {%- if titles_size > 0 -%}
       <nav class="site-nav" style="display:flex;">
