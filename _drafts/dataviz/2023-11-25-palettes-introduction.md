@@ -3,7 +3,8 @@ layout: post
 title: "How to choose a color map"
 categories: /dataviz/
 tags: /color-map/
-description: ""
+description: "Each task has its own palette"
+image: "/docs/assets/images/palettes_introduction/palettes.png"
 ---
 
 <script src="https://d3js.org/d3.v5.js"></script>
