@@ -34,7 +34,9 @@ function searchText(){
                         newDiv.setAttribute('id', 'search_'+ind)
                         newDiv.setAttribute('class', 'searchResults')
                         href = document.createElement('a')
-                        href.innerHTML = elem.title
+                        text = document.createElement('span')
+                        text.innerHTML = elem.title
+                        href.appendChild(text)
                         href.setAttribute('href', elem.tags.replace('_', '-'))
                         newDiv.appendChild(href)
                         suggestions.appendChild(newDiv)

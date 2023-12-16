@@ -395,11 +395,14 @@ table {
 
 .searchBar {
         background-color:#fffcfa;
-        padding:20px;
+        padding-top:20px;
+        padding-bottom:20px;
+        padding-left:8px;
         height:20px;
         margin-top:15px;
+        margin-bottom:0px;
         border-radius:20px;
-        border-radius:20px;
+        margin-left: -40px;
 }
 
 #home-content {
@@ -425,4 +428,39 @@ table {
 
 .searchResults:focus {
         background: gray;
+}
+
+#rightNav {
+        display:flex;
+}
+
+.site-nav {
+        display:inline-grid;
+}
+
+.searchNav {
+        margin-right: 50px;
+}
+
+@media only screen and (max-width: 600px) {
+        .searchBar {
+                max-width: 70px;
+        margin-left: -145px;
+        }
+
+        .suggestionsResults {
+
+        margin-left: -145px;
+        }
+
+.searchResults {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: inline-block;
+        line-height: 25px;
+        margin-top: 2px;
+        margin-bottom: 2px;
+        padding-top: 2px;
+        padding-bottom: 2px;
+}
 }
