@@ -23,6 +23,33 @@ Our eye is rather complex, but to our aim we can only consider few components:
 - The **crystalline lens** changes the focal length of the eye, allowing us to focus on different objects.
 - The **retina** which contains the light receptors of our eye.
 - The **optic nerve** which transmits the information from the retina to the brain.
+<br>
+<br>
+<img src="/docs/assets/images/perception/eye.png" height=550px>
+<br>
+<br>
+The light receptors are located on the retina, and they convert the light into electric signals.
+These electric signals are then sent to the brain through the optic nerve.
+In order to accommodate the optic nerve, there is a hole into our retina, and this implies that we have a blind spot into our sight.
+If you want to experiment it yourself, you can close your right eye and look at the right circle, making sure that the two circles are
+aligned and that the line is in front of your nose. Move your head closer and farther away from the screen, at some point you should see the left circle disappearing.
+The exact distance depends on the dimension of your screen, but on a PC screen this should happen roughly at a distance equal to your
+arm's length.
+<br>
+<br>
+
+<svg width=1200 height=200 style='background-color:lightgray'>
+<circle cx=150 cy=100 r=50 style="fill:black"/>
+<line x1=600 y1=0 x2=600 y2=250 stroke='black' stroke-width='4'/>
+<circle cx=1050 cy=100 r=50 style="fill:black"/>
+</svg>
+
+<br>
+<br>
+If you tried the experiment, you will notice that you simply don's see the black circle, but you perceive
+ that you see the background color.
+This happens because our brain keeps reconstructing the unavailable information with the available information.
+
 
 Into the retina we have three kind of receptors:
 - The **rod cells** which are very sensitive in low light conditions. They are roughly 90 millions and are especially used into the peripheral vision and night vision. They are especially concentrated at the outer edge of our retina

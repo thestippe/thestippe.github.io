@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-20T08:46:44+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">How to choose a color map</title><link href="http://localhost:4000/palettes-introduction/" rel="alternate" type="text/html" title="How to choose a color map" /><published>2023-11-25T00:00:00+01:00</published><updated>2023-11-25T00:00:00+01:00</updated><id>http://localhost:4000/palettes-introduction</id><content type="html" xml:base="http://localhost:4000/palettes-introduction/"><![CDATA[<script src="https://d3js.org/d3.v5.js"></script>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-20T17:55:53+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">How to choose a color map</title><link href="http://localhost:4000/palettes-introduction/" rel="alternate" type="text/html" title="How to choose a color map" /><published>2023-11-25T00:00:00+01:00</published><updated>2023-11-25T00:00:00+01:00</updated><id>http://localhost:4000/palettes-introduction</id><content type="html" xml:base="http://localhost:4000/palettes-introduction/"><![CDATA[<script src="https://d3js.org/d3.v5.js"></script>
 
 <p>In the <a href="/color-introduction/">last post</a> we defined the LCh color space and 
 explained why this is, at the moment, the best color space you can use to construct
@@ -494,7 +494,66 @@ The main things I’d like to stress you about are the following:</p>
       <p>I preferred this color scheme with respect to the more common red-blue one because I found easier to infer if a value close to 0.5 was slightly above or below 0.5. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/redesign/" /><summary type="html"><![CDATA[How to tackle real life dataviz problems]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The Gestalt principles</title><link href="http://localhost:4000/gestalt/" rel="alternate" type="text/html" title="The Gestalt principles" /><published>2023-11-07T00:00:00+01:00</published><updated>2023-11-07T00:00:00+01:00</updated><id>http://localhost:4000/gestalt</id><content type="html" xml:base="http://localhost:4000/gestalt/"><![CDATA[<!-- Load d3.js -->
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/redesign/" /><summary type="html"><![CDATA[How to tackle real life dataviz problems]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gender_economist/original.webp" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Visual queries</title><link href="http://localhost:4000/visual-queries/" rel="alternate" type="text/html" title="Visual queries" /><published>2023-11-10T00:00:00+01:00</published><updated>2023-11-10T00:00:00+01:00</updated><id>http://localhost:4000/visual-queries</id><content type="html" xml:base="http://localhost:4000/visual-queries/"><![CDATA[<p>As we have seen, our eyes can only perceive a very small area with a high resolution. 
+The saccadic movements, however, let us inspect different portions
+of space. Our brain then reconstructs the information, 
+making us confident that we clearly see a larger amount of space.</p>
+
+<p>The sequence of inspected areas is called visual queries, and in this post
+we will have a deeper discussion on them.</p>
+
+<h2 id="a-simplified-information-flow-model">A simplified information flow model</h2>
+<p>As explained in Colin Ware’s textbook, the neural activity involved in our sight process is very involved, but
+for our purposes we can build a simplified model, which will help us in designing visualizations.
+In this model we have two information flows, a bottom-up flow and a top-down one.
+In the bottom-up flow the information provided by our eyes is collected, filtered and elaborated.
+The elaboration goes through many steps. In the first step, the retinal signal is converted into features like color, size and shape.
+At each subsequent step we construct pattern of increasing complexity.
+Some of the most relevant patterns emerging in this phase will be discussed in the post about <a href="/gestalt/">Gestalt psychology</a>.
+These patterns are then stored into our <strong>visual working memory</strong>.</p>
+
+<p>The visual working memory is considered the main bottleneck of our attention, as it can only store few objects at each time
+and only for a very small amount of time, typically few seconds or less.
+For this reason, it is generally recommended not to use interaction whenever possible, as interacting takes time, and during
+this time some important information may get lost, so we may miss some important pattern <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<p>In the top-down flow we direct our attention, so our eyes, depending on our available information and expectations, as well as depending on our task.
+At the lower level, our attention makes us focus on the elementary signals we are looking for: if we are looking for our car, and our car is red,
+our attention will let us focus on red objects.
+I would like to stress you with the fact that signals considered as interesting are stronger have a very important consequence:</p>
+
+<div class="emphbox">
+Our perception is strongly biased by what we expect.
+</div>
+
+<p>There is also another important aspect that enters into the game, which is our culture, and this fact is well known by user experience designers.
+As an example, our visual queries are generally influenced by our writing system: in most western cultures we write from left to right
+and from top to bottom, and this makes us start looking for new information at the top left of a web page, so UI designers usually put
+there the most important informations.
+On the other hand, in other Countries like the ones in the Middle East, the writing goes from right to left.
+Due to this, companies like Google or Microsoft usually reverse the user interface on the left-right plane for languages like arabic, and they put
+the most relevant information on the right.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Since the exact structure of the query is subjective and depends on the task, there is no recipe to determine how one will perform
+visual queries.
+There are however few questions that you can ask yourself when making a visualization:</p>
+
+<ul>
+  <li>What task should the visualization accomplish?</li>
+  <li>Who will be the audience?</li>
+  <li>What could be a reasonable way to perform this task from a cognitive point of view?</li>
+  <li>Is there any visualization which could make this task easier, from a cognitive point of view?</li>
+</ul>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>As a fun fact, this memory bottleneck is used in many magic tricks, as the one <a href="https://www.crazycardtrick.com/">here</a>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/gestalt/" /><summary type="html"><![CDATA[How do we inspect an image]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/" /><media:content medium="image" url="http://localhost:4000/" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The Gestalt principles</title><link href="http://localhost:4000/gestalt/" rel="alternate" type="text/html" title="The Gestalt principles" /><published>2023-11-07T00:00:00+01:00</published><updated>2023-11-07T00:00:00+01:00</updated><id>http://localhost:4000/gestalt</id><content type="html" xml:base="http://localhost:4000/gestalt/"><![CDATA[<!-- Load d3.js -->
 <script src="https://d3js.org/d3.v5.js"></script>
 
 <p>Gestalt principles are widely used in design in order to convey grouping among items in 
@@ -1385,8 +1444,34 @@ Our eye is rather complex, but to our aim we can only consider few components:</
   <li>The <strong>iris</strong> which regulates the amount of light entering into our eye.</li>
   <li>The <strong>crystalline lens</strong> changes the focal length of the eye, allowing us to focus on different objects.</li>
   <li>The <strong>retina</strong> which contains the light receptors of our eye.</li>
-  <li>The <strong>optic nerve</strong> which transmits the information from the retina to the brain.</li>
+  <li>The <strong>optic nerve</strong> which transmits the information from the retina to the brain.
+<br />
+<br />
+<img src="/docs/assets/images/perception/eye.png" height="550px" />
+<br />
+<br />
+The light receptors are located on the retina, and they convert the light into electric signals.
+These electric signals are then sent to the brain through the optic nerve.
+In order to accommodate the optic nerve, there is a hole into our retina, and this implies that we have a blind spot into our sight.
+If you want to experiment it yourself, you can close your right eye and look at the right circle, making sure that the two circles are
+aligned and that the line is in front of your nose. Move your head closer and farther away from the screen, at some point you should see the left circle disappearing.
+The exact distance depends on the dimension of your screen, but on a PC screen this should happen roughly at a distance equal to your
+arm’s length.
+<br />
+<br /></li>
 </ul>
+
+<svg width="1200" height="200" style="background-color:lightgray">
+<circle cx="150" cy="100" r="50" style="fill:black" />
+<line x1="600" y1="0" x2="600" y2="250" stroke="black" stroke-width="4" />
+<circle cx="1050" cy="100" r="50" style="fill:black" />
+</svg>
+
+<p><br />
+<br />
+If you tried the experiment, you will notice that you simply don’s see the black circle, but you perceive
+ that you see the background color.
+This happens because our brain keeps reconstructing the unavailable information with the available information.</p>
 
 <p>Into the retina we have three kind of receptors:</p>
 <ul>
@@ -1691,234 +1776,4 @@ time I lived in each location.</p>
       <p>Well, to be honest this post is also an excuse to try and see how to draw charts with <a href="https://d3js.org/">D3.js</a>, and up to the moment it looks an amazing tool! <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/fundamental_charts/" /><summary type="html"><![CDATA[An overview to some of the most common data visualizations]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/charts/charttypes.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/charts/charttypes.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Marks and channels</title><link href="http://localhost:4000/marks-channels/" rel="alternate" type="text/html" title="Marks and channels" /><published>2023-10-14T00:00:00+02:00</published><updated>2023-10-14T00:00:00+02:00</updated><id>http://localhost:4000/marks-channels</id><content type="html" xml:base="http://localhost:4000/marks-channels/"><![CDATA[<p>When we build a data visualization we are building vocabulary
-to translate our data into a message, and this vocabulary can be decomposed in 
-a certain number of elements.
-We always do that, even if you may not conscious about it.
-Being aware of this helps us to think about how to better build this vocabulary
-and, ultimately, how to make your message more effective.</p>
-
-<p>Here we will discuss these components, together with the
-fundamental design principles of data visualization, which are a set of 
-guidelines to help us finding the most appropriate representation for our data.</p>
-
-<h2 id="marks-and-channels">Marks and channels</h2>
-
-<p>Marks and channels are the first two fundamental building blocks of a
-data visualization.</p>
-
-<h3 id="marks">Marks</h3>
-<p>Marks are the geometric elements that we use to identify the items
-of our dataset <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.
-Since we are plotting on a two dimensional surface, we can use any geometric entity
-with dimensionality less or equal to two to represent our items, so we can use:</p>
-
-<svg height="180" width="95%" style="margin:2%; font-weight: bold">
-<text x="30" y="15"> POINTS </text>
-  <circle cx="20" cy="40" r="10" fill="steelblue" />
-  <circle cx="45" cy="45" r="10" fill="steelblue" />
-  <circle cx="70" cy="55" r="10" fill="steelblue" />
-  <rect x="100" y="25" width="20" height="20" fill="steelblue" />
-  <rect x="100" y="50" width="20" height="20" fill="steelblue" />
-
-<text x="315" y="15"> LINES </text>
-<line x1="270" y1="40" x2="420" y2="40" style="color:black; width:20px; stroke:black; stroke-width:3px" />
-<line x1="270" y1="80" x2="420" y2="60" style="color:black; width:20px; stroke:black; stroke-width:3px" />
-<line x1="270" y1="100" x2="420" y2="120" style="color:black; width:20px; stroke:black; stroke-width:3px" />
-
-
-<text x="630" y="15"> AREAS </text>
-<rect x="600" y="25" width="120" height="80" fill="steelblue" style="stroke:black; stroke-width:3px" />
-<rect x="600" y="25" width="80" height="80" fill="steelblue" style="stroke:black; stroke-width:3px" />
-<rect x="600" y="25" width="80" height="40" fill="steelblue" style="stroke:black; stroke-width:3px" />
-</svg>
-
-<div class="emphbox">
-Someone also uses three dimensional objects as markers.
-Please, don't! 
-<br />
-Their encoding implies that we must model the perspective,
-and this causes a distortion into our perceived values, making them not suitable
-for data visualization.
-</div>
-
-<h3 id="channels">Channels</h3>
-<p>We then have the channels, and they encode the values of the data associated to our items.</p>
-
-<p>The most commonly channels used to encode quantitative information are</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">Channel</th>
-      <th style="text-align: left">Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">Position on aligned axis</td>
-      <td style="text-align: left"><svg height="50" width="200"><line x1="10" y1="10" x2="200" y2="10" style="color:black; width:20px; stroke:black; stroke-width:3px"></line> <circle cx="45" cy="10" r="10" fill="grey"></circle> <line x1="10" y1="30" x2="200" y2="30" style="color:black; width:20px; stroke:black; stroke-width:3px"></line> <circle cx="125" cy="30" r="10" fill="grey"></circle></svg></td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Position on unaligned axis</td>
-      <td style="text-align: left"><svg height="50" width="200"><line x1="10" y1="10" x2="160" y2="10" style="color:black; width:20px; stroke:black; stroke-width:3px"></line> <circle cx="45" cy="10" r="10" fill="grey"></circle> <line x1="50" y1="30" x2="200" y2="30" style="color:black; width:20px; stroke:black; stroke-width:3px"></line> <circle cx="125" cy="30" r="10" fill="grey"></circle></svg></td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Length</td>
-      <td style="text-align: left"><svg height="50" width="200"><line x1="10" y1="10" x2="200" y2="10" style="color:black; width:20px; stroke:black; stroke-width:3px"></line>  <line x1="10" y1="30" x2="150" y2="30" style="color:black; width:20px; stroke:black; stroke-width:3px"></line> </svg></td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Width</td>
-      <td style="text-align: left"><svg height="50" width="200"><line x1="10" y1="10" x2="200" y2="10" style="color:black; width:20px; stroke:black; stroke-width:3px"></line>  <line x1="10" y1="30" x2="200" y2="30" style="color:black; width:30px; stroke:black; stroke-width:5px"></line> </svg></td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Angle/Slope</td>
-      <td style="text-align: left"><svg height="50" width="200"><line x1="10" y1="10" x2="70" y2="10" style="color:black; width:20px; stroke:black; stroke-width:3px"></line>  <line x1="10" y1="10" x2="70" y2="30" style="color:black; width:20px; stroke:black; stroke-width:3px"></line> <line x1="150" y1="10" x2="200" y2="10" style="color:black; width:20px; stroke:black; stroke-width:3px"></line>  <line x1="150" y1="10" x2="200" y2="40" style="color:black; width:20px; stroke:black; stroke-width:3px"></line></svg></td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Area</td>
-      <td style="text-align: left"><svg height="50" width="200"> <circle cx="20" cy="20" r="10" fill="grey"></circle> <circle cx="100" cy="20" r="15" fill="grey"></circle> <circle cx="180" cy="20" r="20" fill="grey"></circle> </svg></td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Color luminance</td>
-      <td style="text-align: left"><svg height="50" width="200"> <rect x="5" y="5" height="40" width="40" fill="lightgray"></rect> <rect x="85" y="5" height="40" width="40" fill="gray"></rect><rect x="160" y="5" height="40" width="40" fill="black"></rect>  </svg></td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Color saturation</td>
-      <td style="text-align: left"><svg height="50" width="200"> <rect x="5" y="5" height="40" width="40" fill="#61679e"></rect> <rect x="85" y="5" height="40" width="40" fill="#3644c9"></rect><rect x="160" y="5" height="40" width="40" fill="#0019ff"></rect>  </svg></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>On the other hand, if we want to encode a categorical information, we have the following
-channels:</p>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: right">Channel</th>
-      <th style="text-align: left">Example</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: right">Spatial region</td>
-      <td style="text-align: left"><svg height="60" width="200"> <rect x="5" y="5" height="40" width="40" fill="gray"></rect> <rect x="85" y="15" height="40" width="40" fill="gray"></rect><rect x="160" y="5" height="30" width="30" fill="gray"></rect>  </svg></td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Color hue</td>
-      <td style="text-align: left"><svg height="50" width="200"> <rect x="5" y="5" height="40" width="40" fill="#a31919"></rect> <rect x="85" y="5" height="40" width="40" fill="#19a319"></rect><rect x="160" y="5" height="40" width="40" fill="#1919a3"></rect>  </svg></td>
-    </tr>
-    <tr>
-      <td style="text-align: right">Shape/Texture</td>
-      <td style="text-align: left"><svg height="50" width="200"> <rect x="5" y="5" height="40" width="40" fill="grey"></rect> <circle cx="105" cy="25" r="20" fill="grey"></circle> <polygon points="180,45 160,5 200,5" fill="grey"></polygon> </svg></td>
-    </tr>
-  </tbody>
-</table>
-
-<p>The order of the items in the above tables is not random, but it reflects how easily we
-translate the visual information either into a quantity or into different categories,
-and this property is called <strong>effectiveness</strong>.</p>
-
-<h3 id="other-components">Other components</h3>
-
-<p>Marks and channels are the components which encode information about our data, but
-they are not the only components which constitute a data visualization.
-Other components are the ones which allow us to interpret, compare and give context
-to our data.</p>
-
-<ul>
-  <li>axis</li>
-  <li>grids</li>
-  <li>annotations</li>
-  <li>legends</li>
-  <li>labels</li>
-  <li>ticks</li>
-  <li>reference lines</li>
-</ul>
-
-<div class="emphbox"> Annotations may also be used to draw attention to patterns of interest.</div>
-
-<p>Use this components only if they really help your reader.
-Remember that, most of the time, you want the reader to easily compare the values of your data, not to be able to assess the exact value of
-your data.
-You should keep your visualization as clean as possible, and in order to do so:</p>
-
-<ul>
-  <li>Avoid useless boxes.</li>
-  <li>Don’t use grids if they don’t help understanding the data.</li>
-  <li>Avoid too many ticks <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</li>
-</ul>
-
-<h2 id="design-principles">Design principles</h2>
-
-<p>The above mentioned concept should be applied, as much as possible, according to the
-principles of data visualization design.
-These principles, that we will discuss in the rest of this post, will allow the reader
-to easily understand and decode the visualization, reducing the risk of a misinterpretation and so making the communication between you and your reader clearer.</p>
-
-<h3 id="expressiveness-principle">Expressiveness principle</h3>
-<p>The expressiveness principle essentially states that we should make the message
-as clear as possible, without neglecting information and, probably most important,
-without adding, either implicitly or explicitly, information.</p>
-
-<div class="emphbox">
-The visual representation should represent all and
-only the relations that exist in the data.
-</div>
-
-<p>Some examples of violation to this principle are:</p>
-<ul>
-  <li>Line chart used to represent categorical data</li>
-  <li>Different color intensities to encode different categories</li>
-  <li>A diverging color map to represent a quantity that does not have an origin (a zero).</li>
-  <li>Using a channel that don’t encode any data.</li>
-</ul>
-
-<h3 id="effectiveness-principle">Effectiveness principle</h3>
-<p>The effectiveness principle is another principle that
-helps us finding the most appropriate channel for each variable.</p>
-
-<div class="emphbox">
-The relevance of the information should match the effectiveness of the channel.
-</div>
-
-<p>The first obvious consequence of this principle is that the most important variable
-should always be encoded by using a spatial dimension.
-On the other hand, one should not rely on color to effectively communicate
-relevant quantities.</p>
-
-<h2 id="conclusions">Conclusions</h2>
-
-<p>We have first seen what are the main components of any data visualization.
-We have then mentioned two important recommendations on how to translate our dataset into
-a graph.</p>
-
-<p>You should always keep them in mind, but you should also balance them by taking
-into account your audience and your message.</p>
-
-<!-- 
-Train!
-
-Establish visual hierarchy (play with contrast, brightness)
-data pops, legends and rest of frame supports
-put the accent on the relevant data points
-don's put boxes. Work with alignments and grids
-choose right font
-
-Let you go
-Use your hands/easy sketching software (at the beginning you want speed, not perfection)
-
-Review critically
--->
-
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:1" role="doc-endnote">
-      <p>If we are representing a network rather than a tabular dataset, they are used to represents the links too. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:2" role="doc-endnote">
-      <p>The ticks are the graphical components that are used to mark the values of the axis. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/marks-channels/" /><summary type="html"><![CDATA[The building blocks of data visualization]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/markers_channels/markers.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/markers_channels/markers.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/fundamental_charts/" /><summary type="html"><![CDATA[An overview to some of the most common data visualizations]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/charts/charttypes.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/charts/charttypes.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
