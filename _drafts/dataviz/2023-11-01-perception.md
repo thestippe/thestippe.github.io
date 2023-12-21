@@ -25,7 +25,9 @@ Our eye is rather complex, but to our aim we can only consider few components:
 - The **optic nerve** which transmits the information from the retina to the brain.
 <br>
 <br>
-<img src="/docs/assets/images/perception/eye.png" height=550px>
+<img src="/docs/assets/images/perception/Three_Main_Layers_of_the_Eye.png" height=550px>
+<figcaption>The structure of the eye.
+Image taken from <a href="https://en.m.wikipedia.org/wiki/File:Three_Main_Layers_of_the_Eye.png">Wikipedia</a> under Creative Common license.</figcaption>
 <br>
 <br>
 The light receptors are located on the retina, and they convert the light into electric signals.
@@ -58,7 +60,7 @@ Into the retina we have three kind of receptors:
 
 The red cones are approximately ten times the green or blue ones, this is why we are better in discriminating the red tones than the blue or green ones.
 
-![Cone absorbance](/docs/assets/images/perception/Cone-absorbance-en.svg) The typical spectrum of our light receptors, from [Wikipedia](https://en.wikipedia.org/wiki/Rod_cell)
+![Cone absorbance](/docs/assets/images/perception/Cone-absorbance-en.svg) The typical spectrum of our light receptors, from [Wikipedia](https://en.wikipedia.org/wiki/Rod_cell) (CC license).
 
 The cone density is much higher in a small region located oppositely to the iris,
 namely the **fovea**. Approximately half the nerve fibers in the optic nerve

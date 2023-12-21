@@ -233,15 +233,15 @@ h5 {
 
 @media screen and (min-width: 800px) {
   h2 {
-    margin-left: -20px;
+    margin-left: 0px;
     width: 100%;
   }
   h1 {
-    margin-left: -40px;
+    margin-left: 0px;
     width: 100%;
   }
   #logo {
-    margin-left: -40px;
+    margin-left: 0px;
   }
   #navlink {
     align-items: end;
