@@ -410,6 +410,15 @@ table {
         margin-top: 170px;
 }
 
+#div-gradient {
+        height: 50px;
+        margin-bottom: -30px;
+        position: sticky;
+        background: #fffcfa;
+            -webkit-mask-image: -webkit-gradient(linear, left top, left bottom, 
+    from(rgba(0,0,0,0)), to(rgba(0,0,0,1)));
+}
+
 #home-links {
         position: sticky;
         background: #fffcfa;
