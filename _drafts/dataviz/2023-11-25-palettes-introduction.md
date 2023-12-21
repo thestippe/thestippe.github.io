@@ -176,7 +176,7 @@ svg2.append('rect').attr('x', 7*(50-i)).attr('y', 50)
 
 col1 = d3.hcl(-175+2.5*i, 27, 90-1.5*i)
          if(!col1.displayable()){col1 = d3.color("black")}
-svg2.append('rect').attr('x', 7*(50+i+1)).attr('y', 50)
+svg2.append('rect').attr('x', 7*(50+i)).attr('y', 50)
 .attr('height', 100).attr('width', 7)
 .attr('fill', col1.rgb().toString())
 
