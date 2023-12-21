@@ -195,6 +195,13 @@ html {
   font-size: 16px;
 }
 
+#homeTop {
+  margin-top: 55px;
+  width: 100%;
+  right: 0;
+  margin-right: 0;
+}
+
 #autograph {
   font-family: "Autography";
   font-size: 40px;
@@ -210,6 +217,18 @@ html {
 /**
  * Reset some basic elements
  */
+#upperBar {
+  position: fixed;
+  margin-top: -5px;
+  z-index: 10;
+  width: 100%;
+  background: #fffcfa;
+}
+
+#topPage {
+  margin-top: 32px;
+}
+
 body, h1, h2, h3, h4, h5, h6,
 p, blockquote, pre, hr,
 dl, dd, ol, ul, figure {
@@ -257,7 +276,7 @@ h5 {
 nav {
   font-family: "Gotham", "Metropolis";
   vertical-align: text-top;
-  margin-right: 0px;
+  margin-right: -80px;
 }
 
 /**

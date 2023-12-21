@@ -54,10 +54,12 @@
 <a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
   
 </head>
-<body><header class="site-header">
+<body>
 
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
         <script src="https://d3js.org/d3.v7.js"></script>
-        <div>
                 <div class="wrapper" style="display:flex;">
                         <div style="display:flex"><a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
                                         <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
@@ -76,7 +78,6 @@
 
                                 <div class="trigger"><a id='navlink' class="page-link" href="/about">About me</a><a id='navlink' class="page-link" href="/index">Home</a><a id='navlink' class="page-link" href="/links">Resources</a></div>
                         </nav></div>
-        </div>
         <ul hidden="hidden" id="postList"><li>
                         How to choose a color map;/palettes-introduction/
                 </li><li>
@@ -108,13 +109,17 @@
 
         <script src="/docs/assets/javascript/search.js">
         </script>
+                </div>
 </header>
-<main class="page-content" aria-label="Content">
+</div>
+
+
+    <main class="page-content" aria-label="Content">
       <div class="wrapper">
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-
+          <div id='topPage'></div>
         <a href='/index'>
 <img src="/docs/assets/images/background_resized.png" alt="backround" style="margin:auto;display:block;width:1200px">
 
@@ -125,7 +130,7 @@
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
   
-  7&prime;
+  8&prime;
 </span>
 </p>
   </header>
@@ -164,7 +169,7 @@ of your color, or both.</p>
 given a chroma and a luminance, not all the hues are displayable,
 and the more you increase the chroma, the more the available hue range becomes smaller.</p>
 
-<p>Keeping the luminance constant has another issue related to a quite common inability,
+<p>Keeping the luminance constant can moreover be problematic for people affected by a quite common inability,
 namely color blindness. Some people have a reduced or either completely absent
 capacity to perceive color hue, so keeping the luminance constant will
 imply that this part of your audience will experience problems into a correct 
@@ -199,6 +204,34 @@ a good balance can be a tricky task.
 is an appropriate channel for categorical attributes for a limited number
 of classes, possibly no more than four and never more than, say, eight <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
 
+<script src="https://d3js.org/d3.v5.js"></script>
+
+<p><br /></p>
+<div id="categorical_example"> </div>
+<p><br /></p>
+
+<script>
+var catWidth = 950
+var catHeight = 150
+
+catPalette = d3.select('#categorical_example')
+
+var svg = catPalette.append("svg")
+        .attr("id", 'myid')
+        .attr("width", catWidth)
+        .attr("height", catHeight)
+
+for(let i=0; i<5; i++){
+col = d3.hcl(80+i*80, 40, 70)
+svg.append('rect').attr('x', 150*i).attr('y', 50)
+.attr('height', 100).attr('width', 150)
+.attr('fill', col.rgb().toString())
+}
+
+svg.append('text').attr('x', 0).attr('y', 32)
+.text('An example of fixed-chroma and fixed-luminance categorical color map')
+</script>
+
 <h2 id="quantitative-color-maps">Quantitative color maps</h2>
 
 <p>The simplest possible way to construct a quantitative color map is to keep the hue and the chroma as constant, and to let the value vary within the largest possible range.
@@ -206,6 +239,33 @@ Many color scales have been built in this way, but this is not the only possible
 A very popular and valid alternative is to vary hue too.
 This has the main advantage that one may span a larger region of the color space, and this would increase the smaller possible perceived variation
 of your attribute.</p>
+
+<p><br /></p>
+<div id="quantitative_example"> </div>
+<p><br /></p>
+
+<script>
+var catWidth = 950
+var catHeight = 150
+
+quanPalette = d3.select('#quantitative_example')
+
+var svg1 = quanPalette.append("svg")
+        .attr("id", 'myid')
+        .attr("width", catWidth)
+        .attr("height", catHeight)
+
+for(let i=0; i<100; i++){
+col = d3.hcl(-175+2.2*i, 45, 91-i*0.69)
+        if(!col.displayable()){col = d3.color("black")}
+svg1.append('rect').attr('x', 6*i).attr('y', 50)
+.attr('height', 100).attr('width', 150)
+.attr('fill', col.rgb().toString())
+}
+
+svg1.append('text').attr('x', 0).attr('y', 32)
+.text('An example of fixed-chroma quantitative color map')
+</script>
 
 <h2 id="diverging-color-maps">Diverging color maps</h2>
 <p>Building a diverging color map will now be very easy, as

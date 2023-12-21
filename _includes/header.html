@@ -1,7 +1,7 @@
 <header class="site-header">
 
+        <div id='upperBarr'>
         <script src="https://d3js.org/d3.v7.js"></script>
-        <div>
                 <div class="wrapper" style="display:flex;">
                         <div style="display:flex">
                                 {%- assign default_paths = site.pages | map: "path" -%}
@@ -41,7 +41,6 @@
                                 </div>
                         </nav>
                         {%- endif -%}
-                </div>
         </div>
         <ul hidden="hidden" id="postList">
 
@@ -55,4 +54,5 @@
 
         <script src="/docs/assets/javascript/search.js">
         </script>
+                </div>
 </header>

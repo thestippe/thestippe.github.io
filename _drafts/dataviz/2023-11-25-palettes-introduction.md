@@ -40,7 +40,7 @@ Keeping a high chroma and a high luminance has another issue, related to the str
 given a chroma and a luminance, not all the hues are displayable,
 and the more you increase the chroma, the more the available hue range becomes smaller.
 
-Keeping the luminance constant has another issue related to a quite common inability,
+Keeping the luminance constant can moreover be problematic for people affected by a quite common inability,
 namely color blindness. Some people have a reduced or either completely absent
 capacity to perceive color hue, so keeping the luminance constant will
 imply that this part of your audience will experience problems into a correct 
@@ -75,6 +75,33 @@ In order to reduce some of these issue, one should keep in mind that color
 is an appropriate channel for categorical attributes for a limited number
 of classes, possibly no more than four and never more than, say, eight [^1].
 
+<script src="https://d3js.org/d3.v5.js"></script>
+
+<br>
+<div id="categorical_example"> </div>
+<br>
+
+<script>
+var catWidth = 950
+var catHeight = 150
+
+catPalette = d3.select('#categorical_example')
+
+var svg = catPalette.append("svg")
+        .attr("id", 'myid')
+        .attr("width", catWidth)
+        .attr("height", catHeight)
+
+for(let i=0; i<5; i++){
+col = d3.hcl(80+i*80, 40, 70)
+svg.append('rect').attr('x', 150*i).attr('y', 50)
+.attr('height', 100).attr('width', 150)
+.attr('fill', col.rgb().toString())
+}
+
+svg.append('text').attr('x', 0).attr('y', 32)
+.text('An example of fixed-chroma and fixed-luminance categorical color map')
+</script>
 
 [^1]: There is no agreement on the exact number of maximum categories one can easily distinguish by using color. A recent article, however, suggested that we use two different areas of the brain to count up to four and to count more objects, so without other experimental evidences I would suggest four as possible maximum value.
 
@@ -86,6 +113,33 @@ Many color scales have been built in this way, but this is not the only possible
 A very popular and valid alternative is to vary hue too.
 This has the main advantage that one may span a larger region of the color space, and this would increase the smaller possible perceived variation
 of your attribute.
+
+<br>
+<div id="quantitative_example"> </div>
+<br>
+
+<script>
+var catWidth = 950
+var catHeight = 150
+
+quanPalette = d3.select('#quantitative_example')
+
+var svg1 = quanPalette.append("svg")
+        .attr("id", 'myid')
+        .attr("width", catWidth)
+        .attr("height", catHeight)
+
+for(let i=0; i<100; i++){
+col = d3.hcl(-175+2.2*i, 45, 91-i*0.69)
+        if(!col.displayable()){col = d3.color("black")}
+svg1.append('rect').attr('x', 6*i).attr('y', 50)
+.attr('height', 100).attr('width', 150)
+.attr('fill', col.rgb().toString())
+}
+
+svg1.append('text').attr('x', 0).attr('y', 32)
+.text('An example of fixed-chroma quantitative color map')
+</script>
 
 ## Diverging color maps
 Building a diverging color map will now be very easy, as

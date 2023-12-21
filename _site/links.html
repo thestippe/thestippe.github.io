@@ -49,10 +49,12 @@
 <a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
   
 </head>
-<body><header class="site-header">
+<body>
 
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
         <script src="https://d3js.org/d3.v7.js"></script>
-        <div>
                 <div class="wrapper" style="display:flex;">
                         <div style="display:flex"><a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
                                         <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
@@ -71,7 +73,6 @@
 
                                 <div class="trigger"><a id='navlink' class="page-link" href="/about">About me</a><a id='navlink' class="page-link" href="/index">Home</a><a id='navlink' class="page-link" href="/links">Resources</a></div>
                         </nav></div>
-        </div>
         <ul hidden="hidden" id="postList"><li>
                         How to choose a color map;/palettes-introduction/
                 </li><li>
@@ -103,13 +104,17 @@
 
         <script src="/docs/assets/javascript/search.js">
         </script>
+                </div>
 </header>
-<main class="page-content" aria-label="Content">
+</div>
+
+
+    <main class="page-content" aria-label="Content">
       <div class="wrapper">
         <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-
+          <div id='topPage'></div>
         <a href='/index'>
 <img src="/docs/assets/images/background_resized.png" alt="backround" style="margin:auto;display:block;width:1200px">
 
