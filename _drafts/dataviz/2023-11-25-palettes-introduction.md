@@ -94,8 +94,8 @@ var svg = catPalette.append("svg")
 
 for(let i=0; i<5; i++){
 col = d3.hcl(80+i*80, 40, 70)
-svg.append('rect').attr('x', 150*i).attr('y', 50)
-.attr('height', 100).attr('width', 150)
+svg.append('rect').attr('x', 140*i).attr('y', 50)
+.attr('height', 100).attr('width', 140)
 .attr('fill', col.rgb().toString())
 }
 
@@ -132,8 +132,8 @@ var svg1 = quanPalette.append("svg")
 for(let i=0; i<100; i++){
 col = d3.hcl(-175+2.2*i, 45, 91-i*0.69)
         if(!col.displayable()){col = d3.color("black")}
-svg1.append('rect').attr('x', 6*i).attr('y', 50)
-.attr('height', 100).attr('width', 150)
+svg1.append('rect').attr('x', 7*i).attr('y', 50)
+.attr('height', 100).attr('width', 7)
 .attr('fill', col.rgb().toString())
 }
 
@@ -151,6 +151,46 @@ Those color maps should:
 - Move in different hue directions
 - Span the same distance in the luminance direction
 
+
+<br>
+<div id="diverging_example"> </div>
+<br>
+
+<script>
+var catWidth = 950
+var catHeight = 150
+
+divPalette = d3.select('#diverging_example')
+
+var svg2 = divPalette.append("svg")
+        .attr("id", 'myid')
+        .attr("width", catWidth)
+        .attr("height", catHeight)
+
+for(let i=0; i<50; i++){
+col = d3.hcl(-175-2.5*i, 27, 90-1.5*i)
+         if(!col.displayable()){col = d3.color("black")}
+svg2.append('rect').attr('x', 7*(50-i)).attr('y', 50)
+.attr('height', 100).attr('width', 7)
+.attr('fill', col.rgb().toString())
+
+col1 = d3.hcl(-175+2.5*i, 27, 90-1.5*i)
+         if(!col1.displayable()){col1 = d3.color("black")}
+svg2.append('rect').attr('x', 7*(50+i+1)).attr('y', 50)
+.attr('height', 100).attr('width', 7)
+.attr('fill', col1.rgb().toString())
+
+// col1 = d3.hcl(-175-2.2*i, 20, 90-i)
+//         if(!col.displayable()){col1 = d3.color("black")}
+// svg2.append('rect').attr('x', 50*6+6*i).attr('y', 50)
+// .attr('height', 100).attr('width', 150)
+// .attr('fill', col1.rgb().toString())
+}
+
+svg2.append('text').attr('x', 0).attr('y', 32)
+.text('An example of fixed-chroma diverging color map')
+</script>
+
 ## Cyclic color maps
 
 Sometimes you may also want to encode the fact that your attribute is cyclic, as an example when you are
@@ -160,6 +200,33 @@ In this case you can simply put a difference between the minimum and maximum hue
 In case you are dealing with categorical attributes, keep in mind than you should
 increase by one the number of categories and drop the last one in order to 
 have distinct colors for distinct categories.
+
+<br>
+<div id="cyclic_example"> </div>
+<br>
+
+<script>
+var catWidth = 950
+var catHeight = 150
+
+cclPalette = d3.select('#cyclic_example')
+
+var svg3 = cclPalette.append("svg")
+        .attr("id", 'myid')
+        .attr("width", catWidth)
+        .attr("height", catHeight)
+
+for(let i=0; i<12; i++){
+col = d3.hcl(220+i*30, 30, 75)
+         if(!col.displayable()){col = d3.color("black")}
+svg3.append('rect').attr('x', 60*i).attr('y', 50)
+.attr('height', 100).attr('width', 60)
+.attr('fill', col.rgb().toString())
+}
+
+svg3.append('text').attr('x', 0).attr('y', 32)
+.text('An example of fixed-chroma and fixed-luminance cyclic color map')
+</script>
 
 ## Conclusions
 
