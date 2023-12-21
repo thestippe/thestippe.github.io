@@ -81,26 +81,7 @@ of classes, possibly no more than four and never more than, say, eight [^1].
 <div id="categorical_example"> </div>
 <br>
 
-<script>
-var catWidth = 950
-var catHeight = 150
-
-catPalette = d3.select('#categorical_example')
-
-var svg = catPalette.append("svg")
-        .attr("id", 'myid')
-        .attr("width", catWidth)
-        .attr("height", catHeight)
-
-for(let i=0; i<5; i++){
-col = d3.hcl(80+i*80, 40, 70)
-svg.append('rect').attr('x', 140*i).attr('y', 50)
-.attr('height', 100).attr('width', 140)
-.attr('fill', col.rgb().toString())
-}
-
-svg.append('text').attr('x', 0).attr('y', 32)
-.text('An example of fixed-chroma and fixed-luminance categorical color map')
+<script src="/docs/assets/javascript/palettes_introduction/catExample.js">
 </script>
 
 [^1]: There is no agreement on the exact number of maximum categories one can easily distinguish by using color. A recent article, however, suggested that we use two different areas of the brain to count up to four and to count more objects, so without other experimental evidences I would suggest four as possible maximum value.
@@ -118,27 +99,7 @@ of your attribute.
 <div id="quantitative_example"> </div>
 <br>
 
-<script>
-var catWidth = 950
-var catHeight = 150
-
-quanPalette = d3.select('#quantitative_example')
-
-var svg1 = quanPalette.append("svg")
-        .attr("id", 'myid')
-        .attr("width", catWidth)
-        .attr("height", catHeight)
-
-for(let i=0; i<100; i++){
-col = d3.hcl(-175+2.2*i, 45, 91-i*0.69)
-        if(!col.displayable()){col = d3.color("black")}
-svg1.append('rect').attr('x', 7*i).attr('y', 50)
-.attr('height', 100).attr('width', 7)
-.attr('fill', col.rgb().toString())
-}
-
-svg1.append('text').attr('x', 0).attr('y', 32)
-.text('An example of fixed-chroma quantitative color map')
+<script src="/docs/assets/javascript/palettes_introduction/quantExample.js">
 </script>
 
 ## Diverging color maps
@@ -156,39 +117,7 @@ Those color maps should:
 <div id="diverging_example"> </div>
 <br>
 
-<script>
-var catWidth = 950
-var catHeight = 150
-
-divPalette = d3.select('#diverging_example')
-
-var svg2 = divPalette.append("svg")
-        .attr("id", 'myid')
-        .attr("width", catWidth)
-        .attr("height", catHeight)
-
-for(let i=0; i<50; i++){
-col = d3.hcl(-175-2.5*i, 27, 90-1.5*i)
-         if(!col.displayable()){col = d3.color("black")}
-svg2.append('rect').attr('x', 7*(50-i)).attr('y', 50)
-.attr('height', 100).attr('width', 7)
-.attr('fill', col.rgb().toString())
-
-col1 = d3.hcl(-175+2.5*i, 27, 90-1.5*i)
-         if(!col1.displayable()){col1 = d3.color("black")}
-svg2.append('rect').attr('x', 7*(50+i)).attr('y', 50)
-.attr('height', 100).attr('width', 7)
-.attr('fill', col1.rgb().toString())
-
-// col1 = d3.hcl(-175-2.2*i, 20, 90-i)
-//         if(!col.displayable()){col1 = d3.color("black")}
-// svg2.append('rect').attr('x', 50*6+6*i).attr('y', 50)
-// .attr('height', 100).attr('width', 150)
-// .attr('fill', col1.rgb().toString())
-}
-
-svg2.append('text').attr('x', 0).attr('y', 32)
-.text('An example of fixed-chroma diverging color map')
+<script src="/docs/assets/javascript/palettes_introduction/divExample.js">
 </script>
 
 ## Cyclic color maps
@@ -205,27 +134,7 @@ have distinct colors for distinct categories.
 <div id="cyclic_example"> </div>
 <br>
 
-<script>
-var catWidth = 950
-var catHeight = 150
-
-cclPalette = d3.select('#cyclic_example')
-
-var svg3 = cclPalette.append("svg")
-        .attr("id", 'myid')
-        .attr("width", catWidth)
-        .attr("height", catHeight)
-
-for(let i=0; i<12; i++){
-col = d3.hcl(220+i*30, 30, 75)
-         if(!col.displayable()){col = d3.color("black")}
-svg3.append('rect').attr('x', 60*i).attr('y', 50)
-.attr('height', 100).attr('width', 60)
-.attr('fill', col.rgb().toString())
-}
-
-svg3.append('text').attr('x', 0).attr('y', 32)
-.text('An example of fixed-chroma and fixed-luminance cyclic color map')
+<script src="/docs/assets/javascript/palettes_introduction/cclExample.js">
 </script>
 
 ## Conclusions
