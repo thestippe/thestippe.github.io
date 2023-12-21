@@ -161,6 +161,7 @@ Would you always name the color of the above stripe in the same way?
 
 
 ## Conclusions
+
 We have seen different criteria to assess
 the effectiveness of a channel.
 Depending on your task, you should find
