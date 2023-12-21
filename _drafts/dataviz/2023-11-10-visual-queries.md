@@ -3,7 +3,7 @@ layout: post
 title: "Visual queries"
 categories: /dataviz/
 tags: /gestalt/
-image: ""
+image: "/docs/assets/images/visual_queries/attention.svg"
 description: "How do we inspect an image"
 ---
 
@@ -37,6 +37,11 @@ this time some important information may get lost, so we may miss some important
 In the top-down flow we direct our attention, so our eyes, depending on our available information and expectations, as well as depending on our task.
 At the lower level, our attention makes us focus on the elementary signals we are looking for: if we are looking for our car, and our car is red,
 our attention will let us focus on red objects.
+
+<br>
+<img src="/docs/assets/images/visual_queries/attention.svg" width=700 alt="Our model for vision.">
+<br>
+
 I would like to stress you with the fact that signals considered as interesting are stronger have a very important consequence:
 
 <div class='emphbox'>
