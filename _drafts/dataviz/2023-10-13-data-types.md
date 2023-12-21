@@ -124,3 +124,7 @@ Here we have seen how to determine the attribute type and the most
 common attribute semantic.
 In the next post we will discuss some of the most common visualizations
 associated with each data type.
+
+## Suggested readings
+
+-  <cite> Munzner, T. (2015). Visualization Analysis and Design. CRC Press. ISBN: 9781498759717 </cite>

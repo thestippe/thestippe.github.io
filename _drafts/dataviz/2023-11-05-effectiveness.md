@@ -170,3 +170,9 @@ If you want to precisely compare values, you
 should probably favour more accurate channels,
 while if you want to check if your
 clustering algorithm is doing its job, then you should consider using channels where grouping is easier.
+
+## Suggested readings
+
+- <cite> Munzner, T. (2015). Visualization Analysis and Design. CRC Press. ISBN: 9781498759717 </cite>
+-  <cite> Colin Ware, Information Visualization, Perception for Design. </cite>
+- <cite>Edward R. Tufte. 1986. The visual display of quantitative information. Graphics Press, USA.</cite>

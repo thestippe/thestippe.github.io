@@ -161,22 +161,9 @@ a graph.
 You should always keep them in mind, but you should also balance them by taking
 into account your audience and your message.
 
+## Suggested readings
 
-
-<!-- 
-Train!
-
-Establish visual hierarchy (play with contrast, brightness)
-data pops, legends and rest of frame supports
-put the accent on the relevant data points
-don's put boxes. Work with alignments and grids
-choose right font
-
-Let you go
-Use your hands/easy sketching software (at the beginning you want speed, not perfection)
-
-Review critically
--->
+<cite> Munzner, T. (2015). Visualization Analysis and Design. CRC Press. ISBN: 9781498759717 </cite>
 
 
 [^1]: If we are representing a network rather than a tabular dataset, they are used to represents the links too.

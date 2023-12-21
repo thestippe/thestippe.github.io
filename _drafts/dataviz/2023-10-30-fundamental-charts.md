@@ -141,3 +141,6 @@ time I lived in each location.
 
 Symbol maps can be used to determine the spatial distribution of a certain quantities.
 
+## Suggested readings
+
+- <cite> Munzner, T. (2015). Visualization Analysis and Design. CRC Press. ISBN: 9781498759717 </cite>

@@ -218,3 +218,7 @@ In the following are listed the results of both of your test.
 
 <script src="/docs/assets/javascript/perception/combined_chart.js"> </script>
 
+
+## Suggested readings
+
+-  <cite> Colin Ware, Information Visualization, Perception for Design. </cite>
