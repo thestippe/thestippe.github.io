@@ -195,6 +195,20 @@ html {
   font-size: 16px;
 }
 
+/* The progress container (grey background) */
+.progress-container {
+  width: 100%;
+  height: 5px;
+  background: lightgray;
+}
+
+/* The progress bar (scroll indicator) */
+.progress-bar {
+  height: 5px;
+  width: 0%;
+  background: linear-gradient(to left, steelblue, #fffcfa);
+}
+
 #autograph {
   font-family: "Autography";
   font-size: 40px;
