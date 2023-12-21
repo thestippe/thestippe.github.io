@@ -548,6 +548,7 @@ table {
 
 #div-gradient {
   height: 50px;
+  margin-top: -15px;
   margin-bottom: -30px;
   position: sticky;
   background: #fffcfa;
