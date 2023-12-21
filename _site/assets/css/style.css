@@ -195,19 +195,17 @@ html {
   font-size: 16px;
 }
 
-#homeTop {
-  margin-top: 55px;
-  width: 100%;
-  right: 0;
-  margin-right: 0;
-}
-
 #autograph {
   font-family: "Autography";
   font-size: 40px;
   margin-top: 20px;
   margin-bottom: 10px;
   margin-left: 20px;
+}
+
+#topline {
+  margin-top: -10px;
+  margin-bottom: -10px;
 }
 
 .footnotes {
@@ -219,14 +217,14 @@ html {
  */
 #upperBar {
   position: fixed;
-  margin-top: -5px;
-  z-index: 10;
+  margin-bottom: 32px;
   width: 100%;
-  background: #fffcfa;
+  background-color: #fffcfa;
+  z-index: 10;
 }
 
-#topPage {
-  margin-top: 32px;
+#homeTop {
+  margin-top: 75px;
 }
 
 body, h1, h2, h3, h4, h5, h6,
@@ -269,14 +267,14 @@ h5 {
   #navlink {
     align-items: end;
     margin-left: 15px;
-    margin-right: 20px;
+    margin-right: 10px;
     float: right;
   }
 }
 nav {
   font-family: "Gotham", "Metropolis";
   vertical-align: text-top;
-  margin-right: -80px;
+  margin-right: -20px;
 }
 
 /**
@@ -554,6 +552,7 @@ table {
 
 .searchBar {
   background-color: #fffcfa;
+  align: left;
   padding-top: 20px;
   padding-bottom: 20px;
   padding-left: 8px;
@@ -606,17 +605,23 @@ table {
   display: inline-grid;
 }
 
-.searchNav {
-  margin-right: 50px;
+.nav-trigger {
+  margin-left: -140px;
+  align: left;
 }
 
 @media only screen and (max-width: 600px) {
   .searchBar {
     max-width: 70px;
-    margin-left: -145px;
+    margin-left: -135px;
   }
   .suggestionsResults {
     margin-left: -145px;
+  }
+  .site-nav {
+    align: left;
+    margin-left: -80px;
+    margin-right: 0px;
   }
   .searchResults {
     overflow: hidden;
