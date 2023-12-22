@@ -1,9 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-22T09:56:19+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">How to choose a color map</title><link href="http://localhost:4000/palettes-introduction/" rel="alternate" type="text/html" title="How to choose a color map" /><published>2023-11-25T00:00:00+01:00</published><updated>2023-11-25T00:00:00+01:00</updated><id>http://localhost:4000/palettes-introduction</id><content type="html" xml:base="http://localhost:4000/palettes-introduction/"><![CDATA[<script src="https://d3js.org/d3.v5.js"></script>
-
-<p>In the <a href="/color-introduction/">last post</a> we defined the LCh color space and 
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-22T13:19:31+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">How to choose a color map</title><link href="http://localhost:4000/palettes-introduction/" rel="alternate" type="text/html" title="How to choose a color map" /><published>2023-11-25T00:00:00+01:00</published><updated>2023-11-25T00:00:00+01:00</updated><id>http://localhost:4000/palettes-introduction</id><content type="html" xml:base="http://localhost:4000/palettes-introduction/"><![CDATA[<p>In the <a href="/color-introduction/">last post</a> we defined the LCh color space and 
 explained why this is, at the moment, the best color space you can use to construct
 a color map.
 In this post we will explain how to build a color map with it.</p>
+
+<script src="https://d3js.org/d3.v5.js"></script>
 
 <h2 id="categorical-color-maps">Categorical color maps</h2>
 
@@ -619,12 +619,12 @@ We finally gave some suggestion to improve our data visualizations by carefully 
       <p>As a fun fact, this memory bottleneck is used in many magic tricks, as the one <a href="https://www.crazycardtrick.com/">here</a>. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
     </li>
   </ol>
-</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/gestalt/" /><summary type="html"><![CDATA[How do we inspect an image]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/visual_queries/attention.svg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/visual_queries/attention.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The Gestalt principles</title><link href="http://localhost:4000/gestalt/" rel="alternate" type="text/html" title="The Gestalt principles" /><published>2023-11-07T00:00:00+01:00</published><updated>2023-11-07T00:00:00+01:00</updated><id>http://localhost:4000/gestalt</id><content type="html" xml:base="http://localhost:4000/gestalt/"><![CDATA[<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v5.js"></script>
-
-<p>Gestalt principles and laws are widely used in design in order to convey
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/gestalt/" /><summary type="html"><![CDATA[How do we inspect an image]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/visual_queries/attention.svg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/visual_queries/attention.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The Gestalt principles</title><link href="http://localhost:4000/gestalt/" rel="alternate" type="text/html" title="The Gestalt principles" /><published>2023-11-07T00:00:00+01:00</published><updated>2023-11-07T00:00:00+01:00</updated><id>http://localhost:4000/gestalt</id><content type="html" xml:base="http://localhost:4000/gestalt/"><![CDATA[<p>Gestalt principles and laws are widely used in design in order to convey
 grouping among items in a visualization.
 Here we will discuss them in order to understand how to leverage them in dataviz.</p>
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.js"></script>
 
 <p>I found many versions of the Gestalt principles online, and I collected
 and reorganized all of them as best as I could.</p>
@@ -1152,13 +1152,13 @@ I decided to include it here for the sake of completeness.</p>
 <ul>
   <li><cite> Gordon, I.E. (2004). Theories of Visual Perception (1st ed.). Psychology Press. https://doi.org/10.4324/9780203502259 </cite></li>
   <li><cite> Stephen Few. 2006. Information Dashboard Design: The Effective Visual Communication of Data. O’Reilly Media, Inc. </cite></li>
-</ul>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/gestalt/" /><summary type="html"><![CDATA[How does our brain build patterns]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gestalt/gestalt.svg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gestalt/gestalt.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Channel effectiveness</title><link href="http://localhost:4000/effectiveness/" rel="alternate" type="text/html" title="Channel effectiveness" /><published>2023-11-05T00:00:00+01:00</published><updated>2023-11-05T00:00:00+01:00</updated><id>http://localhost:4000/effectiveness</id><content type="html" xml:base="http://localhost:4000/effectiveness/"><![CDATA[<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v5.js"></script>
-
-<p>When we have been talking about <a href="/marks-channels">marks and channels</a>
+</ul>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/gestalt/" /><summary type="html"><![CDATA[How does our brain build patterns]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/gestalt/gestalt.svg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/gestalt/gestalt.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Channel effectiveness</title><link href="http://localhost:4000/effectiveness/" rel="alternate" type="text/html" title="Channel effectiveness" /><published>2023-11-05T00:00:00+01:00</published><updated>2023-11-05T00:00:00+01:00</updated><id>http://localhost:4000/effectiveness</id><content type="html" xml:base="http://localhost:4000/effectiveness/"><![CDATA[<p>When we have been talking about <a href="/marks-channels">marks and channels</a>
 we mentioned the concept of effectiveness, by saying it
 reflects how easily we translate the visual information encoded into the
 corresponding channel.</p>
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.js"></script>
 
 <p>Effectiveness is not a fundamental quantity, but it rather summarizes a
 number of possible features:</p>
@@ -1421,11 +1421,11 @@ for a set of categories.
 Faceting can be combined with anyone of the visualizations we have previous discussed, while stacking can 
 only be applied to bar chart or line chart.
 Finally, we have seen the streamgraph,
-which uses an alternative way of stacking the lines.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Beyond the 1D scatterplot</title><link href="http://localhost:4000/scatterplot-evolution/" rel="alternate" type="text/html" title="Beyond the 1D scatterplot" /><published>2023-11-02T00:00:00+01:00</published><updated>2023-11-02T00:00:00+01:00</updated><id>http://localhost:4000/scatterplot-evolution</id><content type="html" xml:base="http://localhost:4000/scatterplot-evolution/"><![CDATA[<script src="https://d3js.org/d3.v5.js"></script>
-
-<p>When we discussed <a href="/fundamental-charts">the fundamental charts</a>, we saw the most basic way to visualize one dimensional
+which uses an alternative way of stacking the lines.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/linechart-evolution/" /><summary type="html"><![CDATA[When a linechart is not enough]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Beyond the 1D scatterplot</title><link href="http://localhost:4000/scatterplot-evolution/" rel="alternate" type="text/html" title="Beyond the 1D scatterplot" /><published>2023-11-02T00:00:00+01:00</published><updated>2023-11-02T00:00:00+01:00</updated><id>http://localhost:4000/scatterplot-evolution</id><content type="html" xml:base="http://localhost:4000/scatterplot-evolution/"><![CDATA[<p>When we discussed <a href="/fundamental-charts">the fundamental charts</a>, we saw the most basic way to visualize one dimensional
 quantitative data.
 In this post we will discuss alternatives ways to perform this task.</p>
+
+<script src="https://d3js.org/d3.v5.js"></script>
 
 <h2 id="1-d-scatterplot">1-D Scatterplot</h2>
 
@@ -1751,11 +1751,11 @@ effects.</p>
 
 <ul>
   <li><cite> Colin Ware, Information Visualization, Perception for Design. </cite></li>
-</ul>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v5.js"></script>
-
-<p>In this post we will take a look at some of the most fundamental charts
+</ul>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fundamental charts</title><link href="http://localhost:4000/fundamental-charts/" rel="alternate" type="text/html" title="Fundamental charts" /><published>2023-10-30T00:00:00+01:00</published><updated>2023-10-30T00:00:00+01:00</updated><id>http://localhost:4000/fundamental-charts</id><content type="html" xml:base="http://localhost:4000/fundamental-charts/"><![CDATA[<p>In this post we will take a look at some of the most fundamental charts
 that one encounters in data visualization <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.js"></script>
 
 <h2 id="1-d-scatterplot">1-D Scatterplot</h2>
 

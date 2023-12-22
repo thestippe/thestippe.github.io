@@ -7,12 +7,13 @@ description: "Each task has its own palette"
 image: "/docs/assets/images/palettes_introduction/palettes.png"
 ---
 
-<script src="https://d3js.org/d3.v5.js"></script>
-
 In the [last post](/color-introduction/) we defined the LCh color space and 
 explained why this is, at the moment, the best color space you can use to construct
 a color map.
 In this post we will explain how to build a color map with it.
+
+<script src="https://d3js.org/d3.v5.js"></script>
+
 
 ## Categorical color maps
 

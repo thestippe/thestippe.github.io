@@ -8,12 +8,12 @@ description: "An overview to some of the most common data visualizations"
 ---
 
 
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v5.js"></script>
 
 In this post we will take a look at some of the most fundamental charts
 that one encounters in data visualization [^1] [^2].
 
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.js"></script>
 
 [^1]: Here we will follow Enrico Bertini's Coursera lecture on fundamental graphs, which I suggest you to watch together with his entire [specialization in data visualization](https://www.coursera.org/specializations/information-visualization).
 

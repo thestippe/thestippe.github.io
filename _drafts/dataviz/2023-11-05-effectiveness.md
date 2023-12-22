@@ -7,13 +7,14 @@ image: "/docs/assets/images/effectiveness/effectiveness.png"
 description: "Quantifying the goodness of a channel to show an information"
 ---
 
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v5.js"></script>
 
 When we have been talking about [marks and channels](/marks-channels)
 we mentioned the concept of effectiveness, by saying it
 reflects how easily we translate the visual information encoded into the
 corresponding channel.
+
+<!-- Load d3.js -->
+<script src="https://d3js.org/d3.v5.js"></script>
 
 Effectiveness is not a fundamental quantity, but it rather summarizes a
 number of possible features:

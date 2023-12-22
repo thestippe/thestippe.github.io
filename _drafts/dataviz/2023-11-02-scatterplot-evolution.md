@@ -7,11 +7,12 @@ image: "/docs/assets/images/beyond_scatterplot/boxplot.svg"
 description: "How to visualize one dimensional distributions"
 ---
 
-<script src="https://d3js.org/d3.v5.js"></script>
 
 When we discussed [the fundamental charts](/fundamental-charts), we saw the most basic way to visualize one dimensional
 quantitative data.
 In this post we will discuss alternatives ways to perform this task. 
+
+<script src="https://d3js.org/d3.v5.js"></script>
 
 ## 1-D Scatterplot
 

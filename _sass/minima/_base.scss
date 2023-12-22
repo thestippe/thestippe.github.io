@@ -2,6 +2,19 @@ html {
   font-size: $base-font-size;
 }
 
+.card {
+        transition: transform .15s;
+        background: #fffcfa;
+        border-color: lightgray;
+        border-width: 1px;
+        border-style: solid;
+        padding: 5px;
+}
+
+.card:hover {
+        transform: scale(1.3);
+}
+
 /* The progress container (grey background) */
 .progress-container {
   width: 100%;
@@ -98,7 +111,12 @@ h5 {
         }
 }
 
-article irst-child::first-letter {
+article p:first-child::first-letter {
+        font-size: 220%;
+        font-weight: bold;
+        line-height: 100%;
+        // font-family:'Gotham';
+        // color: steelblue;
 
 }
 
