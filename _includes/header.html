@@ -3,21 +3,51 @@
         <div id='upperBarr'>
         <script src="https://d3js.org/d3.v7.js"></script>
                 <div class="wrapper" style="display:flex;">
+
+        <ul hidden='hidden' id="postList">
+                {%- assign prev_temp= "" -%}
+                {%- assign prev= "" -%}
+                {%- assign next= "" -%}
+                {%- assign lst = false -%}
+
+                {%- for post in site.posts -%}
+                <li>
+                        {{post.title}};{{post.url}};{{forloop.index}}
+                        {% if lst == true%}
+                        {% assign lst = false %}
+                        {% assign prev = post.url%}
+                        {% endif%}
+                        {%- if post.title == page.title -%}
+                        {% assign next = prev_temp %}
+                        {%assign lst=true%}
+                        {%assign k=forloop.index%}
+                        {%- endif-%}
+                </li>
+                {%assign prev_temp=post.url%}
+                {%- endfor -%}
+        </ul>
                         <div style="display:flex">
                                 {%- assign default_paths = site.pages | map: "path" -%}
                                 {%- assign page_paths = site.header_pages | default: default_paths -%}
                                 {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
                                 {%- if site.masthead -%}
+
+                  {% if prev.size > 0 %}
+                  <a href="{{prev}}" class="prev">&#8249;</a>
+                  {% endif%}
                                 <a href="{{ "/" | relative_url }}"><img class="site-masthead" src="{{ site.masthead | relative_url }}" alt="{{ site.title | escape }}" id="logo" /></a>
                                 {%- else -%}
                                 <a class="site-title" rel="author" href="{{ "/" | relative_url }}">{{ site.title | escape }}</a>
                                 {%- endif -%}
+
 
                                 <div id='searchNav' style="flex;">
                                         <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
                                 </div>
 
                                 <div hidden='hidden' id="search_focus">0</div>
+
+
                         </div>
 
                         {%- if titles_size > 0 -%}
@@ -41,18 +71,15 @@
                                 </div>
                         </nav>
                         {%- endif -%}
-        </div>
-        <ul hidden="hidden" id="postList">
 
-                {%- for post in site.posts -%}
-                <li>
-                        {{post.title}};{{post.url}}
-                </li>
-                {%- endfor -%}
-        </ul>
+                  {% if next.size > 0 %}
+                  <a href="{{next}}" class="next">&#8250;</a>
+                  {% endif %}
+        </div>
 
 
         <script src="/docs/assets/javascript/search.js">
         </script>
                 </div>
+
 </header>

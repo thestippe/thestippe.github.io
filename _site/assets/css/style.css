@@ -208,6 +208,28 @@ html {
   transform: scale(1.3);
 }
 
+.next {
+  font-size: 45px;
+  margin: auto;
+  margin-right: -70px;
+  margin-left: 50px;
+  align: right;
+}
+
+.prev {
+  font-size: 45px;
+  margin: auto;
+  margin-left: -70px;
+  margin-right: 50px;
+  align: left;
+}
+
+.site-masthead {
+  margin: auto;
+  margin-left: 0;
+  padding: 0;
+}
+
 /* The progress container (grey background) */
 .progress-container {
   width: 100%;
@@ -566,7 +588,7 @@ table {
   padding: none;
   align-content: right;
   margin: auto;
-  margin-right: 0;
+  margin-right: 0px;
   text-align: right;
   float: right;
 }
