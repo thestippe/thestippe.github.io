@@ -1,0 +1,10 @@
+<!DOCTYPE svg>
+
+<svg version="1.0" height="500" width="300"
+        preserveAspectRatio="xMinYMax meet"
+        viewBox="0 0 300 300"
+        xmlns="http://www.w3.org/2000/svg" >
+        <path d="M 200 0 L 200 50 L 100 50 L 100 100" stroke="black" style="fill:none;stroke-width:6;"/>
+        <path d="M 150 100 L 150 150 L 100 150 L 100 200" stroke="black" style="fill:none;stroke-width:6;"/>
+        <path d="M 200 200 L 200 250 50 250" stroke="black" style="fill:none;stroke-width:6;"/>
+</svg>
