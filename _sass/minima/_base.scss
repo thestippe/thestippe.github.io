@@ -133,7 +133,7 @@ h5 {
         }
 }
 
-article p:first-child::first-letter {
+article p:first-child::first-letter{
         font-size: 220%;
         font-weight: bold;
         line-height: 100%;
@@ -141,6 +141,7 @@ article p:first-child::first-letter {
         // color: steelblue;
 
 }
+
 
 nav {
         font-family: 'Gotham','Metropolis';
