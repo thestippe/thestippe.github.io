@@ -52,7 +52,7 @@ html {
 }
 
 #autograph{
-        font-family:'Autography';
+        font-family:'Zapfino';
         font-size: 40px;
         margin-top: 20px;
         margin-bottom: 10px;
@@ -101,11 +101,18 @@ h2 {
 
 }
 
-h1, h2, h3 {
-font-family: 'Gotham','Metropolis';
+h1, h2 {
+font-family: 'NeoEuler','Metropolis';
+}
+
+h3 {
+        font-family: 'NeoEuler','Metropolis';
+        font-weight: 300%;
+
 }
 
 h5 {
+        font-family: 'NeoEuler';
         color:gray;
 }
 
@@ -134,17 +141,16 @@ h5 {
 }
 
 article p:first-child::first-letter{
-        font-size: 220%;
-        font-weight: bold;
+        font-size: 280%;
         line-height: 100%;
-        // font-family:'Gotham';
+        font-family:'Zapfino';
         // color: steelblue;
 
 }
 
 
 nav {
-        font-family: 'Gotham','Metropolis';
+        font-family: 'NeoEuler','Metropolis';
         vertical-align: text-top;
         margin-right: -20px;
 }
@@ -428,9 +434,8 @@ margin-left: 40px;
 margin-bottom: 35px;
 width: 90%;
 font-style: italic;
-font-size: 120%;
-font-family: 'NeoEuler';
-letter-spacing: -0.2px;
+font-size: 250%;
+font-family: 'Zapfino';
 color: #405059;
 align: right;
 //font-size: large;

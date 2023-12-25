@@ -7,10 +7,17 @@
 "minima/initialize";
 
 @font-face {
-  font-family: 'Autography';
+  font-family: 'Zapfino';
   font-style: normal;
   font-weight: 400;
-  src: url("/docs/assets/fonts/Autography.otf");
+  src: url("/docs/assets/fonts/ZapfinoExtraLT-Two.otf");
+}
+
+@font-face {
+  font-family: 'ZapfinoOne';
+  font-style: normal;
+  font-weight: 400;
+  src: url("/docs/assets/fonts/ZapfinoExtraLT-Two.otf");
 }
 
 @font-face {
