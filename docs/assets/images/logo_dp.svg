@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="191.34898mm"
-   height="51.43119mm"
-   viewBox="0 0 191.34898 51.431191"
+   width="108.16218mm"
+   height="49.176186mm"
+   viewBox="0 0 108.16218 49.176186"
    version="1.1"
    id="svg1"
    sodipodi:docname="logo_dp.svg"
@@ -27,8 +27,8 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="0.77682379"
-     inkscape:cx="243.94207"
-     inkscape:cy="431.24323"
+     inkscape:cx="242.01113"
+     inkscape:cy="418.3703"
      inkscape:window-width="1918"
      inkscape:window-height="1078"
      inkscape:window-x="0"
@@ -54,64 +54,70 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-40.286999,-34.500525)">
+     transform="translate(-40.816166,-37.828685)">
     <text
        xml:space="preserve"
        transform="scale(0.26458333)"
        id="text1"
-       style="font-size:93.3333px;font-family:Marcellus;-inkscape-font-specification:'Marcellus, Normal';white-space:pre;shape-inside:url(#rect1);fill:#467fb4;stroke:#000000;stroke-width:0.623622;stroke-linecap:round" />
+       style="font-size:93.3333px;font-family:Marcellus;-inkscape-font-specification:'Marcellus, Normal';white-space:pre;shape-inside:url(#rect1);display:inline;fill:#467fb4;stroke:#000000;stroke-width:0.623622;stroke-linecap:round" />
     <text
        xml:space="preserve"
        transform="scale(0.26458333)"
        id="text2"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:93.3333px;font-family:Gotham;-inkscape-font-specification:'Gotham, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect2);fill:#467fb4;stroke:#000000;stroke-width:0.623622;stroke-linecap:round" />
-    <path
-       style="fill:#f6f6f6;fill-opacity:0.108843;stroke:#000000;stroke-width:2.11667;stroke-linecap:round;stroke-dasharray:none"
-       d="m 110.96491,35.55886 -0.0638,23.838187 53.10516,0.363367"
-       id="path3"
-       sodipodi:nodetypes="ccc" />
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:93.3333px;font-family:Gotham;-inkscape-font-specification:'Gotham, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect2);display:inline;fill:#467fb4;stroke:#000000;stroke-width:0.623622;stroke-linecap:round" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.6944px;font-family:Gotham;-inkscape-font-specification:'Gotham, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#467fb4;stroke:#000000;stroke-width:0.165;stroke-linecap:round"
-       x="67.886192"
-       y="37.271763"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.2222px;font-family:Gotham;-inkscape-font-specification:'Gotham, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#467fb4;stroke:#000000;stroke-width:0.165;stroke-linecap:round"
+       x="40.898666"
+       y="42.563435"
        id="text3"><tspan
          sodipodi:role="line"
          id="tspan2"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.6944px;font-family:'Zapfino Extra LT';-inkscape-font-specification:'Zapfino Extra LT, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke-width:0.165"
-         x="67.886192"
-         y="37.271763"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:31.75px;font-family:'Zapfino Extra LT';-inkscape-font-specification:'Zapfino Extra LT, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke-width:0.165"
+         x="40.898666"
+         y="42.563435"
          dy="9.54">Data</tspan><tspan
          sodipodi:role="line"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.6944px;font-family:'Zapfino Extra LT';-inkscape-font-specification:'Zapfino Extra LT, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke-width:0.165"
-         x="67.886192"
-         y="74.366646"
-         id="tspan3">     Perspectives</tspan></text>
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:28.2222px;font-family:'Zapfino Extra LT';-inkscape-font-specification:'Zapfino Extra LT, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke-width:0.165"
+         x="40.898666"
+         y="86.922371"
+         id="tspan3">    </tspan></text>
     <ellipse
        style="fill:#4688b4;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-dasharray:none"
        id="path6"
-       cx="157.67752"
+       cx="146.03601"
        cy="52.285328"
        rx="2.9423311"
        ry="2.8497996" />
     <ellipse
        style="fill:#4688b4;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-dasharray:none"
        id="path6-6"
-       cx="143.01292"
+       cx="127.13812"
        cy="44.661953"
        rx="5.4297609"
        ry="5.2390332" />
-    <path
+    <ellipse
        style="fill:#4688b4;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-dasharray:none"
-       id="path6-8"
-       sodipodi:type="arc"
-       sodipodi:cx="126.50275"
-       sodipodi:cy="50.474812"
-       sodipodi:rx="6.9213877"
-       sodipodi:ry="7.0989957"
-       sodipodi:start="0"
-       sodipodi:end="6.2779215"
-       sodipodi:arc-type="slice"
-       d="m 133.42413,50.474812 a 6.9213877,7.0989957 0 0 1 -6.91228,7.098989 6.9213877,7.0989957 0 0 1 -6.93047,-7.080306 6.9213877,7.0989957 0 0 1 6.89404,-7.117624 6.9213877,7.0989957 0 0 1 6.94862,7.061573 l -6.92129,0.03737 z" />
+       id="path6-6-7"
+       cx="103.83932"
+       cy="48.785957"
+       rx="8.7832956"
+       ry="8.3634653" />
+    <text
+       xml:space="preserve"
+       style="font-size:31.75px;font-family:'Zapfino Extra LT';-inkscape-font-specification:'Zapfino Extra LT, Normal';fill:#1a1a1a;stroke:#000000;stroke-width:0;stroke-linecap:round"
+       x="46.938622"
+       y="69.343086"
+       id="text4"><tspan
+         sodipodi:role="line"
+         id="tspan1"
+         style="stroke-width:0"
+         x="46.938622"
+         y="69.343086">Perspectives</tspan><tspan
+         sodipodi:role="line"
+         style="stroke-width:0"
+         x="46.938622"
+         y="109.03059"
+         id="tspan4" /></text>
   </g>
 </svg>

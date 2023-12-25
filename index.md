@@ -16,7 +16,7 @@ analysis, from Bayesian statistics (of course by using PyMC) to dataviz.
 Here I will share some ideas about data visualization.
 
 </div>
-I started to plot data since many years, but only few months ago I really went into
+I plot data since quite many years, but only few months ago I really went into
 data visualization (or dataviz, if you prefer).
 I attended some Coursera course of prof. Enrico Bertini, who also has a very interesting
 podcast named [Data Stories](https://datastori.es/) together with Moritz Stefaner (who is the author, among the other things,
