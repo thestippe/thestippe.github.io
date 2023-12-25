@@ -570,7 +570,7 @@ table td {
   width: 90%;
   font-style: italic;
   font-size: 120%;
-  font-family: "DejaVu Sans";
+  font-family: "NeoEuler";
   letter-spacing: -0.2px;
   color: #405059;
   align: right;
@@ -1036,6 +1036,12 @@ input[type=text] {
   src: url("/docs/assets/fonts/Autography.otf");
 }
 @font-face {
+  font-family: "NeoEuler";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/docs/assets/fonts/euler.otf");
+}
+@font-face {
   font-family: "DejaVu Serif";
   font-style: normal;
   font-weight: 400;
@@ -1061,7 +1067,7 @@ input[type=text] {
 }
 html, body, form, fieldset, table, tr, td, img {
   font-size: 100%;
-  font-family: "DejaVu Sans", serif;
+  font-family: "NeoEuler", serif;
 }
 
 body {

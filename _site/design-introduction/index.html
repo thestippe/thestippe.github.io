@@ -15,24 +15,24 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Evolutions of the line chart | Data Perspectives</title>
+<title>Design tricks | Data Perspectives</title>
 <meta name="generator" content="Jekyll v4.3.2" />
-<meta property="og:title" content="Evolutions of the line chart" />
+<meta property="og:title" content="Design tricks" />
 <meta name="author" content="Data-perspectives" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="When a linechart is not enough" />
-<meta property="og:description" content="When a linechart is not enough" />
-<link rel="canonical" href="http://localhost:4000/linechart-evolution/" />
-<meta property="og:url" content="http://localhost:4000/linechart-evolution/" />
+<meta name="description" content="Few ideas from design" />
+<meta property="og:description" content="Few ideas from design" />
+<link rel="canonical" href="http://localhost:4000/design-introduction/" />
+<meta property="og:url" content="http://localhost:4000/design-introduction/" />
 <meta property="og:site_name" content="Data Perspectives" />
-<meta property="og:image" content="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" />
+<meta property="og:image" content="http://localhost:4000/" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2023-11-03T00:00:00+01:00" />
+<meta property="article:published_time" content="2023-12-01T00:00:00+01:00" />
 <meta name="twitter:card" content="summary_large_image" />
-<meta property="twitter:image" content="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" />
-<meta property="twitter:title" content="Evolutions of the line chart" />
+<meta property="twitter:image" content="http://localhost:4000/" />
+<meta property="twitter:title" content="Design tricks" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2023-11-03T00:00:00+01:00","datePublished":"2023-11-03T00:00:00+01:00","description":"When a linechart is not enough","headline":"Evolutions of the line chart","image":"http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/linechart-evolution/"},"url":"http://localhost:4000/linechart-evolution/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2023-12-01T00:00:00+01:00","datePublished":"2023-12-01T00:00:00+01:00","description":"Few ideas from design","headline":"Design tricks","image":"http://localhost:4000/","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/design-introduction/"},"url":"http://localhost:4000/design-introduction/"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
 
@@ -106,7 +106,7 @@
                         </li>
                 </ul>
                         <div style="display:flex">
-                  <a href="/scatterplot-evolution/" class="prev">&#8249;</a>
+                  <a href="/palettes-introduction/" class="prev">&#8249;</a>
                   
                                 <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
                                         <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
@@ -127,8 +127,6 @@
 
                                 <div class="trigger"><a id='navlink' class="page-link" href="/about">About me</a><a id='navlink' class="page-link" href="/index">Home</a><a id='navlink' class="page-link" href="/links">Resources</a></div>
                         </nav>
-                  <a href="/effectiveness/" class="next">&#8250;</a>
-                  
         </div>
 
 
@@ -153,122 +151,142 @@
 <img src="/docs/assets/images/background_resized.png" alt="backround" style="margin:auto;display:block;width:1200px">
 
 </a>
-    <h1 class="post-title p-name" itemprop="name headline">Evolutions of the line chart</h1>
-    <p class="post-meta"><time class="dt-published" datetime="2023-11-03T00:00:00+01:00" itemprop="datePublished">
-        Nov 3, 2023
+    <h1 class="post-title p-name" itemprop="name headline">Design tricks</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-12-01T00:00:00+01:00" itemprop="datePublished">
+        Dec 1, 2023
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
   
-  3&prime;
+  4&prime;
 </span>
 </p>
   </header>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>In a <a href="/fundamental-charts">previous post</a> we saw some of the most fundamental charts,
-which are the basic building blocks for data visualization.</p>
+    <p>Some day I was watching a video by Tamara Munzner,
+where she recommended to get some basic knowledge about design.
+Before dealing with data visualization I though that design
+was a useless subject, but I decided to follow her suggestion.
+I first looked for some book, and then I decided to attend a design course.
+By doing so, I found many very useful suggestions, and I realized
+that design is not about making your visualization beautiful,
+but it’s about making it clear.
+Here I will share some of the information I found during these courses.</p>
 
-<p>Datasets can become very complex, and you should adapt your data visualization
-depending on your needs.
-Here we will take a look at how we can draw more and more complex datasets
-by simply changing few details of the basic visualization, and we will
-do so by using the line chart as fundamental visualization.</p>
+<h2 id="grid">Grid</h2>
 
-<h2 id="the-line-chart">The line chart</h2>
+<p>Align, align everything! The more things are aligned, the easier will be
+for your audience to find the informations.
+Generally left alignment is better, but there are situations where
+you may prefer to use other alignments.
+A classical example is given by tables with one key and one value:
+in this case you may want to right-align your left column
+and left-align your right column.
+By doing so, it will be easier for your reader to match each key with its own value.</p>
 
-<p>As we have already seen, in the line chart we have</p>
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">key</th>
+      <th style="text-align: left">value</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">apples</td>
+      <td style="text-align: left">14</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">oranges</td>
+      <td style="text-align: left">8</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">bananas</td>
+      <td style="text-align: left">21</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In the above table I used another trick to make the table easier to read, I alternated the background color of the rows.</p>
+
+<p>A common error is to center everything, this may strongly affect the readability of your visualization.</p>
+
+<h2 id="white-space">White space</h2>
+
+<p>Don’t feel obliged to fill every squared centimeter of your visualization: leaving some white space may enhance its readability.
+In other world, use the space you have at your disposal.
+Moreover, white space in visual design has the same effect as pausing has when talking:</p>
+
+<p><br />
+<br />
+<br />
+<br />
+it adds emphasis!</p>
+
+<h2 id="consistency">Consistency</h2>
+
+<p>Strive for consistency, make things look similar, and if you don’t want to, make them look <strong>very</strong> different, and this is of course 
+applies to any context.
+Consistency will help your reader to understand you. If you once use an acronym, then you should always use it.</p>
+
+<p>When you build a dashboard, make sure that your interacting items are build consistently.</p>
+
+<p>Do not implement a light blue button and a dark blue one: you should either give them the same color if they have a similar function,
+or you should give them a very different color, like blue and red.</p>
+
+<p>Moreover, you should be consistent with the used conventions. Red in finance means loss, and if you’re preparing a visualization
+for a finance startup, then you should be consistent with this convention and reserve the red color for loss.</p>
+
+<h2 id="typography">Typography</h2>
+
+<p>Typography is by itself the topic of many books, blogs and other website, so I won’t even try and be exhaustive here.
+Just keep in mind that the choice of your font is very important for many factors:</p>
+
 <ul>
-  <li>an ordered key attribute on the $x$ axis</li>
-  <li>a quantitative value attribute on the $y$ axis</li>
+  <li>Font can affect the readability of your visualization</li>
+  <li>A bad font choice can convey the wrong message</li>
+  <li>You should always be consistent with the generally accepted typographic conventions</li>
 </ul>
 
-<p>As an example, let us take a look at evolution over the years the Italian GDP per capita expressed in US dollars adjusted by the US inflation, which can be found
-<a href="https://github.com/thestippe/thestippe.github.io/blob/main/data/gdp_per_capita_filtered.csv">here</a>.</p>
+<p>I will probably discuss typography more in detail in a future post, but for now keep in mind that this is a very important subject, unless your
+visualization has no text (and in this case it would be hard to understand it).</p>
 
-<p>The dataset is based on <a href="https://github.com/RaafatSaleh/GDP-per-capita-and-its-effect-on-the-man-life-quality/blob/master/Data/gdppercapita_us_inflation_adjusted.csv">this</a> repo.</p>
-
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v5.js"></script>
-
-<div id="linechart"> </div>
-<script src="/docs/assets/javascript/linechart_evolution/linechart.js"> </script>
-
-<p>This visualization allow us to see how a quantity (the GDP per capita)
-changes over time, and it does that in a decent way.</p>
-
-<h2 id="issues-with-the-line-chart">Issues with the line chart</h2>
-
-<p>But what does it happen when we add a second categorical key attribute?
-As an example, let’s try and visualize more than one Country in
-a single plot.
-Let us start by using color to encode the Country</p>
-
-<div id="multiple_linechart"> </div>
-<script src="/docs/assets/javascript/linechart_evolution/multiple_linechart.js"> </script>
-
-<p>As the number of lines grows, the graph soon becomes more and more cluttered.
-Already with a small number of lines it becomes difficult to catch the behavior
-of a single line.</p>
-
-<p>We have two main alternatives to the multiple line chart:</p>
 <ul>
-  <li>we can put one line chart per graph and we create a <strong>small multiples</strong></li>
-  <li>we can use another channel to encode the value attribute
-or, of course, we can combine the two techniques.</li>
+  <li>DON’T USE TOO MUCH UPPERCASE</li>
+  <li>When you use commas , dots or other punctuation , space goes after , not before !</li>
+  <li>When you quote, someone, like ‘‘There’s no place like home.’’, you should use “double quotation marks”</li>
+  <li><strong><em>Too much emphasis is no emphasis.</em></strong> Avoid too much bold or italic, and avoid using them simultaneously</li>
+  <li>em dash —like this— can be used instead of parenthesis, en dash can be used for dates, like 2023–12. Hyphen are used to join words or parts of words, like check-in</li>
+  <li>If you write lists:
+    <ul>
+      <li>Either capitalize the first letter and use a dot.</li>
+      <li>or don’t capitalize the first letter and use semicolon;</li>
+      <li>Or don’t use punctuation</li>
+      <li>Don’t capitalize with semicolon;</li>
+    </ul>
+  </li>
 </ul>
 
-<h2 id="small-multiples">Small multiples</h2>
+<p>When you start a new paragraph, either enlarge space between rows, or add a space at the beginning of the new line.</p>
 
-<p>Broadly speaking, when you build a small multiple you draw more than
-one visualization, and each visualization is indexed by a label which is not
-used in any of the single images.
-This technique is also called faceting.</p>
+<p>  Don’t do both.</p>
 
-<div id="sm_linechart"> </div>
-<script src="/docs/assets/javascript/linechart_evolution/sm_linechart.js"> </script>
+<h2 id="color">Color</h2>
 
-<p>Here we used small multiples to put one visualization on the right of the previous,
-but you can also order them vertically or build a grid.</p>
+<p>We already discussed color from the perceptual point of view, but color is very important from the design perspective too.
+Colors have cultural meaning, and being consistent with them is very important.
+If you are developing a visualization about smog, you should keep in mind the fact that green can be often interpreted as natural or healthy,
+so using green to depict a highly polluted area may not be a good idea.</p>
 
-<p>The main advantage of the small multiples is that they reduce clutter,
-but it becomes more difficult to compare the single lines.</p>
+<p>You should also look for color combinations that look appealing, as they will let your reader look at your visualization with pleasure.</p>
 
-<h2 id="stacked-area-chart">Stacked area chart</h2>
+<h2 id="hierarchy">Hierarchy</h2>
 
-<p>If the value attribute is sequential as in our case (the GDP cannot become negative), another possible solution is to stack the lines one above the other one,
-and this is done in the stacked area chart.</p>
+<p>Keep in mind the hierarchy of your visualization, emphasize what is relevant and put less important objects in the background.
+Find the focal point of your composition and try and determine the visual query that the reader will follow. Is this the one you look for?</p>
 
-<div id="stacked_chart"> </div>
-<script src="/docs/assets/javascript/linechart_evolution/stacked_chart.js"> </script>
 
-<p>The major issue with this solution is that, for all but the lowest curve,
-the baseline is not constant, and this makes difficult to quantify the values.</p>
-
-<h2 id="streamgraph">Streamgraph</h2>
-
-<p>A stacked bar chart can become cumbersome when one has many channels, and in this
-case one may use a streamgraph.</p>
-
-<div id="steamgraph"> </div>
-<script src="/docs/assets/javascript/linechart_evolution/steamgraph.js"> </script>
-
-<p>The streamgraph is obtained by allowing the lower
-line to vary, and either by making it symmetric with respect to the $x$ axis or by choosing it exact shape by minimizing some target quantity.
-This method allows you to show
-a large number of categories, but the main drawback
-is that one needs some practice to read it.</p>
-
-<h2 id="conclusions-and-take-home-message">Conclusions and take-home message</h2>
-
-<p>We have seen few possible evolutions of the line chart.
-Those alternatives are appropriate when you want to plot the evolution of a quantitative variable
-for a set of categories.
-Faceting can be combined with anyone of the visualizations we have previous discussed, while stacking can 
-only be applied to bar chart or line chart.
-Finally, we have seen the streamgraph,
-which uses an alternative way of stacking the lines.</p>
-
-  </div><a class="u-url" href="/linechart-evolution/" hidden></a>
+  </div><a class="u-url" href="/design-introduction/" hidden></a>
 
   <div>
           
@@ -277,7 +295,7 @@ which uses an alternative way of stacking the lines.</p>
 
   <br>
   <div id='autograph'>
-          Stippe Nov 3, 2023
+          Stippe Dec 1, 2023
 
   </div>
 

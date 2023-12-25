@@ -14,6 +14,13 @@
 }
 
 @font-face {
+  font-family: 'NeoEuler';
+  font-style: normal;
+  font-weight: 400;
+  src: url("/docs/assets/fonts/euler.otf");
+}
+
+@font-face {
   font-family: 'DejaVu Serif';
   font-style: normal;
   font-weight: 400;
@@ -44,7 +51,7 @@
 
 html, body, form, fieldset, table, tr, td, img {
         font-size: 100%;
-        font-family: 'DejaVu Sans', serif;
+        font-family: 'NeoEuler', serif;
 }
 
 body {
