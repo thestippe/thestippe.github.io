@@ -27,7 +27,7 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      inkscape:zoom="0.77682379"
-     inkscape:cx="243.94206"
+     inkscape:cx="243.94207"
      inkscape:cy="431.24323"
      inkscape:window-width="1918"
      inkscape:window-height="1078"
@@ -62,23 +62,6 @@
        style="font-size:93.3333px;font-family:Marcellus;-inkscape-font-specification:'Marcellus, Normal';white-space:pre;shape-inside:url(#rect1);fill:#467fb4;stroke:#000000;stroke-width:0.623622;stroke-linecap:round" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.6944px;font-family:Gotham;-inkscape-font-specification:'Gotham, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#467fb4;stroke:#000000;stroke-width:0.165;stroke-linecap:round"
-       x="40.369499"
-       y="51.030109"
-       id="text3"><tspan
-         sodipodi:role="line"
-         id="tspan2"
-         style="font-size:24.6944px;fill:#000000;fill-opacity:1;stroke-width:0.165"
-         x="40.369499"
-         y="51.030109"
-         dy="9.54">Data</tspan><tspan
-         sodipodi:role="line"
-         style="font-size:24.6944px;fill:#000000;fill-opacity:1;stroke-width:0.165"
-         x="40.369499"
-         y="81.898109"
-         id="tspan3">     Perspectives</tspan></text>
-    <text
-       xml:space="preserve"
        transform="scale(0.26458333)"
        id="text2"
        style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:93.3333px;font-family:Gotham;-inkscape-font-specification:'Gotham, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;white-space:pre;shape-inside:url(#rect2);fill:#467fb4;stroke:#000000;stroke-width:0.623622;stroke-linecap:round" />
@@ -87,6 +70,23 @@
        d="m 110.96491,35.55886 -0.0638,23.838187 53.10516,0.363367"
        id="path3"
        sodipodi:nodetypes="ccc" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.6944px;font-family:Gotham;-inkscape-font-specification:'Gotham, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#467fb4;stroke:#000000;stroke-width:0.165;stroke-linecap:round"
+       x="67.886192"
+       y="37.271763"
+       id="text3"><tspan
+         sodipodi:role="line"
+         id="tspan2"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.6944px;font-family:'Zapfino Extra LT';-inkscape-font-specification:'Zapfino Extra LT, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke-width:0.165"
+         x="67.886192"
+         y="37.271763"
+         dy="9.54">Data</tspan><tspan
+         sodipodi:role="line"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:24.6944px;font-family:'Zapfino Extra LT';-inkscape-font-specification:'Zapfino Extra LT, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#000000;fill-opacity:1;stroke-width:0.165"
+         x="67.886192"
+         y="74.366646"
+         id="tspan3">     Perspectives</tspan></text>
     <ellipse
        style="fill:#4688b4;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-dasharray:none"
        id="path6"
