@@ -195,6 +195,14 @@ html {
   font-size: 16px;
 }
 
+svg {
+  font-family: "Optima";
+}
+
+svg > text {
+  font-family: "Optima";
+}
+
 .card {
   transition: transform 0.15s;
   background: #fffcfa;
@@ -342,7 +350,7 @@ nav {
  * Basic styling
  */
 body {
-  font: 400 16px/1.5 -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", Roboto, Helvetica, Arial, sans-serif;
+  font: 400 16px/1.5 -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", Roboto, Helvetica, Arial, "Optima", sans-serif;
   color: #111111;
   background-color: #fdfdfd;
   -webkit-text-size-adjust: 100%;
@@ -1045,6 +1053,12 @@ input[type=text] {
   font-style: normal;
   font-weight: 400;
   src: url("/docs/assets/fonts/ZapfinoExtraLT-Two.otf");
+}
+@font-face {
+  font-family: "Optima";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/docs/assets/fonts/Optima/OptimaLTPro-Medium.otf");
 }
 @font-face {
   font-family: "NeoEuler";

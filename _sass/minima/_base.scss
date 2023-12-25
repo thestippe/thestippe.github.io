@@ -2,6 +2,14 @@ html {
   font-size: $base-font-size;
 }
 
+svg {
+        font-family: 'Optima'
+}
+
+svg > text {
+        font-family: 'Optima'
+}
+
 .card {
         transition: transform .15s;
         background: #fffcfa;

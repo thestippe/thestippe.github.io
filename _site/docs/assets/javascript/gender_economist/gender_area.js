@@ -74,7 +74,7 @@ function showData(data){
                 .call(d3.axisLeft(y).tickSize(0))
                 
         yAxis.attr("transform", "translate("+lAxisShift+","+shift+")")
-                .select(".domain").remove().style('font-family', 'DejaVu Serif')
+                .select(".domain").remove().style('font-family', 'Optima')
 
 
         matrix = svg.selectAll('squares').data(data)
@@ -106,7 +106,7 @@ function showData(data){
                 .html(fname)
                 .attr("x", s)
                 .attr("y", yt)
-                  .attr("font-family", "DejaVu Sans")
+                  .attr("font-family", "Optima")
                 .style("font-size", "0.7rem")
                 .style("font-weight", weight[field])
                 .attr("transform", "rotate(-45 "+s+" "+yt+")")
@@ -134,12 +134,12 @@ function showData(data){
 
         svg.append('rect').attr('x', 60).attr('y', 50).attr('height', l(0.3)).attr('width', l(0.3)).attr('fill', colorWomen)
         svg.append('text').text('women %').attr('x', 80).attr('y', 58)
-                  .attr("font-family", "DejaVu Sans")
+                  .attr("font-family", "Optima")
                 .style("font-size", "0.7rem")
 
         svg.append('rect').attr('x', 60).attr('y', 70).attr('height', l(0.3)).attr('width', l(0.3)).attr('fill', colorMen)
         svg.append('text').text('men %').attr('x', 80).attr('y', 78)
-                  .attr("font-family", "DejaVu Sans")
+                  .attr("font-family", "Optima")
                 .style("font-size", "0.7rem")
 
         console.log(l(1))
