@@ -134,7 +134,7 @@ function showData(data){
 
         svg.append('rect').attr('x', 60).attr('y', 50).attr('height', l(0.3)).attr('width', l(0.3)).attr('fill', colorWomen)
         svg.append('text').text('women %').attr('x', 80).attr('y', 58)
-                  .attr("font-family", "Optima")
+                  .style("font-family", "Optima")
                 .style("font-size", "0.7rem")
 
         svg.append('rect').attr('x', 60).attr('y', 70).attr('height', l(0.3)).attr('width', l(0.3)).attr('fill', colorMen)
@@ -142,7 +142,5 @@ function showData(data){
                   .attr("font-family", "Optima")
                 .style("font-size", "0.7rem")
 
-        console.log(l(1))
-        console.log(l(0.5))
 
 }

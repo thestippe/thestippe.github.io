@@ -1,14 +1,17 @@
 html {
   font-size: $base-font-size;
+  font-family: 'Optima'
+}
+
+text {
+        font-family: 'Optima'
+
 }
 
 svg {
         font-family: 'Optima'
 }
 
-svg > text {
-        font-family: 'Optima'
-}
 
 .card {
         transition: transform .15s;
@@ -537,6 +540,11 @@ table {
 }
 
 .searchNav {
+}
+
+input::placeholder {
+    font-family: 'Optima';
+    font-size: 16px;
 }
 
 .nav-trigger {

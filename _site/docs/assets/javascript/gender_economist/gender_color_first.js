@@ -76,7 +76,8 @@ function showData(data){
                 .call(d3.axisLeft(y).tickSize(0))
                 
         yAxis.attr("transform", "translate("+lAxisShift+","+shift+")")
-                .select(".domain").remove().style('font-family', 'Optima')
+                .select(".domain").remove().style('font-family', 'DejaVu Serif')
+
 
 
         matrix = svg.selectAll('squares').data(data)
