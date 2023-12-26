@@ -208,16 +208,24 @@ svg {
 }
 
 .card {
-  transition: transform 0.15s;
   background: #fffcfa;
   border-color: lightgray;
   border-width: 1px;
   border-style: solid;
-  padding: 5px;
+  padding: 10px;
+  opacity: 0;
+  transition: all 1s;
+  transform: translate3d(0, 4rem, 0);
+}
+
+.scrolled-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
 }
 
 .card:hover {
   transform: scale(1.3);
+  z-index: 10;
 }
 
 .next {
