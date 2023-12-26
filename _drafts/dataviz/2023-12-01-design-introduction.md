@@ -3,7 +3,7 @@ layout: post
 title: "Design tricks"
 categories: /dataviz/
 tags: /design_introduction/
-image: ""
+image: "/docs/assets/images/design.jpg"
 description: "Few ideas from design"
 ---
 

@@ -63,9 +63,14 @@
 }
 
 
-html, body, form, fieldset, table, tr, td, img {
+html, body, fieldset, img {
         font-size: 100%;
         font-family: 'NeoEuler', serif;
+}
+
+table, tr, td, form {
+        font-size: 100%;
+        font-family: 'Optima', serif;
 }
 
 body {

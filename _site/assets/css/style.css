@@ -193,6 +193,9 @@
 
 html {
   font-size: 16px;
+}
+
+text {
   font-family: "Optima";
 }
 
@@ -295,6 +298,7 @@ dl, dd, ol, ul, figure {
 h1 {
   margin-top: 30px;
   margin-bottom: 5px;
+  margin-left: -10px;
 }
 
 h2 {
@@ -312,17 +316,21 @@ h3 {
 }
 
 h5 {
-  font-family: "NeoEuler";
+  font-family: "Optima";
   color: gray;
+}
+
+footer {
+  font-family: "Optima";
 }
 
 @media screen and (min-width: 800px) {
   h2 {
-    margin-left: 0px;
+    margin-left: -5px;
     width: 100%;
   }
   h1 {
-    margin-left: 0px;
+    margin-left: -10px;
     width: 100%;
   }
   #logo {
@@ -1096,9 +1104,14 @@ input[type=text] {
   font-weight: 400;
   src: url("/docs/assets/fonts/BLKCHCRY.TTF");
 }
-html, body, form, fieldset, table, tr, td, img {
+html, body, fieldset, img {
   font-size: 100%;
   font-family: "NeoEuler", serif;
+}
+
+table, tr, td, form {
+  font-size: 100%;
+  font-family: "Optima", serif;
 }
 
 body {
