@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-26T13:39:37+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Design tricks</title><link href="http://localhost:4000/design-introduction/" rel="alternate" type="text/html" title="Design tricks" /><published>2023-12-01T00:00:00+01:00</published><updated>2023-12-01T00:00:00+01:00</updated><id>http://localhost:4000/design-introduction</id><content type="html" xml:base="http://localhost:4000/design-introduction/"><![CDATA[<p>Some day I was watching a video by Tamara Munzner,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2023-12-26T17:19:55+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Design tricks</title><link href="http://localhost:4000/design-introduction/" rel="alternate" type="text/html" title="Design tricks" /><published>2023-12-01T00:00:00+01:00</published><updated>2023-12-01T00:00:00+01:00</updated><id>http://localhost:4000/design-introduction</id><content type="html" xml:base="http://localhost:4000/design-introduction/"><![CDATA[<p>Some day I was watching a video by Tamara Munzner,
 where she recommended to get some basic knowledge about design.
 Before dealing with data visualization I though that design
 was a useless subject, but I decided to follow her suggestion.
@@ -1383,10 +1383,11 @@ This is because color interacts with size, especially for small objects.</p>
 
 <p><br /></p>
 <div style="background-color:black;">
-<p style="color:red;font-size:60px;">
-Most people perceive this as bigger</p>
-<p style="color:blue;font-size:60px;">But the two
-lines have the same size</p>
+<span style="color:red;font-size:60px;">
+Most people perceive this as bigger</span>
+<br />
+<span style="color:blue;font-size:60px;">But the two
+lines have the same size</span>
 </div>
 
 <p><br />

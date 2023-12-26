@@ -120,10 +120,11 @@ The interaction also goes the other way round:
 
 <br>
 <div style="background-color:black;">
-<p style="color:red;font-size:60px;">
-Most people perceive this as bigger</p>
-<p style="color:blue;font-size:60px;">But the two
-lines have the same size</p>
+<span style="color:red;font-size:60px;">
+Most people perceive this as bigger</span>
+<br>
+<span style="color:blue;font-size:60px;">But the two
+lines have the same size</span>
 </div>
 
 <br>
