@@ -110,9 +110,9 @@ Remember that, most of the time, you want the reader to easily compare the value
 your data.
 You should keep your visualization as clean as possible, and in order to do so:
 
-- Avoid useless boxes.
-- Don't use grids if they don't help understanding the data.
-- Avoid too many ticks [^2].
+- Avoid useless boxes
+- Don't use grids if they don't help understanding the data
+- Avoid too many ticks [^2]
 
 ## Design principles
 

@@ -19,11 +19,11 @@ Here I will share some ideas about data visualization.
 I plot data since quite many years, but only few months ago I really went into
 data visualization (aka dataviz).
 
-I attended Enrico Bertini's Coursera specialization, which explains how to design and decide what is the best data visualization for your purposes,
+I attended Enrico Bertini's Coursera specialization, which explains how to design and evaluate data visualizations,
 and it does so by starting from what is currently known about our brain's processes in visual perception.
 
-Since I discovered this research field I started reading books talking about this field,
-and I began with the ones written written by the data visualization pioneer [Edward Tufte](https://it.wikipedia.org/wiki/Edward_Tufte).
+Since I discovered this research field I started reading books talking about it,
+and I began with the ones written by the data visualization pioneer [Edward Tufte](https://it.wikipedia.org/wiki/Edward_Tufte).
 You will find out more resources in the [dedicated section](/links) of this blog.
 
 When I started I used Python, and during the years I tried different technologies for this purpose, from Tableau to d3js.

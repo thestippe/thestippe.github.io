@@ -80,7 +80,7 @@ visualization has no text (and in this case it would be hard to understand it).
 - When you use commas , dots or other punctuation , space goes after , not before !
 - When you quote, someone, like ''There's no place like home.'', you should use "double quotation marks"
 - ***Too much emphasis is no emphasis.*** Avoid too much bold or italic, and avoid using them simultaneously
-- em dash ---like this--- can be used instead of parenthesis, en dash can be used for dates, like 2023--12. Hyphen are used to join words or parts of words, like check-in
+- em dash ---like this--- can be used instead of parenthesis, en dash can be used for dates, like 2023--12. Hyphens are used to join words or parts of words, like check-in
 - If you write lists:
    - Either capitalize the first letter and use a dot.
    - or don't capitalize the first letter and use semicolon;

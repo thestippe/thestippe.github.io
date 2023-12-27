@@ -600,8 +600,8 @@ table td {
   margin-bottom: 35px;
   width: 90%;
   font-style: italic;
-  font-size: 150%;
-  font-family: "NeoEuler";
+  font-size: 160%;
+  font-family: "Optima";
   color: #405059;
   align: right;
 }
@@ -1103,7 +1103,6 @@ input[type=text] {
 @font-face {
   font-family: "NeoEuler";
   font-style: normal;
-  font-weight: 400;
   src: url("/docs/assets/fonts/euler.otf");
 }
 @font-face {
