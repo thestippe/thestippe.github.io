@@ -207,6 +207,20 @@ svg {
   font-family: "Optima";
 }
 
+body {
+  animation: fadeInAnimation ease 0.2s;
+  animation-iteration-count: 1;
+  animation-fill-mode: forwards;
+}
+
+@keyframes fadeInAnimation {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
 .cardEven {
   background: #fffcfa;
   border-color: lightgray;
