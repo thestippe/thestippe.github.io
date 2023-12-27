@@ -3,6 +3,7 @@ layout: home
 title: "Home"
 permalink: /index
 ---
+
 ## A personal blog about data visualization
 
 <div class="emphbox">
@@ -16,7 +17,7 @@ analysis, from Bayesian statistics (of course by using PyMC) to dataviz.
 Here I will share some ideas about data visualization.
 
 </div>
-I plot data since quite many years, but only few months ago I really went into
+<span style="font-family:Zapfino;font-size:280%;line-height:36%">I</span> plot data since quite many years, but only few months ago I really went into
 data visualization (aka dataviz).
 
 I attended Enrico Bertini's Coursera specialization, which explains how to design and evaluate data visualizations,
