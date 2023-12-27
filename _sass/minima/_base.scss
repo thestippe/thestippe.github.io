@@ -17,7 +17,7 @@ svg {
 }
 
 
-.card {
+.cardEven {
         background: #fffcfa;
         border-color: lightgray;
         border-width: 1px;
@@ -29,16 +29,48 @@ svg {
         transform: translate3d(0, 6rem, 0);
 }
 
+.cardEven:hover {
+        transform: scale(1.3);
+        z-index: 10;
+}
+
+.cardOdd {
+        background: #fffcfa;
+        border-color: lightgray;
+        border-width: 1px;
+        border-style: solid;
+        padding: 10px;
+        opacity: 0;
+
+        transition: hover 1s 0s, transform 1s 0s, opacity 1s 0s;
+        transform: translate3d(0, 6rem, 0);
+}
+
+@media screen and (min-width: $on-large) {
+.cardOdd {
+        background: #fffcfa;
+        border-color: lightgray;
+        border-width: 1px;
+        border-style: solid;
+        padding: 10px;
+        opacity: 0;
+
+        transition: hover 1s 0s, transform 1s 0s, opacity 1s 0.3s;
+        transform: translate3d(0, 6rem, 0);
+}
+}
+
+.cardOdd:hover {
+        transform: scale(1.3);
+        z-index: 10;
+}
+
 
 .scrolled-in {
         opacity: 1;
         transform: translate3d(0, 0, 0);
 }
 
-.card:hover {
-        transform: scale(1.3);
-        z-index: 10;
-}
 
 .next {
         font-size: 45px;
