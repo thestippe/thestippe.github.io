@@ -367,7 +367,7 @@ nav {
  * Basic styling
  */
 body {
-  font: 400 16px/1.5 "NeoEuler", "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", Roboto, Helvetica, Arial, "Optima", sans-serif;
+  font: 400 16px/1.5 "Optima", "Segoe UI", "Segoe UI Emoji", "Segoe UI Symbol", "Apple Color Emoji", Roboto, Helvetica, Arial, "Optima", sans-serif;
   color: #111111;
   background-color: #fdfdfd;
   -webkit-text-size-adjust: 100%;
@@ -1079,8 +1079,26 @@ input[type=text] {
 @font-face {
   font-family: "Optima";
   font-style: normal;
-  font-weight: 400;
+  font-weight: normal;
   src: url("/docs/assets/fonts/Optima/OptimaLTPro-Medium.otf");
+}
+@font-face {
+  font-family: "Optima";
+  font-weight: bold;
+  font-style: normal;
+  src: url("/docs/assets/fonts/Optima/OptimaLTPro-Bold.otf");
+}
+@font-face {
+  font-family: "Optima";
+  font-weight: bold;
+  font-style: italic;
+  src: url("/docs/assets/fonts/Optima/OptimaLTPro-BlackItalic.otf");
+}
+@font-face {
+  font-family: "Optima";
+  font-style: italic;
+  font-weight: normal;
+  src: url("/docs/assets/fonts/Optima/OptimaLTPro-Italic.otf");
 }
 @font-face {
   font-family: "NeoEuler";
@@ -1114,7 +1132,7 @@ input[type=text] {
 }
 html, body, fieldset, img {
   font-size: 100%;
-  font-family: "NeoEuler", serif;
+  font-family: "Optima", serif;
 }
 
 table, tr, td, form {

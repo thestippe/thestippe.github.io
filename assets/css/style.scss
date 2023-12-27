@@ -23,9 +23,32 @@
 @font-face {
   font-family: 'Optima';
   font-style: normal;
-  font-weight: 400;
+  font-weight: normal;
   src: url("/docs/assets/fonts/Optima/OptimaLTPro-Medium.otf");
 }
+
+@font-face {
+  font-family: 'Optima';
+  font-weight: bold;
+  font-style: normal;
+  src: url("/docs/assets/fonts/Optima/OptimaLTPro-Bold.otf");
+}
+
+@font-face {
+  font-family: 'Optima';
+  font-weight: bold;
+  font-style: italic;
+  src: url("/docs/assets/fonts/Optima/OptimaLTPro-BlackItalic.otf");
+}
+
+@font-face {
+  font-family: 'Optima';
+  font-style: italic;
+  font-weight: normal;
+  src: url("/docs/assets/fonts/Optima/OptimaLTPro-Italic.otf");
+}
+
+
 
 @font-face {
   font-family: 'NeoEuler';
@@ -65,7 +88,7 @@
 
 html, body, fieldset, img {
         font-size: 100%;
-        font-family: 'NeoEuler', serif;
+        font-family: 'Optima', serif;
 }
 
 table, tr, td, form {
