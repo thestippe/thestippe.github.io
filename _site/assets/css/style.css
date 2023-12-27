@@ -215,7 +215,7 @@ svg {
   padding: 10px;
   opacity: 0;
   transition: all 1s;
-  transform: translate3d(0, 4rem, 0);
+  transform: translate3d(0, 6rem, 0);
 }
 
 .scrolled-in {
