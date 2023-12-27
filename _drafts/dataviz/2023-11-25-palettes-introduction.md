@@ -158,7 +158,7 @@ palettes.
 In any case, you should keep in mind the following truth about color:
 
 <div class="emphbox">
-"Above all, do not harm" - Edward Tufte
+<q>Above all, do not harm</q> - Edward Tufte
 </div>
 
 
