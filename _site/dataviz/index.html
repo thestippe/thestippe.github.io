@@ -192,17 +192,18 @@ On the other hand, the aim of the last phase is to summarize what you found by u
 Since you have two different objectives, you should consider using different tools and languages to do that, and the (graphical)
 language you should use in the last phase strongly depends on your audience.</p>
 
-<p>As an example, when you want to understand the structure of your data, any quantitative assessment will be helpful, so using ticks is normal.
-Moreover, in this phase you won’t likely put annotations on your plots.
-On the other hand, if you want your audience to easily catch some particular message from your data, annotations may be helpful,
-but maybe the audience you are presenting your data to is not able to give a broader context to the numerical values of the data,
+<p>As an example, when you want to understand the structure of your data, any quantitative assessment will be helpful, so using ticks may be appropriate.
+Moreover, in this phase you are plotting for yourself, so you won’t likely put annotations on your plots.
+On the other hand, if you want your audience to easily catch some particular message
+from your data, annotations may be helpful.
+Maybe the audience you are presenting your data to is not able to give a broader context to the numerical values of the data,
 so adding the ticks may be superfluous.</p>
 
 <p>Moving the axis away from zero in the exploratory phase is common if one wants to clearly spot any kind of pattern in the data,
-but doing so in the explanatory context might be dangerous, as this could be seen as an attempt to trick your audience.
-These are just few examples of how different purposes require different kinds of visualizations.</p>
+but doing so in the explanatory context might be dangerous, as this could be seen as an attempt to trick your audience.</p>
 
-<p>In this blog, unless otherwise specified, we will usually refer to explanatory data visualization.</p>
+<p>These are just few examples of how different purposes require different kinds of visualizations.
+In this blog, unless otherwise specified, we will usually refer to explanatory data visualization.</p>
 
 <h2 id="why-you-should-use-it">Why you should use it</h2>
 
@@ -231,17 +232,25 @@ is to simply plot the data.</p>
 
 <p>The one shown before is the well known Anscombe quartet.
 It is a dataset composed by four different subsets of data,
-and it has been constructed to show that the same statistical model may give identical
+and it has been constructed to show that the same statistical (linear) model may give identical
 results for many different data.
 As you can see, the four fits are identical, but the underlying data are very different.</p>
+<ul>
+  <li>In the fist case the used model is appropriate</li>
+  <li>In the second case a higher order model would be more appropriate to fit the data</li>
+  <li>In the third one the linear model looks appropriate, but the presence of an outlier provides a wrong estimate</li>
+  <li>In the last case a linear fit doesn’t really makes sense, as by removing one outlier one would get a single x for all the points.</li>
+</ul>
 
 <div class="emphbox">
 Always use data visualization to make sure that the model is appropriate for your data.
 </div>
 
 <h2 id="what-do-you-risk-by-misinterpreting-the-data">What do you risk by misinterpreting the data</h2>
+<p><br />
+<img src="/docs/assets/images/visualization/cat.png" alt="An image from a Computerized Axial Tomography" /></p>
 
-<p><img src="/docs/assets/images/visualization/cat.png" alt="An image from a Computerized Axial Tomography" /></p>
+<p><br /></p>
 
 <p>Data visualization became a part of everyday life, but by using it
 in the wrong way one may encounter many risk.

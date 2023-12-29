@@ -18,8 +18,8 @@ function plotAnscombe(data){
 
         var svg = anscombeContainer.append("svg")
                 .attr("id", 'myid')
-                .attr("width", width+200)
-                .attr("height",height+200)
+                .attr("width", width+50)
+                .attr("height",height+50)
 
         let xMin = 0
         let xMax = 20
