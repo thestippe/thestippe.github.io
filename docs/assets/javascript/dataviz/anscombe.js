@@ -29,8 +29,9 @@ function plotAnscombe(data){
 
         var k = 0
 
-        cols = ["#48acf7","#ea81bc","#cc9b50","#33bb8c"]
 
+        cols = [ "#35acea", "#b492e4", "#d58f5c", "#1fb595"
+        ]
         for(let i=0;i<2;i++){
                 for(let j=0;j<2;j++){
                         k += 1
