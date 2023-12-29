@@ -58,7 +58,7 @@ function plotAnscombe(data){
                         const regression = d3.regressionLinear()
                           .x(d => d.x)
                           .y(d => d.y)
-                          .domain([0, 15]);
+                          .domain([0, 20]);
 
                         linear = regression(data)
                         // linearRegressionLine = ss.linearRegressionLine(linearRegression)
@@ -88,7 +88,8 @@ function plotAnscombe(data){
                                 .attr("cy", function(d) { return y(d.y); });
 
                         svg.append('line').attr('x1', x(linear[0][0])).attr('x2', x(linear[1][0])).attr('y1', y(linear[0][1])).attr('y2', y(linear[1][1])).attr('fill', 'none')
-                                .attr('style', 'stroke:'+cols[k-1]+";stroke-width:2")
+                                .attr('style',
+                                'stroke:'+cols[k-1]+";stroke-width:2")
 
                 }
         }
