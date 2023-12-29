@@ -32,8 +32,8 @@ function plotAnscombe(data){
 
         cols = [ "#35acea", "#b492e4", "#d58f5c", "#1fb595"
         ]
-        for(let i=0;i<2;i++){
-                for(let j=0;j<2;j++){
+        for(let j=0;j<2;j++){
+                for(let i=0;i<2;i++){
                         k += 1
 
                         var x0 = vMargin + i*(vMargin+graphWidth)
@@ -93,6 +93,9 @@ function plotAnscombe(data){
 
                 }
         }
+
+                        svg.append('text').text('The Anscombe quartet').attr('x', 500).attr('y', 50)
+
 
 
 }
