@@ -164,11 +164,16 @@
   <br>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>Welcome to the first post about in this data visualization blog.</p>
+    <p>Welcome to the first post of this data visualization blog.</p>
 
 <p>Here we will give take a first look at what dataviz is, and why it is important.</p>
 
+<script src="https://unpkg.com/d3-regression@1.3.10/dist/d3-regression.min.js"></script>
+
+<script src="https://d3js.org/d3.v7.js"></script>
+
 <h2 id="data-visualization-in-the-scientific-process">Data visualization in the scientific process</h2>
+
 <p>Data visualization plays a major role in most phases of the scientific processes:</p>
 
 <ul>
@@ -220,7 +225,9 @@ I love statistical models, but one should always ensure that the model makes sen
 but this wouldn’t makes sense at all for a multimodal distribution, and the easiest way to spot multimodality
 is to simply plot the data.</p>
 
-<p><img src="/docs/assets/images/visualization/anscombe.png" alt="The Anscombe quartet" /></p>
+<div id="anscombe"></div>
+
+<script src="/docs/assets/javascript/dataviz/anscombe.js"></script>
 
 <p>The one shown before is the well known Anscombe quartet.
 It is a dataset composed by four different subsets of data,
