@@ -1,6 +1,6 @@
 let anscombeContainer = d3.select("#anscombe") 
 
-d3.csv("https://gist.githubusercontent.com/alansmithy/4a863fed88f346e89921454dae3ab8f9/raw/d169e523ae4f9aa925145c4f6ed10421fe6f8f28/anscombe.csv",
+d3.csv("https://raw.githubusercontent.com/thestippe/thestippe.github.io/main/data/anscombe.csv",
         d3.autoType).then(plotAnscombe) // do not rely on default data types!
 
 function plotAnscombe(data){
