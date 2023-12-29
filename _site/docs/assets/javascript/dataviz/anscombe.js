@@ -74,7 +74,7 @@ function plotAnscombe(data){
                                 .call(d3.axisLeft(y).ticks(3)).attr('transform',
                                         'translate('+x0+','+0+')')
 
-                        svg.append('text').text(k).attr('x', x(0)+20).attr('y', y(15))
+                        svg.append('text').text(k).attr('x', x(20)-20).attr('y', y(15))
                         svg.append('text').text('x').attr('x', x(12)).attr('y', y(0)+20)
                         svg.append('text').text('y').attr('x', x(0)-15).attr('y', y(8))
 
