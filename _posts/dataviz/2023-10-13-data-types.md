@@ -10,6 +10,8 @@ image: "/docs/assets/images/data_types/chart.png"
 Data can come into many different flavors, and in this post we will take a look at how
 we can classify them depending on their qualities and on our previous knowledge.
 
+## Data formats
+
 In the simplest case our dataset will consist into a collection of
 **items**, and each item will have a set of **attribute**.
 

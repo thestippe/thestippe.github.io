@@ -98,7 +98,7 @@ This method allows you to show
 a large number of categories, but the main drawback
 is that one needs some practice to read it.
 
-## Conclusions and take-home message
+## Conclusions
 
 We have seen few possible evolutions of the line chart.
 Those alternatives are appropriate when you want to plot the evolution of a quantitative variable

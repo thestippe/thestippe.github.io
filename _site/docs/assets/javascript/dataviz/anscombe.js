@@ -18,7 +18,7 @@ function plotAnscombe(data){
 
         var svg = anscombeContainer.append("svg")
                 .attr("id", 'myid')
-                .attr("width", width+50)
+                .attr("width", width)
                 .attr("height",height)
 
         let xMin = 0
@@ -30,8 +30,8 @@ function plotAnscombe(data){
         var k = 0
 
 
-        cols = [ "#35acea", "#b492e4", "#d58f5c", "#1fb595"
-        ]
+        cols = [ "#7fc97f", "#beaed4", "#fdc086", "#386cb0" ]
+                // [ "#35acea", "#b492e4", "#d58f5c", "#1fb595" ]
         for(let j=0;j<2;j++){
                 for(let i=0;i<2;i++){
                         k += 1
@@ -77,7 +77,7 @@ function plotAnscombe(data){
 
                         svg.append('text').text(k).attr('x', x(20)-20).attr('y', y(15))
                         svg.append('text').text('x').attr('x', x(12)).attr('y', y(0)+20)
-                        svg.append('text').text('y').attr('x', x(0)-15).attr('y', y(8))
+                        svg.append('text').text('y').attr('x', x(0)-15).attr('y', y(7))
 
                         svg.selectAll('points').data(data)
                                 .enter().append("circle")

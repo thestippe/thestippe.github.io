@@ -179,7 +179,7 @@ Of course this cannot be considered an experiment, I am just trying and give you
 some evidence that finding a blue square between many blue circles takes
 some more time than finding a red circle between many blue circles.
 
-## Conclusion and future outlook
+## Conclusions
 
 We had a broad overview about how do we perceive what surrounds us, and we have
 seen that there is a class of visual features, namely the preattentive

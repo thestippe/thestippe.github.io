@@ -105,3 +105,7 @@ You should also look for color combinations that look appealing, as they will le
 Keep in mind the hierarchy of your visualization, emphasize what is relevant and put less important objects in the background.
 Find the focal point of your composition and try and determine the visual query that the reader will follow. Is this the one you look for?
 
+## Conclusions
+
+We have seen how to leverage design to make your message clearer. We briefly discussed few design principles which will help your reader to understand you.
+Later in this blog we will take a deeper look to some of the design principles.
