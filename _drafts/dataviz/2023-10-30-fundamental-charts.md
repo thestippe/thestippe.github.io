@@ -11,6 +11,8 @@ description: "An overview to some of the most common data visualizations"
 
 In this post we will take a look at some of the most fundamental charts
 that one encounters in data visualization [^1] [^2].
+These charts will be the basic building block for most of the visualizations, and will allow us to visualize
+a wide range of datasets.
 
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v5.js"></script>
@@ -140,6 +142,12 @@ time I lived in each location.
 <script src="/docs/assets/javascript/fundamental_charts/symbol.js"> </script>
 
 Symbol maps can be used to determine the spatial distribution of a certain quantities.
+
+## Conclusions
+
+We discussed some of the most relevant kind of visualizations, and they will be the starting point
+for other kind of visualizations.
+The choice of the visualization both depends on the attribute types and on the attribute semantics.
 
 ## Suggested readings
 
