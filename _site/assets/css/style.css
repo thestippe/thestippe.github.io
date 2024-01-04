@@ -303,7 +303,7 @@ body {
 .progress-bar {
   height: 5px;
   width: 0%;
-  background: linear-gradient(to left, steelblue, #fffcfa);
+  background: linear-gradient(to left, #9b7449, #fffcfa);
 }
 
 #autograph {
