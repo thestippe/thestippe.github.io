@@ -59,7 +59,7 @@ layout: base
         {% if post.image %}
         <div>
                 <a  href="{{ post.url | relative_url }}">
-                        <img src={{ post.image }} style="height:360px;width:480px;">
+                        <img src={{ post.image }} style="height:360px;width:480px;" alt={{post.title}}>
                 </a>
         </div>
         {% endif %}
