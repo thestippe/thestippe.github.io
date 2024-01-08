@@ -12,6 +12,7 @@ text {
 
 }
 
+
 svg {
         font-family: 'Optima';
 }
@@ -647,4 +648,10 @@ input::placeholder {
         padding-top: 2px;
         padding-bottom: 2px;
 }
+}
+
+.error {
+        font-family: 'Optima';
+        font-size: 20px;
+
 }
