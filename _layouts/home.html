@@ -34,7 +34,7 @@ layout: base
     {%- if page.list_title -%}
       <h3 class="post-list-heading">{{ page.list_title }}</h3>
     {%- endif -%}
-    <div class='cards'>
+    <div class='cards' itemscope itemtype="http://schema.org/Blog">
         {% assign is_even = true%}
       {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
       {%- for post in posts -%}
@@ -45,11 +45,11 @@ layout: base
       {% assign is_even = true %}
       {% assign clsname = "cardOdd" %}
       {% endif %}
-      <div class={{clsname}}>
-        <span class="post-meta">{{ post.date | date: date_format }} | </span>
+      <div class={{clsname}} itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: date_format }} | </time></span>
         <span class="post-meta"> {{ post.content | number_of_words | divided_by:180 | at_least:1 }}&prime;</span>
         <h3>
-          <a class="post-link" href="{{ post.url | relative_url }}">
+          <a class="post-link" href="{{ post.url | relative_url }}" itemprop="url">
             {{ post.title | escape }}
           </a>
         </h3>
