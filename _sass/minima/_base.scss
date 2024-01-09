@@ -210,7 +210,7 @@ footer {
                 margin-left: 0px;
         }
 
-        #navlink {
+        .page-link {
                 align-items: end;
                 margin-left: 10px;
                 margin-right: 10px;
@@ -334,7 +334,6 @@ h1, h2, h3, h4, h5, h6 {
  */
 a {
   color: $link-base-color;
-  text-decoration: none;
 
   &:visited {
     color: $link-visited-color;
@@ -653,4 +652,9 @@ input::placeholder {
         font-family: 'Optima';
         font-size: 20px;
 
+}
+
+.footer-text {
+        font-size: 14px;
+        color: lightgray;
 }

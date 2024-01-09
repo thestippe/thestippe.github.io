@@ -385,7 +385,7 @@ footer {
   #logo {
     margin-left: 0px;
   }
-  #navlink {
+  .page-link {
     align-items: end;
     margin-left: 10px;
     margin-right: 10px;
@@ -488,7 +488,6 @@ h1, h2, h3, h4, h5, h6 {
  */
 a {
   color: #2a7ae2;
-  text-decoration: none;
 }
 a:visited {
   color: #1756a9;
@@ -768,6 +767,11 @@ input::placeholder {
 .error {
   font-family: "Optima";
   font-size: 20px;
+}
+
+.footer-text {
+  font-size: 14px;
+  color: lightgray;
 }
 
 /**
@@ -1117,12 +1121,6 @@ input[type=text] {
   src: url("/docs/assets/fonts/ZapfinoExtraLT-Two.otf");
 }
 @font-face {
-  font-family: "ZapfinoOne";
-  font-style: normal;
-  font-weight: 400;
-  src: url("/docs/assets/fonts/ZapfinoExtraLT-Two.otf");
-}
-@font-face {
   font-family: "Optima";
   font-style: normal;
   font-weight: normal;
@@ -1150,30 +1148,6 @@ input[type=text] {
   font-family: "NeoEuler";
   font-style: normal;
   src: url("/docs/assets/fonts/euler.otf");
-}
-@font-face {
-  font-family: "DejaVu Serif";
-  font-style: normal;
-  font-weight: 400;
-  src: url("/docs/assets/fonts/DejaVuSerif.ttf");
-}
-@font-face {
-  font-family: "DejaVu Sans";
-  font-style: normal;
-  font-weight: 400;
-  src: url("/docs/assets/fonts/DejaVuSans.ttf");
-}
-@font-face {
-  font-family: "Metropolis";
-  font-style: normal;
-  font-weight: 400;
-  src: url("/docs/assets/fonts/metropolis/Metropolis Font family/Metropolis-Light.otf");
-}
-@font-face {
-  font-family: "Black Chancery";
-  font-style: normal;
-  font-weight: 400;
-  src: url("/docs/assets/fonts/BLKCHCRY.TTF");
 }
 html, body, fieldset, img {
   font-size: 100%;
