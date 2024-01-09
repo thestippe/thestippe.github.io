@@ -27,8 +27,6 @@ As an example, let us take a look at evolution over the years the Italian GDP pe
 
 The dataset is based on [Raafat Saleh's repo](https://github.com/RaafatSaleh/GDP-per-capita-and-its-effect-on-the-man-life-quality/blob/master/Data/gdppercapita_us_inflation_adjusted.csv).
 
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v5.js"></script>
 
 <div id="linechart"> </div>
 <script src="/docs/assets/javascript/linechart_evolution/linechart.js"> </script>

@@ -63,7 +63,7 @@ In the database language, we may say that our key is a primary key.
 As an example, we can visualize the number of gold medals
 that each country won in the 2020 Olympic games.
 Here we will only plot a sub-sample of the dataset, while the full dataset
-can be found [here](https://github.com/MainakRepositor/Datasets/blob/master/Tokyo-Olympics/Medals.csv).
+can be found on [Mainak's repository](https://github.com/MainakRepositor/Datasets/blob/master/Tokyo-Olympics/Medals.csv).
 
 
 
