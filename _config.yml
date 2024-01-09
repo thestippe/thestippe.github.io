@@ -27,3 +27,5 @@ gems: [jekyll-mermaid, jekyll-paginate]
 show_excerpts: false
 paginate: false
 masthead: /docs/assets/images/logo_dp.png
+sass:
+  style: compressed
