@@ -2,9 +2,10 @@
 layout: home
 title: "Home"
 permalink: /index
+description: "How to get knowledge from data. Using statistics and data visualization to get out most out from our data."
 ---
 
-## A personal blog about data visualization
+## A personal blog about data visualization and data analysis.
 
 <div class="emphbox">
 Welcome to my blog!
@@ -14,7 +15,7 @@ Welcome to my blog!
 Here I will collect and discuss some ideas that allowed me to improve my data
 analysis, from Bayesian statistics (of course by using PyMC) to dataviz.
 -->
-Here I will share some ideas about data visualization.
+Here I will share some ideas about dataviz and analysis.
 
 </div>
 <span style="font-family:Zapfino;font-size:280%;line-height:36%">I</span> plot data since quite many years, but only few months ago I really went into

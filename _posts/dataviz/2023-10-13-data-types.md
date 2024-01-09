@@ -3,7 +3,7 @@ layout: post
 title: "Data abstraction"
 categories: /dataviz/
 tags: /data-types
-description: "Thinking about data"
+description: "How can we classify data? Some of the most useful criteria to decide how to plot your data."
 image: "/docs/assets/images/data_types/chart.png"
 ---
 

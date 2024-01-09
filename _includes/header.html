@@ -5,10 +5,6 @@
                 <div class="wrapper" style="display:flex;">
 
         <ul hidden='hidden' id="postList">
-                {%- assign prev_temp= "" -%}
-                {%- assign prev= "" -%}
-                {%- assign next= "" -%}
-                {%- assign lst = false -%}
 
                 {%- for post in site.posts -%}
                 <li>
@@ -23,7 +19,6 @@
                         {%assign k=forloop.index%}
                         {%- endif-%}
                 </li>
-                {%assign prev_temp=post.url%}
                 {%- endfor -%}
         </ul>
                         <div style="display:flex">
@@ -32,8 +27,8 @@
                                 {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
                                 {%- if site.masthead -%}
 
-                  {% if prev.size > 0 %}
-                  <a href="{{prev}}" class="prev">&#8249;</a>
+                {% if page.previous != nil %}
+                  <a href="{{page.previous.url}}" class="prev">&#8249;</a>
                   {% endif%}
                                 <a href="{{ "/" | relative_url }}"><img class="site-masthead" src="{{ site.masthead | relative_url }}" alt="{{ site.title | escape }}" id="logo" /></a>
                                 {%- else -%}
@@ -72,8 +67,8 @@
                         </nav>
                         {%- endif -%}
 
-                  {% if next.size > 0 %}
-                  <a href="{{next}}" class="next">&#8250;</a>
+                  {% if page.next != nil %}
+                  <a href="{{page.next.url}}" class="next">&#8250;</a>
                   {% endif %}
         </div>
 
