@@ -2,7 +2,7 @@
 layout: post
 title: "Data abstraction"
 categories: /dataviz/
-tags: /data-types/
+tags: /data-types
 description: "Thinking about data"
 image: "/docs/assets/images/data_types/chart.png"
 ---
