@@ -49,6 +49,7 @@ GEM
       jekyll (>= 3.7, < 5.0)
     jekyll-watch (2.2.1)
       listen (~> 3.0)
+    json (2.7.1)
     kramdown (2.4.0)
       rexml
     kramdown-parser-gfm (1.1.0)
@@ -81,6 +82,7 @@ DEPENDENCIES
   bundler
   jekyll-seo-tag
   jekyll-sitemap
+  json
   minima!
 
 BUNDLED WITH

@@ -2,93 +2,93 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-          <loc>https://http://localhost:4000/design-introduction</loc>
+          <loc>https://http://localhost:4000/dataviz/design-introduction</loc>
     <lastmod>2023-12-01T00:00:00+01:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/palettes-introduction</loc>
+          <loc>https://http://localhost:4000/dataviz/palettes-introduction</loc>
     <lastmod>2023-11-25T00:00:00+01:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/color-introduction</loc>
+          <loc>https://http://localhost:4000/dataviz/color-introduction</loc>
     <lastmod>2023-11-24T00:00:00+01:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/gender-economist</loc>
+          <loc>https://http://localhost:4000/dataviz/gender-economist</loc>
     <lastmod>2023-11-20T00:00:00+01:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/visual-queries</loc>
+          <loc>https://http://localhost:4000/dataviz/visual-queries</loc>
     <lastmod>2023-11-10T00:00:00+01:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/gestalt</loc>
+          <loc>https://http://localhost:4000/dataviz/gestalt</loc>
     <lastmod>2023-11-07T00:00:00+01:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/effectiveness</loc>
+          <loc>https://http://localhost:4000/dataviz/effectiveness</loc>
     <lastmod>2023-11-05T00:00:00+01:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/linechart-evolution</loc>
+          <loc>https://http://localhost:4000/dataviz/linechart-evolution</loc>
     <lastmod>2023-11-03T00:00:00+01:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/scatterplot-evolution</loc>
+          <loc>https://http://localhost:4000/dataviz/scatterplot-evolution</loc>
     <lastmod>2023-11-02T00:00:00+01:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/perception</loc>
+          <loc>https://http://localhost:4000/dataviz/perception</loc>
     <lastmod>2023-11-01T00:00:00+01:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/fundamental-charts</loc>
+          <loc>https://http://localhost:4000/dataviz/fundamental-charts</loc>
     <lastmod>2023-10-30T00:00:00+01:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/marks-channels</loc>
+          <loc>https://http://localhost:4000/dataviz/marks-channels</loc>
     <lastmod>2023-10-14T00:00:00+02:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/data-types</loc>
+          <loc>https://http://localhost:4000/dataviz/data-types</loc>
     <lastmod>2023-10-13T00:00:00+02:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/dataviz</loc>
+          <loc>https://http://localhost:4000/dataviz/dataviz</loc>
     <lastmod>2023-10-11T00:00:00+02:00</lastmod>
   </url>
   
   <url>
           <loc>https://http://localhost:4000/404</loc>
-    <lastmod>2024-01-09T21:42:00+01:00</lastmod>
+    <lastmod>2024-01-10T09:05:44+01:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/about</loc>
-    <lastmod>2024-01-09T21:42:00+01:00</lastmod>
+    <lastmod>2024-01-10T09:05:44+01:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/index</loc>
-    <lastmod>2024-01-09T21:42:00+01:00</lastmod>
+    <lastmod>2024-01-10T09:05:44+01:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/minima-social-icons.svg</loc>
-    <lastmod>2024-01-09T21:42:00+01:00</lastmod>
+    <lastmod>2024-01-10T09:05:44+01:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/links</loc>
-    <lastmod>2024-01-09T21:42:00+01:00</lastmod>
+    <lastmod>2024-01-10T09:05:44+01:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/smap.xml</loc>
-    <lastmod>2024-01-09T21:42:00+01:00</lastmod>
+    <lastmod>2024-01-10T09:05:44+01:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/css/style.css</loc>
-    <lastmod>2024-01-09T21:42:00+01:00</lastmod>
+    <lastmod>2024-01-10T09:05:44+01:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/feed.xml</loc>
-    <lastmod>2024-01-09T21:42:00+01:00</lastmod>
+    <lastmod>2024-01-10T09:05:44+01:00</lastmod>
   </url>
   
 </urlset>
