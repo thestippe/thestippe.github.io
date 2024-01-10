@@ -24,6 +24,8 @@ Here I will share some ideas about dataviz and analysis.
 <div class="home-links">
 </div>
 
+<div style="display:flex;
+  flex-wrap: wrap;">
 <div class='homeCard' id='homeCardDataviz'>
 <a href="/dataviz">
 <h2>Data visualization</h2>
@@ -36,4 +38,5 @@ Here I will share some ideas about dataviz and analysis.
 <h2>Statistics</h2>
 <img src="/docs/assets/images/statistics.webp" class='homeImg'>
 </a>
+</div>
 </div>
