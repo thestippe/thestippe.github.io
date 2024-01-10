@@ -4,20 +4,31 @@
         <script src="https://d3js.org/d3.v7.js"></script>
                 <div class="wrapper" style="display:flex;">
 
-        <ul hidden='hidden' id="postList">
+                {%- assign prev_temp= nil -%}
+                {%- assign prev= nil -%}
+                {%- assign next= nil -%}
+                {%- assign lst = false -%}
 
                 {%- for post in site.posts -%}
-                <li>
-                        {{post.title}};{{post.url}};{{forloop.index}}
-                        {% if lst == true%}
+                        {% if post.categories == page.categories %}
+                        {% if lst == true %}
                         {% assign lst = false %}
-                        {% assign prev = post.url%}
+                        {% assign prev = post%}
                         {% endif%}
                         {%- if post.title == page.title -%}
                         {% assign next = prev_temp %}
                         {%assign lst=true%}
                         {%assign k=forloop.index%}
                         {%- endif-%}
+                        {%- endif-%}
+                {%assign prev_temp=post%}
+                {%- endfor -%}
+
+        <ul hidden='hidden' id="postList">
+
+                {%- for post in site.posts -%}
+                <li>
+                        {{post.title}};{{post.url}};{{forloop.index}}
                 </li>
                 {%- endfor -%}
         </ul>
@@ -27,8 +38,8 @@
                                 {%- assign titles_size = site.pages | map: 'title' | join: '' | size -%}
                                 {%- if site.masthead -%}
 
-                {% if page.previous != nil %}
-                  <a href="{{page.previous.url}}" class="prev">&#8249;</a>
+                {% if prev != nil %}
+                  <a href="{{prev.url}}" class="prev">&#8249;</a>
                   {% endif%}
                                 <a href="{{ "/" | relative_url }}"><img class="site-masthead" src="{{ site.masthead | relative_url }}" alt="{{ site.title | escape }}" id="logo" /></a>
                                 {%- else -%}
@@ -67,8 +78,8 @@
                         </nav>
                         {%- endif -%}
 
-                  {% if page.next != nil %}
-                  <a href="{{page.next.url}}" class="next">&#8250;</a>
+                  {% if next != nil %}
+                  <a href="{{next.url}}" class="next">&#8250;</a>
                   {% endif %}
         </div>
 

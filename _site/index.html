@@ -57,37 +57,35 @@
 
         <div id='upperBarr'>
         <script src="https://d3js.org/d3.v7.js"></script>
-                <div class="wrapper" style="display:flex;">
-
-        <ul hidden='hidden' id="postList"><li>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
                         Design tricks;/dataviz/design-introduction;1
-                        </li><li>
+                </li><li>
                         How to choose a color map;/dataviz/palettes-introduction;2
-                        </li><li>
+                </li><li>
                         Introduction to color perception;/dataviz/color-introduction;3
-                        </li><li>
+                </li><li>
                         Drawing is redrawing;/dataviz/gender-economist;4
-                        </li><li>
+                </li><li>
                         Visual queries;/dataviz/visual-queries;5
-                        </li><li>
+                </li><li>
                         The Gestalt principles;/dataviz/gestalt;6
-                        </li><li>
+                </li><li>
                         Channel effectiveness;/dataviz/effectiveness;7
-                        </li><li>
+                </li><li>
                         Evolutions of the line chart;/dataviz/linechart-evolution;8
-                        </li><li>
+                </li><li>
                         Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;9
-                        </li><li>
+                </li><li>
                         Perception;/dataviz/perception;10
-                        </li><li>
+                </li><li>
                         Fundamental charts;/dataviz/fundamental-charts;11
-                        </li><li>
+                </li><li>
                         Marks and channels;/dataviz/marks-channels;12
-                        </li><li>
+                </li><li>
                         Data abstraction;/dataviz/data-types;13
-                        </li><li>
+                </li><li>
                         Data visualization;/dataviz/dataviz;14
-                        </li></ul>
+                </li></ul>
                         <div style="display:flex">
                                 <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
                                         <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
@@ -106,7 +104,7 @@
                                         </span>
                                 </label>
 
-                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/index">Home</a><a  class="page-link" href="/links">Resources</a></div>
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a></div>
                         </nav>
         </div>
 
@@ -142,299 +140,34 @@ analysis, from Bayesian statistics (of course by using PyMC) to dataviz.
 Here I will share some ideas about dataviz and analysis.
 
 </div>
-<p><span style="font-family:Zapfino;font-size:280%;line-height:36%">I</span> plot data since quite many years, but only few months ago I really went into
-data visualization (aka dataviz).</p>
 
-<p>I attended Enrico Bertini’s Coursera specialization, which explains how to design and evaluate data visualizations,
-and it does so by starting from what is currently known about our brain’s processes in visual perception.</p>
+<div class="div-gradient"></div>
 
-<p>Since I discovered this research field I started reading books talking about it,
-and I began with the ones written by the data visualization pioneer <a href="https://it.wikipedia.org/wiki/Edward_Tufte">Edward Tufte</a>.
-You will find out more resources in the <a href="/links">dedicated section</a> of this blog.</p>
+<div class="home-links">
+</div>
 
-<p>When I started I used Python, and during the years I tried different technologies for this purpose, from Tableau to d3js.</p>
+<div class="homeCard" id="homeCardDataviz">
+<a href="/dataviz">
+<h2>Data visualization</h2>
+<img src="/docs/assets/images/dataviz.webp" class="homeImg" />
+</a>
+</div>
 
-<p>I would like to share some (hopefully intelligent) though about data visualization.
-Moreover, as Tufte himself wrote in his book Beautiful Evidence, “as teachers know, a very good way to learn something is to teach it”, so let’s try.</p>
-
-<p><br />
-I hope you will enjoy!</p>
-
-<div id="autograph">
-          Stippe
-
-  </div>
+<div class="homeCard" id="homeCardStatistics">
+<a href="/statistics">
+<h2>Statistics</h2>
+<img src="/docs/assets/images/statistics.webp" class="homeImg" />
+</a>
+</div>
 
 
   </div>
 
-  <div id='div-gradient'></div>
-  <div id='home-links'>
-          <h2>Posts</h2>
+  <div class='div-gradient'></div>
+  <div class='home-links'>
 
-  <hr>
-
-
-  <div class='cards' itemscope itemtype="http://schema.org/Blog">
-        
-      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-12-01T00:00:00+01:00">Dec 1, 2023 | </time></span>
-        <span class="post-meta"> 5&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/design-introduction" itemprop="url">
-            Design tricks
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/design-introduction">
-                        <img src=/docs/assets/images/design.jpg style="height:360px;width:480px;" alt=Design tricks>
-                </a>
-        </div>
-        
-        
-                <i>Few ideas from design</i>
-        
-        </div>
-      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-25T00:00:00+01:00">Nov 25, 2023 | </time></span>
-        <span class="post-meta"> 7&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/palettes-introduction" itemprop="url">
-            How to choose a color map
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/palettes-introduction">
-                        <img src=/docs/assets/images/palettes_introduction/palettes.png style="height:360px;width:480px;" alt=How to choose a color map>
-                </a>
-        </div>
-        
-        
-                <i>Each task has its own palette</i>
-        
-        </div>
-      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-24T00:00:00+01:00">Nov 24, 2023 | </time></span>
-        <span class="post-meta"> 4&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/color-introduction" itemprop="url">
-            Introduction to color perception
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/color-introduction">
-                        <img src=/docs/assets/images/color_perception/color_circle.png style="height:360px;width:480px;" alt=Introduction to color perception>
-                </a>
-        </div>
-        
-        
-                <i>Some basic concepts about color spaces</i>
-        
-        </div>
-      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-20T00:00:00+01:00">Nov 20, 2023 | </time></span>
-        <span class="post-meta"> 6&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/gender-economist" itemprop="url">
-            Drawing is redrawing
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/gender-economist">
-                        <img src=/docs/assets/images/gender_economist/original.webp style="height:360px;width:480px;" alt=Drawing is redrawing>
-                </a>
-        </div>
-        
-        
-                <i>How to tackle real life dataviz problems</i>
-        
-        </div>
-      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-10T00:00:00+01:00">Nov 10, 2023 | </time></span>
-        <span class="post-meta"> 5&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/visual-queries" itemprop="url">
-            Visual queries
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/visual-queries">
-                        <img src=/docs/assets/images/visual_queries/attention.svg style="height:360px;width:480px;" alt=Visual queries>
-                </a>
-        </div>
-        
-        
-                <i>How do we inspect an image</i>
-        
-        </div>
-      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-07T00:00:00+01:00">Nov 7, 2023 | </time></span>
-        <span class="post-meta"> 11&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/gestalt" itemprop="url">
-            The Gestalt principles
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/gestalt">
-                        <img src=/docs/assets/images/gestalt/gestalt.svg style="height:360px;width:480px;" alt=The Gestalt principles>
-                </a>
-        </div>
-        
-        
-                <i>How does our brain build patterns</i>
-        
-        </div>
-      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-05T00:00:00+01:00">Nov 5, 2023 | </time></span>
-        <span class="post-meta"> 4&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/effectiveness" itemprop="url">
-            Channel effectiveness
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/effectiveness">
-                        <img src=/docs/assets/images/effectiveness/effectiveness.png style="height:360px;width:480px;" alt=Channel effectiveness>
-                </a>
-        </div>
-        
-        
-                <i>Quantifying the goodness of a channel to show an information</i>
-        
-        </div>
-      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-03T00:00:00+01:00">Nov 3, 2023 | </time></span>
-        <span class="post-meta"> 3&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/linechart-evolution" itemprop="url">
-            Evolutions of the line chart
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/linechart-evolution">
-                        <img src=/docs/assets/images/linechart_evolutions/areaplot.png style="height:360px;width:480px;" alt=Evolutions of the line chart>
-                </a>
-        </div>
-        
-        
-                <i>When a linechart is not enough</i>
-        
-        </div>
-      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-02T00:00:00+01:00">Nov 2, 2023 | </time></span>
-        <span class="post-meta"> 3&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/scatterplot-evolution" itemprop="url">
-            Beyond the 1D scatterplot
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/scatterplot-evolution">
-                        <img src=/docs/assets/images/beyond_scatterplot/boxplot.svg style="height:360px;width:480px;" alt=Beyond the 1D scatterplot>
-                </a>
-        </div>
-        
-        
-                <i>How to visualize one dimensional distributions</i>
-        
-        </div>
-      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-01T00:00:00+01:00">Nov 1, 2023 | </time></span>
-        <span class="post-meta"> 7&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/perception" itemprop="url">
-            Perception
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/perception">
-                        <img src=/docs/assets/images/perception/eye.jpg style="height:360px;width:480px;" alt=Perception>
-                </a>
-        </div>
-        
-        
-                <i>How do we see what surrounds us</i>
-        
-        </div>
-      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-10-30T00:00:00+01:00">Oct 30, 2023 | </time></span>
-        <span class="post-meta"> 4&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/fundamental-charts" itemprop="url">
-            Fundamental charts
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/fundamental-charts">
-                        <img src=/docs/assets/images/charts/charttypes.png style="height:360px;width:480px;" alt=Fundamental charts>
-                </a>
-        </div>
-        
-        
-                <i>An overview to some of the most common data visualizations</i>
-        
-        </div>
-      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-10-14T00:00:00+02:00">Oct 14, 2023 | </time></span>
-        <span class="post-meta"> 7&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/marks-channels" itemprop="url">
-            Marks and channels
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/marks-channels">
-                        <img src=/docs/assets/images/markers_channels/markers.png style="height:360px;width:480px;" alt=Marks and channels>
-                </a>
-        </div>
-        
-        
-                <i>The building blocks of data visualization</i>
-        
-        </div>
-      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-10-13T00:00:00+02:00">Oct 13, 2023 | </time></span>
-        <span class="post-meta"> 4&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/data-types" itemprop="url">
-            Data abstraction
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/data-types">
-                        <img src=/docs/assets/images/data_types/chart.png style="height:360px;width:480px;" alt=Data abstraction>
-                </a>
-        </div>
-        
-        
-                <i>How can we classify data? Some of the most useful criteria to decide how to plot your data.</i>
-        
-        </div>
-      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2023-10-11T00:00:00+02:00">Oct 11, 2023 | </time></span>
-        <span class="post-meta"> 5&prime;</span>
-        <h3>
-          <a class="post-link" href="/dataviz/dataviz" itemprop="url">
-            Data visualization
-          </a>
-        </h3>
-        <div>
-                <a  href="/dataviz/dataviz">
-                        <img src=/docs/assets/images/visualization/London_Tube_Map.png style="height:360px;width:480px;" alt=Data visualization>
-                </a>
-        </div>
-        
-        
-                <i>Why dataviz is important?</i>
-        
-        </div></div>
-
-    </div>
 
 </div>
-<script src="/docs/assets/javascript/scrollEnter.js">
-</script>
 
       </div>
     </main><footer class="site-footer h-card">

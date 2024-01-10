@@ -567,7 +567,7 @@ table {
         margin-top: 170px;
 }
 
-#div-gradient {
+.div-gradient {
         height: 50px;
         margin-top: -15px;
         margin-bottom: -30px;
@@ -577,10 +577,29 @@ table {
     from(rgba(0,0,0,0)), to(rgba(0,0,0,1)));
 }
 
-#home-links {
+.home-links {
         position: sticky;
         background: #fffcfa;
         margin-top: 30px;
+}
+
+.homeCard {
+        position: sticky;
+        background: #fffcfa;
+        width: 100%;
+        text-align: left;
+}
+
+.homeImg {
+        margin: auto;
+        margin-top: -70px;
+        margin-left: -183px;
+
+        max-width: 128%;
+
+
+        
+  
 }
 
 .searchResults {

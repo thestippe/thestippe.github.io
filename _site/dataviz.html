@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Dataviz | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Dataviz" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="All the posts on dataviz" />
+<meta property="og:description" content="All the posts on dataviz" />
+<link rel="canonical" href="http://localhost:4000/dataviz" />
+<meta property="og:url" content="http://localhost:4000/dataviz" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Dataviz" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Data-perspectives"},"description":"All the posts on dataviz","headline":"Dataviz","url":"http://localhost:4000/dataviz"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+
+  
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        Design tricks;/dataviz/design-introduction;1
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;2
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;3
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;4
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;5
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;6
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;7
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;8
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;9
+                </li><li>
+                        Perception;/dataviz/perception;10
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;11
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;12
+                </li><li>
+                        Data abstraction;/dataviz/data-types;13
+                </li><li>
+                        Data visualization;/dataviz/dataviz;14
+                </li></ul>
+                        <div style="display:flex">
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a></div>
+                        </nav>
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <div id='homeTop'></div>
+<div class="home">
+        <a href='/index'>
+                <img src="/docs/assets/images/background.png" alt="backround" style="margin:auto;display:block;width:1180px;position:fixed;">
+</a><h1 class="page-heading">Dataviz</h1><div id='home-content'>
+  <div class="emphbox">
+Here you will find some thoughts about
+data visualization, from basic principles
+to real-world applications.
+</div>
+
+<p><span style="font-family:Zapfino;font-size:280%;line-height:36%">I</span> plot data since quite many years, but only few months ago I really went into
+data visualization (aka dataviz).</p>
+
+<p>I attended Enrico Bertini’s Coursera specialization, which explains how to design and evaluate data visualizations,
+and it does so by starting from what is currently known about our brain’s processes in visual perception.</p>
+
+<p>Since I discovered this research field I started reading books talking about it,
+and I began with the ones written by the data visualization pioneer <a href="https://it.wikipedia.org/wiki/Edward_Tufte">Edward Tufte</a>.
+You will find out more resources in the <a href="/links">dedicated section</a> of this blog.</p>
+
+<p>When I started I used Python, and during the years I tried different technologies for this purpose, from Tableau to d3js.</p>
+
+<p>I would like to share some (hopefully intelligent) though about data visualization.
+Moreover, as Tufte himself wrote in his book Beautiful Evidence, “as teachers know, a very good way to learn something is to teach it”, so let’s try.</p>
+
+<p><br />
+I hope you will enjoy!</p>
+
+<div id="autograph">
+          Stippe
+
+  </div>
+
+
+  </div>
+
+  <div class='div-gradient'></div>
+  <div class='home-links'>
+          <h2>Posts</h2>
+
+  <hr>
+
+
+  <div class='cards' itemscope itemtype="http://schema.org/Blog">
+        
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-12-01T00:00:00+01:00">Dec 1, 2023 | </time></span>
+        <span class="post-meta"> 5&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/design-introduction" itemprop="url">
+            Design tricks
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/design-introduction">
+                        <img src=/docs/assets/images/design.jpg style="height:360px;width:480px;" alt=Design tricks>
+                </a>
+        </div>
+        
+        
+                <i>Few ideas from design</i>
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-25T00:00:00+01:00">Nov 25, 2023 | </time></span>
+        <span class="post-meta"> 7&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/palettes-introduction" itemprop="url">
+            How to choose a color map
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/palettes-introduction">
+                        <img src=/docs/assets/images/palettes_introduction/palettes.png style="height:360px;width:480px;" alt=How to choose a color map>
+                </a>
+        </div>
+        
+        
+                <i>Each task has its own palette</i>
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-24T00:00:00+01:00">Nov 24, 2023 | </time></span>
+        <span class="post-meta"> 4&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/color-introduction" itemprop="url">
+            Introduction to color perception
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/color-introduction">
+                        <img src=/docs/assets/images/color_perception/color_circle.png style="height:360px;width:480px;" alt=Introduction to color perception>
+                </a>
+        </div>
+        
+        
+                <i>Some basic concepts about color spaces</i>
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-20T00:00:00+01:00">Nov 20, 2023 | </time></span>
+        <span class="post-meta"> 6&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/gender-economist" itemprop="url">
+            Drawing is redrawing
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/gender-economist">
+                        <img src=/docs/assets/images/gender_economist/original.webp style="height:360px;width:480px;" alt=Drawing is redrawing>
+                </a>
+        </div>
+        
+        
+                <i>How to tackle real life dataviz problems</i>
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-10T00:00:00+01:00">Nov 10, 2023 | </time></span>
+        <span class="post-meta"> 5&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/visual-queries" itemprop="url">
+            Visual queries
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/visual-queries">
+                        <img src=/docs/assets/images/visual_queries/attention.svg style="height:360px;width:480px;" alt=Visual queries>
+                </a>
+        </div>
+        
+        
+                <i>How do we inspect an image</i>
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-07T00:00:00+01:00">Nov 7, 2023 | </time></span>
+        <span class="post-meta"> 11&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/gestalt" itemprop="url">
+            The Gestalt principles
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/gestalt">
+                        <img src=/docs/assets/images/gestalt/gestalt.svg style="height:360px;width:480px;" alt=The Gestalt principles>
+                </a>
+        </div>
+        
+        
+                <i>How does our brain build patterns</i>
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-05T00:00:00+01:00">Nov 5, 2023 | </time></span>
+        <span class="post-meta"> 4&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/effectiveness" itemprop="url">
+            Channel effectiveness
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/effectiveness">
+                        <img src=/docs/assets/images/effectiveness/effectiveness.png style="height:360px;width:480px;" alt=Channel effectiveness>
+                </a>
+        </div>
+        
+        
+                <i>Quantifying the goodness of a channel to show an information</i>
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-03T00:00:00+01:00">Nov 3, 2023 | </time></span>
+        <span class="post-meta"> 3&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/linechart-evolution" itemprop="url">
+            Evolutions of the line chart
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/linechart-evolution">
+                        <img src=/docs/assets/images/linechart_evolutions/areaplot.png style="height:360px;width:480px;" alt=Evolutions of the line chart>
+                </a>
+        </div>
+        
+        
+                <i>When a linechart is not enough</i>
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-02T00:00:00+01:00">Nov 2, 2023 | </time></span>
+        <span class="post-meta"> 3&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/scatterplot-evolution" itemprop="url">
+            Beyond the 1D scatterplot
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/scatterplot-evolution">
+                        <img src=/docs/assets/images/beyond_scatterplot/boxplot.svg style="height:360px;width:480px;" alt=Beyond the 1D scatterplot>
+                </a>
+        </div>
+        
+        
+                <i>How to visualize one dimensional distributions</i>
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-11-01T00:00:00+01:00">Nov 1, 2023 | </time></span>
+        <span class="post-meta"> 7&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/perception" itemprop="url">
+            Perception
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/perception">
+                        <img src=/docs/assets/images/perception/eye.jpg style="height:360px;width:480px;" alt=Perception>
+                </a>
+        </div>
+        
+        
+                <i>How do we see what surrounds us</i>
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-10-30T00:00:00+01:00">Oct 30, 2023 | </time></span>
+        <span class="post-meta"> 4&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/fundamental-charts" itemprop="url">
+            Fundamental charts
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/fundamental-charts">
+                        <img src=/docs/assets/images/charts/charttypes.png style="height:360px;width:480px;" alt=Fundamental charts>
+                </a>
+        </div>
+        
+        
+                <i>An overview to some of the most common data visualizations</i>
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-10-14T00:00:00+02:00">Oct 14, 2023 | </time></span>
+        <span class="post-meta"> 7&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/marks-channels" itemprop="url">
+            Marks and channels
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/marks-channels">
+                        <img src=/docs/assets/images/markers_channels/markers.png style="height:360px;width:480px;" alt=Marks and channels>
+                </a>
+        </div>
+        
+        
+                <i>The building blocks of data visualization</i>
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-10-13T00:00:00+02:00">Oct 13, 2023 | </time></span>
+        <span class="post-meta"> 4&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/data-types" itemprop="url">
+            Data abstraction
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/data-types">
+                        <img src=/docs/assets/images/data_types/chart.png style="height:360px;width:480px;" alt=Data abstraction>
+                </a>
+        </div>
+        
+        
+                <i>How can we classify data? Some of the most useful criteria to decide how to plot your data.</i>
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2023-10-11T00:00:00+02:00">Oct 11, 2023 | </time></span>
+        <span class="post-meta"> 5&prime;</span>
+        <h3>
+          <a class="post-link" href="/dataviz/dataviz" itemprop="url">
+            Data visualization
+          </a>
+        </h3>
+        <div>
+                <a  href="/dataviz/dataviz">
+                        <img src=/docs/assets/images/visualization/London_Tube_Map.png style="height:360px;width:480px;" alt=Data visualization>
+                </a>
+        </div>
+        
+        
+                <i>Why dataviz is important?</i>
+        
+        </div></div>
+
+    </div>
+
+</div>
+<script src="/docs/assets/javascript/scrollEnter.js">
+</script>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

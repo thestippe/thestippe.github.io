@@ -18,25 +18,22 @@ analysis, from Bayesian statistics (of course by using PyMC) to dataviz.
 Here I will share some ideas about dataviz and analysis.
 
 </div>
-<span style="font-family:Zapfino;font-size:280%;line-height:36%">I</span> plot data since quite many years, but only few months ago I really went into
-data visualization (aka dataviz).
 
-I attended Enrico Bertini's Coursera specialization, which explains how to design and evaluate data visualizations,
-and it does so by starting from what is currently known about our brain's processes in visual perception.
+<div class='div-gradient'></div>
 
-Since I discovered this research field I started reading books talking about it,
-and I began with the ones written by the data visualization pioneer [Edward Tufte](https://it.wikipedia.org/wiki/Edward_Tufte).
-You will find out more resources in the [dedicated section](/links) of this blog.
+<div class="home-links">
+</div>
 
-When I started I used Python, and during the years I tried different technologies for this purpose, from Tableau to d3js.
+<div class='homeCard' id='homeCardDataviz'>
+<a href="/dataviz">
+<h2>Data visualization</h2>
+<img src="/docs/assets/images/dataviz.webp" class='homeImg'>
+</a>
+</div>
 
-I would like to share some (hopefully intelligent) though about data visualization.
-Moreover, as Tufte himself wrote in his book Beautiful Evidence, "as teachers know, a very good way to learn something is to teach it", so let's try.
-
-<br>
-I hope you will enjoy!
-
-  <div id='autograph'>
-          Stippe
-
-  </div>
+<div class='homeCard' id='homeCardStatistics'>
+<a href="/statistics">
+<h2>Statistics</h2>
+<img src="/docs/assets/images/statistics.webp" class='homeImg'>
+</a>
+</div>

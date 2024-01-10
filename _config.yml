@@ -15,9 +15,9 @@ minima:
     - { platform: github, user_url: "https://github.com/thestippe/" }
     - { platform: mastodon, user_url: "https://vis.social/@thestippe" }
       # - { platform: telegram, user_url "https://t.me/StefanoM87" }
-  header_pages:
-    - about
-    - links
+header_pages:
+  - about.md
+  - resources.md
 permalink: :categories/:title
 collections:
   category:

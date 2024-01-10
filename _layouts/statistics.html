@@ -1,0 +1,96 @@
+---
+layout: base
+---
+
+<div id='homeTop'></div>
+<div class="home">
+        <a href='/index'>
+                <img src="/docs/assets/images/background.png" alt="backround" style="margin:auto;display:block;width:1180px;position:fixed;">
+</a>
+  {%- if page.title -%}
+    <h1 class="page-heading">{{ page.title }}</h1>
+  {%- endif -%}
+
+  <div id='home-content'>
+  {{ content }}
+
+  </div>
+
+  <div class='div-gradient'></div>
+  <div class='home-links'>
+          <h2>Posts</h2>
+
+  <hr>
+
+
+  {% if site.paginate %}
+  {% assign posts = paginator.posts | where: "categories", "/statistics/"%}
+  {% else %}
+    {% assign posts = site.posts  | where: "categories", "/statistics/"%}
+  {% endif %}
+
+
+  {%- if posts.size > 0 -%}
+    {%- if page.list_title -%}
+      <h3 class="post-list-heading">{{ page.list_title }}</h3>
+    {%- endif -%}
+    <div class='cards' itemscope itemtype="http://schema.org/Blog">
+        {% assign is_even = true%}
+      {%- assign date_format = site.minima.date_format | default: "%b %-d, %Y" -%}
+      {%- for post in posts -%}
+      {% if is_even == true %}
+      {% assign is_even = false %}
+      {% assign clsname = "cardEven" %}
+      {% else %}
+      {% assign is_even = true %}
+      {% assign clsname = "cardOdd" %}
+      {% endif %}
+      <div class={{clsname}} itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="{{ post.date | date_to_xmlschema }}">{{ post.date | date: date_format }} | </time></span>
+        <span class="post-meta"> {{ post.content | number_of_words | divided_by:180 | at_least:1 }}&prime;</span>
+        <h3>
+          <a class="post-link" href="{{ post.url | relative_url }}" itemprop="url">
+            {{ post.title | escape }}
+          </a>
+        </h3>
+        {%- if site.show_excerpts -%}
+          {{ post.excerpt }}
+        {%- endif -%}
+        {% if post.image %}
+        <div>
+                <a  href="{{ post.url | relative_url }}">
+                        <img src={{ post.image }} style="height:360px;width:480px;" alt={{post.title}}>
+                </a>
+        </div>
+        {% endif %}
+        {% if post.description %}
+                <i>{{ post.description }}</i>
+        {% endif %}
+        </div>
+      {%- endfor -%}
+    </div>
+
+    {% if site.paginate %}
+      <div class="pager">
+        <ul class="pagination">
+        {%- if paginator.previous_page %}
+          <li><a href="{{ paginator.previous_page_path | relative_url }}" class="previous-page">{{ paginator.previous_page }}</a></li>
+        {%- else %}
+          <li><div class="pager-edge">•</div></li>
+        {%- endif %}
+          <li><div class="current-page">{{ paginator.page }}</div></li>
+        {%- if paginator.next_page %}
+          <li><a href="{{ paginator.next_page_path | relative_url }}" class="next-page">{{ paginator.next_page }}</a></li>
+        {%- else %}
+          <li><div class="pager-edge">•</div></li>
+        {%- endif %}
+        </ul>
+      </div>
+    {%- endif %}
+
+  {%- endif -%}
+</div>
+
+</div>
+<script src="/docs/assets/javascript/scrollEnter.js">
+</script>
