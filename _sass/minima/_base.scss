@@ -587,12 +587,14 @@ table {
         background: #fffcfa;
         width: 100%;
         flex: 0 1 100%;
+        border: 1px solid lightgray;
 }
 
 .homeImg {
         width: 100vw;
-        margin: auto;
+        margin: none;
         max-width: 100%;
+        max-height:100%;
 
 
 
