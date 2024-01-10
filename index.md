@@ -25,18 +25,18 @@ Here I will share some ideas about dataviz and analysis.
 </div>
 
 <div style="display:flex;
-  flex-wrap: wrap;">
+  flex-wrap: wrap;gap: 10px;">
 <div class='homeCard' id='homeCardDataviz'>
 <a href="/dataviz">
 <h2>Data visualization</h2>
-<img src="/docs/assets/images/dataviz.webp" class='homeImg'>
+<img src="/docs/assets/images/dataviz.webp" alt="dataviz" class='homeImg'>
 </a>
 </div>
 
 <div class='homeCard' id='homeCardStatistics'>
 <a href="/statistics">
 <h2>Statistics</h2>
-<img src="/docs/assets/images/statistics.webp" class='homeImg'>
+<img src="/docs/assets/images/statistics.webp" alt="statistics" class='homeImg'>
 </a>
 </div>
 </div>
