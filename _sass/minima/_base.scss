@@ -613,6 +613,14 @@ table {
         
 }
 
+#homeTextDataviz {
+        color: lightgray;
+}
+
+#homeTextStatistics {
+        color: #405059;
+}
+
 #homeCardDataviz {
         animation: 1s ease-out 0s 1 slideInFromLeft;
 }
@@ -627,7 +635,6 @@ table {
   left: 50%;
         
   transform: translate(-50%, -50%);
-        color: black;
   font-size: 150%;
 }
 
