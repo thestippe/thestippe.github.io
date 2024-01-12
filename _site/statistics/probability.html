@@ -15,21 +15,24 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Home | Data Perspectives</title>
+<title>Probability foundations | Data Perspectives</title>
 <meta name="generator" content="Jekyll v4.3.2" />
-<meta property="og:title" content="Home" />
+<meta property="og:title" content="Probability foundations" />
 <meta name="author" content="Data-perspectives" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="How to get knowledge from data. Using statistics and data visualization to get out most out from our data." />
-<meta property="og:description" content="How to get knowledge from data. Using statistics and data visualization to get out most out from our data." />
-<link rel="canonical" href="http://localhost:4000/index" />
-<meta property="og:url" content="http://localhost:4000/index" />
+<meta name="description" content="The axiomatic definition of probability" />
+<meta property="og:description" content="The axiomatic definition of probability" />
+<link rel="canonical" href="http://localhost:4000/statistics/probability" />
+<meta property="og:url" content="http://localhost:4000/statistics/probability" />
 <meta property="og:site_name" content="Data Perspectives" />
-<meta property="og:type" content="website" />
-<meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Home" />
+<meta property="og:image" content="http://localhost:4000/" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-01-11T00:00:00+01:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="http://localhost:4000/" />
+<meta property="twitter:title" content="Probability foundations" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"WebPage","author":{"@type":"Person","name":"Data-perspectives"},"description":"How to get knowledge from data. Using statistics and data visualization to get out most out from our data.","headline":"Home","url":"http://localhost:4000/index"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2023-01-11T00:00:00+01:00","datePublished":"2023-01-11T00:00:00+01:00","description":"The axiomatic definition of probability","headline":"Probability foundations","image":"http://localhost:4000/","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/probability"},"url":"http://localhost:4000/statistics/probability"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
 
@@ -90,6 +93,8 @@
                         What is statistics;/statistics/statistics;16
                 </li></ul>
                         <div style="display:flex">
+                  <a href="/statistics/statistics" class="prev">&#8249;</a>
+                  
                                 <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
                                         <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
                                 </div>
@@ -109,6 +114,8 @@
 
                                 <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a></div>
                         </nav>
+                  <a href="/dataviz/dataviz" class="next">&#8250;</a>
+                  
         </div>
 
 
@@ -125,55 +132,83 @@
 
     <main class="page-content" aria-label="Content">
       <div class="wrapper">
-        <div id='homeTop'></div>
-<div class="home">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
         <a href='/index'>
-                <img src="/docs/assets/images/background.png" alt="backround" style="margin:auto;display:block;width:1180px;position:fixed;">
-</a><h1 class="page-heading">Home</h1><div id='home-content'>
-  <h2 id="a-personal-blog-about-data-visualization-and-data-analysis">A personal blog about data visualization and data analysis.</h2>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
 
-<div class="emphbox">
-Welcome to my blog!
-
-
-<!--
-Here I will collect and discuss some ideas that allowed me to improve my data
-analysis, from Bayesian statistics (of course by using PyMC) to dataviz.
--->
-Here I will share some ideas about dataviz and analysis.
-
-</div>
-
-<div class="div-gradient"></div>
-
-<div class="home-links">
-</div>
-
-<div style="display:flex;
-  flex-wrap: wrap;gap: 10px;">
-<div class="homeCard" id="homeCardDataviz">
-<a href="/dataviz">
-<h2 class="homeText" id="homeTextDataviz">Data Visualization</h2>
-<img src="/docs/assets/images/dataviz.webp" alt="dataviz" class="homeImg" />
 </a>
-</div>
+    <h1 class="post-title p-name" itemprop="name headline">Probability foundations</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2023-01-11T00:00:00+01:00" itemprop="datePublished">
+        Jan 11, 2023
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  1&prime;
+</span>
+</p>
+  </header>
+  <br>
 
-<div class="homeCard" id="homeCardStatistics">
-<a href="/statistics">
-<h2 class="homeText" id="homeTextStatistics">Statistics</h2>
-<img src="/docs/assets/images/statistics.webp" alt="statistics" class="homeImg" />
-</a>
-</div>
-</div>
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In a <a href="/statistics/statistics">previous post</a> we mentioned the axiomatic approach to probability.
+Here we will discuss them and their most important consequences.</p>
 
+<h2 id="the-kolmogorov-axioms">The Kolmogorov axioms</h2>
+
+<p>In the context of probability theory, we consider an <strong>experiment</strong> any measurement
+which can in principle be repeated an infinite amount of times.
+The set of all the possible outcomes of the measure is called the <strong>sample space</strong> or <strong>universe</strong>,
+and it is usually indicated with the letter \(\Omega\).</p>
+
+<p>If we want to describe the result of a coin toss, our sample space will be the set \(\{H, T\}\,,\)
+while if we want to model the income of some population, the space will be the
+set of the positive real numbers \(\mathbb{R}^+\,.\)</p>
+
+<p>We then introduce the space \(F\,,\) and the definition of this space is rather involved:
+if we are dealing with a finite space, it is simply the collection of all the possible subsets of \(\Omega\,.\)
+If it is not, however, things get more involved, and one must define it as a <a href="https://en.wikipedia.org/wiki/%CE%A3-algebra"><strong>\(\sigma\)-algebra</strong></a>
+over \(\Omega\).</p>
+
+<p>So \(F\) will be \(\{\emptyset, H, T,\{H,T\}\}\) in the first case, while in the latter it will be the collection of all the finite segments
+over the positive real axis.</p>
+
+<p>We finally introduce the <strong>probability function</strong> \(P\) which is a function \(P:F \rightarrow [0, 1]\) such that:</p>
+
+<ul>
+  <li>$P(A) \geq 0 \forall E \in F$ the probability must be non-negative</li>
+  <li>$P(\Omega) = 1$</li>
+  <li>$P\left(\bigcup_i E_i\right) = \sum_i P\left(E_i\right) \forall {E_i}  : E_i \cap E_j = \emptyset \forall i \neq j $ (the total probability of disjoint events is the sum of their probabilities)</li>
+</ul>
+
+<h2 id="some-immediate-consequences">Some immediate consequences</h2>
+
+<p>Since, given any set $E$, we can decompose \(\Omega = E \cup \bar{E}\) with \(E\cap\bar{E}=\emptyset\)
+we immediately get \(P\left(\bar{E}\right)=1-P(E)\) and,
+obviously, \(P(\emptyset)=0\).</p>
+
+<h2 id="suggested-readings">Suggested readings</h2>
+
+<ul>
+  <li><cite> <a href="https://books.google.it/books/about/The_Theory_of_Probability.html?id=g4sZAQAAIAAJ&amp;redir_esc=y">Gnedenko (1978). The theory of probability.</a> </cite></li>
+</ul>
+
+  </div><a class="u-url" href="/statistics/probability" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jan 11, 2023
 
   </div>
 
-  <div class='div-gradient'></div>
-  <div class='home-links'>
-
-
-</div>
+</article>
 
       </div>
     </main><footer class="site-footer h-card">

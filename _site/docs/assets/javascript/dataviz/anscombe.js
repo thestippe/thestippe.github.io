@@ -4,14 +4,31 @@ d3.csv("https://raw.githubusercontent.com/thestippe/thestippe.github.io/main/dat
         d3.autoType).then(plotAnscombe) // do not rely on default data types!
 
 function plotAnscombe(data){
-        let hMargin = 100
-        let vMargin = 100
+        let w0 = window.outerWidth;
+        let w1 = window.innerWidth;
 
-        let hSep = 10
-        let vSep = 10
+        console.log(w0)
+        console.log(w1)
 
-        let width = 1100
-        let height = 900
+
+        let width = w0/2
+
+        if(width<350){
+                width=350
+        }
+        let height = 9/11*width
+
+        let vMargin = width/9
+        let hMargin = width/11
+
+        let hSep = hMargin/10
+        let vSep = vMargin/10
+
+        let xTitle = vMargin
+        let yTitle = hMargin/2
+
+
+        let r = height/200
 
         let graphWidth = +(width-3*vMargin)/2.0
         let graphHeight = +(height-3*hMargin)/2.0
@@ -83,7 +100,7 @@ function plotAnscombe(data){
                                 .enter().append("circle")
                                 .filter(function(d) { return +d.seriesname.split(' ')[1] == k })
                                 .style("fill", cols[k-1])
-                                .attr("r", 3.5)
+                                .attr("r", r)
                                 .attr("cx", function(d) { return x(d.x); })
                                 .attr("cy", function(d) { return y(d.y); });
 
@@ -94,7 +111,7 @@ function plotAnscombe(data){
                 }
         }
 
-                        svg.append('text').text('The Anscombe quartet').attr('x', 500).attr('y', 50)
+                        svg.append('text').text('The Anscombe quartet').attr('x', xTitle).attr('y', yTitle)
 
 
 
