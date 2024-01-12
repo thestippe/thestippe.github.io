@@ -41,6 +41,40 @@ Since, given any set $E$, we can decompose $$\Omega = E \cup \bar{E}$$ with $$E\
 we immediately get $$P\left(\bar{E}\right)=1-P(E)$$ and,
 obviously, $$P(\emptyset)=0$$.
 
+Let us take $A\subseteq B\,,$ so $B = A \cup (B/A)$ and $A \cap (B/A) = \emptyset\,.$
+We then have immediately $$P(B) = P(A) + P\left(B/A\right) \geq P(A)$$
+so if $A \subseteq B \Rightarrow P(A) \leq P(B)\,.$
+
+If we now take two arbitrary sets $A$ and $B\,,$ we can decompose
+$$ A \cup B = A \cup (B/A) = A \cup (B/(A\cap B))$$
+so $$P(A\cup B) = P(A) + P(B/(A\cap B))\,.$$
+On the other hand we have that $$B=(B/(A\cap B)) \cup (A\cap B)$$
+so $$P(B) = P(B/(A\cap B)) + P(A\cap B)$$ or equivalently $$P(B/(A\cap B)) = P(B)-P(A\cap B)\,.$$
+By combining the two results we have
+
+$$P(A\cup B) = P(A) + P(B) - P(A\cap B) $$
+
+## Conditional probability
+
+The conditional probability of $A$ given $B$ is defined as $$P(A | B) = \frac{P(A \cap B)}{P(B)}$$
+Notice that, if both $P(A)>0$ and $P(B)>0\,,$ we can write
+
+$$P(A \cap B) = P(B) P(A | B) = P(A) P(B | A)$$
+
+which can be rewritten as
+
+$$ P(A | B) = \frac{P(B|A) P(A)}{P(B)} $$
+
+and this is the well known [Bayes' theorem](https://en.wikipedia.org/wiki/Bayes%27_theorem).
+
+
+## Conclusions
+
+We formulated the Kolmogorov axioms, we showed some fundamental result of probability theory,
+we defined the conditional probability and derived the Bayes' theorem.
+In the future we will show how this theorem is used in Bayesian statistics to obtain informations about the parameters by using the data.
+
+
 ## Suggested readings
 
 - <cite> <a href="https://books.google.it/books/about/The_Theory_of_Probability.html?id=g4sZAQAAIAAJ&redir_esc=y">Gnedenko (1978). The theory of probability.</a> </cite>

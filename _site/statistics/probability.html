@@ -146,7 +146,7 @@
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
   
-  1&prime;
+  2&prime;
 </span>
 </p>
   </header>
@@ -188,6 +188,38 @@ over the positive real axis.</p>
 <p>Since, given any set $E$, we can decompose \(\Omega = E \cup \bar{E}\) with \(E\cap\bar{E}=\emptyset\)
 we immediately get \(P\left(\bar{E}\right)=1-P(E)\) and,
 obviously, \(P(\emptyset)=0\).</p>
+
+<p>Let us take $A\subseteq B\,,$ so $B = A \cup (B/A)$ and $A \cap (B/A) = \emptyset\,.$
+We then have immediately \(P(B) = P(A) + P\left(B/A\right) \geq P(A)\)
+so if $A \subseteq B \Rightarrow P(A) \leq P(B)\,.$</p>
+
+<p>If we now take two arbitrary sets $A$ and $B\,,$ we can decompose
+\(A \cup B = A \cup (B/A) = A \cup (B/(A\cap B))\)
+so \(P(A\cup B) = P(A) + P(B/(A\cap B))\,.\)
+On the other hand we have that \(B=(B/(A\cap B)) \cup (A\cap B)\)
+so \(P(B) = P(B/(A\cap B)) + P(A\cap B)\) or equivalently \(P(B/(A\cap B)) = P(B)-P(A\cap B)\,.\)
+By combining the two results we have</p>
+
+\[P(A\cup B) = P(A) + P(B) - P(A\cap B)\]
+
+<h2 id="conditional-probability">Conditional probability</h2>
+
+<p>The conditional probability of $A$ given $B$ is defined as \(P(A | B) = \frac{P(A \cap B)}{P(B)}\)
+Notice that, if both $P(A)&gt;0$ and $P(B)&gt;0\,,$ we can write</p>
+
+\[P(A \cap B) = P(B) P(A | B) = P(A) P(B | A)\]
+
+<p>which can be rewritten as</p>
+
+\[P(A | B) = \frac{P(B|A) P(A)}{P(B)}\]
+
+<p>and this is the well known <a href="https://en.wikipedia.org/wiki/Bayes%27_theorem">Bayes’ theorem</a>.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We formulated the Kolmogorov axioms, we showed some fundamental result of probability theory,
+we defined the conditional probability and derived the Bayes’ theorem.
+In the future we will show how this theorem is used in Bayesian statistics to obtain informations about the parameters by using the data.</p>
 
 <h2 id="suggested-readings">Suggested readings</h2>
 
