@@ -72,7 +72,7 @@ Tomorrow's value of Microsoft's financial stock is a random quantity too,
 but this kind of ignorance is subjective, as we might know some relevant information
 that we might think will affect the price.
 
-These three examples describe three very different situations, so you should be not surprised that
+These three examples describe three very different situations, so you shouldn't be surprised that
 there is more than one answer to the question "what probability *means*".
 
 However, there is much more agreement on the answer to the question "what probability *is*",
