@@ -7,7 +7,10 @@ description: "How can we classify data? Some of the most useful criteria to deci
 image: "/docs/assets/images/data_types/chart.png"
 ---
 
-Data can come into many different flavors, and in this post we will take a look at how
+In the [previous post](/dataviz) we discussed why you should care about data visualization.
+In this one we will start looking more in detail at data, so that we can develop the tools  to choose at an appropriate graph.
+
+Data can come into many different flavors, and here we will take a look at how
 we can classify them depending on their qualities and on our previous knowledge.
 
 ## Data formats
