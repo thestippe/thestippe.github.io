@@ -10,6 +10,7 @@ description: "What is statistics and how to use it."
 Sometimes dataviz is not enough to get the desired information from your data.
 This may happen for many reasons, either because you want to ask some hypothetical question *what would happen if...*, or
 simply because your data is too noisy or the number of variables you are dealing with is too hight.
+Statistics will allow you to get information from your data *if you don't misuse it*.
 
 Statistics also plays a very important role in data visualization, as you need it to draw appropriate conclusions.
 Moreover, sometimes you are forced to display some aggregate number rather than showing the raw data,
@@ -46,6 +47,11 @@ As previously stated, when we build a statistical model, our aim is to get infor
 about the entire population by only studying a sample.
 Of course, we don't know all the characteristics of our population,
 otherwise we wouldn't need to study it!
+
+<div class="emphbox">
+Estimating and communicating uncertainties is the core of inference.
+</div>
+
 This implies that we somehow must account for our ignorance, and this can be done by 
 assuming that the relevant features of our population are **randomly distributed
 according to some probability distribution**, so our task is now to somehow constrain
@@ -53,7 +59,7 @@ the space of the reasonable distributions that describe our population.
 
 At this point, if you are not familiar with these concept, you may wonder what does probability **mean**,
 but this is far from being an easy question to answer,
-ant this is because randomness can come into many different forms.
+as randomness can come into many different forms.
 
 The measure of the spin of an electron is random, as quantum mechanics tells us that is intrinsically
 impossible to know the outcome of the experiment with.
@@ -83,7 +89,7 @@ probability distributions $$\mathcal{P}\,,$$ where the probability fulfills the 
 What one generally assumes is that the space of the possible probability distributions is indexed by a vector of parameters
 $$\theta$$ of dimension $$n\,,$$ so that 
 
-$$\mathcal{P} = \{ P_\theta | \theta \in \Theta \}_\theta $$
+$$\mathcal{P} = \{ P_\theta : \theta \in \Theta \} $$
 
 But let us go back to our original question: what does the probability mean? Most statisticians will nowadays agree that there are
 two possible interpretations of the probability, and depending on the context either one or the other might be more appropriate.
