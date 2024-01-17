@@ -16,7 +16,9 @@
                         {% assign prev = post%}
                         {% endif%}
                         {%- if post.title == page.title -%}
-                        {% assign next = prev_temp %}
+                        {% if prev_temp.categories == page.categories %}
+                                {% assign next = prev_temp %}
+                        {%- endif-%}
                         {%assign lst=true%}
                         {%assign k=forloop.index%}
                         {%- endif-%}
@@ -54,6 +56,7 @@
                                 <div hidden='hidden' id="search_focus">0</div>
 
 
+
                         </div>
 
                         {%- if titles_size > 0 -%}
@@ -74,6 +77,9 @@
                                         <a  class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
                                         {%- endif -%}
                                         {%- endfor -%}
+                                {% if page.categories != nil %}
+                                <a href="{{page.categories}}" class="page-link">Up</a>
+                                {% endif%}
                                 </div>
                         </nav>
                         {%- endif -%}
