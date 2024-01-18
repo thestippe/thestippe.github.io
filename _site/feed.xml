@@ -1,4 +1,274 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-01-17T08:07:39+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Design tricks</title><link href="http://localhost:4000/dataviz/design-introduction" rel="alternate" type="text/html" title="Design tricks" /><published>2023-12-01T00:00:00+01:00</published><updated>2023-12-01T00:00:00+01:00</updated><id>http://localhost:4000/dataviz/design-introduction</id><content type="html" xml:base="http://localhost:4000/dataviz/design-introduction"><![CDATA[<p>Some day I was watching a video by Tamara Munzner,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-01-18T17:55:25+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">A/B testing</title><link href="http://localhost:4000/statistics/testing_intro" rel="alternate" type="text/html" title="A/B testing" /><published>2024-01-02T00:00:00+01:00</published><updated>2024-01-02T00:00:00+01:00</updated><id>http://localhost:4000/statistics/testing_intro</id><content type="html" xml:base="http://localhost:4000/statistics/testing_intro"><![CDATA[<p>In this post we will see how to perform A/B testing in python as
+well as the correct interpretation of the results of the test.</p>
+
+<h2 id="an-issue-with-mailing-lists">An issue with mailing lists</h2>
+
+<p>I help as volunteer in a no-profit organization, and one of my tasks is to prepare the weekly newsletter.
+Some of us was not happy with the preview layout, so we came out with some minor modifications.
+Apparently the modifications were fine, but before changing the layout we decided to perform a test.
+Fortunately our mail service provides a tool for A/B testing, so we decided to split our audience in two
+equal blocks.
+The tool randomly assign each recipient into one of two (or more) groups with a given probability.
+Then a version of the mail is sent to one group, while another version of the mail is sent to the other group,
+and by looking at how many subjects opened the newsletter (or performed some other action)
+you can decide which version is better.</p>
+
+<h2 id="randomization">Randomization</h2>
+
+<p>The procedure of randomly assigning an individual to a group is named randomization.
+Randomizing your groups is really important, otherwise you can’t exclude that the difference in the behavior is
+due to the selection criteria you choose.
+As an example, assume that we assigned all the new subscribers to group A, while old subscribers are assigned to 
+group B.
+Suppose that your historical audience is rather adult, but that you recently went to many schools and many students
+subscribed to your newsletter in the last month.
+You then do your test, and observe that the group A opened more newsletter, so you concluded that it’s better version A.
+You can’t however exclude that group A opened more newsletter because young people look more frequently
+to emails, so the result may be strongly biased by your selection criteria.</p>
+
+<p>Of course, randomization may give you unbalanced groups, and even by randomizing the samples you may end up
+with a group with an average age which is much more than the average age of the other group.
+In order to exclude this situation you should compare the distributions of the ages as well as any other potentially
+relevant quantity, named confounder, and verify that the two groups are similar.
+While this practice is usually performed in clinical studies, in our case we don’t have this data due to privacy issues,
+so we are forced to skip this test.</p>
+
+<!--
+Spiegare cosa si intende per test, randomizzazione, causalità e manipolazione
+-->
+
+<h2 id="before-running-the-experiment">Before running the experiment</h2>
+
+<p>In order not to bias the experiment, it is fundamental to decide how to run the experiment <em>before</em>
+the experiment itself.
+In this post we will discuss the frequentist approach, while the Bayesian one will be discussed in a future one.</p>
+
+<p>In both cases we assume that the probability of an individual belonging to group $i$ to open the letter is given by $0\leq \theta_i \leq 1\,.$
+This means that, given the number of delivered emails of the $i$-th group $n_i$, the number of opened mails follows</p>
+
+\[y_i \sim Binom(n_i, \theta_i)\]
+
+<p>What we want to determine is if the opening probability after the update $\theta_2$
+is greater than the opening probability before $\theta_1\,.$</p>
+
+<h2 id="the-frequentist-point-of-view">The frequentist point of view</h2>
+
+<p>Our null hypothesis $H_0$ is that the average opening rate of the old layout will be greater than the one of the new
+layout, and we would like to exclude this case.
+When you work with tests you have four different possibilities</p>
+
+<ul>
+  <li>$H_0$ is true and you don’t reject it: true negative</li>
+  <li>$H_0$ is true and you reject it: false positive - type I error</li>
+  <li>$H_0$ is false and you don’t reject it: false negative - type II error</li>
+  <li>$H_0$ is false and you reject it: true positive</li>
+</ul>
+
+<p>The probability of having a type I error is named <strong>statistical significance</strong> and it is usually indicated with the letter $\alpha$.
+On the other hand, the probability of having a type II error is indicated with $\beta\,,$ while $1-\beta$ is
+named the <strong>statistical power</strong>.</p>
+
+<p>When you build the test, you usually fix $\alpha$ to some small number, then you choose your sample size so that
+your power is large enough for your assumed effect.
+A value of $\alpha=0.05$ is generally used, and sometimes it is justified, sometimes it is not.
+In our case, a probability to reject a true null hypothesis of 1 against 20 is good enough,
+so we will stick to this case.
+Now it comes the question of choosing beta. We have a fixed number of subscribers, and they are roughly 11000,
+but we may perform the test more on more than one newsletter.
+An a priori estimate of the increase of the average opening rate is not very easy, but we may say that an increase of
+a $2\%$ would be a good reason to switch to the new layout.
+We know that the opening rate is roughly $0.35\,,$ so now we have all the ingredients for an estimate of the power of our test.</p>
+
+<p>Notice that $y_i$ is the sum of $n_i$ independent variables, and $n_i \gg 1\,,$ so we can safely use the result
+of the central limit theorem, which states that the sum of a large number of iid random variables
+with mean $\mu$ and variance $\sigma^2$ can be approximated by a normally distributed random variable
+with mean $\mu$ and variance $\frac{\sigma^2}{n}\,.$
+In our case, the probability that a single subscriber of the group $i$ that received the email opens it
+is a Bernoulli random variable with mean $\theta_i$ and variance $\theta_i (1-\theta_i)\,.$</p>
+
+<p>This implies that we can approximate
+\(\frac{y_i}{n_i}\) with a normal variable with mean $\theta_i$ and variance $\frac{\theta_i (1-\theta_i)}{n_i}\,.$
+The two sample Student’s t-test allows you to test if two normally distributed samples have equal mean,
+so in the large $n$ approximation we can use this test to verify our hypothesis.</p>
+
+<h2 id="how-does-a-test-work">How does a test work</h2>
+
+<p>In this section we will sketch the main ideas behind statistical testing from a frequentist perspective.
+Let us now assume that we have a large sample $X_1,\dots,X_n$ of $n$ random variables <em>with known variance $\sigma^2$</em>, and we want to determine if
+the sample average is compatible with $\mu$ within a significance $\alpha\,.$
+In order to do so, we construct the variable</p>
+
+\[Z = \frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\]
+
+<p>and we already know that, if $X_i \sim \mathcal{N}(\mu, \sigma)\,,$ then</p>
+
+\[Z \sim \mathcal{N}(0, 1)\]
+
+<p>What we have to do is to verify how likely is that our observed $Z$ is compatible with $\mathcal{N}(0, 1)\,.$
+We reject the null hypothesis $H_0$ if the probability of the observed value for $Z$ is too far away from the center of the normal
+distribution, namely if</p>
+
+\[\Phi(Z) &gt; 1-\alpha/2\]
+
+<p>or</p>
+
+\[\Phi(Z) &lt; \alpha/2\]
+
+<p>where $\Phi$ indicates the normal cumulative distribution function with zero mean and unit variance.
+The above conditions can be summarized with</p>
+
+\[\Phi(\left|Z\right|)&gt;\alpha/2\]
+
+<p>or</p>
+
+\[2(1-\Phi(\left|Z\right|))&lt;\alpha\]
+
+<p>If, instead of comparing a sample with a number, we want to compare two samples with known
+variance, we can follow exact the above procedure, since the difference between two normal variables
+$\mathcal{N}(\mu_1, \sigma_1)$ and $\mathcal{N}(\mu_2, \sigma_2)$
+is distributed as $\mathcal{N}(\mu_1-\mu_2, \sqrt{\sigma_1^2 + \sigma_2^2})$</p>
+
+<p>Our main issue is that, in our case, the variance is not knows, so we must define</p>
+
+\[Z = \frac{\bar{X}}{S/\sqrt{n}}\]
+
+<p>where our estimated variance is given by the unbiased estimator</p>
+
+\[S^2 = \frac{1}{n-1}\sum_{i} (X_i - \bar{X})^2\]
+
+<p>The new term in the denominator is no more a constant,
+but it’s now a random variable, and it’s distributed according to the $\chi^2$ (chi squared) distribution with $n-1$ degrees of freedom.
+This implies that our new random variable $Z$ is no more normal, but it is distributed according to the so-called Student’s t distribution
+with $n-1$ degrees of freedom, so we must now replace $\Phi$ with the Student’s t cdf in the above formulas.</p>
+
+<p>Notice that we have shown how to perform a two-sided test.
+In a one-sided test you should either choose the condition $1-\Phi(Z)&lt;\alpha$ or $\Phi(Z)&lt;\alpha\,.$
+The form of the above condition has been chosen so that we always have</p>
+
+\[t(Z) &lt; \alpha\]
+
+<p>where $t(\cdot)$ is named the <strong>test statistics</strong> and its value $t(Z)$ is named the <strong>p value</strong>.</p>
+
+<p>We should now clarify what does the above p value mean. 
+If $H_0$ is true, then you expect to observe a p value smaller or equal to the observed one
+a fraction of times equal to the reported p value.</p>
+
+<h2 id="working-it-out">Working it out</h2>
+
+<p>We can now perform the simulation of the experiment.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Let's import the libraries that we will use
+</span><span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">scipy.stats</span> <span class="k">as</span> <span class="n">st</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">pwr</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">ntot</span> <span class="o">=</span> <span class="mi">11000</span>
+<span class="n">f0</span> <span class="o">=</span> <span class="mf">0.50</span>
+
+<span class="n">effect</span> <span class="o">=</span> <span class="mf">0.02</span>
+<span class="n">p1</span> <span class="o">=</span> <span class="mf">0.35</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">+</span> <span class="n">effect</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">ntot</span><span class="o">*</span><span class="n">f0</span><span class="p">)</span>
+<span class="n">n1</span> <span class="o">=</span> <span class="n">ntot</span><span class="o">-</span><span class="n">n1</span>
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
+
+<span class="c1"># We simulate the experiment 1000 times
+</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">k2</span> <span class="o">=</span> <span class="n">rng</span><span class="p">.</span><span class="nf">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p1</span><span class="p">)</span>  <span class="c1"># Our control sample
+</span>    <span class="n">k1</span> <span class="o">=</span> <span class="n">rng</span><span class="p">.</span><span class="nf">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p2</span><span class="p">)</span>  <span class="c1"># Our test sample
+</span>    <span class="c1"># We convert the data in a useful format for scipy
+</span>    <span class="n">dt2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">k2</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n2</span><span class="o">-</span><span class="n">k2</span><span class="p">)</span>
+    <span class="n">dt1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">k1</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n1</span><span class="o">-</span><span class="n">k1</span><span class="p">)</span>
+    <span class="c1"># We now test if the mean of dt2 is greater than the mean of dt1
+</span>    <span class="c1"># We use ttest_ind since the samples are independent
+</span>    <span class="n">out</span> <span class="o">=</span> <span class="n">st</span><span class="p">.</span><span class="nf">ttest_ind</span><span class="p">(</span><span class="n">dt2</span><span class="p">,</span> <span class="n">dt1</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="sh">'</span><span class="s">greater</span><span class="sh">'</span><span class="p">,</span> <span class="n">equal_var</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="c1"># We don't assume that the two groups have equal variance
+</span>    <span class="n">pwr</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">pvalue</span><span class="p">)</span>
+
+<span class="c1"># Let us now compute the power by calculating the fraction of experiments with a p value smaller than our significance
+</span><span class="n">np</span><span class="p">.</span><span class="nf">mean</span><span class="p">([</span><span class="nf">int</span><span class="p">(</span><span class="n">elem</span><span class="o">&lt;</span><span class="n">alpha</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">pwr</span><span class="p">])</span>
+</code></pre></div></div>
+<div class="code">
+0.701
+</div>
+
+<p>So our chances to  reject $H_0$ when $H_0$ is false is 0.7 if the effect of the size of 0.02.
+It is a satisfactory number for our purposes,
+and since we don’t want to waste too much time in preparing the test in the newsletter,
+we won’t repeat the experiment a second time.</p>
+
+<h2 id="the-results">The results</h2>
+
+<p>We finally sent the test mail, and got these results:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Group</th>
+      <th>Delivered</th>
+      <th>Opened</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Test</td>
+      <td>5299</td>
+      <td>1891</td>
+    </tr>
+    <tr>
+      <td>Control</td>
+      <td>5258</td>
+      <td>1722</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We can now calculate the test</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n2</span> <span class="o">=</span> <span class="mi">5299</span>
+<span class="n">k2</span> <span class="o">=</span> <span class="mi">1891</span>
+
+<span class="n">n1</span> <span class="o">=</span> <span class="mi">5258</span>
+<span class="n">k1</span> <span class="o">=</span> <span class="mi">1722</span>
+
+<span class="n">s2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">k2</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n2</span><span class="o">-</span><span class="n">k2</span><span class="p">)</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">k1</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n1</span><span class="o">-</span><span class="n">k1</span><span class="p">)</span>
+
+<span class="n">st</span><span class="p">.</span><span class="nf">ttest_ind</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="sh">'</span><span class="s">greater</span><span class="sh">'</span><span class="p">,</span> <span class="n">equal_var</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="code">
+TtestResult(statistic=3.1803802487550357, pvalue=0.0007375367353631094, df=10553.261020307757)
+</div>
+
+<p>So we can reject the null hypothesis $H_0\,,$ since our p value is smaller than $\alpha\,.$</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We discussed what does hypothesis testing mean and how to perform a test in python.
+We have also seen the underlying assumption and the correct interpretation of the results.
+In the future we will compare this method with the Bayesian approach.
+Moreover, we will see what are the risks that you may take if you violate the above procedure.</p>
+
+<!--
+
+### The Bayesian point of view
+
+In the Bayesian framework, what we have to do is
+- assign a prior distribution to the parameters $\theta_i$
+- decide which condition on the $\theta_i$ is the null hypothesis $H_0$
+- compute $\theta_i$ (we will do so by using PyMC) and verify that we didn't had numerical issues
+- verify if our assumption for the priors is generous enough to accommodate the data
+- verify if our condition holds
+
+chi2 distribution and t-Student
+Optional stopping
+-->]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/testing/" /><summary type="html"><![CDATA[An example of statistical test]]></summary></entry><entry><title type="html">Design tricks</title><link href="http://localhost:4000/dataviz/design-introduction" rel="alternate" type="text/html" title="Design tricks" /><published>2023-12-01T00:00:00+01:00</published><updated>2023-12-01T00:00:00+01:00</updated><id>http://localhost:4000/dataviz/design-introduction</id><content type="html" xml:base="http://localhost:4000/dataviz/design-introduction"><![CDATA[<p>Some day I was watching a video by Tamara Munzner,
 where she recommended to get some basic knowledge about design.
 Before dealing with data visualization I though that design
 was a useless subject, but I decided to follow her suggestion.
@@ -1655,228 +1925,4 @@ a single quantitative variable.</p>
 <p>If your dataset is large, however, choosing how to visualize
 your data is a trade off between transparency
 and readability, and there is no single answer to the
-question of how to choose the most appropriate visualization.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/beyond-scatterplot/" /><summary type="html"><![CDATA[How to visualize one dimensional distributions]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/beyond_scatterplot/boxplot.svg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/beyond_scatterplot/boxplot.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Perception</title><link href="http://localhost:4000/dataviz/perception" rel="alternate" type="text/html" title="Perception" /><published>2023-11-01T00:00:00+01:00</published><updated>2023-11-01T00:00:00+01:00</updated><id>http://localhost:4000/dataviz/perception</id><content type="html" xml:base="http://localhost:4000/dataviz/perception"><![CDATA[<p>Before digging into visualizations, we must understand how do we perceive
-images.
-We will first give an overview about how eye perceives
-light, we will then take a look at the role
-of attention in vision.</p>
-
-<h2 id="the-human-eye">The human eye</h2>
-
-<p>Typically the human eye can detect light in the range of wavelengths going
-from 380 nanometers (violet) to 700 nanometers (red).
-Our eye is rather complex, but to our aim we can only consider few components:</p>
-<ul>
-  <li>The <strong>cornea</strong> which acts as a convergent lens and focuses the light coming to our eye.</li>
-  <li>The <strong>iris</strong> which regulates the amount of light entering into our eye.</li>
-  <li>The <strong>crystalline lens</strong> changes the focal length of the eye, allowing us to focus on different objects.</li>
-  <li>The <strong>retina</strong> which contains the light receptors of our eye.</li>
-  <li>The <strong>optic nerve</strong> which transmits the information from the retina to the brain.
-<br />
-<br />
-<img src="/docs/assets/images/perception/Three_Main_Layers_of_the_Eye.png" height="550px" /></li>
-</ul>
-<figcaption>The structure of the eye.
-Image taken from <a href="https://en.m.wikipedia.org/wiki/File:Three_Main_Layers_of_the_Eye.png">Wikipedia</a> under Creative Common license.</figcaption>
-<p><br />
-<br />
-The light receptors are located on the retina, and they convert the light into electric signals.
-These electric signals are then sent to the brain through the optic nerve.
-In order to accommodate the optic nerve, there is a hole into our retina, and this implies that we have a blind spot into our sight.
-If you want to experiment it yourself, you can close your right eye and look at the right circle, making sure that the two circles are
-aligned and that the line is in front of your nose. Move your head closer and farther away from the screen, at some point you should see the left circle disappearing.
-The exact distance depends on the dimension of your screen, but on a PC screen this should happen roughly at a distance equal to your
-arm’s length.
-<br />
-<br /></p>
-
-<svg width="1200" height="200" style="background-color:lightgray">
-<circle cx="150" cy="100" r="50" style="fill:black" />
-<line x1="600" y1="0" x2="600" y2="250" stroke="black" stroke-width="4" />
-<circle cx="1050" cy="100" r="50" style="fill:black" />
-</svg>
-
-<p><br />
-<br />
-If you tried the experiment, you will notice that you simply don’s see the black circle, but you perceive
- that you see the background color.
-This happens because our brain keeps reconstructing the unavailable information with the available information.</p>
-
-<p>Into the retina we have three kind of receptors:</p>
-<ul>
-  <li>The <strong>rod cells</strong> which are very sensitive in low light conditions. They are roughly 90 millions and are especially used into the peripheral vision and night vision. They are especially concentrated at the outer edge of our retina</li>
-  <li>The <strong>cone cells</strong> are responsible of the color vision, and are roughly 6 millions. Human eye has three kind of cone cells, and each type is more sensitive into a specific wavelengths range, corresponding approximately to <strong>red</strong>, <strong>blue</strong> and <strong>green</strong> wavelengths and named long, medium and short wavelengths cones.</li>
-  <li>The <strong>retinal ganglion cells</strong>, which are devoted to long term representation of ambient light, and are very important for many tasks such as the pupil control, the melatonin production and in the synchronization of the circadian rhythm.</li>
-</ul>
-
-<p>The red cones are approximately ten times the green or blue ones, this is why we are better in discriminating the red tones than the blue or green ones.</p>
-
-<p><img src="/docs/assets/images/perception/Cone-absorbance-en.svg" alt="Cone absorbance" /> The typical spectrum of our light receptors, from <a href="https://en.wikipedia.org/wiki/Rod_cell">Wikipedia</a> (CC license).</p>
-
-<p>The cone density is much higher in a small region located oppositely to the iris,
-namely the <strong>fovea</strong>. Approximately half the nerve fibers in the optic nerve
-carry information from the fovea, while the remaining half carry information
-from the rest of the retina.</p>
-
-<p>This should suggest you that the fovea is the region with the highest resolution
-of the retina, and since it is very small our eye can only clearly see within
-a very small region.
-In fact, our high-resolution region is limited to less than 2 degrees.
-If you want to visualize this angle, you can use the <strong>thumb’s rule</strong>: 
-extend your arm in front of you and look at your thumb, its width has a visual angle of approximately 2 degrees.</p>
-
-<p>On the other hand, on average, we have the feeling that we can clearly see most
-of what surrounds us. This is because our eye makes small movements (typically less than 20 degrees)
-named <a href="https://en.wikipedia.org/wiki/Saccade"><strong>saccadic movements</strong></a> with an average time between two movements of 225 ms.
-Our brain then elaborates the images and reconstructs a map by using many movements,
-giving us the feeling of a higher resolution.</p>
-
-<p>This has a very important impact on data visualization:</p>
-
-<div class="emphbox">
-Attention plays  a major role into what we perceive.
-</div>
-
-<!--
-<div id="demoPerception"></div>
-
-<button onclick="startTimer()">Start</button>
-
-<script src="/docs/assets/javascript/perception/resolution.js"> </script>
--->
-
-<h2 id="preattentive-features">Preattentive features</h2>
-
-<p>For this reason the scientific community spent a lot of energy in trying and determine
-what drives our attention.
-According to Colin Ware’s textbooks 
-<strong>Information Visualization: Perception for Design</strong> the list of features which
-drives our attention, named <strong>preattentive features</strong>, can be divided into
-four kind of features: <strong>form, color, motion</strong> and <strong>spatial positioning</strong>.</p>
-
-<p><strong>Form:</strong></p>
-<ul>
-  <li>Line orientation</li>
-  <li>Line length</li>
-  <li>Line width</li>
-  <li>Line collinearity</li>
-  <li>Size</li>
-  <li>Curvature</li>
-  <li>Spatial grouping</li>
-  <li>Blur</li>
-  <li>Added marks</li>
-  <li>Numerosity</li>
-</ul>
-
-<p><strong>Color:</strong></p>
-<ul>
-  <li>Color hue</li>
-  <li>Color intensity</li>
-</ul>
-
-<p><strong>Motion:</strong></p>
-<ul>
-  <li>Flicker</li>
-  <li>Direction of motion</li>
-</ul>
-
-<p><strong>Spatial positioning:</strong></p>
-<ul>
-  <li>2D position</li>
-  <li>Stereoscopic depth</li>
-  <li>Convex/concave shape from shading</li>
-</ul>
-
-<div class="emphbox">
-Whenever you want to encode a relevant information in your visualization,
-you should use one of the above features.
-</div>
-
-<p>Not all of them take the same amount of time to be processed.
-As an example, it takes a very short time to recognize a red circle
-between many blue circles.
-If you don’t trust me you can try and click on the red circle in the figure below.
-Each time you will hit it a new figure will appear, and you will get visualize
-the distribution of the time needed to hit it.</p>
-
-<!-- Load d3.js -->
-<script src="https://d3js.org/d3.v5.js"></script>
-
-<div id="preattentive_color"> </div>
-
-<!-- Create a div where the graph will take place -->
-
-<p>I am quite sure it was quite an easy task,
-as most of us can clearly see the red circle
-immediately.
-For this reason we say that the red circle
-pops out.
-You can now try and perform the same task, but this time you will be required
-and hit the blue square.</p>
-
-<div id="preattentive_size"> </div>
-
-<p>I am quite sure it was quite easy, but not
-as easy as the exercise before.
-Now try and compare your time distributions.
-Is the first one typically smaller than the second one?
-Do the two distributions overlap?
-Here you can find the kernel density estimate for my results,
-which I collected for few days, trying the exercises in different moments
-and in different order.</p>
-
-<p><img src="/docs/assets/images/perception/hist.png" alt="" /></p>
-
-<p>The heavy tails likely correspond to some missed click, so it took some time
-to click a second time.
-The two distributions are similar but definitely not identical,
-the one corresponding to the shape is shifted on the right with respect to
-the one corresponding to the color.</p>
-
-<p>Of course this cannot be considered an experiment, I am just trying and give you
-some evidence that finding a blue square between many blue circles takes
-some more time than finding a red circle between many blue circles.</p>
-
-<h2 id="conclusions">Conclusions</h2>
-
-<p>We had a broad overview about how do we perceive what surrounds us, and we have
-seen that there is a class of visual features, namely the preattentive
-features, which govern our attention.
-We can leverage them to draw the attention of our audience where we think
-it’s most relevant</p>
-
-<p>Unfortunately, as we will see, properly using the preattentive features is far from being easy, especially when
-you want to combine more than one feature.
-Some feature combinations are still preattentive, while other are
-no more preattentive, and at the best of my knowledge there are no
-exhaustive studies where these combinations are analyzed.</p>
-
-<p>For this post we will limit our discussion about one feature at time, but
-we will discuss how we can combine more than one feature to obtain different
-effects.</p>
-
-<h2 id="bonus-the-results-of-your-tests">Bonus: the results of your tests</h2>
-
-<p>In the following are listed the results of both of your test.</p>
-
-<div id="combined_chart"> </div>
-
-<h3 id="color-difference">Color difference</h3>
-
-<div id="preattentive_color_list"> </div>
-
-<h3 id="size-difference">Size difference</h3>
-
-<div id="preattentive_size_list"> </div>
-
-<script src="/docs//assets/javascript/perception/preattentive_color.js"> </script>
-
-<script src="/docs//assets/javascript/perception/preattentive_size.js"> </script>
-
-<script src="/docs/assets/javascript/perception/combined_chart.js"> </script>
-
-<h2 id="suggested-readings">Suggested readings</h2>
-
-<ul>
-  <li><cite> Colin Ware, Information Visualization, Perception for Design. </cite></li>
-</ul>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/perception/" /><summary type="html"><![CDATA[How do we see what surrounds us]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/perception/eye.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+question of how to choose the most appropriate visualization.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/dataviz/" /><category term="/beyond-scatterplot/" /><summary type="html"><![CDATA[How to visualize one dimensional distributions]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="http://localhost:4000/docs/assets/images/beyond_scatterplot/boxplot.svg" /><media:content medium="image" url="http://localhost:4000/docs/assets/images/beyond_scatterplot/boxplot.svg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

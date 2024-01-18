@@ -34,6 +34,18 @@ body {
      }
 }
 
+.code {
+
+        font-family:monospace;
+        border-style: groove;
+        border-color: silver;
+        border-radius: 4px;
+        border-width: 1px;
+        margin: 10px;
+        padding: 5px;
+        background: whitesmoke;
+}
+
 .cardEven {
         background: #fffcfa;
         border-color: lightgray;

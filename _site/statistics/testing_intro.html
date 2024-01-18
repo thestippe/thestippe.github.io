@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>A/B testing | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="A/B testing" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An example of statistical test" />
+<meta property="og:description" content="An example of statistical test" />
+<link rel="canonical" href="http://localhost:4000/statistics/testing_intro" />
+<meta property="og:url" content="http://localhost:4000/statistics/testing_intro" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-02T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="A/B testing" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-02T00:00:00+01:00","datePublished":"2024-01-02T00:00:00+01:00","description":"An example of statistical test","headline":"A/B testing","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/testing_intro"},"url":"http://localhost:4000/statistics/testing_intro"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        A/B testing;/statistics/testing_intro;1
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;2
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;3
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;4
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;5
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;6
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;7
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;8
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;9
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;10
+                </li><li>
+                        Perception;/dataviz/perception;11
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;12
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;13
+                </li><li>
+                        Data abstraction;/dataviz/data-types;14
+                </li><li>
+                        Data visualization;/dataviz/dataviz;15
+                </li></ul>
+                        <div style="display:flex">
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">A/B testing</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-02T00:00:00+01:00" itemprop="datePublished">
+        Jan 2, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  11&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In this post we will see how to perform A/B testing in python as
+well as the correct interpretation of the results of the test.</p>
+
+<h2 id="an-issue-with-mailing-lists">An issue with mailing lists</h2>
+
+<p>I help as volunteer in a no-profit organization, and one of my tasks is to prepare the weekly newsletter.
+Some of us was not happy with the preview layout, so we came out with some minor modifications.
+Apparently the modifications were fine, but before changing the layout we decided to perform a test.
+Fortunately our mail service provides a tool for A/B testing, so we decided to split our audience in two
+equal blocks.
+The tool randomly assign each recipient into one of two (or more) groups with a given probability.
+Then a version of the mail is sent to one group, while another version of the mail is sent to the other group,
+and by looking at how many subjects opened the newsletter (or performed some other action)
+you can decide which version is better.</p>
+
+<h2 id="randomization">Randomization</h2>
+
+<p>The procedure of randomly assigning an individual to a group is named randomization.
+Randomizing your groups is really important, otherwise you can’t exclude that the difference in the behavior is
+due to the selection criteria you choose.
+As an example, assume that we assigned all the new subscribers to group A, while old subscribers are assigned to 
+group B.
+Suppose that your historical audience is rather adult, but that you recently went to many schools and many students
+subscribed to your newsletter in the last month.
+You then do your test, and observe that the group A opened more newsletter, so you concluded that it’s better version A.
+You can’t however exclude that group A opened more newsletter because young people look more frequently
+to emails, so the result may be strongly biased by your selection criteria.</p>
+
+<p>Of course, randomization may give you unbalanced groups, and even by randomizing the samples you may end up
+with a group with an average age which is much more than the average age of the other group.
+In order to exclude this situation you should compare the distributions of the ages as well as any other potentially
+relevant quantity, named confounder, and verify that the two groups are similar.
+While this practice is usually performed in clinical studies, in our case we don’t have this data due to privacy issues,
+so we are forced to skip this test.</p>
+
+<!--
+Spiegare cosa si intende per test, randomizzazione, causalità e manipolazione
+-->
+
+<h2 id="before-running-the-experiment">Before running the experiment</h2>
+
+<p>In order not to bias the experiment, it is fundamental to decide how to run the experiment <em>before</em>
+the experiment itself.
+In this post we will discuss the frequentist approach, while the Bayesian one will be discussed in a future one.</p>
+
+<p>In both cases we assume that the probability of an individual belonging to group $i$ to open the letter is given by $0\leq \theta_i \leq 1\,.$
+This means that, given the number of delivered emails of the $i$-th group $n_i$, the number of opened mails follows</p>
+
+\[y_i \sim Binom(n_i, \theta_i)\]
+
+<p>What we want to determine is if the opening probability after the update $\theta_2$
+is greater than the opening probability before $\theta_1\,.$</p>
+
+<h2 id="the-frequentist-point-of-view">The frequentist point of view</h2>
+
+<p>Our null hypothesis $H_0$ is that the average opening rate of the old layout will be greater than the one of the new
+layout, and we would like to exclude this case.
+When you work with tests you have four different possibilities</p>
+
+<ul>
+  <li>$H_0$ is true and you don’t reject it: true negative</li>
+  <li>$H_0$ is true and you reject it: false positive - type I error</li>
+  <li>$H_0$ is false and you don’t reject it: false negative - type II error</li>
+  <li>$H_0$ is false and you reject it: true positive</li>
+</ul>
+
+<p>The probability of having a type I error is named <strong>statistical significance</strong> and it is usually indicated with the letter $\alpha$.
+On the other hand, the probability of having a type II error is indicated with $\beta\,,$ while $1-\beta$ is
+named the <strong>statistical power</strong>.</p>
+
+<p>When you build the test, you usually fix $\alpha$ to some small number, then you choose your sample size so that
+your power is large enough for your assumed effect.
+A value of $\alpha=0.05$ is generally used, and sometimes it is justified, sometimes it is not.
+In our case, a probability to reject a true null hypothesis of 1 against 20 is good enough,
+so we will stick to this case.
+Now it comes the question of choosing beta. We have a fixed number of subscribers, and they are roughly 11000,
+but we may perform the test more on more than one newsletter.
+An a priori estimate of the increase of the average opening rate is not very easy, but we may say that an increase of
+a $2\%$ would be a good reason to switch to the new layout.
+We know that the opening rate is roughly $0.35\,,$ so now we have all the ingredients for an estimate of the power of our test.</p>
+
+<p>Notice that $y_i$ is the sum of $n_i$ independent variables, and $n_i \gg 1\,,$ so we can safely use the result
+of the central limit theorem, which states that the sum of a large number of iid random variables
+with mean $\mu$ and variance $\sigma^2$ can be approximated by a normally distributed random variable
+with mean $\mu$ and variance $\frac{\sigma^2}{n}\,.$
+In our case, the probability that a single subscriber of the group $i$ that received the email opens it
+is a Bernoulli random variable with mean $\theta_i$ and variance $\theta_i (1-\theta_i)\,.$</p>
+
+<p>This implies that we can approximate
+\(\frac{y_i}{n_i}\) with a normal variable with mean $\theta_i$ and variance $\frac{\theta_i (1-\theta_i)}{n_i}\,.$
+The two sample Student’s t-test allows you to test if two normally distributed samples have equal mean,
+so in the large $n$ approximation we can use this test to verify our hypothesis.</p>
+
+<h2 id="how-does-a-test-work">How does a test work</h2>
+
+<p>In this section we will sketch the main ideas behind statistical testing from a frequentist perspective.
+Let us now assume that we have a large sample $X_1,\dots,X_n$ of $n$ random variables <em>with known variance $\sigma^2$</em>, and we want to determine if
+the sample average is compatible with $\mu$ within a significance $\alpha\,.$
+In order to do so, we construct the variable</p>
+
+\[Z = \frac{\bar{X}-\mu}{\sigma/\sqrt{n}}\]
+
+<p>and we already know that, if $X_i \sim \mathcal{N}(\mu, \sigma)\,,$ then</p>
+
+\[Z \sim \mathcal{N}(0, 1)\]
+
+<p>What we have to do is to verify how likely is that our observed $Z$ is compatible with $\mathcal{N}(0, 1)\,.$
+We reject the null hypothesis $H_0$ if the probability of the observed value for $Z$ is too far away from the center of the normal
+distribution, namely if</p>
+
+\[\Phi(Z) &gt; 1-\alpha/2\]
+
+<p>or</p>
+
+\[\Phi(Z) &lt; \alpha/2\]
+
+<p>where $\Phi$ indicates the normal cumulative distribution function with zero mean and unit variance.
+The above conditions can be summarized with</p>
+
+\[\Phi(\left|Z\right|)&gt;\alpha/2\]
+
+<p>or</p>
+
+\[2(1-\Phi(\left|Z\right|))&lt;\alpha\]
+
+<p>If, instead of comparing a sample with a number, we want to compare two samples with known
+variance, we can follow exact the above procedure, since the difference between two normal variables
+$\mathcal{N}(\mu_1, \sigma_1)$ and $\mathcal{N}(\mu_2, \sigma_2)$
+is distributed as $\mathcal{N}(\mu_1-\mu_2, \sqrt{\sigma_1^2 + \sigma_2^2})$</p>
+
+<p>Our main issue is that, in our case, the variance is not knows, so we must define</p>
+
+\[Z = \frac{\bar{X}}{S/\sqrt{n}}\]
+
+<p>where our estimated variance is given by the unbiased estimator</p>
+
+\[S^2 = \frac{1}{n-1}\sum_{i} (X_i - \bar{X})^2\]
+
+<p>The new term in the denominator is no more a constant,
+but it’s now a random variable, and it’s distributed according to the $\chi^2$ (chi squared) distribution with $n-1$ degrees of freedom.
+This implies that our new random variable $Z$ is no more normal, but it is distributed according to the so-called Student’s t distribution
+with $n-1$ degrees of freedom, so we must now replace $\Phi$ with the Student’s t cdf in the above formulas.</p>
+
+<p>Notice that we have shown how to perform a two-sided test.
+In a one-sided test you should either choose the condition $1-\Phi(Z)&lt;\alpha$ or $\Phi(Z)&lt;\alpha\,.$
+The form of the above condition has been chosen so that we always have</p>
+
+\[t(Z) &lt; \alpha\]
+
+<p>where $t(\cdot)$ is named the <strong>test statistics</strong> and its value $t(Z)$ is named the <strong>p value</strong>.</p>
+
+<p>We should now clarify what does the above p value mean. 
+If $H_0$ is true, then you expect to observe a p value smaller or equal to the observed one
+a fraction of times equal to the reported p value.</p>
+
+<h2 id="working-it-out">Working it out</h2>
+
+<p>We can now perform the simulation of the experiment.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Let's import the libraries that we will use
+</span><span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">scipy.stats</span> <span class="k">as</span> <span class="n">st</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">pwr</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">ntot</span> <span class="o">=</span> <span class="mi">11000</span>
+<span class="n">f0</span> <span class="o">=</span> <span class="mf">0.50</span>
+
+<span class="n">effect</span> <span class="o">=</span> <span class="mf">0.02</span>
+<span class="n">p1</span> <span class="o">=</span> <span class="mf">0.35</span>
+<span class="n">p2</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">+</span> <span class="n">effect</span>
+<span class="n">n2</span> <span class="o">=</span> <span class="nf">int</span><span class="p">(</span><span class="n">ntot</span><span class="o">*</span><span class="n">f0</span><span class="p">)</span>
+<span class="n">n1</span> <span class="o">=</span> <span class="n">ntot</span><span class="o">-</span><span class="n">n1</span>
+
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.05</span>
+
+<span class="c1"># We simulate the experiment 1000 times
+</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nf">range</span><span class="p">(</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">k2</span> <span class="o">=</span> <span class="n">rng</span><span class="p">.</span><span class="nf">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n2</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p1</span><span class="p">)</span>  <span class="c1"># Our control sample
+</span>    <span class="n">k1</span> <span class="o">=</span> <span class="n">rng</span><span class="p">.</span><span class="nf">binomial</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="n">n1</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p2</span><span class="p">)</span>  <span class="c1"># Our test sample
+</span>    <span class="c1"># We convert the data in a useful format for scipy
+</span>    <span class="n">dt2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">k2</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n2</span><span class="o">-</span><span class="n">k2</span><span class="p">)</span>
+    <span class="n">dt1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">k1</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n1</span><span class="o">-</span><span class="n">k1</span><span class="p">)</span>
+    <span class="c1"># We now test if the mean of dt2 is greater than the mean of dt1
+</span>    <span class="c1"># We use ttest_ind since the samples are independent
+</span>    <span class="n">out</span> <span class="o">=</span> <span class="n">st</span><span class="p">.</span><span class="nf">ttest_ind</span><span class="p">(</span><span class="n">dt2</span><span class="p">,</span> <span class="n">dt1</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="sh">'</span><span class="s">greater</span><span class="sh">'</span><span class="p">,</span> <span class="n">equal_var</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="c1"># We don't assume that the two groups have equal variance
+</span>    <span class="n">pwr</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">out</span><span class="p">.</span><span class="n">pvalue</span><span class="p">)</span>
+
+<span class="c1"># Let us now compute the power by calculating the fraction of experiments with a p value smaller than our significance
+</span><span class="n">np</span><span class="p">.</span><span class="nf">mean</span><span class="p">([</span><span class="nf">int</span><span class="p">(</span><span class="n">elem</span><span class="o">&lt;</span><span class="n">alpha</span><span class="p">)</span> <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">pwr</span><span class="p">])</span>
+</code></pre></div></div>
+<div class="code">
+0.701
+</div>
+
+<p>So our chances to  reject $H_0$ when $H_0$ is false is 0.7 if the effect of the size of 0.02.
+It is a satisfactory number for our purposes,
+and since we don’t want to waste too much time in preparing the test in the newsletter,
+we won’t repeat the experiment a second time.</p>
+
+<h2 id="the-results">The results</h2>
+
+<p>We finally sent the test mail, and got these results:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Group</th>
+      <th>Delivered</th>
+      <th>Opened</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Test</td>
+      <td>5299</td>
+      <td>1891</td>
+    </tr>
+    <tr>
+      <td>Control</td>
+      <td>5258</td>
+      <td>1722</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We can now calculate the test</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n2</span> <span class="o">=</span> <span class="mi">5299</span>
+<span class="n">k2</span> <span class="o">=</span> <span class="mi">1891</span>
+
+<span class="n">n1</span> <span class="o">=</span> <span class="mi">5258</span>
+<span class="n">k1</span> <span class="o">=</span> <span class="mi">1722</span>
+
+<span class="n">s2</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">k2</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n2</span><span class="o">-</span><span class="n">k2</span><span class="p">)</span>
+<span class="n">s1</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">k1</span><span class="o">+</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="p">(</span><span class="n">n1</span><span class="o">-</span><span class="n">k1</span><span class="p">)</span>
+
+<span class="n">st</span><span class="p">.</span><span class="nf">ttest_ind</span><span class="p">(</span><span class="n">s2</span><span class="p">,</span> <span class="n">s1</span><span class="p">,</span> <span class="n">alternative</span><span class="o">=</span><span class="sh">'</span><span class="s">greater</span><span class="sh">'</span><span class="p">,</span> <span class="n">equal_var</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="code">
+TtestResult(statistic=3.1803802487550357, pvalue=0.0007375367353631094, df=10553.261020307757)
+</div>
+
+<p>So we can reject the null hypothesis $H_0\,,$ since our p value is smaller than $\alpha\,.$</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We discussed what does hypothesis testing mean and how to perform a test in python.
+We have also seen the underlying assumption and the correct interpretation of the results.
+In the future we will compare this method with the Bayesian approach.
+Moreover, we will see what are the risks that you may take if you violate the above procedure.</p>
+
+<!--
+
+### The Bayesian point of view
+
+In the Bayesian framework, what we have to do is
+- assign a prior distribution to the parameters $\theta_i$
+- decide which condition on the $\theta_i$ is the null hypothesis $H_0$
+- compute $\theta_i$ (we will do so by using PyMC) and verify that we didn't had numerical issues
+- verify if our assumption for the priors is generous enough to accommodate the data
+- verify if our condition holds
+
+chi2 distribution and t-Student
+Optional stopping
+-->
+
+  </div><a class="u-url" href="/statistics/testing_intro" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jan 2, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+
