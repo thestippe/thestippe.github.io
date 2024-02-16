@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Exponential model, gaussian model and their evolutions | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Exponential model, gaussian model and their evolutions" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Handling real-valued data" />
+<meta property="og:description" content="Handling real-valued data" />
+<link rel="canonical" href="http://localhost:4000/statistics/reals" />
+<meta property="og:url" content="http://localhost:4000/statistics/reals" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-18T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Exponential model, gaussian model and their evolutions" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-18T00:00:00+01:00","datePublished":"2024-01-18T00:00:00+01:00","description":"Handling real-valued data","headline":"Exponential model, gaussian model and their evolutions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/reals"},"url":"http://localhost:4000/statistics/reals"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;1
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;2
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;3
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;4
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;5
+                </li><li>
+                        Poisson regression;/statistics/poisson_regression;6
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;7
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;8
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;9
+                </li><li>
+                        Model comparison;/statistics/model_averaging;10
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;11
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;12
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;13
+                </li><li>
+                        Exponential model, gaussian model and their evolutions;/statistics/reals;14
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;15
+                </li><li>
+                        The Poisson model;/statistics/poisson;16
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;17
+                </li><li>
+                        Introduction to Bayesian statistics;/statistics/bayesian_intro;18
+                </li><li>
+                        The central limit theorem;/statistics/central_limit;19
+                </li><li>
+                        Introduction to decision theory;/statistics/decision_theory;20
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;21
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;22
+                </li><li>
+                        Interpretations of probability;/statistics/probability_interpretations;23
+                </li><li>
+                        Kolmogorov axioms;/statistics/probability_axioms;24
+                </li><li>
+                        What is statistics;/statistics/statistics_intro;25
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;26
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;27
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;28
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;29
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;30
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;31
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;32
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;33
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;34
+                </li><li>
+                        Perception;/dataviz/perception;35
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;36
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;37
+                </li><li>
+                        Data abstraction;/dataviz/data-types;38
+                </li><li>
+                        Data visualization;/dataviz/dataviz;39
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/negbin" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+                  <a href="/statistics/bayesian_workflow" class="next">&#8250;</a>
+                  
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">Exponential model, gaussian model and their evolutions</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-18T00:00:00+01:00" itemprop="datePublished">
+        Jan 18, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  2&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In the previous post we worked with discrete
+data (either binary or count data).</p>
+
+<p>Before moving to more advanced topic, we will briefly show that
+dealing with real-valued data only requires
+to use a real-valued likelihood.</p>
+
+<h2 id="the-normal-distribution">The normal distribution</h2>
+
+<p>In order to show how to deal with real-valued data, we will
+use a well known dataset which is well described by a normal distribution,
+namely the housefly wing dataset provided at <a href="https://seattlecentral.edu/qelp/sets/057/057.html">this page</a>.</p>
+
+<p>As reported in the linked page, the dataset contains the measurements of the wing length
+for a set of housefly expressed in units of $0.1$ mm.</p>
+
+<p>When performing Bayesian statistics, as well as almost any other numerical
+computation, it is crucial to properly scale the data in order to avoid numerical
+issues such as overflow or underflow.
+An appropriate scaling has another advantage, which is making easier to estimate the order of magnitude of the priors.
+We will assume a normal distribution likelihood with mean $\mu$ and variance $\sigma^2$
+for the data expressed in cm.
+We do expect that the housefly has a wing length of few millimeters,
+so assuming</p>
+
+\[\mu \sim \mathcal{N}(0, 1)\]
+
+<p>and</p>
+
+\[\sigma \sim \mathcal{Exp}(1)\]
+
+<p>should be a generous enough guess for our priors.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import numpy as np
+import pymc as pm
+import arviz as az
+import pandas as pd
+from matplotlib import pyplot as plt
+
+df_length = pd.read_csv('https://seattlecentral.edu/qelp/sets/057/s057.txt',
+                        header=None).rename(columns={0: 'wing_length'})
+
+rng = np.random.default_rng(42)
+
+with pm.Model() as model:
+    sig = pm.Exponential('sig', lam=1)
+    mu = pm.Normal('mu', mu=0, sigma=1)
+    y = pm.Normal('y', mu=mu, sigma=sig, observed=df_length['wing_length']/100)
+    trace = pm.sample(random_seed=rng)
+
+az.plot_trace(trace)
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/reals/trace_norm.webp" alt="The trace for the normal model" /></p>
+
+<p>The trace looks fine, as usual.</p>
+
+<p>Since we are dealing with two variables, looking at the single marginal distributions
+only gives us a partial information about the structure of the posterior.
+We can gain some information by looking at the joint distribution as follows</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_pair</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">sig</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">],</span>
+            <span class="n">kind</span><span class="o">=</span><span class="sh">'</span><span class="s">kde</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/reals/kde.webp" alt="The joint posterior density" /></p>
+
+<p>Let us verify our posterior predictive.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>with model:
+    ppc = pm.sample_posterior_predictive(trace, random_seed=rng)
+
+az.plot_ppc(ppc)
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/reals/ppc_norm.webp" alt="The posterior predictive for the normal model" /></p>
+
+<p>As expected, the agreement is almost perfect.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We showed that dealing with real-valued data requires no modifications to the method discussed
+in the previous posts.
+Starting from the next post, we will discuss how to deal with more advanced models.</p>
+
+  </div><a class="u-url" href="/statistics/reals" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jan 18, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

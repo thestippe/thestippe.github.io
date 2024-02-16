@@ -28,3 +28,9 @@ paginate: false
 masthead: /docs/assets/images/logo_dp.png
 sass:
   style: compressed
+stats_categories_order:
+        - Introduction
+        - Simple models
+        - Bayesian workflow
+        - Regression
+        - Advanced models

@@ -748,3 +748,18 @@ input::placeholder {
         font-size: 14px; 
         color: #405059;
 }
+
+details > summary {
+        width: 220px;
+        margin: 8px;
+        padding-left: 7px;
+        background-color: lightgray;
+        cursor: pointer;
+        font-family: 'NeoEuler','Metropolis';
+        font-size: 120%;
+        border-radius: 5px;
+}
+
+details > p {
+  background-color: lightgray;
+}

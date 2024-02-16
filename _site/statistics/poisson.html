@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>The Poisson model | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="The Poisson model" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How to describe count data" />
+<meta property="og:description" content="How to describe count data" />
+<link rel="canonical" href="http://localhost:4000/statistics/poisson" />
+<meta property="og:url" content="http://localhost:4000/statistics/poisson" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-16T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="The Poisson model" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-16T00:00:00+01:00","datePublished":"2024-01-16T00:00:00+01:00","description":"How to describe count data","headline":"The Poisson model","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/poisson"},"url":"http://localhost:4000/statistics/poisson"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;1
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;2
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;3
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;4
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;5
+                </li><li>
+                        Poisson regression;/statistics/poisson_regression;6
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;7
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;8
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;9
+                </li><li>
+                        Model comparison;/statistics/model_averaging;10
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;11
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;12
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;13
+                </li><li>
+                        Exponential model, gaussian model and their evolutions;/statistics/reals;14
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;15
+                </li><li>
+                        The Poisson model;/statistics/poisson;16
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;17
+                </li><li>
+                        Introduction to Bayesian statistics;/statistics/bayesian_intro;18
+                </li><li>
+                        The central limit theorem;/statistics/central_limit;19
+                </li><li>
+                        Introduction to decision theory;/statistics/decision_theory;20
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;21
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;22
+                </li><li>
+                        Interpretations of probability;/statistics/probability_interpretations;23
+                </li><li>
+                        Kolmogorov axioms;/statistics/probability_axioms;24
+                </li><li>
+                        What is statistics;/statistics/statistics_intro;25
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;26
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;27
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;28
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;29
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;30
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;31
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;32
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;33
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;34
+                </li><li>
+                        Perception;/dataviz/perception;35
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;36
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;37
+                </li><li>
+                        Data abstraction;/dataviz/data-types;38
+                </li><li>
+                        Data visualization;/dataviz/dataviz;39
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/betabin" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+                  <a href="/statistics/negbin" class="next">&#8250;</a>
+                  
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">The Poisson model</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-16T00:00:00+01:00" itemprop="datePublished">
+        Jan 16, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  7&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>The last time we saw how to estimate probabilities. In this post we will take
+a first look at how to describe count data, <em>i.e.</em> non-negative integers.</p>
+
+<h2 id="clicks-on-a-button">Clicks on a button</h2>
+
+<p>In one of the projects I have been working on, I have been asked to estimate
+the average number of clicks on a certain button in order to understand
+whether people used it and how. We already knew that it was not
+a very frequent event, we only expected a very small number of click
+per week.
+In this kind of situation, a common and appropriate choice is the Poisson model
+for the count data.
+The Poisson model requires a positive parameter $\mu\,,$
+and since we are doing Bayesian statistics, we must specify the prior
+distribution for this parameter.
+We will stuck to the simplest possible distribution for $\mu\,,$
+namely the exponential distribution.
+It is an appropriate distribution as it allows for any non-negative
+value, and it only has one parameter.
+We don’t think that, on average, the button has been clicked more than
+10 times per week, so we can choose an average for the prior
+equal to 10:</p>
+
+\[\begin{align}
+y &amp; \sim \mathcal{Poisson}(\mu) \\
+\mu &amp; \sim \mathcal{Exp}(1/10)
+\end{align}\]
+
+<p>For the sake of completeness, here I report the number of occurrences of each count.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>count</th>
+      <th>number</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>16</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>17</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>14</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>11</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>&gt;10</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import pandas as pd
+import pymc as pm
+import arviz as az
+from matplotlib import pyplot as plt
+
+df = pd.read_csv('./data/clicks.csv')
+
+df.head()
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th>week</th>
+      <th>count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>5</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>3</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">poisson</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Poisson</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="k">with</span> <span class="n">poisson</span><span class="p">:</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Above we specified that we want to draw four independent chains,
+to drop out the first 2000 samples from each trace and then to draw other
+5000 samples for each trace.
+We need to drop out the first part of the trace because the sampler
+may start far away from a region with a high posterior distribution,
+and it might take a while to reach a higher density region.
+In this first phase, the sampling might not be distributed according
+to the desired distribution, and including it may introduce a bias into our
+estimates.
+Moreover, since the sampling algorithm is adaptive, we are allowing it to
+reach the optimal parameter (in the “true” sampling phase we must keep the parameters
+fixed in order to ensure a correct sampling).</p>
+
+<p>A rule of thumb says that we should drop out the first 50% of the draws.
+This of course applies if you don’t have any idea about the convergence
+of the sampler, but since I already know that, for such a simple problem
+usually PyMC takes less than 1000 iterations to converge, I will take
+a slightly conservative number of draws equal to 2000.</p>
+
+<p>The number of chains to sample is another crucial parameter, and its minimum
+recommended number is four.
+The reason for this is that one of the best ways to assess the convergence (or, to be more precise, to assess the presence of issues, as you can never be sure that there are no issues) is to compare different chains and verify that they are sampled
+according to the same distributions.</p>
+
+<h2 id="trace-diagnostics">Trace diagnostics</h2>
+
+<p>Let us start checking if there is any issues.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/poisson/trace.webp" alt="The sampling trace" /></p>
+
+<p>As we can see, the trace seems stationary within a good approximation.
+There are neither regions where the trace is stuck (the sampling line is flat),
+so at a first visual inspection the trace looks fine.</p>
+
+<p>Let us take a look at the trace summary</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">sd</th>
+      <th style="text-align: right">hdi_3%</th>
+      <th style="text-align: right">hdi_97%</th>
+      <th style="text-align: right">mcse_mean</th>
+      <th style="text-align: right">mcse_sd</th>
+      <th style="text-align: right">ess_bulk</th>
+      <th style="text-align: right">ess_tail</th>
+      <th style="text-align: right">r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">mu</td>
+      <td style="text-align: right">3.464</td>
+      <td style="text-align: right">0.203</td>
+      <td style="text-align: right">3.085</td>
+      <td style="text-align: right">3.841</td>
+      <td style="text-align: right">0.002</td>
+      <td style="text-align: right">0.002</td>
+      <td style="text-align: right">8696</td>
+      <td style="text-align: right">14057</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As we previously mentioned, the ESS provides an estimate of the sampling
+error.
+In particular, it provides an estimate of the error due to the sampling
+autocorrelation which, ideally, should be zero.
+The exact meaning of it will be discussed in a future post,
+for now I only leave <a href="https://mc-stan.org/docs/2_19/reference-manual/effective-sample-size-section.html">this explaination</a> in the Stan website.
+As explained in <a href="https://easystats.github.io/bayestestR/reference/mcse.html">this R documentation page</a>, the MCSE is simply the standard deviation of the estimate
+(of the mean or of the standard deviation itself) divided by the ESS.</p>
+
+<p>As explained in <a href="https://arxiv.org/pdf/1903.08008.pdf">this preprint</a>,
+the $\hat{R}$ statistics is recommended as the primary convergence diagnostic,
+and it has to be as closer to one as possible.
+Long story short, this statistics uses two different ways to provide an unbiased
+estimate of the variance of different chains.
+Ideally, they should be identical, so their ratio $\hat{R}$ should be equal to one.
+This diagnostic takes into account much more information than the ESS,
+as it compares different traces, and this is why it should be preferred to it.
+The number of chains should be at least four in order to provide a reliable
+estimate of this quantity.</p>
+
+<p>As previously mentioned, the autocorrelation reduces the effective sample size.
+We can visually inspect the autocorrelation coefficients via</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_autocorr</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/poisson/autocorr.webp" alt="The autocorrelation coefficients" /></p>
+
+<p>The coefficients rapidly drop to 0, and this is the desired behavior.
+The gray band provide an estimate of the bounds for the autocorrelation coefficients
+of order higher than the calculated ones, and they are very small.</p>
+
+<p>Another useful visual check that can be performed is the rank plot, where
+the posterior draw of each chain is ranked according to the combined
+posterior of the combined chains.
+If the chains are sampled according to the same distribution, then one
+should get a uniform distribution.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_rank</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/poisson/rank.webp" alt="The rank plot" /></p>
+
+<p>As we can see, the distribution is quite consistent with the uniform distribution,
+so it doesn’t look like there are issues from this diagnostic.</p>
+
+<h2 id="posterior-predictive-checks">Posterior predictive checks</h2>
+
+<p>We can finally verify that our model is able to reproduce the data, and this
+is one of the most important checks that your should always do.
+For simple models like this one, it is sufficient to sample and plot
+the posterior predictive distribution.
+If the sampled distribution resembles the observed data
+and the error bars are big enough to accommodate the observed data,
+in this case is enough.
+For more complicated models, it might however be a good idea to perform additional
+checks.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">poisson</span><span class="p">:</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/poisson/ppc.webp" alt="The posterior predictive distribution" /></p>
+
+<p>The mean is really close to the observed one, and the data are well inside the 
+estimated error bands, so we can safely assess that the model is appropriate
+to describe the data.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We discussed how to build a model for count data. We also introduced and briefly
+explained some of the most important checks one should do when using MCMC to 
+make Bayesian inference.</p>
+
+
+  </div><a class="u-url" href="/statistics/poisson" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jan 16, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

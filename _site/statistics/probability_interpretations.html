@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Interpretations of probability | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Interpretations of probability" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="What does probability mean?" />
+<meta property="og:description" content="What does probability mean?" />
+<link rel="canonical" href="http://localhost:4000/statistics/probability_interpretations" />
+<meta property="og:url" content="http://localhost:4000/statistics/probability_interpretations" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-07T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Interpretations of probability" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-07T00:00:00+01:00","datePublished":"2024-01-07T00:00:00+01:00","description":"What does probability mean?","headline":"Interpretations of probability","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/probability_interpretations"},"url":"http://localhost:4000/statistics/probability_interpretations"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;1
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;2
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;3
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;4
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;5
+                </li><li>
+                        Poisson regression;/statistics/poisson_regression;6
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;7
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;8
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;9
+                </li><li>
+                        Model comparison;/statistics/model_averaging;10
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;11
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;12
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;13
+                </li><li>
+                        Exponential model, gaussian model and their evolutions;/statistics/reals;14
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;15
+                </li><li>
+                        The Poisson model;/statistics/poisson;16
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;17
+                </li><li>
+                        Introduction to Bayesian statistics;/statistics/bayesian_intro;18
+                </li><li>
+                        The central limit theorem;/statistics/central_limit;19
+                </li><li>
+                        Introduction to decision theory;/statistics/decision_theory;20
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;21
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;22
+                </li><li>
+                        Interpretations of probability;/statistics/probability_interpretations;23
+                </li><li>
+                        Kolmogorov axioms;/statistics/probability_axioms;24
+                </li><li>
+                        What is statistics;/statistics/statistics_intro;25
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;26
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;27
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;28
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;29
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;30
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;31
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;32
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;33
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;34
+                </li><li>
+                        Perception;/dataviz/perception;35
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;36
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;37
+                </li><li>
+                        Data abstraction;/dataviz/data-types;38
+                </li><li>
+                        Data visualization;/dataviz/dataviz;39
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/probability_axioms" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+                  <a href="/statistics/common_discrete_probabilities" class="next">&#8250;</a>
+                  
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">Interpretations of probability</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-07T00:00:00+01:00" itemprop="datePublished">
+        Jan 7, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  4&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>As we previously discussed, the word “random” has more than one meaning.
+It shouldn’t be surprising the fact that the probability, which is the mathematical
+object which describes randomness, has more than one interpretation.
+Here we will discuss the two most important interpretations, namely the frequentist or objectivist one
+and the Bayesian or subjectivist one.</p>
+
+<h2 id="families-of-distributions">Families of distributions</h2>
+
+<p>Before we discuss about the interpretations of statistics, we should introduce some
+additional mathematical concept.
+We mentioned that, in statistical inference, we encode the assumptions about
+how our data relates to the population by means of a statistical model.
+We can put the previous statement into a more formal way.
+We will assume that our sample has been generated by some probability distribution
+$P\,,$ and we assume that $P$ belongs to a family of probabilities
+\(\mathcal{P} = \left\{ P_\theta : \theta \in \Theta \right\}\,.\)
+This implies that we are trying to put some constrain to the possible regions of $\Theta$ 
+that are allowed by our data.</p>
+
+<h2 id="the-frequentist-interpretation">The frequentist interpretation</h2>
+
+<p>In the frequentist interpretation we assume that it exists a “true” value $\theta_0$
+for our parameter, and that the sample has been generated by $P_{\theta_0}\,,$
+and that the probability of an event corresponds to the relative frequency of that event.
+This definition requires that, at least in principle, we must be able to repeat the experiment.
+In this case, if the outcome of the experiment is discrete, we identify</p>
+
+\[P(\omega_i) = \lim_{n \rightarrow \infty} \frac{n_i}{n}\]
+
+<p>In the above formula, \(n\) is the number of times the experiment has been repeated, while \(n_i\)
+is the number of times the experiment had \(\omega_i\) as outcome.</p>
+
+<p>In the continuous case we cannot take a single point, as it is a zero-measure set,
+so we refine</p>
+
+\[P(A) = \lim_{n \rightarrow \infty} \frac{n_A}{n}\]
+
+<p>Here \(A \subset \Omega\), \(n_A\) is the number of times the outcome was in $A$
+and, as before, $n$ is the number of times the experiment has been repeated.</p>
+
+<p>Of course, this doesn’t necessarily mean that we believe that the data has been really generated
+by \(P_{\theta_0}\,,\) but it rather means that we consider this an appropriate description of the
+system that we are analyzing.
+This of course makes a lot of sense in quantum mechanics, as we may assume that 
+the Planck constant has the same value regardless on the experiment we perform to measure it.
+It is however more questionable when one moves away from the reign of the subatomic physics,
+and one asks questions like “What is the probability that tomorrow I will wear a grey t-shirt?”.</p>
+
+<p>A complete unknown may give any number based on his/her own experience, 
+a dear friend who knows I like grey would probably give a quite high number,
+but if I already know that all my t-shirts are in the washing machine I would say zero,
+since I already know it’s an impossible event.
+Since the above definition of probability doesn’t look appropriate within this context,
+we should look for another definition of probability, which is more meaningful for this problem.</p>
+
+<h2 id="the-bayesian-interpretation">The Bayesian interpretation</h2>
+<p>In the Bayesian interpretation, the probability represent the degree of belief that a certain event occurs.
+According to this interpretation, we may not be sure about the value of $\theta\,,$ and we simply
+attach a degree of confidence to it.
+If \(p(\theta)\) represents our prior beliefs before observing the outcome of the experiment $x$
+and indicate with \(p(x | \theta)\) the probability of $x$ according to \(P_\theta \in \mathcal{P}\,,\)
+we can use Bayes’ theorem</p>
+
+\[p(\theta | x) = \frac{p(x | \theta)}{p(x)} p(\theta) \propto p(x | \theta) p(\theta)\]
+
+<p>where we dropped \(p(x)\) since it is a constant independent on $\theta$ which can be computed
+by requiring that $p(\theta | x)$ is properly normalized:</p>
+
+\[p(x) = \int d\theta p(\theta | x) = \int d\theta p(x | \theta) p(\theta) \,.\]
+
+<h2 id="a-historical-note">A historical note</h2>
+<p>While during the last century the statistics community was divided into two school of thoughts, 
+those who believed in the frequentist interpretation and those who believed into the Bayesian one,
+things have changed quite a lot during the last decades.
+A 20th century Bayesian statistician would have probably tried and constrain $p(\theta)$
+as much as he/she could.
+The modern Bayesian school, however, only uses $p(\theta)$ to <em>regularize</em>
+the problem or, in other words, to avoid crazy answers, as modern Bayesians look for solutions which are only mildly dependent on the choice
+of the prior.
+An important step in Bayesian inference is, in fact to figure out the dependence of the solution on
+the choice of the prior, and one should communicate this as clearly as possible.</p>
+
+<p>Nowadays most statisticians would simply seek for the most appropriate tool to face the problem.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+<p>We discussed the two main interpretations of probability, and explained which is the
+modern point of view of the scientific community.
+In the future posts we will start discussing about the methodologies of each one of the above schools
+and about their pros and cons.</p>
+
+  </div><a class="u-url" href="/statistics/probability_interpretations" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jan 7, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

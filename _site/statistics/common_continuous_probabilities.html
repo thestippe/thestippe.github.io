@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Common continuous probabilities | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Common continuous probabilities" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Derivation of some useful one-dimensional continuous probabilities" />
+<meta property="og:description" content="Derivation of some useful one-dimensional continuous probabilities" />
+<link rel="canonical" href="http://localhost:4000/statistics/common_continuous_probabilities" />
+<meta property="og:url" content="http://localhost:4000/statistics/common_continuous_probabilities" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-09T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Common continuous probabilities" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-09T00:00:00+01:00","datePublished":"2024-01-09T00:00:00+01:00","description":"Derivation of some useful one-dimensional continuous probabilities","headline":"Common continuous probabilities","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/common_continuous_probabilities"},"url":"http://localhost:4000/statistics/common_continuous_probabilities"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;1
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;2
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;3
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;4
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;5
+                </li><li>
+                        Poisson regression;/statistics/poisson_regression;6
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;7
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;8
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;9
+                </li><li>
+                        Model comparison;/statistics/model_averaging;10
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;11
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;12
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;13
+                </li><li>
+                        Exponential model, gaussian model and their evolutions;/statistics/reals;14
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;15
+                </li><li>
+                        The Poisson model;/statistics/poisson;16
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;17
+                </li><li>
+                        Introduction to Bayesian statistics;/statistics/bayesian_intro;18
+                </li><li>
+                        The central limit theorem;/statistics/central_limit;19
+                </li><li>
+                        Introduction to decision theory;/statistics/decision_theory;20
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;21
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;22
+                </li><li>
+                        Interpretations of probability;/statistics/probability_interpretations;23
+                </li><li>
+                        Kolmogorov axioms;/statistics/probability_axioms;24
+                </li><li>
+                        What is statistics;/statistics/statistics_intro;25
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;26
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;27
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;28
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;29
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;30
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;31
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;32
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;33
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;34
+                </li><li>
+                        Perception;/dataviz/perception;35
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;36
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;37
+                </li><li>
+                        Data abstraction;/dataviz/data-types;38
+                </li><li>
+                        Data visualization;/dataviz/dataviz;39
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/common_discrete_probabilities" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+                  <a href="/statistics/decision_theory" class="next">&#8250;</a>
+                  
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">Common continuous probabilities</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-09T00:00:00+01:00" itemprop="datePublished">
+        Jan 9, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  8&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In the previous post we derived some of the most relevant discrete probability
+distributions. Here we will continue the discussion with some continuous
+univariate distribution.</p>
+
+<h2 id="normal-distribution">Normal distribution</h2>
+
+<p>The normal distribution has been the most relevant continuous
+distribution for centuries.
+Consider a continuous distribution $f(x)$ with support $\mathbb{R}\,,$
+and assume it is well peaked around $x=\mu\,.$
+Since it is positive on the entire real axis, we can write</p>
+
+\[f(x) = \exp{\log(f(x))} = \exp(g(x))\]
+
+<p>Since we assume it is well peaked around $\mu$ we can expand $g(x)$
+around $\mu\,,$ where we must have $g’(\mu) = 0$ and $g’’(\mu)&lt;0\,.$
+We can therefore write</p>
+
+\[f(x) \approx e^{g(\mu) + g'(\mu)(x-\mu) + \frac{1}{2}g''(\mu)(x-\mu)^2}
+= e^{g(\mu)} e^{-\frac{(x-\mu)^2}{2 \sigma^2}}\]
+
+<p>where $\sigma = \frac{1}{2\sqrt{-g’’(\mu)}}\,.$</p>
+
+<p>We define the normal probability distribution as</p>
+
+\[p(x | \mu, \sigma) \propto e^{-\frac{(x-\mu)^2}{2 \sigma^2}}\]
+
+<p>We must now normalize the above probability to one.</p>
+
+\[\begin{align}
+\int_{-\infty}^\infty dx e^{-\frac{(x-\mu)^2}{2 \sigma^2}} &amp; =
+\int_{-\infty}^\infty dx e^{-\frac{x^2}{2 \sigma^2}}  
+\\ &amp;
+=
+\int_{-\infty}^\infty dy e^{-\frac{y^2}{2}} \frac{d (y \sigma)}{dy}
+\\ &amp;
+= \sigma \int_{-\infty}^\infty dy e^{-\frac{y^2}{2}} 
+\end{align}\]
+
+<p>In order to evaluate the above integral, we must go to two dimensions.
+The method to evaluate the above integral is well known (see the <a href="https://mathworld.wolfram.com/GaussianIntegral.html">Wolfram site</a> as an example), and it consists
+to observe the following:</p>
+
+\[\begin{align}
+\int_{-\infty}^\infty dx e^{-\frac{x^2}{2}} 
+= &amp;
+\left(
+\int_{-\infty}^\infty dx e^{-\frac{x^2}{2}} 
+\int_{-\infty}^\infty dy e^{-\frac{y^2}{2}} 
+\right)^{\frac{1}{2}}
+\\
+&amp;
+= \left(\int_{\mathbb{R}^2} dx dy e^{-\frac{x^2+y^2}{2}}\right)^{\frac{1}{2}}
+\\
+&amp;
+=
+\left(
+\int_0^\infty r dr \int_0^{2 \pi} d\theta e^{-\frac{r^2}{2}}
+\right)^{\frac{1}{2}}
+\\
+&amp;
+=
+\left(
+2 \pi \int_0^\infty r dr e^{-\frac{r^2}{2}}
+\right)^{\frac{1}{2}}
+\\
+&amp;
+=
+\left(
+2 \pi \int_{0}^\infty  dt e^{-t}
+\right)^{\frac{1}{2}}
+\\
+&amp;
+= \sqrt{2 \pi}
+\end{align}\]
+
+<p>We can therefore define</p>
+
+\[p(x | \mu, \sigma) = \frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}\]
+
+\[\begin{align}
+\mathbb{E}[X]
+&amp;=
+\int_{-\infty}^\infty dx x
+\frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+\\
+&amp;
+=
+\int_{-\infty}^\infty dx (x-\mu)
+\frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
++
+\int_{-\infty}^\infty dx \mu
+\frac{1}{\sqrt{2 \pi \sigma^2}} e^{-\frac{(x-\mu)^2}{2\sigma^2}}
+\\
+&amp;
+=\mu
+\end{align}\]
+
+<p>where we dropped the integral with the $(x-\mu)$ term, as it is odd,
+so it vanishes.</p>
+
+\[\begin{align}
+Var[X] &amp;= \frac{1}{\sqrt{2 \pi \sigma^2}} \int_{-\infty}^\infty dx (x-\mu)^2 e^{-\frac{(x-\mu)^2}{2 \sigma^2}} =
+\\
+&amp; = \frac{1}{\sqrt{2 \pi \sigma^2}} \int_{-\infty}^\infty dx x^2 e^{-\frac{x^2}{2 \sigma^2}}  
+\\
+&amp; = \frac{1}{\sqrt{2 \pi \sigma^2}} 2 \int_{0}^\infty dx x^2 e^{-\frac{x^2}{2 \sigma^2}}
+\\
+&amp; = \frac{1}{\sqrt{2 \pi \sigma^2}} 2 \int_{0}^\infty dx x\left(xe^{-\frac{x^2}{2 \sigma^2}}\right)
+\\
+&amp; = \frac{1}{\sqrt{2 \pi \sigma^2}} 2 \int_{0}^\infty dx x\frac{d}{dx}\left(-\sigma^2 e^{-\frac{x^2}{2 \sigma^2}}\right)
+\\
+&amp; = -2\sigma^2 \frac{1}{\sqrt{2 \pi \sigma^2}} \int_{0}^\infty dx x\frac{d}{dx}\left( e^{-\frac{x^2}{2 \sigma^2}}\right)
+\\
+&amp;
+= -\left( \frac{1}{\sqrt{2 \pi \sigma^2}} 2 \sigma^2 x e^{-\frac{x^2}{2 \sigma^2}} \right)_0^\infty
++
+2 \sigma^2 \frac{1}{\sqrt{2 \pi \sigma^2}} \int_0^\infty e^{-\frac{(x-\mu)^2}{2 \sigma^2}}
+\\
+&amp;
+= \sigma^2 \frac{1}{\sqrt{2 \pi \sigma^2}} \int_{-\infty}^\infty e^{-\frac{(x-\mu)^2}{2 \sigma^2}}
+\\
+&amp;
+= \sigma^2
+\end{align}\]
+
+<p>The initial procedure, that we used to define the Normal (also known as Gaussian)
+distribution, is known as the saddle point (in physics) or <a href="https://en.wikipedia.org/wiki/Laplace%27s_approximation">Laplace</a> (in statistics) approximation for $f\,,$
+and it turns out to be vary useful in a variety of situations.</p>
+
+<h2 id="log-normal-distribution">Log-normal distribution</h2>
+
+<p>Consider a random variable $X$ with zero mean and unit variance, then
+the random variable</p>
+
+\[Z = e^{\mu + \sigma X}\]
+
+<p>follows by definition a <strong>log-normal</strong> distribution with parameters $\mu$ and $\sigma.$</p>
+
+<p>The inverse transformation is $x = \frac{\log{z}-\mu}{\sigma}\,,$
+so $\frac{dx}{dz} = \frac{1}{z}$ therefore</p>
+
+\[p(z | \mu, \sigma) = \frac{1}{z \sigma\sqrt{2 \pi}}e^{-\frac{(\log(z)-\mu)^2}{2\sigma^2}}\]
+
+<h2 id="chi-squared-distribution">Chi-squared distribution</h2>
+
+<p>Given $d$ normal distributions $X_1,\dots, X_d\,,$ with $\mu=0$ and $\sigma=1\,,$
+we define the <strong>chi squared distribution with d degrees of freedom</strong>
+as
+\(X = \sum_{i=1}^d X_i^2\)</p>
+
+<p>In order to obtain the pdf of the $\chi^2$ 
+we will roughly follow <a href="https://en.wikipedia.org/wiki/Proofs_related_to_chi-squared_distribution">this demostration</a>.
+Consider an arbitrary expectation value involving only $X\,.$
+By defining $R = \sqrt{X}\,,$ we have</p>
+
+\[\mathbb{E}[f(X)]
+=
+\int \prod_{i=1}^d dx_i f(r^2) \frac{e^{-\frac{r^2}{2}}}{(2 \pi)^{\frac{d}{2}}}\]
+
+<p>We can decompose</p>
+
+\[\prod_{i=1}^d dx_i = d\Omega r^{d-1} dr\]
+
+<p>and \(\int d\Omega = \frac{ 2 \pi^{d/2}}{\Gamma(d/2) }\,,\)
+where we introduced the Euler gamma function</p>
+
+\[\Gamma(z) = \int_0^\infty dx e^{-x} x^{z-1}\]
+
+<p>We can now perform the transformation $x = \sqrt{r}\,,$
+so $dr = \frac{2 dx}{\sqrt{x}}\,,$
+and obtain</p>
+
+\[\int \prod_{i=1}^d dx_i f(r^2) \frac{e^{-\frac{r^2}{2}}}{(2 \pi)^{\frac{d}{2}}}
+= \frac{1}{2^{d/2} \Gamma(d/2)} \int_0^\infty dx e^{-\frac{x}{2}} x^{\frac{d}{2}-1} f(x)
+= \int dx f(x) p(x | d)\]
+
+<p>In this way we can identify the</p>
+
+\[p(x | d) = \frac{1}{2^{d/2}\Gamma(d/2)}e^{-\frac{x}{2}} x^{\frac{d}{2}-1}\]
+
+<p>An equivalent way to obtain 
+\(p(x | d)\)
+is to derive it from</p>
+
+\[p(x | d) = 
+\int \prod_{i=1}^d dx_i \delta(x-\sum_i x_i^2) \frac{e^{-\frac{\sum_i x_i^2}{2}}}{(2 \pi)^{\frac{d}{2}}}\]
+
+<p>where $\delta(x-x_0)$ is the Dirac delta, defined by the relation
+\(\int dx f(x) \delta(x-x_0) = f(x_0)\,.\)</p>
+
+<p>Since by definition
+\(X = \sum_i X_i^2\)
+and we assumed that \(\mathbb{E}[X_i^2] = 1\,,\)
+we have that \(\mathbb{E}[X] = d\,.\)</p>
+
+<p>Moreover, if $X$ follows \(\chi^2_k\) and $Y$ follows \(\chi^2_s\,,\)
+the variable $Z=X+Y$ follows \(\chi^2_{k+s}\,.\)</p>
+
+<h2 id="students-t-distribution">Student’s t distribution</h2>
+<p>Given a normally distributed variable $X$ with $\mu=0$ and $\sigma=1$
+and given $Y$ distributed according to $\chi^2_d\,,$
+we define the Student’s t distribution with $d$ degrees of freedom as the one
+which describes</p>
+
+\[T = \frac{X}{\sqrt{Y/d}}\]
+
+<p>By proceeding as before we have</p>
+
+\[p(t | d) = \int_{-\infty}^\infty dx \int_0^\infty dy \frac{1}{\sqrt{2 \pi}}e^{-\frac{x^2}{2}} 
+\frac{1}{2^{d/2} \Gamma(d/2)} e^{-\frac{y}{2}} y^{\frac{d}{2}-1}
+\delta\left(t - \frac{x}{\sqrt{y/d}}\right)\]
+
+<p>As shown in <a href="https://shoichimidorikawa.github.io/Lec/ProbDistr/t-e.pdf">these notes</a>, 
+the above integral can be computed by defining \(z(x)=\frac{x}{\sqrt{y/d}}\,,\)
+so that</p>
+
+\[\begin{align}
+p(t | d) &amp; 
+= \int_{-\infty}^\infty dz \int_0^\infty dy  \sqrt{y/d} \frac{1}{\sqrt{2 \pi}}e^{-\frac{z^2 y}{2d}} 
+\frac{1}{2^{d/2} \Gamma(d/2)} e^{-\frac{y}{2}} y^{\frac{d}{2}-1}
+\delta\left(t - z\right) \\
+&amp;
+= \int_0^\infty dy  \sqrt{y/d} \frac{1}{\sqrt{2 \pi}}e^{-\frac{t^2 y}{2d}} 
+\frac{1}{2^{d/2} \Gamma(d/2)} e^{-\frac{y}{2}} y^{\frac{d}{2}-1}
+\\
+&amp;
+= 
+\frac{1}{2^{d/2} \sqrt{2 \pi d}\Gamma(d/2)} 
+\int_0^\infty dy 
+e^{-\frac{y}{2}(1+\frac{t^2}{d})} y^{\frac{d-1}{2}}
+\end{align}\]
+
+<p>If we now define $u = \frac{y}{2}(1+\frac{t^2}{d})$ we have</p>
+
+\[\begin{align}
+p(t | d) =
+&amp;
+\frac{1}{\sqrt{\pi d}\Gamma(d/2)} \left(1+\frac{t^2}{d}\right)^{-\frac{d+1}{2}}
+\int_0^\infty  du
+e^{-u} u^{\frac{d-1}{2}}
+\\
+&amp;
+\frac{1}{\sqrt{\pi d}\Gamma(d/2)} \left(1+\frac{t^2}{d}\right)^{-\frac{d+1}{2}}
+\Gamma\left(\frac{d+1}{2}\right)
+\end{align}\]
+
+<p>We can furthermore simplify by using the beta function</p>
+
+\[B(x, y) = \int_0^1 dt\,  t^{x-1}(1-t)^{y-1} = \frac{\Gamma(x)\Gamma(y)}{\Gamma(x+y)}\]
+
+<p>so</p>
+
+\[\frac{\Gamma\left(\frac{d+1}{2}\right)}{\Gamma\left(\frac{d}{2}\right)}
+= \frac{\Gamma\left(\frac{1}{2}\right)} {B\left(\frac{d}{2}, \frac{1}{2}\right)}
+= \frac{\sqrt{\pi}}{ B\left(\frac{d}{2}, \frac{1}{2}\right)}\]
+
+<p>and write</p>
+
+\[p(t | d) = \frac{1}{\sqrt{d} B\left(\frac{d}{2}, \frac{1}{2}\right)} \left(1+\frac{t^2}{d}\right)^{-\frac{(d+1)}{2}}\]
+
+<p>Since the distribution is even with respect to 0, we have</p>
+
+\[\mathbb{E}[X] = 0\]
+
+<p>The calculation of the variance is rather complicated, and the detailed
+proof can be found <a href="https://proofwiki.org/wiki/Variance_of_Student%27s_t-Distribution">here</a>.
+We have that</p>
+
+\[\begin{align}
+&amp;
+\int_{-\infty}^\infty dx x^2\left(1+\frac{x^2}{d}\right)^{-\frac{(d+1)}{2}}
+\\
+&amp;
+=
+d^{3/2}\int_{-\infty}^\infty d(x/\sqrt{d}) \frac{x^2}{d}\left(1+\frac{x^2}{d}\right)^{-\frac{(d+1)}{2}}
+\\
+&amp;
+=d^{3/2} \int_{-\infty}^\infty dy y^2\left(1+y^2\right)^{-\frac{(d+1)}{2}}
+\\
+&amp;
+=2d^{3/2} \int_{0}^\infty dy y^2\left(1+y^2\right)^{-\frac{(d+1)}{2}}
+\end{align}\]
+
+<p>Let us define \(u = y^2 (1+y^2)^{-1}\,,\) we can rewrite the last integral as</p>
+
+\[\begin{align}
+&amp;
+\int_{-\infty}^\infty dx x^2\left(1+\frac{x^2}{d}\right)^{-\frac{(d+1)}{2}}
+\\
+&amp;
+=
+d^{3/2} \int_{0}^1 du u^{\frac{1}{2}} (1-u)^{\frac{d-4}{2}}
+\\
+&amp;
+= d^{3/2} B\left(\frac{3}{2}, \frac{d-2}{2}\right)
+\end{align}\]
+
+<p>Now observe that</p>
+
+\[\begin{align}
+d \frac{ B\left(\frac{3}{2}, \frac{d-2}{2}\right) }{B\left(\frac{d}{2},\frac{1}{2}\right)}
+&amp;
+=
+d \frac{\Gamma(3/2)\Gamma((d-2)/2) \Gamma((d+1)/2)}{\Gamma(d/2)\Gamma(1/2)\Gamma((d+1)/2)}
+\\
+&amp;
+=
+d \frac{1/2}{(d-2)/2} = \frac{d}{d-2}
+\end{align}\]
+
+<p>where we used $\Gamma(z+1) = z \Gamma(z)\,.$
+The above integral only exists if $d&gt;2\,,$ otherwise the beta function
+develops a pole.</p>
+
+<p>If $d=1$ the distribution is also known as Cauchy distribution.</p>
+
+<p>In the limit $d \rightarrow \infty$ we $(1+\frac{x}{n})^n \approx e^{x}\,,$ so</p>
+
+\[p(t | d) \propto \left(1+\frac{t^2}{d}\right)^{-\frac{(d+1)}{2}}
+= \left(\left(1+\frac{t^2}{d}\right)^{d+1}\right)^{1/2} 
+\approx \left(\left(1+\frac{t^2}{d}\right)^{d}\right)^{1/2}  \approx e^{-\frac{t^2}{2}}\,,\]
+
+<p>The normalization factor can be approximated as</p>
+
+\[\sqrt{d}B\left(d/2, 1/2\right) = \sqrt{d} \frac{\Gamma\left(d/2\right)
+\Gamma\left(1/2\right)}{\Gamma\left(d/2+1/2\right)}
+\approx \sqrt{d} \frac{\Gamma\left(d/2\right)\Gamma\left(1/2\right)}{
+\Gamma\left(d/2\right) \left(d/2\right)^{1/2}} = \sqrt{2\pi}\]
+
+<p>so in the large $d$ limit the Student’s t distribution can
+be well approximated by a Gaussian distribution.</p>
+
+<h2 id="exponential-distribution">Exponential distribution</h2>
+
+<p>Here we will derive the exponential distribution by a Poisson process,
+proceeding as theorem 35.1 <a href="https://dlsun.github.io/probability/exponential.html">Dennis Sun</a>.
+Consider a Poisson process with mean $\mu = \lambda t\,,$
+where $t&gt;0\,.$
+Consider the random variable $T$ representing the first event.
+The probability to wait a time $t$ before $T$ is \(P(T&lt;t) = 1-P(t&gt;T)\,.\)
+Since the process is Poissonian, \(P(t&gt;T)\) can be computed as \(p(k=0 | \lambda t)\,,\)
+so</p>
+
+\[P(T&lt;t | \lambda) = 1- e^{-\lambda t} \frac{(\lambda t)^0}{0!} = 1-e^{-\lambda t}\]
+
+<p>The corresponding pdf is</p>
+
+\[p(t | \lambda) = \frac{d}{dt}(1-e^{-\lambda t}) = \lambda e^{-\lambda t}\]
+
+<p>and this is defined as the exponential distribution.
+We have that</p>
+
+\[\begin{align}
+\mathbb{E}[T] &amp; = \int_0^\infty dt \lambda t e^{-\lambda t}
+\\
+&amp;
+= \frac{1}{\lambda} \int_0^\infty dx x e^{-x}
+\\
+&amp;
+= -\frac{1}{\lambda} \int_0^\infty dx x \frac{d}{dx}e^{-x}
+\\
+&amp;
+= -\frac{1}{\lambda} \left(x \frac{d}{dx}e^{-x}\right)_0^\infty
++\frac{1}{\lambda} \int_0^\infty e^{-x}
+\\
+&amp;
+= \frac{1}{\lambda}
+\end{align}\]
+
+<p>In the same fashion we can show</p>
+
+\[Var[T] = \frac{1}{\lambda^2}\]
+
+<h2 id="gamma-distribution">Gamma distribution</h2>
+
+<p>A very useful generalization of the exponential distribution is
+given by the gamma distribution, with pdf defined by</p>
+
+\[p(x | \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha-1}e^{-\beta x}\]
+
+<p>The mean for the Gamma distribution reads</p>
+
+\[\begin{align}
+\mathbb{E}[X] &amp;
+= \int_0^\infty dx x \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha-1}e^{-\beta x}
+\\
+&amp;
+=\frac{\beta^\alpha}{\Gamma(\alpha)} \frac{1}{\beta^{\alpha+1}}\int_0^\infty dy  y^{\alpha}e^{-y}
+\\
+&amp;
+=\frac{\Gamma(\alpha+1)}{\beta \Gamma(\alpha)} 
+\\
+&amp;
+=\frac{\alpha}{\beta}
+\end{align}\]
+
+<p>Analogously we have that</p>
+
+\[Var[X] = \frac{\alpha}{\beta^2}\]
+
+<p>Notice that both the $\chi^2$ distribution and the exponential distribution
+are special cases of the gamma distribution.</p>
+
+<h2 id="uniform-distribution">Uniform distribution</h2>
+
+<p>The uniform distribution on an interval $[a, b]$ is defined as</p>
+
+\[p(x | a, b) = \frac{1}{b-a}\]
+
+<p>We immediately have</p>
+
+\[\mathbb{E}[X] = \frac{1}{b-a} \int_a^b dx x = \frac{1}{b-a}\left(\frac{b^2-a^2}{2}\right)
+= \frac{b+a}{2}\]
+
+<p>Analogously</p>
+
+\[Var[X] = \mathbb{E}\left[\left(X-\frac{b+a}{2}\right)^2\right] = \frac{1}{b-a} \int_a^b dx \left(x-\frac{a+b}{2}\right)^2
+= (b-a)^2 \int_0^1 dy \left(y-\frac{1}{2}\right)^2 = \frac{(b-a)^2}{12}\]
+
+<h2 id="beta-distribution">Beta distribution</h2>
+
+<p>Another useful distribution is the beta distribution, defined on $[0, 1]$
+from the pdf</p>
+
+\[p(x | \alpha, \beta) = \frac{x^{\alpha-1}(1-x)^{\beta-1}}{B(\alpha, \beta)}\]
+
+<p>This distribution has expectation value</p>
+
+\[\mathbb{E}[X] = \frac{B(\alpha+1, \beta)}{B(\alpha, \beta)}
+= \frac{\Gamma(\alpha+1)\Gamma(\alpha + \beta)}{\Gamma(\alpha) \Gamma(\alpha+\beta+1)}
+= \frac{\alpha}{\alpha + \beta}\]
+
+<p>In the same way we can show that</p>
+
+\[Var[X] = \frac{\alpha \beta}{(\alpha+\beta)^2(\alpha+\beta+1)}\]
+
+<h2 id="location-scale-families">Location scale families</h2>
+
+<p>Some of the pdf we defined above do not have any free parameter. We can however easily promote them to a location-scale family of distributions.</p>
+
+<p>If $f(x)$ is a pdf, then 
+\(p(x | \mu, \sigma)=\frac{1}{\sigma} f\left(\frac{x-\mu}{\sigma}\right)\) is a pdf too for $\mu \in \mathbb{R}$ and $\sigma&gt;0$, and it defines a 
+<strong>location-scale parameter family</strong> of distributions.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We discussed some of the most common continuous distribution.
+In the next post we will finally start discussing about how to
+infer properties of the distribution from the data.</p>
+
+  </div><a class="u-url" href="/statistics/common_continuous_probabilities" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jan 9, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

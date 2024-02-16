@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Trace inspection | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Trace inspection" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Finding issues in MCMC convergence" />
+<meta property="og:description" content="Finding issues in MCMC convergence" />
+<link rel="canonical" href="http://localhost:4000/statistics/trace_inspection" />
+<meta property="og:url" content="http://localhost:4000/statistics/trace_inspection" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-21T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Trace inspection" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-21T00:00:00+01:00","datePublished":"2024-01-21T00:00:00+01:00","description":"Finding issues in MCMC convergence","headline":"Trace inspection","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/trace_inspection"},"url":"http://localhost:4000/statistics/trace_inspection"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;1
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;2
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;3
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;4
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;5
+                </li><li>
+                        Poisson regression;/statistics/poisson_regression;6
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;7
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;8
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;9
+                </li><li>
+                        Model comparison;/statistics/model_averaging;10
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;11
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;12
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;13
+                </li><li>
+                        Exponential model, gaussian model and their evolutions;/statistics/reals;14
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;15
+                </li><li>
+                        The Poisson model;/statistics/poisson;16
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;17
+                </li><li>
+                        Introduction to Bayesian statistics;/statistics/bayesian_intro;18
+                </li><li>
+                        The central limit theorem;/statistics/central_limit;19
+                </li><li>
+                        Introduction to decision theory;/statistics/decision_theory;20
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;21
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;22
+                </li><li>
+                        Interpretations of probability;/statistics/probability_interpretations;23
+                </li><li>
+                        Kolmogorov axioms;/statistics/probability_axioms;24
+                </li><li>
+                        What is statistics;/statistics/statistics_intro;25
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;26
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;27
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;28
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;29
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;30
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;31
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;32
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;33
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;34
+                </li><li>
+                        Perception;/dataviz/perception;35
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;36
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;37
+                </li><li>
+                        Data abstraction;/dataviz/data-types;38
+                </li><li>
+                        Data visualization;/dataviz/dataviz;39
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/bayesian_workflow" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+                  <a href="/statistics/predictive_checks" class="next">&#8250;</a>
+                  
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">Trace inspection</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-21T00:00:00+01:00" itemprop="datePublished">
+        Jan 21, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  8&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In the last post we introduced the concept of Bayesian workflow.
+Starting from this post, we will discuss some of the most important aspects,
+and we will do so by starting with the <strong>trace assessment</strong>.</p>
+
+<p>In this post I will not provide you the details of the computation,
+as our only purpose will be to look for pathologies into the trace.
+I will often exacerbate some issue to make the issues visible,
+and I will do this by means of really short traces or crazy parameters.</p>
+
+<p>Tricking the NUTS sampler is not easy, but this may happen when
+your parameter space is large or has some bad structure.
+In this case, however, the issues overlap and it is less clear how
+to handle them. For this reason I preferred to switch to simpler models
+but with bad parameter choices.
+I also used on purpose a quite small number of draws, as a larger one would
+make harder to spot by eye the pathologies.</p>
+
+<h2 id="convergence-not-reached">Convergence not reached</h2>
+
+<p>The first kind of issue is usually very easy to spot, and it’s the non-stationary
+trace. In this case we didn’t left enough time to the sampler to reach the
+stationary regime, and in this case the trace shows a clear trend.</p>
+
+<p>The solution, in this case, is quite clear: you should increase the number of tuning
+draws.</p>
+
+<p><img src="/docs/assets/images/statistics/trace/early.webp" alt="Convergence not reached" /></p>
+
+<p>As we have already seen, the above plot can
+be done with Arviz’ <a href="https://python.arviz.org/en/stable/api/generated/arviz.plot_trace.html">plot_trace function</a>.</p>
+
+<h2 id="large-autocorrelation">Large autocorrelation</h2>
+
+<p>Let us take a look at a second trace.</p>
+
+<p><img src="/docs/assets/images/statistics/trace/acorr_trace.webp" alt="Large autocorrelation trace" /></p>
+
+<p>In this case the trace does not show any trend. There is however a very large autocorrelation.
+This can be seen on the right hand side of the plot, by observing that
+the trace is <em>globally</em> stationary, but <em>locally</em> the average is not
+constant (take a look at the $v$ variable around $i=150$, it is clearly
+visible some kind of bump).</p>
+
+<p><img src="/docs/assets/images/statistics/trace/acorr_acorr.webp" alt="Autocorrelation Function (ACF) plot for large autocorrelation" /></p>
+
+<p>You can plot the autocorrelation by using
+the <a href="https://python.arviz.org/en/stable/api/generated/arviz.plot_trace.html">plot_autocorr function</a>.</p>
+
+<p>This kind of issue becomes clear when one plots the autocorrelation function
+with arviz.
+We can clearly see an oscillating behavior, as well as a very large asymptotic
+estimate for the upper bound of the coefficients.</p>
+
+<p>Also the $\hat{R}$ statistics can be helpful in spotting this kind
+of issue, as in these cases it generally differs from 1.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">sd</th>
+      <th style="text-align: right">hdi_3%</th>
+      <th style="text-align: right">hdi_97%</th>
+      <th style="text-align: right">mcse_mean</th>
+      <th style="text-align: right">mcse_sd</th>
+      <th style="text-align: right">ess_bulk</th>
+      <th style="text-align: right">ess_tail</th>
+      <th style="text-align: right">r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">v</td>
+      <td style="text-align: right">2.193</td>
+      <td style="text-align: right">0.389</td>
+      <td style="text-align: right">1.531</td>
+      <td style="text-align: right">2.921</td>
+      <td style="text-align: right">0.024</td>
+      <td style="text-align: right">0.017</td>
+      <td style="text-align: right">268</td>
+      <td style="text-align: right">520</td>
+      <td style="text-align: right">1.02</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">sigma</td>
+      <td style="text-align: right">0.662</td>
+      <td style="text-align: right">0.103</td>
+      <td style="text-align: right">0.506</td>
+      <td style="text-align: right">0.845</td>
+      <td style="text-align: right">0.008</td>
+      <td style="text-align: right">0.006</td>
+      <td style="text-align: right">238</td>
+      <td style="text-align: right">290</td>
+      <td style="text-align: right">1.03</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We recall that the above table can be obtained
+by using the <a href="https://python.arviz.org/en/stable/api/generated/arviz.summary.html">summary function</a>.</p>
+
+<p>While in these cases the core part of the distribution is reliable enough,
+so you can safely estimate the mean, you should never trust to estimates
+involving peripheral regions of the posterior, like the $95\%$ HDI,
+unless your sample size is large enough.</p>
+
+<p>In this case one should first try to leave to the sampler more
+time to find the optimal parameters.
+The NUTS sampler, by construction, tries to reduce the autocorrelation
+as much as possible in the tuning phase.</p>
+
+<p>This may however be very difficult due some pathologies of the posterior distribution.
+As an example, this may happen if one parameter has a large posterior for very large
+values while for another one the optimal region is for very small values.
+This kind of problems becomes even worst when there is a large correlation
+between the parameters.</p>
+
+<p>You should therefore try and re-parametrize your model. A simple rescaling in
+the parameters may be sufficient, but sometimes it is necessary to find
+a parametrization where the parameters are decoupled.</p>
+
+<p>As an example, if your likelihood reads</p>
+
+\[Y \sim \mathcal{N}(\mu, \sigma)\]
+
+<p>you should consider rewriting it as</p>
+
+\[Y \sim \mu + \mathcal{N}(0, \sigma)\]
+
+<p>or you could even introduce an auxiliary random variable $X \sim \mathcal{N}(0, 1)$
+and rewriting your model as</p>
+
+\[Y \sim \mu + \sigma X\]
+
+<p>Another possible solution is to use a smaller dataset, or to think
+if you are constraining too much or too little your parameters 
+and change your prior accordingly.</p>
+
+<h2 id="the-rank-plot">The rank plot</h2>
+
+<p>Here we will deal with the same kind of issues that we have discussed above,
+but where the presence of the issue cannot be clearly seen with the above tools.</p>
+
+<p><img src="/docs/assets/images/statistics/trace/acorr_large_trace.webp" alt="A trace plot which looks almost good" /></p>
+
+<p>The above trace may look OK at a first glance, there is not clear autocorrelation
+pattern and the chains are quite similar.
+They are however not identical, and this should warn you.</p>
+
+<p><img src="/docs/assets/images/statistics/trace/acorr_large_acorr.webp" alt="An ACF plot which looks good" /></p>
+
+<p>Also by looking at the autocorrelation plot it may be unclear if there is
+any issue.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">sd</th>
+      <th style="text-align: right">hdi_3%</th>
+      <th style="text-align: right">hdi_97%</th>
+      <th style="text-align: right">mcse_mean</th>
+      <th style="text-align: right">mcse_sd</th>
+      <th style="text-align: right">ess_bulk</th>
+      <th style="text-align: right">ess_tail</th>
+      <th style="text-align: right">r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">v</td>
+      <td style="text-align: right">2.195</td>
+      <td style="text-align: right">0.388</td>
+      <td style="text-align: right">1.539</td>
+      <td style="text-align: right">2.927</td>
+      <td style="text-align: right">0.008</td>
+      <td style="text-align: right">0.006</td>
+      <td style="text-align: right">2162</td>
+      <td style="text-align: right">2807</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">sigma</td>
+      <td style="text-align: right">0.659</td>
+      <td style="text-align: right">0.099</td>
+      <td style="text-align: right">0.512</td>
+      <td style="text-align: right">0.851</td>
+      <td style="text-align: right">0.002</td>
+      <td style="text-align: right">0.002</td>
+      <td style="text-align: right">2307</td>
+      <td style="text-align: right">2803</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>From the trace summary you would hardly guess that there is some issue,
+as the effective sample size is above 2000 and the $\hat{R}$ is one.</p>
+
+<p>However, by looking at the <a href="https://python.arviz.org/en/stable/api/generated/arviz.plot_rank.html">rank plot</a>, you can easily realize that there is
+something going on.</p>
+
+<p><img src="/docs/assets/images/statistics/trace/acorr_large_rank.webp" alt="The rank plot for the above trace" /></p>
+
+<p>In the above figure, the chain number $1$ of the variable $v$
+shows some clear departure from the uniform distribution around $2000$,
+and the same happens for the second bar of the trace number $0\,.$</p>
+
+<p>If you want a reliable estimate of the entire distribution,
+you should make sure that this kind of pattern is not visible.
+If this is the only issue, it is likely that a larger number of draws is sufficient.</p>
+
+<h2 id="jumping-traces">Jumping traces</h2>
+
+<p>In some cases your model may be ill-defined, and it might happen that two subsets of parameters with different values can be exchanged without changing
+the probability.
+In these cases what might happen is that different chains of a parameter
+will converge to different values, as the case below.</p>
+
+<p><img src="/docs/assets/images/statistics/trace/superposition.webp" alt="The trace of a pathological model" /></p>
+
+<p>In order to better see this issue, let us take a look at the <a href="https://python.arviz.org/en/stable/api/generated/arviz.plot_forest.html">forest plot</a> of
+the model.</p>
+
+<p><img src="/docs/assets/images/statistics/trace/superposition_forest.webp" alt="The forest plot of the model above" /></p>
+
+<p>The estimate for $\mu_0$ from the 0-th chain is above 4, while the remaining
+chains are below 2.
+When we combine the four chains, of course, the estimate
+is totally unreliable</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">sd</th>
+      <th style="text-align: right">hdi_3%</th>
+      <th style="text-align: right">hdi_97%</th>
+      <th style="text-align: right">mcse_mean</th>
+      <th style="text-align: right">mcse_sd</th>
+      <th style="text-align: right">ess_bulk</th>
+      <th style="text-align: right">ess_tail</th>
+      <th style="text-align: right">r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">mu[0]</td>
+      <td style="text-align: right">2.186</td>
+      <td style="text-align: right">1.256</td>
+      <td style="text-align: right">1.34</td>
+      <td style="text-align: right">4.444</td>
+      <td style="text-align: right">0.624</td>
+      <td style="text-align: right">0.478</td>
+      <td style="text-align: right">7</td>
+      <td style="text-align: right">29</td>
+      <td style="text-align: right">1.53</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">mu[1]</td>
+      <td style="text-align: right">3.649</td>
+      <td style="text-align: right">1.261</td>
+      <td style="text-align: right">1.399</td>
+      <td style="text-align: right">4.539</td>
+      <td style="text-align: right">0.626</td>
+      <td style="text-align: right">0.479</td>
+      <td style="text-align: right">7</td>
+      <td style="text-align: right">29</td>
+      <td style="text-align: right">1.53</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">mu[2]</td>
+      <td style="text-align: right">5.66</td>
+      <td style="text-align: right">0.123</td>
+      <td style="text-align: right">5.438</td>
+      <td style="text-align: right">5.887</td>
+      <td style="text-align: right">0.003</td>
+      <td style="text-align: right">0.002</td>
+      <td style="text-align: right">2065</td>
+      <td style="text-align: right">2125</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>This can be clearly seen by the crazy value of $\hat{R}\,,$
+since the estimated variance from the combined chain is very different from
+the one estimated by combining the variances of the single chains.</p>
+
+<p>In this case, the only safe solution is to re-parametrize your model,
+imposing an order to the parameters.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We have seen some of the most common kind of issues that you may encounter, some tools to diagnose these
+issues and some possible solutions.
+This is of course only a selected list, and you may encounter some other
+issues, especially when the model complexity grows.
+You should therefore always carefully inspect the trace to exclude
+issues which may affect your conclusions.</p>
+
+  </div><a class="u-url" href="/statistics/trace_inspection" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jan 21, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

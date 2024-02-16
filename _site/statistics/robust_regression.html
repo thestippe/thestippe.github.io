@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Robust linear regression | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Robust linear regression" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Reducing sensitivity to large deviations" />
+<meta property="og:description" content="Reducing sensitivity to large deviations" />
+<link rel="canonical" href="http://localhost:4000/statistics/robust_regression" />
+<meta property="og:url" content="http://localhost:4000/statistics/robust_regression" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-26T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Robust linear regression" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-26T00:00:00+01:00","datePublished":"2024-01-26T00:00:00+01:00","description":"Reducing sensitivity to large deviations","headline":"Robust linear regression","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/robust_regression"},"url":"http://localhost:4000/statistics/robust_regression"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;1
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;2
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;3
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;4
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;5
+                </li><li>
+                        Poisson regression;/statistics/poisson_regression;6
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;7
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;8
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;9
+                </li><li>
+                        Model comparison;/statistics/model_averaging;10
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;11
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;12
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;13
+                </li><li>
+                        Exponential model, gaussian model and their evolutions;/statistics/reals;14
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;15
+                </li><li>
+                        The Poisson model;/statistics/poisson;16
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;17
+                </li><li>
+                        Introduction to Bayesian statistics;/statistics/bayesian_intro;18
+                </li><li>
+                        The central limit theorem;/statistics/central_limit;19
+                </li><li>
+                        Introduction to decision theory;/statistics/decision_theory;20
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;21
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;22
+                </li><li>
+                        Interpretations of probability;/statistics/probability_interpretations;23
+                </li><li>
+                        Kolmogorov axioms;/statistics/probability_axioms;24
+                </li><li>
+                        What is statistics;/statistics/statistics_intro;25
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;26
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;27
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;28
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;29
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;30
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;31
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;32
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;33
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;34
+                </li><li>
+                        Perception;/dataviz/perception;35
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;36
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;37
+                </li><li>
+                        Data abstraction;/dataviz/data-types;38
+                </li><li>
+                        Data visualization;/dataviz/dataviz;39
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/regression" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+                  <a href="/statistics/logistic_regression" class="next">&#8250;</a>
+                  
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">Robust linear regression</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-26T00:00:00+01:00" itemprop="datePublished">
+        Jan 26, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  14&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In some case your data may be not good enough to provide you reliable estimates with normal linear regression,
+and this is the case of the conclusions drawn from
+<a href="https://www.cambridge.org/core/journals/american-political-science-review/article/abs/political-institutions-and-voter-turnout-in-the-industrial-democracies/D6725BBF93F2F90F03A69B0794728BF7">this</a>
+article, where the author concludes that there is a significant correlation between
+the voter turnout in a country and its average income inequality.
+This example is a classical example of misleading result of a regression,
+where the author does not provide a plot of the data, taken from
+<a href="https://www.google.it/books/edition/Data_Visualization/3XOYDwAAQBAJ?hl=it&amp;gbpv=1&amp;dq=Data+visualization,+a+practical+introduction&amp;printsec=frontcover">Healy, “Data visualization, a practical introduction”</a>.
+The data below is extracted the data from the figure of Healy’s book.
+South Africa corresponds to the last point.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">turnout</th>
+      <th style="text-align: right">inequality</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0.85822</td>
+      <td style="text-align: right">1.95745</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0.837104</td>
+      <td style="text-align: right">1.95745</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">0.822021</td>
+      <td style="text-align: right">2.41135</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">0.87632</td>
+      <td style="text-align: right">2.76596</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">0.901961</td>
+      <td style="text-align: right">2.95035</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">0.776772</td>
+      <td style="text-align: right">3.21986</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">6</td>
+      <td style="text-align: right">0.72549</td>
+      <td style="text-align: right">3.14894</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">7</td>
+      <td style="text-align: right">0.72549</td>
+      <td style="text-align: right">2.92199</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">8</td>
+      <td style="text-align: right">0.61991</td>
+      <td style="text-align: right">2.93617</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">9</td>
+      <td style="text-align: right">0.574661</td>
+      <td style="text-align: right">2.31206</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">10</td>
+      <td style="text-align: right">0.880845</td>
+      <td style="text-align: right">3.60284</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">11</td>
+      <td style="text-align: right">0.803922</td>
+      <td style="text-align: right">3.5461</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">12</td>
+      <td style="text-align: right">0.778281</td>
+      <td style="text-align: right">3.47518</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">13</td>
+      <td style="text-align: right">0.739065</td>
+      <td style="text-align: right">3.68794</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">14</td>
+      <td style="text-align: right">0.819005</td>
+      <td style="text-align: right">4.41135</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">15</td>
+      <td style="text-align: right">0.645551</td>
+      <td style="text-align: right">3.91489</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">16</td>
+      <td style="text-align: right">0.669683</td>
+      <td style="text-align: right">5.64539</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">17</td>
+      <td style="text-align: right">0.14178</td>
+      <td style="text-align: right">9.30496</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">pymc.sampling_jax</span> <span class="k">as</span> <span class="n">pmjax</span>
+
+<span class="n">df_turnout</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">data/inequality.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="nf">pairplot</span><span class="p">(</span><span class="n">df_turnout</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/robust_regression/inequality_pairplot.webp" alt="The dataset pairplot" /></p>
+
+<p>By simply plotting the data we can clearly see that there is one point,
+the South Africa, which is far away from the other,
+and this may have a huge impact on the fit.
+Let us see this, and how one may avoid this kind of error.</p>
+
+<h2 id="the-normal-linear-regression">The normal linear regression</h2>
+
+<p>Let us start by assuming that the inequality is distributed
+according to a normal linear model,
+analogous to the one already discussed in the <a href="/linear_regression">regression post</a>.</p>
+
+\[Y \sim \mathcal{N}(\mu, \sigma)\]
+
+<p>where</p>
+
+\[\mu = \alpha + \beta X\]
+
+<p>We will assume that the precision $\tau = 1/\sigma$ is distributed according to a Half Normal
+distribution. Since the inequality goes from 0 to 10, assuming a
+standard deviation of $5$ for $\tau$ should be sufficient.
+On the other hand, we will make the quite generous assumption that</p>
+
+\[\alpha \sim \mathcal{N}(0, 20)\]
+
+\[\beta \sim \mathcal{N}(0, 20)\]
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_norm</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfNormal</span><span class="p">(</span><span class="sh">'</span><span class="s">tau</span><span class="sh">'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span><span class="o">+</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">turnout</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="o">*</span><span class="n">beta</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">inequality</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model_norm</span><span class="p">:</span>
+    <span class="n">trace_norm</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> 
+                           <span class="n">idata_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">log_likelihood</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_norm</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/robust_regression/trace_norm.webp" alt="The trace of the normal model" /></p>
+
+<p>The traces doesn’t show any relevant issue, and for our purposes it is
+sufficient this check.
+Let us check our fit</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x_plt</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.001</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model_norm</span><span class="p">:</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span><span class="o">+</span><span class="n">x_plt</span><span class="o">*</span><span class="n">beta</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+    
+<span class="k">with</span> <span class="n">model_norm</span><span class="p">:</span>
+    <span class="n">ppc_norm</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_norm</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">],</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+    
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">ppc_norm</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]))</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">fill_between</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">ppc_norm</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span>
+                <span class="n">ppc_norm</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">grey</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">turnout</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">inequality</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/robust_regression/ppc_norm.webp" alt="The posterior preditcive distribution of our model" /></p>
+
+<p>The error bands correctly reproduce almost all the data. However,
+since the South Africa is far away from the other countries,
+it may happen that its behavior strongly influences the fit.</p>
+
+<p>Let us now use a more robust model.
+In order to make it more robust, which in this context means
+less sensitive to isolated data, let us take a t-Student likelihood
+instead of a normal one.</p>
+
+<p>We will leave the parameters $\alpha\,, \beta$ and $\tau = \frac{1}{\sigma}$
+unchanged, but we must choose a prior for the number of degrees of
+freedom $\nu\,.$</p>
+
+<p>We wand a robust estimate, so we want a prior with a small
+number of degrees of freedom. However, $\nu \approx 0$
+can be hard to handle from a numeric perspective,
+since the resulting distribution decreases very slowly 
+as one steps away from the peak.
+For the above reason, we choose a Gamma prior with $\alpha=4$
+and $\beta=2\,.$</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_robust</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">HalfNormal</span><span class="p">(</span><span class="sh">'</span><span class="s">tau</span><span class="sh">'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="n">nu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Gamma</span><span class="p">(</span><span class="sh">'</span><span class="s">nu</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">StudentT</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span><span class="o">+</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">turnout</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="o">*</span><span class="n">beta</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">inequality</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">tau</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">nu</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model_robust</span><span class="p">:</span>
+    <span class="n">trace_robust</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">4000</span><span class="p">,</span> 
+                                             <span class="n">idata_kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="sh">'</span><span class="s">log_likelihood</span><span class="sh">'</span><span class="p">:</span> <span class="bp">True</span><span class="p">},</span> 
+                                             <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_robust</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/robust_regression/trace_robust.webp" alt="The trace of the robust model" /></p>
+
+<p>The trace doesn’t show relevant issues, so we can compute the posterior predictive.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_robust</span><span class="p">:</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">StudentT</span><span class="p">(</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span><span class="o">+</span><span class="n">x_plt</span><span class="o">*</span><span class="n">beta</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="n">tau</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">nu</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model_robust</span><span class="p">:</span>
+    <span class="n">ppc_robust</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_robust</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">],</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">ppc_robust</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">median</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]))</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">fill_between</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">ppc_robust</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span>
+                <span class="n">ppc_robust</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">grey</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">turnout</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">inequality</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">/home/stippe/thestippe.github.io/docs/assets/images/statistics/robust_regression/ppc_robust.webp</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/robust_regression/ppc_robust.webp" alt="The PPC of the robust model" /></p>
+
+<p>This distribution does a better job in reproducing the data, but
+it tells a very different story from the normal model.</p>
+
+<p>While in fact in the above model an increase of the turnout
+translated into a reduction of the average inequality,
+with this robust model this conclusion does not appear so clearly.</p>
+
+<p>Let us try and see what does the LOO can tell us.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loo_normal</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">loo</span><span class="p">(</span><span class="n">trace_norm</span><span class="p">,</span> <span class="n">model_norm</span><span class="p">)</span>
+<span class="n">loo_robust</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">loo</span><span class="p">(</span><span class="n">trace_robust</span><span class="p">,</span> <span class="n">model_robust</span><span class="p">)</span>
+
+<span class="n">df_loo</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">compare</span><span class="p">({</span><span class="sh">'</span><span class="s">Normal model</span><span class="sh">'</span><span class="p">:</span> <span class="n">trace_norm</span><span class="p">,</span> <span class="sh">'</span><span class="s">Robust model</span><span class="sh">'</span><span class="p">:</span> <span class="n">trace_robust</span><span class="p">})</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_compare</span><span class="p">(</span><span class="n">df_compare</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/robust_regression/loo.webp" alt="The plot of the LOO cross-validation" /></p>
+
+<p>The LOO is slightly better for the normal model,
+they are however very similar. Let us try and understand why.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_compare</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">rank</th>
+      <th style="text-align: right">elpd_loo</th>
+      <th style="text-align: right">p_loo</th>
+      <th style="text-align: right">elpd_diff</th>
+      <th style="text-align: right">weight</th>
+      <th style="text-align: right">se</th>
+      <th style="text-align: right">dse</th>
+      <th style="text-align: left">warning</th>
+      <th style="text-align: left">scale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">Normal model</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">-30.8017</td>
+      <td style="text-align: right">4.74402</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0.879221</td>
+      <td style="text-align: right">4.33551</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: left">True</td>
+      <td style="text-align: left">log</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">Robust model</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">-32.452</td>
+      <td style="text-align: right">6.97777</td>
+      <td style="text-align: right">1.65029</td>
+      <td style="text-align: right">0.120779</td>
+      <td style="text-align: right">4.68686</td>
+      <td style="text-align: right">2.10687</td>
+      <td style="text-align: left">False</td>
+      <td style="text-align: left">log</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>The difference is $1.65\,,$ and the difference due to the number
+of the degrees of freedom is the difference of the $p_loo\,,$
+which is approximately 2.2, so the entire preference is due
+to the lower number of degrees of freedom of the normal distribution.</p>
+
+<p>We can see, however, that the LOO estimate for the normal
+model has a warning. This generally happens because the ELPD
+estimate is not exact, and it’s only reliable when 
+removing one point does not affect too much log predictive density.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">loo_normal</span>
+</code></pre></div></div>
+
+<div class="code">
+Computed from 16000 posterior samples and 18 observations log-likelihood matrix.
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp;         Estimate       SE
+<br />
+elpd_loo   -30.80     4.34
+<br />
+p_loo        4.74        -
+<br />
+
+There has been a warning during the calculation. Please check the results.
+<br />
+- - - -
+<br />
+
+Pareto k diagnostic values:
+<br />
+&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Count   Pct.
+<br />
+(-Inf, 0.5]   (good)       16   88.9%
+<br />
+ (0.5, 0.7]   &nbsp; (ok)  &nbsp; 0    0.0%
+<br />
+ (0.7, 1]   &nbsp; (bad)  &nbsp;  2   11.1%
+<br />
+   (1, Inf)   (very bad)    0    0.0%
+</div>
+
+<p>There are two points which strongly affect our parameters,
+and one reasonable assumption is that one of those is the South Africa.</p>
+
+<p>Let us try and see what does it happens once we remove it.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>with pm.Model() as model_norm_red:
+    alpha = pm.Normal('alpha', mu=0, sigma=20)
+    beta = pm.Normal('beta', mu=0, sigma=20)
+    tau = pm.HalfNormal('tau', sigma=5)
+    y = pm.Normal('y', mu=alpha+df_turnout['turnout'].values[:17]*beta, observed=df_turnout['inequality'].values[:17], tau=tau)
+
+with model_norm_red:
+    trace_norm_red = pm.sample(draws=2000, chains=4, tune=2000,
+                               idata_kwargs = {'log_likelihood': True},
+                               random_seed=rng)
+
+az.plot_trace(trace_norm_red)
+
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/robust_regression/trace_norm_red.webp" alt="The trace for the new normal model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_norm_red</span><span class="p">:</span>
+    <span class="n">y_pred_red</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span><span class="o">+</span><span class="n">x_plt</span><span class="o">*</span><span class="n">beta</span><span class="p">,</span> <span class="n">tau</span><span class="o">=</span><span class="n">tau</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model_norm_red</span><span class="p">:</span>
+    <span class="n">ppc_norm_red</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_norm_red</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">],</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">ppc_norm_red</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]))</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">fill_between</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">ppc_norm_red</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span>
+                <span class="n">ppc_norm_red</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">y_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">grey</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">turnout</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">df_turnout</span><span class="p">[</span><span class="sh">'</span><span class="s">inequality</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">savefig</span><span class="p">(</span><span class="sh">'</span><span class="s">/home/stippe/thestippe.github.io/docs/assets/images/statistics/robust_regression/ppc_norm_red.webp</span><span class="sh">'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/robust_regression/ppc_norm_red.webp" alt="The PPC for the new model" /></p>
+
+<p>This result looks much more to the robust estimate than to 
+the full normal estimate.
+While in the full normal model the parameter beta was
+not compatible with 0, both for the robust and for the reduced
+normal model it is.
+This implies that those models contradict the full normal model,
+which shows a negative association between the turnover
+and the average income inequality.
+Since the conclusion of the full normal model are heavily 
+affected by the South Africa, before drawing
+any conclusion one should carefully assess whether does this
+makes sense. Is the South Africa really representative or
+is it a special case?</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We have discussed how to perform a robust linear regression,
+and we have shown with an example that using it instead of a normal
+linear regression makes our model more stable to the presence
+of non-representative items.</p>
+
+  </div><a class="u-url" href="/statistics/robust_regression" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jan 26, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

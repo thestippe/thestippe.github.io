@@ -57,35 +57,83 @@
         <div id='upperBarr'>
         <script src="https://d3js.org/d3.v7.js"></script>
                 <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
-                        A/B testing;/statistics/testing_intro;1
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;1
                 </li><li>
-                        Design tricks;/dataviz/design-introduction;2
+                        Application of survival analysis 1;/statistics/survival_example;2
                 </li><li>
-                        How to choose a color map;/dataviz/palettes-introduction;3
+                        Introduction to survival analysis;/statistics/survival_analysis;3
                 </li><li>
-                        Introduction to color perception;/dataviz/color-introduction;4
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;4
                 </li><li>
-                        Drawing is redrawing;/dataviz/gender-economist;5
+                        Hierarchical models;/statistics/hierarchical_models;5
                 </li><li>
-                        Visual queries;/dataviz/visual-queries;6
+                        Poisson regression;/statistics/poisson_regression;6
                 </li><li>
-                        The Gestalt principles;/dataviz/gestalt;7
+                        Logistic regression;/statistics/logistic_regression;7
                 </li><li>
-                        Channel effectiveness;/dataviz/effectiveness;8
+                        Robust linear regression;/statistics/robust_regression;8
                 </li><li>
-                        Evolutions of the line chart;/dataviz/linechart-evolution;9
+                        Introduction to the linear regression;/statistics/regression;9
                 </li><li>
-                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;10
+                        Model comparison;/statistics/model_averaging;10
                 </li><li>
-                        Perception;/dataviz/perception;11
+                        Predictive checks;/statistics/predictive_checks;11
                 </li><li>
-                        Fundamental charts;/dataviz/fundamental-charts;12
+                        Trace inspection;/statistics/trace_inspection;12
                 </li><li>
-                        Marks and channels;/dataviz/marks-channels;13
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;13
                 </li><li>
-                        Data abstraction;/dataviz/data-types;14
+                        Exponential model, gaussian model and their evolutions;/statistics/reals;14
                 </li><li>
-                        Data visualization;/dataviz/dataviz;15
+                        The Negative Binomial model;/statistics/negbin;15
+                </li><li>
+                        The Poisson model;/statistics/poisson;16
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;17
+                </li><li>
+                        Introduction to Bayesian statistics;/statistics/bayesian_intro;18
+                </li><li>
+                        The central limit theorem;/statistics/central_limit;19
+                </li><li>
+                        Introduction to decision theory;/statistics/decision_theory;20
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;21
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;22
+                </li><li>
+                        Interpretations of probability;/statistics/probability_interpretations;23
+                </li><li>
+                        Kolmogorov axioms;/statistics/probability_axioms;24
+                </li><li>
+                        What is statistics;/statistics/statistics_intro;25
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;26
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;27
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;28
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;29
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;30
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;31
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;32
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;33
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;34
+                </li><li>
+                        Perception;/dataviz/perception;35
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;36
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;37
+                </li><li>
+                        Data abstraction;/dataviz/data-types;38
+                </li><li>
+                        Data visualization;/dataviz/dataviz;39
                 </li></ul>
                         <div style="display:flex">
                                 <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
@@ -150,31 +198,557 @@ Have fun!</p>
   </div>
 
 
+
   </div>
 
   <div class='div-gradient'></div>
   <div class='home-links'>
+
+
+
+  
+
+  
+
+  <hr><h2>Post list</h2>
+  
+  <details><summary>Introduction</summary>
+        
+        <ol>
+        
+        <li>
+        <a  href="/statistics/statistics_intro">
+                  What is statistics</a>:
+        <i>Let us clarify what we are talking about</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/probability_axioms">
+                  Kolmogorov axioms</a>:
+        <i>The mathematical foundations of statistics</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/probability_interpretations">
+                  Interpretations of probability</a>:
+        <i>What does probability mean?</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/common_discrete_probabilities">
+                  Common discrete probabilities</a>:
+        <i>Derivation of some useful one-dimensional discrete probabilities</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/common_continuous_probabilities">
+                  Common continuous probabilities</a>:
+        <i>Derivation of some useful one-dimensional continuous probabilities</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/decision_theory">
+                  Introduction to decision theory</a>:
+        <i>Making choices under uncertainty</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/central_limit">
+                  The central limit theorem</a>:
+        <i>Approximating the probability when the sample size is large</i>
+        </li>
+        
+        </ol>
+</details>
+  
+  <details><summary>Simple models</summary>
+        
+        <ol>
+        
+        <li>
+        <a  href="/statistics/betabin">
+                  The Beta-Binomial model</a>:
+        <i>Dealing with binary outcomes</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/poisson">
+                  The Poisson model</a>:
+        <i>How to describe count data</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/negbin">
+                  The Negative Binomial model</a>:
+        <i>An evolution of the Poisson model</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/reals">
+                  Exponential model, gaussian model and their evolutions</a>:
+        <i>Handling real-valued data</i>
+        </li>
+        
+        </ol>
+</details>
+  
+  <details><summary>Bayesian workflow</summary>
+        
+        <ol>
+        
+        <li>
+        <a  href="/statistics/bayesian_workflow">
+                  Introduction to the Bayesian workflow</a>:
+        <i>How to make bayesian inference in practice</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/trace_inspection">
+                  Trace inspection</a>:
+        <i>Finding issues in MCMC convergence</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/predictive_checks">
+                  Predictive checks</a>:
+        <i>Verifying the predictions of your model</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/model_averaging">
+                  Model comparison</a>:
+        <i>How to choose between models</i>
+        </li>
+        
+        </ol>
+</details>
+  
+  <details><summary>Regression</summary>
+        
+        <ol>
+        
+        <li>
+        <a  href="/statistics/regression">
+                  Introduction to the linear regression</a>:
+        <i>Including dependence on external variables</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/robust_regression">
+                  Robust linear regression</a>:
+        <i>Reducing sensitivity to large deviations</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/logistic_regression">
+                  Logistic regression</a>:
+        <i>How to perform regression on binary data</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/poisson_regression">
+                  Poisson regression</a>:
+        <i>Regression on count data</i>
+        </li>
+        
+        </ol>
+</details>
+  
+  <details><summary>Advanced models</summary>
+        
+        <ol>
+        
+        <li>
+        <a  href="/statistics/hierarchical_models">
+                  Hierarchical models</a>:
+        <i>How to implement hierarchies</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/hierarchical_metaanalysis">
+                  Hierarchical models and meta-analysis</a>:
+        <i>How hierarchical models can be used to analyze scientific literature</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/survival_analysis">
+                  Introduction to survival analysis</a>:
+        <i>Estimating waiting times</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/survival_example">
+                  Application of survival analysis 1</a>:
+        <i>Survival analysis with continouous time</i>
+        </li>
+        
+        <li>
+        <a  href="/statistics/extreme_intro">
+                  Introduction to Extreme Values theory</a>:
+        <i>Describing rare events</i>
+        </li>
+        
+        </ol>
+</details>
+  <!--
           <h2>Posts</h2>
 
-  <hr>
-
-
-  <div class='cards' itemscope itemtype="http://schema.org/Blog">
+  <hr><div class='cards' itemscope itemtype="http://schema.org/Blog">
         
       <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
-        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-02T00:00:00+01:00">Jan 2, 2024 | </time></span>
-        <span class="post-meta"> 11&prime;</span>
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-02-02T00:00:00+01:00">Feb 2, 2024 | </time></span>
+        <span class="post-meta"> 10&prime;</span>
         <h3>
-          <a class="post-link" href="/statistics/testing_intro" itemprop="url">
-            A/B testing
+          <a class="post-link" href="/statistics/extreme_intro" itemprop="url">
+            Introduction to Extreme Values theory
           </a>
         </h3>
         
-                <i>An example of statistical test</i>
+                <i>Describing rare events</i>
+        
+
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-02-01T00:00:00+01:00">Feb 1, 2024 | </time></span>
+        <span class="post-meta"> 10&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/survival_example" itemprop="url">
+            Application of survival analysis 1
+          </a>
+        </h3>
+        
+                <i>Survival analysis with continouous time</i>
+        
+
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-31T00:00:00+01:00">Jan 31, 2024 | </time></span>
+        <span class="post-meta"> 12&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/survival_analysis" itemprop="url">
+            Introduction to survival analysis
+          </a>
+        </h3>
+        
+                <i>Estimating waiting times</i>
+        
+
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-30T00:00:00+01:00">Jan 30, 2024 | </time></span>
+        <span class="post-meta"> 9&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/hierarchical_metaanalysis" itemprop="url">
+            Hierarchical models and meta-analysis
+          </a>
+        </h3>
+        
+                <i>How hierarchical models can be used to analyze scientific literature</i>
+        
+
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-29T00:00:00+01:00">Jan 29, 2024 | </time></span>
+        <span class="post-meta"> 9&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/hierarchical_models" itemprop="url">
+            Hierarchical models
+          </a>
+        </h3>
+        
+                <i>How to implement hierarchies</i>
+        
+
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-28T00:00:00+01:00">Jan 28, 2024 | </time></span>
+        <span class="post-meta"> 6&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/poisson_regression" itemprop="url">
+            Poisson regression
+          </a>
+        </h3>
+        
+                <i>Regression on count data</i>
+        
+
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-27T00:00:00+01:00">Jan 27, 2024 | </time></span>
+        <span class="post-meta"> 12&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/logistic_regression" itemprop="url">
+            Logistic regression
+          </a>
+        </h3>
+        
+                <i>How to perform regression on binary data</i>
+        
+
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-26T00:00:00+01:00">Jan 26, 2024 | </time></span>
+        <span class="post-meta"> 14&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/robust_regression" itemprop="url">
+            Robust linear regression
+          </a>
+        </h3>
+        
+                <i>Reducing sensitivity to large deviations</i>
+        
+
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-25T00:00:00+01:00">Jan 25, 2024 | </time></span>
+        <span class="post-meta"> 11&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/regression" itemprop="url">
+            Introduction to the linear regression
+          </a>
+        </h3>
+        
+                <i>Including dependence on external variables</i>
+        
+
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-23T00:00:00+01:00">Jan 23, 2024 | </time></span>
+        <span class="post-meta"> 8&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/model_averaging" itemprop="url">
+            Model comparison
+          </a>
+        </h3>
+        
+                <i>How to choose between models</i>
+        
+
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-22T00:00:00+01:00">Jan 22, 2024 | </time></span>
+        <span class="post-meta"> 4&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/predictive_checks" itemprop="url">
+            Predictive checks
+          </a>
+        </h3>
+        
+                <i>Verifying the predictions of your model</i>
+        
+
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-21T00:00:00+01:00">Jan 21, 2024 | </time></span>
+        <span class="post-meta"> 8&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/trace_inspection" itemprop="url">
+            Trace inspection
+          </a>
+        </h3>
+        
+                <i>Finding issues in MCMC convergence</i>
+        
+
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-20T00:00:00+01:00">Jan 20, 2024 | </time></span>
+        <span class="post-meta"> 6&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/bayesian_workflow" itemprop="url">
+            Introduction to the Bayesian workflow
+          </a>
+        </h3>
+        
+                <i>How to make bayesian inference in practice</i>
+        
+
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-18T00:00:00+01:00">Jan 18, 2024 | </time></span>
+        <span class="post-meta"> 2&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/reals" itemprop="url">
+            Exponential model, gaussian model and their evolutions
+          </a>
+        </h3>
+        
+                <i>Handling real-valued data</i>
+        
+
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-17T00:00:00+01:00">Jan 17, 2024 | </time></span>
+        <span class="post-meta"> 6&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/negbin" itemprop="url">
+            The Negative Binomial model
+          </a>
+        </h3>
+        
+                <i>An evolution of the Poisson model</i>
+        
+
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-16T00:00:00+01:00">Jan 16, 2024 | </time></span>
+        <span class="post-meta"> 7&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/poisson" itemprop="url">
+            The Poisson model
+          </a>
+        </h3>
+        
+                <i>How to describe count data</i>
+        
+
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-15T00:00:00+01:00">Jan 15, 2024 | </time></span>
+        <span class="post-meta"> 7&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/betabin" itemprop="url">
+            The Beta-Binomial model
+          </a>
+        </h3>
+        
+                <i>Dealing with binary outcomes</i>
+        
+
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-14T00:00:00+01:00">Jan 14, 2024 | </time></span>
+        <span class="post-meta"> 3&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/bayesian_intro" itemprop="url">
+            Introduction to Bayesian statistics
+          </a>
+        </h3>
+        
+                <i>Introduction to Bayesian statistics</i>
+        
+
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-11T00:00:00+01:00">Jan 11, 2024 | </time></span>
+        <span class="post-meta"> 2&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/central_limit" itemprop="url">
+            The central limit theorem
+          </a>
+        </h3>
+        
+                <i>Approximating the probability when the sample size is large</i>
+        
+
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-10T00:00:00+01:00">Jan 10, 2024 | </time></span>
+        <span class="post-meta"> 4&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/decision_theory" itemprop="url">
+            Introduction to decision theory
+          </a>
+        </h3>
+        
+                <i>Making choices under uncertainty</i>
+        
+
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-09T00:00:00+01:00">Jan 9, 2024 | </time></span>
+        <span class="post-meta"> 8&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/common_continuous_probabilities" itemprop="url">
+            Common continuous probabilities
+          </a>
+        </h3>
+        
+                <i>Derivation of some useful one-dimensional continuous probabilities</i>
+        
+
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-08T00:00:00+01:00">Jan 8, 2024 | </time></span>
+        <span class="post-meta"> 5&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/common_discrete_probabilities" itemprop="url">
+            Common discrete probabilities
+          </a>
+        </h3>
+        
+                <i>Derivation of some useful one-dimensional discrete probabilities</i>
+        
+
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-07T00:00:00+01:00">Jan 7, 2024 | </time></span>
+        <span class="post-meta"> 4&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/probability_interpretations" itemprop="url">
+            Interpretations of probability
+          </a>
+        </h3>
+        
+                <i>What does probability mean?</i>
+        
+
+        
+        </div>
+      <div class=cardOdd itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-06T00:00:00+01:00">Jan 6, 2024 | </time></span>
+        <span class="post-meta"> 6&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/probability_axioms" itemprop="url">
+            Kolmogorov axioms
+          </a>
+        </h3>
+        
+                <i>The mathematical foundations of statistics</i>
+        
+
+        
+        </div>
+      <div class=cardEven itemscope itemtype="http://schema.org/BlogPosting">
+        <span class="post-meta"><time itemprop="datePublished" datetime="2024-01-05T00:00:00+01:00">Jan 5, 2024 | </time></span>
+        <span class="post-meta"> 4&prime;</span>
+        <h3>
+          <a class="post-link" href="/statistics/statistics_intro" itemprop="url">
+            What is statistics
+          </a>
+        </h3>
+        
+                <i>Let us clarify what we are talking about</i>
+        
+
         
         </div></div>
 
     </div>
+
+-->
 
 </div>
 <script src="/docs/assets/javascript/scrollEnter.js">

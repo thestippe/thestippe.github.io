@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Introduction to the Bayesian workflow | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="Introduction to the Bayesian workflow" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How to make bayesian inference in practice" />
+<meta property="og:description" content="How to make bayesian inference in practice" />
+<link rel="canonical" href="http://localhost:4000/statistics/bayesian_workflow" />
+<meta property="og:url" content="http://localhost:4000/statistics/bayesian_workflow" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-20T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Introduction to the Bayesian workflow" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-20T00:00:00+01:00","datePublished":"2024-01-20T00:00:00+01:00","description":"How to make bayesian inference in practice","headline":"Introduction to the Bayesian workflow","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/bayesian_workflow"},"url":"http://localhost:4000/statistics/bayesian_workflow"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;1
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;2
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;3
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;4
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;5
+                </li><li>
+                        Poisson regression;/statistics/poisson_regression;6
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;7
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;8
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;9
+                </li><li>
+                        Model comparison;/statistics/model_averaging;10
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;11
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;12
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;13
+                </li><li>
+                        Exponential model, gaussian model and their evolutions;/statistics/reals;14
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;15
+                </li><li>
+                        The Poisson model;/statistics/poisson;16
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;17
+                </li><li>
+                        Introduction to Bayesian statistics;/statistics/bayesian_intro;18
+                </li><li>
+                        The central limit theorem;/statistics/central_limit;19
+                </li><li>
+                        Introduction to decision theory;/statistics/decision_theory;20
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;21
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;22
+                </li><li>
+                        Interpretations of probability;/statistics/probability_interpretations;23
+                </li><li>
+                        Kolmogorov axioms;/statistics/probability_axioms;24
+                </li><li>
+                        What is statistics;/statistics/statistics_intro;25
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;26
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;27
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;28
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;29
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;30
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;31
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;32
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;33
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;34
+                </li><li>
+                        Perception;/dataviz/perception;35
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;36
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;37
+                </li><li>
+                        Data abstraction;/dataviz/data-types;38
+                </li><li>
+                        Data visualization;/dataviz/dataviz;39
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/reals" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+                  <a href="/statistics/trace_inspection" class="next">&#8250;</a>
+                  
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">Introduction to the Bayesian workflow</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-20T00:00:00+01:00" itemprop="datePublished">
+        Jan 20, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  6&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>While making Bayesian inference for simple problems is straightforward,
+handling real word problems can be very challenging.
+In order to simplify it, statisticians came out with what is known as the
+<strong>Bayesian workflow</strong>, which is a set of rules to follow in order to
+properly doing Bayesian inference.</p>
+
+<p>The Bayesian workflow is illustrated in <a href="http://www.stat.columbia.edu/~gelman/research/unpublished/Bayesian_Workflow_article.pdf">this paper by Gelman et al.</a>,
+and we will illustrate in this post and in the following ones how to implement
+it in PyMC.</p>
+
+<p>We will assume that you properly collected some data, and you want to analyze it.</p>
+
+<h2 id="model-selection">Model selection</h2>
+
+<p>The first step is the model selection, and in most cases you won’t be
+the first one dealing with that kind of data.
+In order not to re-invent the wheel, you should look around and check if someone
+else faced a similar problem. Good starting points are blogs about statistics
+(you will find some in the <a href="/links">resources page</a>),
+scientific articles (maybe consider taking a look at <a href="https://arxiv.org/">arxiv</a>) but also the <a href="https://www.pymc.io/projects/examples/en/latest/gallery.html">PyMC gallery</a> or <a href="https://stats.stackexchange.com/">Cross-Validated</a>.</p>
+
+<p>If you didn’t find anything useful, as general principle, <a href="https://en.wikipedia.org/wiki/Occam%27s_razor">Ockham’s razor</a> is a good guideline: start from the
+simplest possible model.
+There are many reasons for this:</p>
+<ul>
+  <li>It will make easier to spot problems.</li>
+  <li>The more a model is complex, the harder it will be for your software to fit it.</li>
+  <li>Simple models are generally easier to understand (and to explain to your colleagues, clients or to the decision makers).</li>
+  <li>It is easier to add complexity than to figure out which are the irrelevant features of your model.</li>
+</ul>
+
+<p>Thus, as an example, before using a Student’ t distribution, you should verify
+if your data is well described by a normal distribution.</p>
+
+<p>Model selection also includes variable transformations, and this step has more than
+one purpose.
+You may want to transform your variable to make it easily interpretable.
+If you have a variable expressed in inches but your client is European, it is wise
+to convert your data to the metric system.
+You may also want to make your model easily interpretable, and
+some transformation may make some of your parameter more meaningful.
+Making a parameter meaningful has the additional advantage that it will
+be easier for you to find out a sensible prior for it.
+By a suitable transformation you may end up with a dataset which is
+suitable for some particular model.
+As an example, if you are dealing with a positive variable that spans
+more than order of magnitude, taking its logarithm may simplify your life.
+Moreover, ill-scaled problems may be harder to fit, so making your
+variable of the order of 1 may reduce the computational effort and avoid numerical
+issues.</p>
+
+<p>Another fundamental aspect of the model selection is the choice of the prior,
+and this is probably one of the hardest problems in Bayesian inference.
+The prior choice should be generous enough not to over-constrain your
+parameter, but restrictive enough to regularize your model.
+The next step is dedicated to find out if your prior selection
+is meaningful.</p>
+
+<h2 id="prior-predictive-checks">Prior predictive checks</h2>
+
+<p>Your model will contain priors, but it may happen that you don’t
+have enough domain-specific
+knowledge in order to know a priori if your guess is good enough,
+so a very important step in the Bayesian workflow is to perform the
+prior predictive check.</p>
+
+<p>This is a very easy task and it won’t be time consuming,
+but it allow you to check if the hyperparameters in our model
+are able to include our data.</p>
+
+<p>In other words, if the model predicts the outcome variable $Y$ in the range $[-10, 10]$ 
+in the 95% of the simulations, but the true data are outside of this range, than you
+should consider changing the hyperparameters.
+As a rule of thumb, at least the 50% of the data should fall in the 50% highest density region of our prior predictive sample.</p>
+
+<h2 id="sampling-the-posterior">Sampling the posterior</h2>
+
+<p>Now you can finally run your simulation. At the beginning, you shouldn’t waste
+too much time in running very large simulations, but you should rather limit
+yourself to small samples (say one or two thousands of draws).
+In this way you will be able to figure out in a shorter time if there’s any issue.</p>
+
+<p>Only once everything looks good you can draw the final sample,
+and Nature recommends at least 10000 draws in order to have a sufficiently large one,
+and distributing those draws in four chains is usually enough. 
+Gelman suggests to only keep the last half of each of your sample,
+since it is the best compromise between time and precision.
+While this makes a lot of sense for very large problems, however,
+in my experience for smaller problems PyMC usually only needs few thousands of iteration
+to warm up.
+However, I am not Andrew Gelman, so you’d better keep in mind his suggestion.</p>
+
+<h2 id="convergence-assessment">Convergence assessment</h2>
+
+<p>Now you’ve got your trace, and it’s time to verify if there was any issue with it.
+We already discussed some of the tools that Arviz provides to figure
+out if there’s any issue. In a dedicated post we will see how to interpret
+these tools and which are some possible solutions.</p>
+
+<p>In some case you will simply need to run a longer chain or a longer warm-up
+phase, but in some other case you will be forced to modify your model
+or to only run your simulation on a subset of your data.</p>
+
+<p><a href="/trace_inspection">This post</a> treats this topic more
+in detail.</p>
+
+<h2 id="posterior-predictive-checks">Posterior predictive checks</h2>
+
+<p>Once everything is good you can (and should) perform the posterior predictive checks,
+and they will allow you to make sure that your model reproduces
+the salient features of the data.</p>
+
+<p>As previously stated, all models are wrong, so it’s unlikely that you will be able
+to reproduce all the features of the data, 
+but we should at least be able to reproduce the relevant ones,
+where by relevant I mean with respect to your questions.</p>
+
+<p>Prior and posterior predictive checks
+are discussed in <a href="/predictive_checks">this post</a>.</p>
+
+<h2 id="model-comparison">Model comparison</h2>
+
+<p>In most cases you won’t be dealing with only one model,
+but you will be comparing more than one model to see which feature
+is better reproduced by each model.
+This part of the flow is called model comparison or model averaging,
+although in most cases you won’t be really averaging over the models.</p>
+
+<p>If the model looks good enough, you can stuck here and use the informations
+that you extracted from the model.</p>
+
+<p>We also include sensitivity analysis into this step, as different
+hyperparameters imply different models.
+In this phase you want to understand how do your conclusions
+change by slightly changing the priors.
+If your conclusions are change a lot, then your model is not very trustful,
+so you should consider changing your model or looking for new data.</p>
+
+<p>Of course, it may happen that you get more data,
+and that with the new data you realize that you are unable to catch some
+relevant feature.
+In this case, you should go back to the first step, and start again.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We discussed the structure of the Bayesian workflow, in the next posts
+we will discuss each step in detail with some practical example.</p>
+
+  </div><a class="u-url" href="/statistics/bayesian_workflow" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jan 20, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

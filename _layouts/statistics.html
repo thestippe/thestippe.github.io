@@ -18,9 +18,7 @@ layout: base
 
   <div class='div-gradient'></div>
   <div class='home-links'>
-          <h2>Posts</h2>
 
-  <hr>
 
 
   {% if site.paginate %}
@@ -28,6 +26,32 @@ layout: base
   {% else %}
     {% assign posts = site.posts  | where: "categories", "/statistics/"%}
   {% endif %}
+
+  {% assign subcategories = ""  | split: ','%}
+
+  <hr>
+  {%- if posts.size > 0 -%}
+  <h2>Post list</h2>
+  {% for cat in site.stats_categories_order %}
+  <details><summary>{{cat}}</summary>
+        {% assign pst = posts | where: "subgategory", cat | sort: "section"%}
+        <ol>
+        {% for post in pst %}
+        <li>
+        <a  href="{{ post.url | relative_url }}">
+                  {{post.title}}</a>:
+        <i>{{post.description}}</i>
+        </li>
+        {% endfor %}
+        </ol>
+</details>
+  {% endfor %}
+  {%- endif -%}
+
+<!--
+          <h2>Posts</h2>
+
+  <hr>
 
 
   {%- if posts.size > 0 -%}
@@ -66,6 +90,12 @@ layout: base
         {% if post.description %}
                 <i>{{ post.description }}</i>
         {% endif %}
+
+        {% if post.subgategory %}
+        {% unless subcategories contains post.subgategory %}
+        {% assign subcategories = subcategories | push: post.subgategory %}
+        {% endunless %}
+        {% endif %}
         </div>
       {%- endfor -%}
     </div>
@@ -90,6 +120,8 @@ layout: base
 
   {%- endif -%}
 </div>
+
+-->
 
 </div>
 <script src="/docs/assets/javascript/scrollEnter.js">

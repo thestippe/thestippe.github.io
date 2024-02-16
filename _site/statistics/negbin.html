@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>The Negative Binomial model | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="The Negative Binomial model" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="An evolution of the Poisson model" />
+<meta property="og:description" content="An evolution of the Poisson model" />
+<link rel="canonical" href="http://localhost:4000/statistics/negbin" />
+<meta property="og:url" content="http://localhost:4000/statistics/negbin" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-17T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="The Negative Binomial model" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-17T00:00:00+01:00","datePublished":"2024-01-17T00:00:00+01:00","description":"An evolution of the Poisson model","headline":"The Negative Binomial model","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/negbin"},"url":"http://localhost:4000/statistics/negbin"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;1
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;2
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;3
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;4
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;5
+                </li><li>
+                        Poisson regression;/statistics/poisson_regression;6
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;7
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;8
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;9
+                </li><li>
+                        Model comparison;/statistics/model_averaging;10
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;11
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;12
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;13
+                </li><li>
+                        Exponential model, gaussian model and their evolutions;/statistics/reals;14
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;15
+                </li><li>
+                        The Poisson model;/statistics/poisson;16
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;17
+                </li><li>
+                        Introduction to Bayesian statistics;/statistics/bayesian_intro;18
+                </li><li>
+                        The central limit theorem;/statistics/central_limit;19
+                </li><li>
+                        Introduction to decision theory;/statistics/decision_theory;20
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;21
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;22
+                </li><li>
+                        Interpretations of probability;/statistics/probability_interpretations;23
+                </li><li>
+                        Kolmogorov axioms;/statistics/probability_axioms;24
+                </li><li>
+                        What is statistics;/statistics/statistics_intro;25
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;26
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;27
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;28
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;29
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;30
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;31
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;32
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;33
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;34
+                </li><li>
+                        Perception;/dataviz/perception;35
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;36
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;37
+                </li><li>
+                        Data abstraction;/dataviz/data-types;38
+                </li><li>
+                        Data visualization;/dataviz/dataviz;39
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/poisson" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+                  <a href="/statistics/reals" class="next">&#8250;</a>
+                  
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">The Negative Binomial model</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-17T00:00:00+01:00" itemprop="datePublished">
+        Jan 17, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  6&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In the last post we discussed the simplest model for count data, namely
+the Poisson model.
+Sometimes this model is not flexible enough, as in the Poisson distribution
+the variance is fixed by the mean.
+If your data is over-dispersed (or under-dispersed) the Poisson model
+might be not appropriate. This usually happens when your data cannot be treated
+as sampled according to an iid set of random variables.
+This often happens, as an example, with dataset coming from social networks,
+where each post has its own probability of interaction, depending on the
+topic but also on the algorithm modifications during the time.
+In this post I will explain how to deal with this kind of data
+by using the Negative Binomial model.</p>
+
+<h2 id="trying-with-the-poisson-model">Trying with the Poisson model</h2>
+
+<p>I downloaded my own twitter data from <a href="https://analytics.twitter.com">analytics.twitter.com</a>,
+and I wanted to analyze what’s the distribution of interaction
+rates across my tweets, and here’s the results.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>interactions</th>
+      <th>count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>0</td>
+      <td>29</td>
+    </tr>
+    <tr>
+      <td>1</td>
+      <td>36</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>33</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>28</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>24</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>25</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>13</td>
+    </tr>
+    <tr>
+      <td>7</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>8</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>9</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>10</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>11</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>12</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>14</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>16</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>we can first of all check if the Poisson model does a good job in fitting the data.
+As before we will assume an exponential model for the Poisson mean,
+but since we have a larger average we choose $\lambda=1/50$ for the exponential
+parameter.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">./data/tweets.csv</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">yobs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">interactions</span><span class="sh">'</span><span class="p">]</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">poisson</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Poisson</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">yobs</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/negbin/trace_poisson.webp" alt="The Poisson trace" /></p>
+
+<p>The trace seems OK, and for the sake of brevity we won’t perform all the
+trace checks. However, keep in mind that you should always do them.
+Let us jump to the posterior predictive check and verify if our model
+is capable to reproduce the data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">poisson</span><span class="p">:</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/negbin/ppc_poisson.webp" alt="The Poisson posterior predictive" /></p>
+
+<p>The average value doesn’t look at all like the observed points, and the error
+bands fail to include the data.
+This is definitely not a suitable model for our data.</p>
+
+<h2 id="the-negative-binomial-model">The Negative Binomial model</h2>
+
+<p>We will now try and build a model with a Negative Binomial likelihood.
+According to Ockham’s razor principle, since
+the new model will have one more parameter than the previous one,
+in order to justify the increased model complexity, we should
+observe a clear improvement in the performances.</p>
+
+<p>The new model assumes</p>
+
+\[Y \sim \mathcal{NegBin}(\theta, \nu)\]
+
+<p>The above distribution, in PyMC, has more than one parametrizations,
+but we will stick to the one already introduced,
+where $\theta \in [0, 1]$ and $\nu &gt; 0\,.$</p>
+
+<p>Since we want our guess for the parameters, we will assume</p>
+
+\[\theta \sim \mathcal{U}(0, 1)\]
+
+<p>We also expect $\nu$ to be somewhere between 1 and 10, as it should be roughly of
+the same order of magnitude of the mean of the observed data.
+Taking a mean $Y$ of 5 and $p=1/2$ we would have</p>
+
+\[10 = \nu \frac{1/2}{1-1/2} = \nu\]
+
+<p>so a reasonable assumption could be</p>
+
+\[\nu \sim \mathcal{Exp}(1/10)\]
+
+<p>We can now implement our model and verify if the trace has any problem.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">negbin</span><span class="p">:</span>
+    <span class="n">nu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">nu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Uniform</span><span class="p">(</span><span class="sh">'</span><span class="s">theta</span><span class="sh">'</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">NegativeBinomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">nu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">yobs</span><span class="p">)</span>
+    <span class="n">trace_nb</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_nb</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/negbin/trace_nb.webp" alt="The Negative Binomial trace" /></p>
+
+<p>So far so good, so let us check the performances of the new model in reproducing
+the data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">negbin</span><span class="p">:</span>
+    <span class="n">ppc_nb</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_nb</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_nb</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/negbin/ppc_nb.webp" alt="The Negative Binomial posterior predictive" /></p>
+
+<p>The posterior predictive looks way better than the Poisson one.</p>
+
+<p>A visual inspection is fundamental in checking the performances of posterior predictive
+distribution in reproducing the data.
+We can however use a very popular tool to have some additional information.
+We will use the <a href="https://arxiv.org/abs/1507.04544"><strong>Leave One Out</strong> cross validation</a>.
+This technique, which uses the Pareto smoothed importance sampling,
+is equivalent to removing each datum
+and verifying how unlikely is the removed point with according to the new model.
+If the point is not too unlikely to appear, then the model is appropriate
+in reproducing the data, otherwise you may consider to look for a new model.
+This comparison requires the computation of the log likelihood,
+and the entire procedure can be done as follows</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">poisson</span><span class="p">:</span>
+    <span class="n">pm</span><span class="p">.</span><span class="nf">compute_log_likelihood</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">negbin</span><span class="p">:</span>
+    <span class="n">pm</span><span class="p">.</span><span class="nf">compute_log_likelihood</span><span class="p">(</span><span class="n">trace_nb</span><span class="p">)</span>
+
+<span class="n">df_comp_loo</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">compare</span><span class="p">({</span><span class="sh">"</span><span class="s">poisson</span><span class="sh">"</span><span class="p">:</span> <span class="n">trace</span><span class="p">,</span> <span class="sh">"</span><span class="s">negative binomial</span><span class="sh">"</span><span class="p">:</span> <span class="n">trace_nb</span><span class="p">})</span>
+
+<span class="n">az</span><span class="p">.</span><span class="nf">plot_compare</span><span class="p">(</span><span class="n">df_comp_loo</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/negbin/plot_loo.webp" alt="The comparison between the two models" /></p>
+
+<p>This method confirms our conclusions, the Negative Binomial model
+performs better than the Poisson one.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We have discussed the Negative Binomial model and introduced the LOO method
+to perform a model comparison.
+We also saw in which situations it might be appropriate to choose a Negative
+Binomial model over a Poisson one.</p>
+
+  </div><a class="u-url" href="/statistics/negbin" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jan 17, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

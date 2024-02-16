@@ -177,5 +177,5 @@ clustering algorithm is doing its job, then you should consider using channels w
 ## Suggested readings
 
 - <cite> Munzner, T. (2015). Visualization Analysis and Design. CRC Press. ISBN: 9781498759717 </cite>
--  <cite> Colin Ware, Information Visualization, Perception for Design. </cite>
+-  <cite> Ware, C. (2013). Information Visualization: Perception for Design. Netherlands: Elsevier Science. </cite>
 - <cite>Edward R. Tufte. 1986. The visual display of quantitative information. Graphics Press, USA.</cite>

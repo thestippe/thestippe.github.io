@@ -1,0 +1,25 @@
+digraph {
+	alpha [label="alpha
+~
+HalfNormal" shape=ellipse]
+	mu [label="mu
+~
+Deterministic" shape=box]
+	beta [label="beta
+~
+HalfNormal" shape=ellipse]
+	subgraph cluster4 {
+		y [label="y
+~
+Binomial" shape=ellipse style=filled]
+		theta [label="theta
+~
+Beta" shape=ellipse]
+		label=4 labeljust=r labelloc=b style=rounded
+	}
+	alpha -> mu
+	beta -> mu
+	alpha -> theta
+	beta -> theta
+	theta -> y
+}
