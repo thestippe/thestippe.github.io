@@ -22,7 +22,7 @@ permalink: :categories/:title
 collections:
   category:
     output: true
-gems: [jekyll-mermaid, jekyll-paginate]
+gems: [jekyll-mermaid]
 show_excerpts: false
 paginate: false
 masthead: /docs/assets/images/logo_dp.png
@@ -34,3 +34,6 @@ stats_categories_order:
         - Bayesian workflow
         - Regression
         - Advanced models
+        - Causal inference
+        - Time series
+        - Non-parametric models

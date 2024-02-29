@@ -184,7 +184,6 @@ ax.plot(x_plt, ppc_robust.posterior_predictive['y_pred'].median(dim=['draw', 'ch
 ax.fill_between(x_plt, ppc_robust.posterior_predictive['y_pred'].quantile(q=0.025, dim=['draw', 'chain']),
                 ppc_robust.posterior_predictive['y_pred'].quantile(q=0.975, dim=['draw', 'chain']), alpha=0.5, color='grey')
 ax.scatter(df_turnout['turnout'].values, df_turnout['inequality'].values)
-fig.savefig('/home/stippe/thestippe.github.io/docs/assets/images/statistics/robust_regression/ppc_robust.webp')
 ```
 
 ![The PPC of the robust model](/docs/assets/images/statistics/robust_regression/ppc_robust.webp)
@@ -299,7 +298,6 @@ ax.plot(x_plt, ppc_norm_red.posterior_predictive['y_pred'].mean(dim=['draw', 'ch
 ax.fill_between(x_plt, ppc_norm_red.posterior_predictive['y_pred'].quantile(q=0.025, dim=['draw', 'chain']),
                 ppc_norm_red.posterior_predictive['y_pred'].quantile(q=0.975, dim=['draw', 'chain']), alpha=0.5, color='grey')
 ax.scatter(df_turnout['turnout'].values, df_turnout['inequality'].values)
-fig.savefig('/home/stippe/thestippe.github.io/docs/assets/images/statistics/robust_regression/ppc_norm_red.webp')
 ```
 
 ![The PPC for the new model](/docs/assets/images/statistics/robust_regression/ppc_norm_red.webp)

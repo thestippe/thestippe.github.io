@@ -3,7 +3,7 @@ layout: post
 title: "Introduction to Bayesian statistics"
 categories: /statistics/
 tags: /bayes_intro/
-date: "2024-01-14"
+date: "2024-01-12"
 section: 7
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Introduction to Bayesian statistics"

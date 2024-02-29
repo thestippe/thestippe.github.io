@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>The autoregressive model | Data Perspectives</title>
+<meta name="generator" content="Jekyll v4.3.2" />
+<meta property="og:title" content="The autoregressive model" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How to model dependence on the past" />
+<meta property="og:description" content="How to model dependence on the past" />
+<link rel="canonical" href="http://localhost:4000/statistics/autoregressive" />
+<meta property="og:url" content="http://localhost:4000/statistics/autoregressive" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-02-16T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="The autoregressive model" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-02-16T00:00:00+01:00","datePublished":"2024-02-16T00:00:00+01:00","description":"How to model dependence on the past","headline":"The autoregressive model","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/autoregressive"},"url":"http://localhost:4000/statistics/autoregressive"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        The autoregressive model;/statistics/autoregressive;1
+                </li><li>
+                        Introduction to time series modelling;/statistics/time_series;2
+                </li><li>
+                        Synthetic control;/statistics/synthetic_control;3
+                </li><li>
+                        Regression discontinuity ;/statistics/discontinuity_regression;4
+                </li><li>
+                        Difference in difference;/statistics/difference_in_differences;5
+                </li><li>
+                        Instrumental variable regression;/statistics/instrumental_variable;6
+                </li><li>
+                        Randomized controlled trials;/statistics/randomized;7
+                </li><li>
+                        Causal inference;/statistics/causal_intro;8
+                </li><li>
+                        Random models and mixed models;/statistics/random_models;9
+                </li><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;10
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;11
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;12
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;13
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;14
+                </li><li>
+                        Poisson regression;/statistics/poisson_regression;15
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;16
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;17
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;18
+                </li><li>
+                        Model comparison;/statistics/model_averaging;19
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;20
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;21
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;22
+                </li><li>
+                        Mixture models;/statistics/mixture;23
+                </li><li>
+                        Multidimensional distributions;/statistics/categories;24
+                </li><li>
+                        Exponential model, gaussian model and their evolutions;/statistics/reals;25
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;26
+                </li><li>
+                        The Poisson model;/statistics/poisson;27
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;28
+                </li><li>
+                        Introduction to Bayesian statistics;/statistics/bayesian_intro;29
+                </li><li>
+                        The central limit theorem;/statistics/central_limit;30
+                </li><li>
+                        Introduction to decision theory;/statistics/decision_theory;31
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;32
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;33
+                </li><li>
+                        Interpretations of probability;/statistics/probability_interpretations;34
+                </li><li>
+                        Kolmogorov axioms;/statistics/probability_axioms;35
+                </li><li>
+                        What is statistics;/statistics/statistics_intro;36
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;37
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;38
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;39
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;40
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;41
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;42
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;43
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;44
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;45
+                </li><li>
+                        Perception;/dataviz/perception;46
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;47
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;48
+                </li><li>
+                        Data abstraction;/dataviz/data-types;49
+                </li><li>
+                        Data visualization;/dataviz/dataviz;50
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/time_series" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">The autoregressive model</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-02-16T00:00:00+01:00" itemprop="datePublished">
+        Feb 16, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  13&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In the last post we introduced the time series, and in this post
+we will look more in details to the autoregressive model,
+namely</p>
+
+\[y_k = \sum_{i=1}^r y_{k-i} + \varepsilon_k\]
+
+<p>where $\varepsilon_k$ are iid.</p>
+
+<p>We will use the airline passengers dataset.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="n">statsmodels.graphics.tsaplots</span> <span class="kn">import</span> <span class="n">plot_acf</span><span class="p">,</span> <span class="n">plot_pacf</span>
+<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">from</span> <span class="n">scipy.signal</span> <span class="kn">import</span> <span class="n">periodogram</span>
+<span class="kn">import</span> <span class="n">pymc.sampling_jax</span> <span class="k">as</span> <span class="n">pmj</span>
+
+<span class="n">df_pass</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">"</span><span class="s">https://raw.githubusercontent.com/MakrandBhandari/Time-Series-Forecasting--Airline-Passengers-in-Python/main/international-airline-passengers.csv</span><span class="sh">"</span><span class="p">)</span>
+<span class="n">df_pass</span><span class="p">.</span><span class="nf">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="sh">"</span><span class="s">International airline passengers: monthly totals in thousands. Jan 49 ? Dec 60</span><span class="sh">"</span><span class="p">:</span> <span class="sh">"</span><span class="s">Thous_pass</span><span class="sh">"</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+<span class="n">df_pass</span> <span class="o">=</span> <span class="n">df_pass</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">144</span><span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="nf">lineplot</span><span class="p">(</span><span class="n">df_pass</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="sh">"</span><span class="s">Month</span><span class="sh">"</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="sh">"</span><span class="s">Thous_pass</span><span class="sh">"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xticks</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[::</span><span class="mi">24</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/autoregressive/airline.webp" alt="" /></p>
+
+<p>A visual inspection of the data can be very useful, but sometimes it could not be 
+enough to build a starting model. 
+As an example, we can clearly see that there is a (probably linear) trend in our series,
+that there is a strong annual periodicity, and that the amplitude of the periodic part increases
+with the time.
+There are however methods which may help us in this task.
+The first is the <a href="https://en.wikipedia.org/wiki/Periodogram"><strong>periodogram</strong></a>, which could help us in assessing the frequency of the
+seasonal part.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">f</span><span class="p">,</span> <span class="n">Pxx_spec</span> <span class="o">=</span> <span class="nf">periodogram</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Thous_pass</span><span class="sh">'</span><span class="p">],</span> <span class="n">detrend</span><span class="o">=</span><span class="sh">'</span><span class="s">linear</span><span class="sh">'</span><span class="p">,</span> <span class="n">scaling</span><span class="o">=</span><span class="sh">'</span><span class="s">spectrum</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">stem</span><span class="p">(</span><span class="n">f</span><span class="o">*</span><span class="mi">12</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="nf">sqrt</span><span class="p">(</span><span class="n">Pxx_spec</span><span class="p">))</span> <span class="c1"># The dataset has monthly frequency, we now convert the frequency in Y^-1
+</span><span class="n">ax</span><span class="p">.</span><span class="nf">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="sh">'</span><span class="s">frequency $[Y^{-1}]$</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">35</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/autoregressive/periodogram.webp" alt="The periodogram, where the frequency is expressed in inverse years" /></p>
+
+<p>The peak at 1 confirms us that there is a strong periodic component at one year, as well as
+possibly some higher frequency components.</p>
+
+<p>We now want to have an idea of the order of the autoregressive part, and
+plotting the coefficients of the autocorrelation function can be helpful in this task.
+While the periodogram automatically handles the linear component, here we must remove 
+both the trend and the periodic components by hand. We can do this as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">detrended</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">diff</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Thous_pass</span><span class="sh">'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+<span class="n">deperiod</span> <span class="o">=</span> <span class="n">detrended</span><span class="p">[:</span><span class="o">-</span><span class="mi">12</span><span class="p">]</span> <span class="o">-</span> <span class="n">detrended</span><span class="p">[</span><span class="mi">12</span><span class="p">:]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">211</span><span class="p">)</span>
+<span class="nf">plot_acf</span><span class="p">(</span><span class="n">deperiod</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">212</span><span class="p">)</span>
+<span class="nf">plot_pacf</span><span class="p">(</span><span class="n">deperiod</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax1</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/autoregressive/acorr.webp" alt="The ACF and PACF plot" /></p>
+
+<p>It looks like there is a small autoregressive component of order one.</p>
+
+<p>We will now build a model with a trend, a periodic and a \(AR(1)\) component.
+We will start by only assuming a yearly component, and in order to reduce the
+trend in the amplitude of the seasonal component, we will model the logarithm
+of the number of passengers.
+We will only use the first 120 points to fit the model, while the remaining 2 years will
+be used to assess the performances of our model for future data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">y_pass</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Thous_pass</span><span class="sh">'</span><span class="p">])).</span><span class="n">values</span>
+<span class="n">x_pass</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">y_pass</span><span class="p">))</span>
+
+<span class="n">y_pass_fit</span> <span class="o">=</span> <span class="n">y_pass</span><span class="p">[:</span><span class="mi">120</span><span class="p">]</span>
+<span class="n">x_pass_fit</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">arange</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">y_pass_fit</span><span class="p">))</span>
+<span class="n">n_pred</span> <span class="o">=</span> <span class="mi">144</span> <span class="o">-</span> <span class="mi">120</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">pass_model</span><span class="p">:</span>
+    <span class="n">y0</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">y0</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">gamma</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+    <span class="n">eta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">eta</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">x_ar</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">AR</span><span class="p">(</span><span class="sh">'</span><span class="s">x_ar</span><span class="sh">'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">rho</span><span class="o">=</span><span class="n">eta</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nf">len</span><span class="p">(</span><span class="n">y_pass_fit</span><span class="p">))</span>
+    <span class="n">muv</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="n">x_pass_fit</span> <span class="o">+</span> <span class="n">x_ar</span>  <span class="o">+</span>  <span class="n">beta</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">x_pass_fit</span><span class="o">/</span><span class="mi">12</span><span class="p">))</span><span class="o">+</span>   <span class="n">gamma</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">x_pass_fit</span><span class="o">/</span><span class="mi">12</span><span class="p">))</span>
+    <span class="n">yhat_pass</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">yhat_pass</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">muv</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_pass_fit</span><span class="p">)</span>
+    <span class="n">trace_pass</span> <span class="o">=</span> <span class="n">pmj</span><span class="p">.</span><span class="nf">sample_numpyro_nuts</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/autoregressive/trace.webp" alt="The trace plot" /></p>
+
+<p>The trace looks OK, let us now verify if our model reproduces the fitted data</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pass_model</span><span class="p">:</span>
+    <span class="n">ppc_pass</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_pass</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">],</span> <span class="n">y_pass</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[:</span><span class="nf">len</span><span class="p">(</span><span class="n">y_pass_fit</span><span class="p">)],</span> <span class="n">ppc_pass</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">yhat_pass</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">]))</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">fill_between</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[:</span><span class="nf">len</span><span class="p">(</span><span class="n">y_pass_fit</span><span class="p">)],</span> <span class="n">ppc_pass</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">yhat_pass</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">),</span> <span class="n">ppc_pass</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">yhat_pass</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">],</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">),</span>
+               <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">grey</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xticks</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="mi">12</span><span class="p">::</span><span class="mi">24</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/autoregressive/ppc_fitted.webp" alt="The PPC for the fit data" /></p>
+
+<p>The agreement looks good, except for some minor issues with high frequency modes which is
+however not interesting for us, since we are not interested in such a high resolution.
+We can now verify is our model is also able to reproduce the observed data for the last two years.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x_pass_pred</span> <span class="o">=</span> <span class="n">x_pass</span><span class="p">[</span><span class="nf">len</span><span class="p">(</span><span class="n">x_pass_fit</span><span class="p">):]</span>
+
+<span class="k">with</span> <span class="n">pass_model</span><span class="p">:</span>
+    <span class="n">pass_model</span><span class="p">.</span><span class="nf">add_coords</span><span class="p">({</span><span class="sh">"</span><span class="s">z_1</span><span class="sh">"</span><span class="p">:</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">y_pass_fit</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="nf">len</span><span class="p">(</span><span class="n">y_pass</span><span class="p">),</span> <span class="mi">1</span><span class="p">)})</span>
+    <span class="n">x_ar_pred</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">AR</span><span class="p">(</span>
+            <span class="sh">"</span><span class="s">x_ar_pred</span><span class="sh">"</span><span class="p">,</span>
+            <span class="n">init_dist</span><span class="o">=</span><span class="n">pm</span><span class="p">.</span><span class="n">DiracDelta</span><span class="p">.</span><span class="nf">dist</span><span class="p">(</span><span class="n">x_ar</span><span class="p">[...,</span> <span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+            <span class="n">rho</span><span class="o">=</span><span class="n">eta</span><span class="p">,</span>
+            <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span>
+            <span class="n">dims</span><span class="o">=</span><span class="sh">"</span><span class="s">z_1</span><span class="sh">"</span><span class="p">)</span>
+    <span class="n">periodic</span> <span class="o">=</span>  <span class="n">beta</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">x_pass_pred</span><span class="o">/</span><span class="mi">12</span><span class="p">))</span><span class="o">+</span><span class="n">gamma</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">x_pass_pred</span><span class="o">/</span><span class="mi">12</span><span class="p">))</span>
+    <span class="n">muv</span> <span class="o">=</span> <span class="n">y0</span> <span class="o">+</span> <span class="n">alpha</span><span class="o">*</span><span class="n">x_pass_pred</span> <span class="o">+</span> <span class="n">x_ar_pred</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>  <span class="o">+</span>  <span class="n">periodic</span>
+    <span class="n">yhat_pass_pred</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">"</span><span class="s">yhat_pass_pred</span><span class="sh">"</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">muv</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
+    
+    <span class="n">ppc_ar_pred_y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_pass</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">yhat_pass_pred</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="n">ypass_av</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">([</span>
+<span class="n">ppc_pass</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">yhat_pass</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">ppc_ar_pred_y</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">yhat_pass_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">])])</span>
+<span class="n">ypass_m</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">([</span>
+<span class="n">ppc_pass</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">yhat_pass</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">ppc_ar_pred_y</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">yhat_pass_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">])])</span>
+<span class="n">ypass_M</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">([</span>
+<span class="n">ppc_pass</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">yhat_pass</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">ppc_ar_pred_y</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">yhat_pass_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">])])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">],</span> <span class="n">y_pass</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">],</span> <span class="n">ypass_av</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">fill_between</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">],</span> <span class="n">ypass_m</span><span class="p">,</span> <span class="n">ypass_M</span><span class="p">,</span>
+               <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">grey</span><span class="sh">'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xticks</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="mi">12</span><span class="p">::</span><span class="mi">24</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">axvline</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="nf">len</span><span class="p">(</span><span class="n">y_pass_fit</span><span class="p">)],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">k</span><span class="sh">'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="sh">'</span><span class="s">:</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/autoregressive/ppc_all.webp" alt="" /></p>
+
+<p>We observe some discrepancy for the yearly minimum, but except for that the data
+are always included in the credible interval.</p>
+
+<p>We can now inspect the contribution of each component</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pass_model</span><span class="p">:</span>
+    <span class="n">ppc_ar_pred_ar</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_pass</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">x_ar_pred</span><span class="sh">'</span><span class="p">])</span>
+
+<span class="n">x_pass_all</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">([</span><span class="n">x_pass_fit</span><span class="p">,</span> <span class="n">x_pass_pred</span><span class="p">])</span>
+
+<span class="n">y_trend</span> <span class="o">=</span> <span class="p">(</span><span class="n">trace_pass</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="sh">'</span><span class="s">y0</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]).</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="n">trace_pass</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="sh">'</span><span class="s">alpha</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]).</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">x_pass_all</span><span class="p">)</span>
+<span class="n">y_seas</span> <span class="o">=</span> <span class="p">(</span><span class="n">trace_pass</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]).</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">cos</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">x_pass_all</span><span class="o">/</span><span class="mi">12</span><span class="p">))</span><span class="o">+</span><span class="n">trace_pass</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="sh">'</span><span class="s">gamma</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]).</span><span class="n">values</span><span class="p">.</span><span class="nf">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="mf">2.0</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">pi</span><span class="o">*</span><span class="p">(</span><span class="n">x_pass_all</span><span class="o">/</span><span class="mi">12</span><span class="p">)))</span>
+<span class="n">y_res</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nf">concatenate</span><span class="p">([</span><span class="n">trace_pass</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="sh">'</span><span class="s">x_ar</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">]),</span> <span class="n">ppc_ar_pred_ar</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sh">'</span><span class="s">x_ar_pred</span><span class="sh">'</span><span class="p">].</span><span class="nf">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">draw</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">chain</span><span class="sh">'</span><span class="p">])[</span><span class="mi">1</span><span class="p">:]])</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">311</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">],</span><span class="n">y_trend</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Trend</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">set_xticks</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="mi">12</span><span class="p">::</span><span class="mi">24</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="nf">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="nf">len</span><span class="p">(</span><span class="n">x_pass_fit</span><span class="p">)],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">k</span><span class="sh">'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="sh">'</span><span class="s">:</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">ax1</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">312</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">],</span><span class="n">y_seas</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Seasonal</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">set_xticks</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="mi">12</span><span class="p">::</span><span class="mi">24</span><span class="p">])</span>
+<span class="n">ax1</span><span class="p">.</span><span class="nf">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="nf">len</span><span class="p">(</span><span class="n">x_pass_fit</span><span class="p">)],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">k</span><span class="sh">'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="sh">'</span><span class="s">:</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">ax2</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">(</span><span class="mi">313</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">.</span><span class="nf">plot</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">],</span><span class="n">y_res</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">.</span><span class="nf">set_title</span><span class="p">(</span><span class="sh">'</span><span class="s">Residual</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">ax2</span><span class="p">.</span><span class="nf">set_xticks</span><span class="p">(</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="mi">12</span><span class="p">::</span><span class="mi">24</span><span class="p">])</span>
+<span class="n">ax2</span><span class="p">.</span><span class="nf">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df_pass</span><span class="p">[</span><span class="sh">'</span><span class="s">Month</span><span class="sh">'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="nf">len</span><span class="p">(</span><span class="n">x_pass_fit</span><span class="p">)],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">k</span><span class="sh">'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="sh">'</span><span class="s">:</span><span class="sh">'</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/autoregressive/components.webp" alt="" /></p>
+
+<p>As expected, the trend component is the most relevant one. We can also see that
+the residual component has the same order of magnitude of the seasonal one.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We have seen some tools which may help us choosing an appropriate model.
+We have also seen how to implement a time series with an autoregressive component.</p>
+
+  </div><a class="u-url" href="/statistics/autoregressive" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Feb 16, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+
