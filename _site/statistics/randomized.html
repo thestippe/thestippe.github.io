@@ -16,7 +16,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Randomized controlled trials | Data Perspectives</title>
-<meta name="generator" content="Jekyll v4.3.2" />
+<meta name="generator" content="Jekyll v3.9.5" />
 <meta property="og:title" content="Randomized controlled trials" />
 <meta name="author" content="Data-perspectives" />
 <meta property="og:locale" content="en_US" />
@@ -26,11 +26,11 @@
 <meta property="og:url" content="http://localhost:4000/statistics/randomized" />
 <meta property="og:site_name" content="Data Perspectives" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-02-08T00:00:00+01:00" />
+<meta property="article:published_time" content="2024-02-08T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Randomized controlled trials" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-02-08T00:00:00+01:00","datePublished":"2024-02-08T00:00:00+01:00","description":"When association implies causation","headline":"Randomized controlled trials","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/randomized"},"url":"http://localhost:4000/statistics/randomized"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-02-08T00:00:00+00:00","datePublished":"2024-02-08T00:00:00+00:00","description":"When association implies causation","headline":"Randomized controlled trials","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/randomized"},"url":"http://localhost:4000/statistics/randomized"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
 
@@ -211,7 +211,7 @@
 
 </a>
     <h1 class="post-title p-name" itemprop="name headline">Randomized controlled trials</h1>
-    <p class="post-meta"><time class="dt-published" datetime="2024-02-08T00:00:00+01:00" itemprop="datePublished">
+    <p class="post-meta"><time class="dt-published" datetime="2024-02-08T00:00:00+00:00" itemprop="datePublished">
         Feb 8, 2024
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
@@ -273,13 +273,13 @@ p_t = \frac{1}{1+e^{-(\beta_0+ \beta_1)}}
 
 <p>We can now easily implement our model in PyMC</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
-<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
-<span class="n">random_seed</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">random_seed</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
 <span class="n">n_t</span> <span class="o">=</span> <span class="mi">2326</span>
 <span class="n">n_c</span> <span class="o">=</span> <span class="mi">2347</span>
@@ -287,16 +287,16 @@ p_t = \frac{1}{1+e^{-(\beta_0+ \beta_1)}}
 <span class="n">k_t</span> <span class="o">=</span> <span class="mi">787</span>
 <span class="n">k_c</span> <span class="o">=</span> <span class="mi">681</span>
 
-<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
-    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">beta</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">pt</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Deterministic</span><span class="p">(</span><span class="sh">'</span><span class="s">pt</span><span class="sh">'</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]))))</span>
-    <span class="n">pc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Deterministic</span><span class="p">(</span><span class="sh">'</span><span class="s">pc</span><span class="sh">'</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]))))</span>
-    <span class="n">ate</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Deterministic</span><span class="p">(</span><span class="sh">'</span><span class="s">ate</span><span class="sh">'</span><span class="p">,</span> <span class="n">pt</span><span class="o">-</span><span class="n">pc</span><span class="p">)</span>
-    <span class="n">y_t</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Binomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y_t</span><span class="sh">'</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_t</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">pt</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">k_t</span><span class="p">)</span>
-    <span class="n">y_c</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Binomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y_c</span><span class="sh">'</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_c</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">pc</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">k_c</span><span class="p">)</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">pt</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'pt'</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]))))</span>
+    <span class="n">pc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'pc'</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]))))</span>
+    <span class="n">ate</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'ate'</span><span class="p">,</span> <span class="n">pt</span><span class="o">-</span><span class="n">pc</span><span class="p">)</span>
+    <span class="n">y_t</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s">'y_t'</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_t</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">pt</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">k_t</span><span class="p">)</span>
+    <span class="n">y_c</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s">'y_c'</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_c</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">pc</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">k_c</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">)</span>
 
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/randomized/trace.webp" alt="The trace of our model" /></p>

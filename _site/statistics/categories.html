@@ -16,7 +16,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Multidimensional distributions | Data Perspectives</title>
-<meta name="generator" content="Jekyll v4.3.2" />
+<meta name="generator" content="Jekyll v3.9.5" />
 <meta property="og:title" content="Multidimensional distributions" />
 <meta name="author" content="Data-perspectives" />
 <meta property="og:locale" content="en_US" />
@@ -26,11 +26,11 @@
 <meta property="og:url" content="http://localhost:4000/statistics/categories" />
 <meta property="og:site_name" content="Data Perspectives" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-01-17T00:00:00+01:00" />
+<meta property="article:published_time" content="2024-01-17T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Multidimensional distributions" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-17T00:00:00+01:00","datePublished":"2024-01-17T00:00:00+01:00","description":"Dealing with more than two categories","headline":"Multidimensional distributions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/categories"},"url":"http://localhost:4000/statistics/categories"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-17T00:00:00+00:00","datePublished":"2024-01-17T00:00:00+00:00","description":"Dealing with more than two categories","headline":"Multidimensional distributions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/categories"},"url":"http://localhost:4000/statistics/categories"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
 
@@ -211,7 +211,7 @@
 
 </a>
     <h1 class="post-title p-name" itemprop="name headline">Multidimensional distributions</h1>
-    <p class="post-meta"><time class="dt-published" datetime="2024-01-17T00:00:00+01:00" itemprop="datePublished">
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-17T00:00:00+00:00" itemprop="datePublished">
         Jan 17, 2024
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
@@ -289,41 +289,41 @@ and we will take $\alpha_1=\dots=\alpha_n = \frac{1}{n}\,.$</p>
 
 <p>Let us now estimate the winning probability for each of them</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
-<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
-<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">import</span> <span class="n">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
 
-<span class="n">df_f1</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span>
-    <span class="sh">'</span><span class="s">https://raw.githubusercontent.com/toUpperCase78/formula1-datasets/master/Formula1_2022season_raceResults.csv</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">df_f1</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span>
+    <span class="s">'https://raw.githubusercontent.com/toUpperCase78/formula1-datasets/master/Formula1_2022season_raceResults.csv'</span><span class="p">)</span>
 
 <span class="c1"># Convert the results in a useful format
 </span>
-<span class="n">y_obs</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">factorize</span><span class="p">(</span><span class="n">df_f1</span><span class="p">[</span><span class="n">df_f1</span><span class="p">[</span><span class="sh">'</span><span class="s">Position</span><span class="sh">'</span><span class="p">]</span><span class="o">==</span><span class="sh">'</span><span class="s">1</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">Driver</span><span class="sh">'</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">y_obs</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">factorize</span><span class="p">(</span><span class="n">df_f1</span><span class="p">[</span><span class="n">df_f1</span><span class="p">[</span><span class="s">'Position'</span><span class="p">]</span><span class="o">==</span><span class="s">'1'</span><span class="p">][</span><span class="s">'Driver'</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
 
-<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">cat_model</span><span class="p">:</span>
-    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Dirichlet</span><span class="p">(</span><span class="sh">'</span><span class="s">p</span><span class="sh">'</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="nf">ones</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">df_red</span><span class="p">))</span><span class="o">/</span><span class="nf">len</span><span class="p">(</span><span class="n">df_red</span><span class="p">))</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Categorical</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_obs</span><span class="p">)</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">()</span>
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">cat_model</span><span class="p">:</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Dirichlet</span><span class="p">(</span><span class="s">'p'</span><span class="p">,</span> <span class="n">a</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df_red</span><span class="p">))</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">df_red</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Categorical</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">p</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y_obs</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">()</span>
 
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/categories/trace.webp" alt="The trace for the multinomial model" /></p>
 
 <p>Let us take a better look at our estimates</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_forest</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/categories/forest.webp" alt="The forest plot for the probabilities" /></p>
 
 <p>In order to translate the number into names, we can do the following</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">.</span><span class="nf">from_dict</span><span class="p">({</span><span class="sh">'</span><span class="s">name</span><span class="sh">'</span><span class="p">:</span> <span class="n">pd</span><span class="p">.</span><span class="nf">factorize</span><span class="p">(</span><span class="n">df_f1</span><span class="p">[</span><span class="n">df_f1</span><span class="p">[</span><span class="sh">'</span><span class="s">Position</span><span class="sh">'</span><span class="p">]</span><span class="o">==</span><span class="sh">'</span><span class="s">1</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">Driver</span><span class="sh">'</span><span class="p">])[</span><span class="mi">1</span><span class="p">].</span><span class="n">values</span><span class="p">,</span>
-                             <span class="sh">'</span><span class="s">number</span><span class="sh">'</span><span class="p">:</span> <span class="nf">range</span><span class="p">(</span><span class="nf">len</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="nf">factorize</span><span class="p">(</span><span class="n">df_f1</span><span class="p">[</span><span class="n">df_f1</span><span class="p">[</span><span class="sh">'</span><span class="s">Position</span><span class="sh">'</span><span class="p">]</span><span class="o">==</span><span class="sh">'</span><span class="s">1</span><span class="sh">'</span><span class="p">][</span><span class="sh">'</span><span class="s">Driver</span><span class="sh">'</span><span class="p">])[</span><span class="mi">1</span><span class="p">].</span><span class="n">values</span><span class="p">))})</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">.</span><span class="n">from_dict</span><span class="p">({</span><span class="s">'name'</span><span class="p">:</span> <span class="n">pd</span><span class="p">.</span><span class="n">factorize</span><span class="p">(</span><span class="n">df_f1</span><span class="p">[</span><span class="n">df_f1</span><span class="p">[</span><span class="s">'Position'</span><span class="p">]</span><span class="o">==</span><span class="s">'1'</span><span class="p">][</span><span class="s">'Driver'</span><span class="p">])[</span><span class="mi">1</span><span class="p">].</span><span class="n">values</span><span class="p">,</span>
+                             <span class="s">'number'</span><span class="p">:</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">pd</span><span class="p">.</span><span class="n">factorize</span><span class="p">(</span><span class="n">df_f1</span><span class="p">[</span><span class="n">df_f1</span><span class="p">[</span><span class="s">'Position'</span><span class="p">]</span><span class="o">==</span><span class="s">'1'</span><span class="p">][</span><span class="s">'Driver'</span><span class="p">])[</span><span class="mi">1</span><span class="p">].</span><span class="n">values</span><span class="p">))})</span>
 </code></pre></div></div>
 
 <table>
@@ -365,7 +365,7 @@ and we will take $\alpha_1=\dots=\alpha_n = \frac{1}{n}\,.$</p>
 
 <p>The components are strongly correlated</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_pair</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="sh">'</span><span class="s">kde</span><span class="sh">'</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">kind</span><span class="o">=</span><span class="s">'kde'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/categories/kde.webp" alt="The pair plot of the probabilities" /></p>
@@ -373,9 +373,9 @@ and we will take $\alpha_1=\dots=\alpha_n = \frac{1}{n}\,.$</p>
 <p>We can now take a look at the posterior predictive check</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">cat_model</span><span class="p">:</span>
-    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/categories/ppc_categorical.webp" alt="The ppc for the multinomial model" /></p>
@@ -396,9 +396,9 @@ and the most common solution is to use the <a href="https://www.pymc.io/projects
 <p>We will use this model to verify if there is any association between the speed 
 and the alcohol consumption in the car crash dataset, which comes with the seaborn library.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_car</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="nf">load_dataset</span><span class="p">(</span><span class="sh">'</span><span class="s">car_crashes</span><span class="sh">'</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_car</span> <span class="o">=</span> <span class="n">sns</span><span class="p">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="s">'car_crashes'</span><span class="p">)</span>
 
-<span class="n">sns</span><span class="p">.</span><span class="nf">pairplot</span><span class="p">(</span><span class="n">df_car</span><span class="p">[[</span><span class="sh">'</span><span class="s">speeding</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">alcohol</span><span class="sh">'</span><span class="p">]])</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">df_car</span><span class="p">[[</span><span class="s">'speeding'</span><span class="p">,</span> <span class="s">'alcohol'</span><span class="p">]])</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/categories/car_crash.webp" alt="The pairplot of the relevant variables" /></p>
@@ -411,15 +411,15 @@ to 7.5.
 The simplest way to implement this behavior for real data is by means of the multivariate
 normal model.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">mvnorm</span><span class="p">:</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Normal</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-    <span class="n">sd_dist</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">.</span><span class="nf">dist</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">chol</span><span class="p">,</span> <span class="n">corr</span><span class="p">,</span> <span class="n">sigmas</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">LKJCholeskyCov</span><span class="p">(</span><span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sd_dist</span><span class="o">=</span><span class="n">sd_dist</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">MvNormal</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">chol</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_car</span><span class="p">[[</span><span class="sh">'</span><span class="s">speeding</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">alcohol</span><span class="sh">'</span><span class="p">]])</span>
-    <span class="n">trace_car</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">()</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">mvnorm</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">sd_dist</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">.</span><span class="n">dist</span><span class="p">(</span><span class="mf">2.0</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">chol</span><span class="p">,</span> <span class="n">corr</span><span class="p">,</span> <span class="n">sigmas</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">LKJCholeskyCov</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">1.</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sd_dist</span><span class="o">=</span><span class="n">sd_dist</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">chol</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_car</span><span class="p">[[</span><span class="s">'speeding'</span><span class="p">,</span> <span class="s">'alcohol'</span><span class="p">]])</span>
+    <span class="n">trace_car</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">()</span>
 
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_car</span><span class="p">,</span> 
-                       <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="sh">"</span><span class="s">sigma_corr_dim_0</span><span class="sh">"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="sh">"</span><span class="s">sigma_corr_dim_1</span><span class="sh">"</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_car</span><span class="p">,</span> 
+                       <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s">"sigma_corr_dim_0"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"sigma_corr_dim_1"</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/categories/trace_car.webp" alt="The trace plot of the multivariate normal model" /></p>
@@ -432,14 +432,14 @@ We can now turn to the posterior predictive checks.
 We will do this as follows</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">mvnorm</span><span class="p">:</span>
-    <span class="n">y_p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">MvNormal</span><span class="p">(</span><span class="sh">'</span><span class="s">y_p</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">chol</span><span class="p">)</span>
-    <span class="n">ppc_car</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_car</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">y_p</span><span class="sh">'</span><span class="p">])</span>
+    <span class="n">y_p</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s">'y_p'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">chol</span><span class="p">)</span>
+    <span class="n">ppc_car</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_car</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'y'</span><span class="p">,</span> <span class="s">'y_p'</span><span class="p">])</span>
 
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="nf">figure</span><span class="p">()</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="nf">add_subplot</span><span class="p">()</span>
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_pair</span><span class="p">(</span><span class="n">ppc_car</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">y_p</span><span class="sh">'</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="sh">'</span><span class="s">kde</span><span class="sh">'</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="sh">'</span><span class="s">posterior_predictive</span><span class="sh">'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="nf">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df_car</span><span class="p">[</span><span class="sh">'</span><span class="s">speeding</span><span class="sh">'</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">df_car</span><span class="p">[</span><span class="sh">'</span><span class="s">alcohol</span><span class="sh">'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="sh">'</span><span class="s">lightgray</span><span class="sh">'</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">.</span><span class="nf">tight_layout</span><span class="p">()</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">()</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">ppc_car</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'y_p'</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s">'kde'</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s">'posterior_predictive'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df_car</span><span class="p">[</span><span class="s">'speeding'</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">df_car</span><span class="p">[</span><span class="s">'alcohol'</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/categories/ppc_car.webp" alt="The PPC for the multivariate normal model" /></p>
@@ -453,10 +453,10 @@ this problem.</p>
 between the variables to be relevant, we will only show the 2d joint kernel density estimate
 of the posterior.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_pair</span><span class="p">(</span><span class="n">trace_car</span><span class="p">,</span>
-             <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">sigma</span><span class="sh">'</span><span class="p">,</span> <span class="sh">'</span><span class="s">sigma_corr</span><span class="sh">'</span><span class="p">],</span>
-            <span class="n">kind</span><span class="o">=</span><span class="sh">'</span><span class="s">kde</span><span class="sh">'</span><span class="p">,</span>
-                       <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="sh">"</span><span class="s">sigma_corr_dim_0</span><span class="sh">"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="sh">"</span><span class="s">sigma_corr_dim_1</span><span class="sh">"</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">trace_car</span><span class="p">,</span>
+             <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'mu'</span><span class="p">,</span> <span class="s">'sigma'</span><span class="p">,</span> <span class="s">'sigma_corr'</span><span class="p">],</span>
+            <span class="n">kind</span><span class="o">=</span><span class="s">'kde'</span><span class="p">,</span>
+                       <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s">"sigma_corr_dim_0"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"sigma_corr_dim_1"</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/categories/kde_car.webp" alt="The pair plot of the posterior distribution" /></p>

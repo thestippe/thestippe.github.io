@@ -16,7 +16,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>The Poisson model | Data Perspectives</title>
-<meta name="generator" content="Jekyll v4.3.2" />
+<meta name="generator" content="Jekyll v3.9.5" />
 <meta property="og:title" content="The Poisson model" />
 <meta name="author" content="Data-perspectives" />
 <meta property="og:locale" content="en_US" />
@@ -26,11 +26,11 @@
 <meta property="og:url" content="http://localhost:4000/statistics/poisson" />
 <meta property="og:site_name" content="Data Perspectives" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-01-14T00:00:00+01:00" />
+<meta property="article:published_time" content="2024-01-14T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="The Poisson model" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-14T00:00:00+01:00","datePublished":"2024-01-14T00:00:00+01:00","description":"How to describe count data","headline":"The Poisson model","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/poisson"},"url":"http://localhost:4000/statistics/poisson"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-14T00:00:00+00:00","datePublished":"2024-01-14T00:00:00+00:00","description":"How to describe count data","headline":"The Poisson model","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/poisson"},"url":"http://localhost:4000/statistics/poisson"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
 
@@ -211,7 +211,7 @@
 
 </a>
     <h1 class="post-title p-name" itemprop="name headline">The Poisson model</h1>
-    <p class="post-meta"><time class="dt-published" datetime="2024-01-14T00:00:00+01:00" itemprop="datePublished">
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-14T00:00:00+00:00" itemprop="datePublished">
         Jan 14, 2024
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
@@ -353,14 +353,14 @@ df.head()
   </tbody>
 </table>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="n">seed</span><span class="o">=</span><span class="mi">42</span><span class="p">)</span>
 
-<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">poisson</span><span class="p">:</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Poisson</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">count</span><span class="sh">'</span><span class="p">])</span>
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">poisson</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Poisson</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'count'</span><span class="p">])</span>
 
 <span class="k">with</span> <span class="n">poisson</span><span class="p">:</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>Above we specified that we want to draw four independent chains,
@@ -391,7 +391,7 @@ according to the same distributions.</p>
 
 <p>Let us start checking if there is any issues.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/poisson/trace.webp" alt="The sampling trace" /></p>
@@ -402,7 +402,7 @@ so at a first visual inspection the trace looks fine.</p>
 
 <p>Let us take a look at the trace summary</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 </code></pre></div></div>
 
 <table>
@@ -459,7 +459,7 @@ estimate of this quantity.</p>
 <p>As previously mentioned, the autocorrelation reduces the effective sample size.
 We can visually inspect the autocorrelation coefficients via</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_autocorr</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_autocorr</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/poisson/autocorr.webp" alt="The autocorrelation coefficients" /></p>
@@ -474,7 +474,7 @@ posterior of the combined chains.
 If the chains are sampled according to the same distribution, then one
 should get a uniform distribution.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="nf">plot_rank</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_rank</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/poisson/rank.webp" alt="The rank plot" /></p>
@@ -495,9 +495,9 @@ For more complicated models, it might however be a good idea to perform addition
 checks.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">poisson</span><span class="p">:</span>
-    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/poisson/ppc.webp" alt="The posterior predictive distribution" /></p>

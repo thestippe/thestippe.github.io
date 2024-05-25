@@ -16,7 +16,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>The Negative Binomial model | Data Perspectives</title>
-<meta name="generator" content="Jekyll v4.3.2" />
+<meta name="generator" content="Jekyll v3.9.5" />
 <meta property="og:title" content="The Negative Binomial model" />
 <meta name="author" content="Data-perspectives" />
 <meta property="og:locale" content="en_US" />
@@ -26,11 +26,11 @@
 <meta property="og:url" content="http://localhost:4000/statistics/negbin" />
 <meta property="og:site_name" content="Data Perspectives" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-01-15T00:00:00+01:00" />
+<meta property="article:published_time" content="2024-01-15T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="The Negative Binomial model" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-15T00:00:00+01:00","datePublished":"2024-01-15T00:00:00+01:00","description":"An evolution of the Poisson model","headline":"The Negative Binomial model","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/negbin"},"url":"http://localhost:4000/statistics/negbin"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-15T00:00:00+00:00","datePublished":"2024-01-15T00:00:00+00:00","description":"An evolution of the Poisson model","headline":"The Negative Binomial model","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/negbin"},"url":"http://localhost:4000/statistics/negbin"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
 
@@ -211,7 +211,7 @@
 
 </a>
     <h1 class="post-title p-name" itemprop="name headline">The Negative Binomial model</h1>
-    <p class="post-meta"><time class="dt-published" datetime="2024-01-15T00:00:00+01:00" itemprop="datePublished">
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-15T00:00:00+00:00" itemprop="datePublished">
         Jan 15, 2024
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
@@ -318,24 +318,24 @@ As before we will assume an exponential model for the Poisson mean,
 but since we have a larger average we choose $\lambda=1/50$ for the exponential
 parameter.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="n">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">import</span> <span class="n">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">import</span> <span class="n">pymc</span> <span class="k">as</span> <span class="n">pm</span>
-<span class="kn">import</span> <span class="n">arviz</span> <span class="k">as</span> <span class="n">az</span>
-<span class="kn">from</span> <span class="n">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="nf">read_csv</span><span class="p">(</span><span class="sh">'</span><span class="s">./data/tweets.csv</span><span class="sh">'</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'./data/tweets.csv'</span><span class="p">)</span>
 
-<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="nf">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
-<span class="n">yobs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sh">'</span><span class="s">interactions</span><span class="sh">'</span><span class="p">]</span>
+<span class="n">yobs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'interactions'</span><span class="p">]</span>
 
-<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">poisson</span><span class="p">:</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">mu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">50</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Poisson</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">yobs</span><span class="p">)</span>
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">poisson</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Poisson</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">yobs</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
 
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/negbin/trace_poisson.webp" alt="The Poisson trace" /></p>
@@ -346,8 +346,8 @@ Let us jump to the posterior predictive check and verify if our model
 is capable to reproduce the data.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">poisson</span><span class="p">:</span>
-    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/negbin/ppc_poisson.webp" alt="The Poisson posterior predictive" /></p>
@@ -388,13 +388,13 @@ Taking a mean $Y$ of 5 and $p=1/2$ we would have</p>
 
 <p>We can now implement our model and verify if the trace has any problem.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">negbin</span><span class="p">:</span>
-    <span class="n">nu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Exponential</span><span class="p">(</span><span class="sh">'</span><span class="s">nu</span><span class="sh">'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">Uniform</span><span class="p">(</span><span class="sh">'</span><span class="s">theta</span><span class="sh">'</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nc">NegativeBinomial</span><span class="p">(</span><span class="sh">'</span><span class="s">y</span><span class="sh">'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">nu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">yobs</span><span class="p">)</span>
-    <span class="n">trace_nb</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">negbin</span><span class="p">:</span>
+    <span class="n">nu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s">'nu'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Uniform</span><span class="p">(</span><span class="s">'theta'</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">NegativeBinomial</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">nu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">yobs</span><span class="p">)</span>
+    <span class="n">trace_nb</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">)</span>
 
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_trace</span><span class="p">(</span><span class="n">trace_nb</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_nb</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/negbin/trace_nb.webp" alt="The Negative Binomial trace" /></p>
@@ -403,8 +403,8 @@ Taking a mean $Y$ of 5 and $p=1/2$ we would have</p>
 the data.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">negbin</span><span class="p">:</span>
-    <span class="n">ppc_nb</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="nf">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_nb</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_ppc</span><span class="p">(</span><span class="n">ppc_nb</span><span class="p">)</span>
+    <span class="n">ppc_nb</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_nb</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">ppc_nb</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/negbin/ppc_nb.webp" alt="The Negative Binomial posterior predictive" /></p>
@@ -424,14 +424,14 @@ This comparison requires the computation of the log likelihood,
 and the entire procedure can be done as follows</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">poisson</span><span class="p">:</span>
-    <span class="n">pm</span><span class="p">.</span><span class="nf">compute_log_likelihood</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+    <span class="n">pm</span><span class="p">.</span><span class="n">compute_log_likelihood</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
 
 <span class="k">with</span> <span class="n">negbin</span><span class="p">:</span>
-    <span class="n">pm</span><span class="p">.</span><span class="nf">compute_log_likelihood</span><span class="p">(</span><span class="n">trace_nb</span><span class="p">)</span>
+    <span class="n">pm</span><span class="p">.</span><span class="n">compute_log_likelihood</span><span class="p">(</span><span class="n">trace_nb</span><span class="p">)</span>
 
-<span class="n">df_comp_loo</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="nf">compare</span><span class="p">({</span><span class="sh">"</span><span class="s">poisson</span><span class="sh">"</span><span class="p">:</span> <span class="n">trace</span><span class="p">,</span> <span class="sh">"</span><span class="s">negative binomial</span><span class="sh">"</span><span class="p">:</span> <span class="n">trace_nb</span><span class="p">})</span>
+<span class="n">df_comp_loo</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="n">compare</span><span class="p">({</span><span class="s">"poisson"</span><span class="p">:</span> <span class="n">trace</span><span class="p">,</span> <span class="s">"negative binomial"</span><span class="p">:</span> <span class="n">trace_nb</span><span class="p">})</span>
 
-<span class="n">az</span><span class="p">.</span><span class="nf">plot_compare</span><span class="p">(</span><span class="n">df_comp_loo</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_compare</span><span class="p">(</span><span class="n">df_comp_loo</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/negbin/plot_loo.webp" alt="The comparison between the two models" /></p>

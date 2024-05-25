@@ -3,7 +3,7 @@ author:
   name: Data-perspectives
   email: dataperspectivesblog@gmail.com
 url: thestippe.github.io
-theme: minima
+theme: minimal-jekyll-theme
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
