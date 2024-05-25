@@ -4,7 +4,7 @@ author:
   email: dataperspectivesblog@gmail.com
 url: thestippe.github.io
 # theme: minimal-jekyll-theme
-remote_theme: pages-themes/minimal
+theme: minima
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
