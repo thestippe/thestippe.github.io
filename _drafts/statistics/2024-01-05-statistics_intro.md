@@ -8,6 +8,7 @@ date: "2024-01-05"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Let us clarify what we are talking about"
 section: 0
+published: false
 ---
 
 In this post I will introduce what is statistics and what are

@@ -7,6 +7,7 @@ tags: /point_estimates/
 description: "Introduction to the theory of point estimation"
 publish: False
 published: False
+published: false
 ---
 
 In the last post we discussed about decision theory,

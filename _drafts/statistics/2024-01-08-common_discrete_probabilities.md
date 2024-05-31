@@ -8,6 +8,7 @@ tags: /discrete_probabilities/
 date: "2024-01-08"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Derivation of some useful one-dimensional discrete probabilities"
+# published: false
 ---
 
 In order to be able to build some model, it is important to 

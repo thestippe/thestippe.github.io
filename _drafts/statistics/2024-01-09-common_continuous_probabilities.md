@@ -8,6 +8,7 @@ tags: /discrete_probabilities/
 date: "2024-01-09"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Derivation of some useful one-dimensional continuous probabilities"
+# published: false
 ---
 
 In the previous post we derived some of the most relevant discrete probability

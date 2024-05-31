@@ -8,6 +8,7 @@ tags: /interpretations/
 date: "2024-01-07"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "What does probability mean?"
+published: false
 ---
 
 As we previously discussed, the word "random" has more than one meaning.

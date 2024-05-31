@@ -8,6 +8,7 @@ tags: /kolmogorov/
 date: "2024-01-06"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "The mathematical foundations of statistics"
+published: false
 ---
 
 In a previous post we mentioned the Kolmogorov axioms.

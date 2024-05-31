@@ -8,6 +8,7 @@ date: "2024-01-10"
 section: 5
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Making choices under uncertainty"
+published: false
 ---
 
 In a previous post we said that, given a set of observations $X_1,\dots,X_n\,,$

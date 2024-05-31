@@ -8,6 +8,7 @@ date: "2024-01-11"
 section: 6
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Approximating the probability when the sample size is large"
+published: false
 ---
 
 We have derived some of the most common probability

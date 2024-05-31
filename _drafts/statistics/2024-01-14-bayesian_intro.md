@@ -7,6 +7,7 @@ date: "2024-01-12"
 section: 7
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Introduction to Bayesian statistics"
+published: false
 ---
 
 In the previous posts we discussed the theory
