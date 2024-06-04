@@ -65,7 +65,7 @@ These techniques have been developed during the WWII by the Manhattan project
 group, and it soon became popular among scientists to perform numerical simulations.
 Up to few years ago, this was however only possible for people with a strong background
 in numerical techniques, as it was necessary to implement from scratch the sampler.
-Nowadays things are changed, and Probabilistic Programming Languages
+Nowadays things have changed, and Probabilistic Programming Languages
 such as PyMC, STAN or JAGS allows anyone to implement and fit any
 kind of model with a minimal effort.
 
@@ -86,22 +86,30 @@ Today, however, the prior probability is only considered a regularization tool,
 which allows you to use Bayes theorem to compute the posterior probability.
 The results should only weakly depend on the prior choice, and this dependence
 must be taken into account when reporting the fit results.
-In this way, since the Bernstein–von Mises theorem ensures you that
+In this way, since the [Bernstein–von Mises](https://en.wikipedia.org/wiki/Bernstein%E2%80%93von_Mises_theorem) theorem ensures you that
 in the long run the Bayesian inference will produce the same results of the model
 with the same likelihood, one can stick to the usual frequentist interpretation.
 
+
+<div class="emphbox">
 Nowadays Bayesian statistics is accepted by most statisticians as a tool to make inference,
 and an entire workflow has been developed to ensure that the inference procedure
 has been properly performed.
+</div>
 
 ## Bayesian statistics as a tool in the replication crisis
 
-During the beginning of the 21st century, scientists realized that a large part
+During the beginning of the 2010s, scientists realized that a large part
 of research articles were impossible to replicate.
 In these years, many unsound scientific results have been found, and claims such as
-[the existence of paranormal phenomena](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4706048/) or that [a dead salmon was able to recognize
-human emotions](http://cda.psych.uiuc.edu/multivariate_fall_2013/salmon_fmri.pdf) were not as rare
-as one would expect.
+[the existence of paranormal phenomena](
+https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4706048/) or that 
+[a dead salmon was able to recognize human emotions](
+http://cda.psych.uiuc.edu/multivariate_fall_2013/salmon_fmri.pdf) were not as rare
+as one would expect [^1].
+
+[^1]: One is a joke, the other is not. Choosing which one is a joke is left to the reader as an exercise.
+
 A new research field emerged in these years, namely meta-science (which means the science
 which studies science), and this produced many proposals to tackle the scientific crisis.
 One of the issues that came out was that [the "golden standard" tool of the 0.05 statistical
@@ -109,8 +117,54 @@ significance was often misused or misinterpreted](https://www.nature.com/article
 and statisticians suggested that using a broader set of tools to perform statistical
 analysis would have reduced this problem.
 As you might imagine, due to the simple interpretation and of
-the possibility to easily implement structured models,
-Bayesian statistics has been popularized as one of these tools.
+the possibility to easily implement structured models and of combining
+different data sources,
+Bayesian statistics has been popularized by statisticians as one of these tools,
+and it has gained a lot of attention by the scientific community.
+
+## Technical considerations of using Bayesian statistics
+
+There are also technical considerations which one should take into account
+when choosing the analysis method.
+For simple models there is no reason why one should prefer Bayesian inference
+to frequentist-based ones,
+at least as long as the sample size is large enough
+to allow you using the central limit theorem.
+However, for complex models, things soon change. One may naively be tempted
+to simply use the maximum likelihood estimation, which is in principle a
+valid way to drop out the prior dependence. However, this method relies
+on finding the extreme of a function, which implies maximizing the derivative
+of the likelihood. This approach soon becomes unstable as soon as the model
+complexity grows, and you should spend a lot of effort in ensuring that
+your numerical approximation is close enough to the true maximum.
+For these reasons, statistical textbooks devoted to complex models such as
+longitudinal data analysis models provide many different methods
+to fit the frequentist models [^2].
+
+[^2]: Even if you analytically compute the derivative,
+you must find its zeros, and there is no stable procedure to do so for higher dimensional problems.
+
+The Bayesian method, on the other hand, does not require to compute any
+derivative, as you simply need to sample the posterior distribution and, as
+we will see, it is very easy to assess the goodness of such a sampling procedure.
+If you then want to compute any point estimate  $$\mathbb{E}[f(\theta)] $$, what you have to do is to compute
+the corresponding expectation value on the sample $$\left\{\theta_i\right\}_i:$$
+
+$$
+\mathbb{E}[f(\theta)] \approx \frac{1}{N} \sum_{i=1}^N f(\theta_i)
+$$
+
+and, as we will discuss, the estimate of the error associated with this procedure is already
+implemented in the sampling engine.
+
+There is of course no free lunch, as every method has pros and cons.
+The main drawback of using Bayesian methods is that sampling may require time,
+and while having a high quality sample with few parameters
+requires seconds, you may need hours or more for a good sample if you are
+dealing with thousands of parameters.
+You should also consider that the prior selection might take require some effort,
+especially when you are dealing with a new problem and if you are new to Bayesian
+inference.
 
 ## Conclusions
 

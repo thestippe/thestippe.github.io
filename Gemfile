@@ -22,3 +22,5 @@ gem 'webrick'
    gem 'jekyll-archives'
  end
 
+
+gem "minima", "~> 2.5"

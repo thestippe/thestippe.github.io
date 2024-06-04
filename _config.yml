@@ -5,9 +5,15 @@ author:
 url: thestippe.github.io
 # theme: minimal-jekyll-theme
 theme: minima
+highlighter: rouge
+input: GFM
+default_lang: python
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
 minima:
   skin: classic
   social_links:

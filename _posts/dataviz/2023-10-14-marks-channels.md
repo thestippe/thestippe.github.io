@@ -50,7 +50,7 @@ with dimensionality less or equal to two to represent our items, so we can use:
 </svg> 
 
 <div class="emphbox">
-Someone also uses three dimensional objects as markers.
+Someone also uses three-dimensional objects as markers.
 Please, don't! 
 <br>
 Their encoding implies that we must model the perspective,

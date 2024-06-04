@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>How does MCMC works | Data Perspectives</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="How does MCMC works" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Getting an idea of what’s happening behind the scenes" />
+<meta property="og:description" content="Getting an idea of what’s happening behind the scenes" />
+<link rel="canonical" href="http://localhost:4000/statistics/mcmc_intro" />
+<meta property="og:url" content="http://localhost:4000/statistics/mcmc_intro" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-06-01T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="How does MCMC works" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-06-01T00:00:00+00:00","datePublished":"2024-06-01T00:00:00+00:00","description":"Getting an idea of what’s happening behind the scenes","headline":"How does MCMC works","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/mcmc_intro"},"url":"http://localhost:4000/statistics/mcmc_intro"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        How does MCMC works;/statistics/mcmc_intro;1
+                </li><li>
+                        Introduction to bayesian statistics;/statistics/bayes_intro;2
+                </li><li>
+                        The autoregressive model;/statistics/autoregressive;3
+                </li><li>
+                        Introduction to time series modelling;/statistics/time_series;4
+                </li><li>
+                        Synthetic control;/statistics/synthetic_control;5
+                </li><li>
+                        Regression discontinuity ;/statistics/discontinuity_regression;6
+                </li><li>
+                        Difference in difference;/statistics/difference_in_differences;7
+                </li><li>
+                        Instrumental variable regression;/statistics/instrumental_variable;8
+                </li><li>
+                        Randomized controlled trials;/statistics/randomized;9
+                </li><li>
+                        Causal inference;/statistics/causal_intro;10
+                </li><li>
+                        Random models and mixed models;/statistics/random_models;11
+                </li><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;12
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;13
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;14
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;15
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;16
+                </li><li>
+                        Poisson regression;/statistics/poisson_regression;17
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;18
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;19
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;20
+                </li><li>
+                        Model comparison;/statistics/model_averaging;21
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;22
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;23
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;24
+                </li><li>
+                        Mixture models;/statistics/mixture;25
+                </li><li>
+                        Multidimensional distributions;/statistics/categories;26
+                </li><li>
+                        Exponential model, gaussian model and their evolutions;/statistics/reals;27
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;28
+                </li><li>
+                        The Poisson model;/statistics/poisson;29
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;30
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;31
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;32
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;33
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;34
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;35
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;36
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;37
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;38
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;39
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;40
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;41
+                </li><li>
+                        Perception;/dataviz/perception;42
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;43
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;44
+                </li><li>
+                        Data abstraction;/dataviz/data-types;45
+                </li><li>
+                        Data visualization;/dataviz/dataviz;46
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/bayes_intro" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">How does MCMC works</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-06-01T00:00:00+00:00" itemprop="datePublished">
+        Jun 1, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  13&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In this post I will try and give you an idea of how does PyMC works
+by performing Bayesian inference from scratch.
+I just want to explain the underlying working principles,
+without entering too much into technical details, so I will try and keep
+things as simple as possible.</p>
+
+<h2 id="sampling-random-numbers">Sampling random numbers</h2>
+
+<h3 id="the-linear-congruential-generator">The linear congruential generator</h3>
+
+<p>This is the simplest generator, and it allows you to generate
+random integers between $0$ and some large integer $c$
+or, equivalently, to generate float numbers between $0$ and $1$.
+Given three integers $a$, $b$ and $c$, a linear congruential generator
+can be constructed as</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">uniform</span><span class="p">,</span> <span class="n">norm</span><span class="p">,</span> <span class="n">t</span>
+
+<span class="k">def</span> <span class="nf">rndn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">b</span><span class="p">)</span><span class="o">%</span><span class="n">c</span>
+</code></pre></div></div>
+
+<p>This is the default random number generator for most programming
+languages, and the choice of the three parameters is not unique.
+On the <a href="https://en.wikipedia.org/wiki/Linear_congruential_generator">Wikipedia page</a>
+you will find a large number of possible choice.
+A possible good one is</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+<span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">29</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
+<span class="n">a</span> <span class="o">=</span> <span class="mi">17</span>
+
+<span class="c1"># We initialize the sequence with a random number
+</span><span class="n">seed</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">%</span> <span class="n">c</span>
+
+<span class="n">xtmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">seed</span><span class="p">]</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">seed</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20000</span><span class="p">):</span>  
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">rndn</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
+    <span class="n">xtmp</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax1</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">xtmp</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/statistics/mcmc/uniform.webp" alt="The histogram of our linear congruential generator" /></p>
+
+<h3 id="inverse-transform-sampling">Inverse transform sampling</h3>
+
+<p>By using this generator we can sample any distribution such that
+the inverse of the cumulative distribution function is known.
+In fact, if $X$ is distributed according to the uniform distribution
+over \([0, 1]\) and $F(x)$ is the cumulative distribution function
+of a distribution with probability density $p(x)\,,$
+then $F^{-1}(X)$ is distributed according to \(p(x)\,.\)</p>
+
+<p>Let us take as an example the normal distribution function with mean $2$</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">xpl</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">).</span><span class="n">ppf</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">xtmp</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xpl</span><span class="p">,</span> <span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">).</span><span class="n">pdf</span><span class="p">(</span><span class="n">xpl</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/statistics/mcmc/normal.webp" alt="The histogram of our normally distributed random numbers" /></p>
+
+<p>As you can see, the theoretical distribution matches the sampled one with
+quite a high accuracy.
+There is, of course, the issue that we are sampling
+correlated numbers, while we would like to have independent
+random numbers.
+This is one of the central problems of any random number generator,
+and the easiest way to deal with is to take a slice of the sampled array,
+since the correlation between distant elements is smaller than the one
+between nearby elements.</p>
+
+<h2 id="markov-chain-monte-carlo">Markov Chain Monte Carlo</h2>
+
+<p>The inverse transform sampling only works with distributions
+with known cumulative distribution function. 
+When we perform Bayesian statistics, however, we don’t know how to compute
+it, so other methods are needed.
+Here we will introduce the Markov Chain Monte Carlo (MCMC) techniques.
+These methods rely on properties of Markov processes, and a discussion
+on this topic is far away from the subject of this blog,
+so we will limit ourselves to the illustration of the methods.</p>
+
+<h3 id="the-metropolis-algorithm">The Metropolis algorithm</h3>
+
+<p>The Metropolis algorithm allows you to sample any distribution
+with known density/mass function, you only need a proposal distribution.
+The algorithm can be implemented as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">prop</span><span class="p">(</span><span class="n">xold</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">logpdf</span><span class="p">):</span>
+    <span class="c1"># The proposal distribution
+</span>    <span class="n">xtemp</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
+    <span class="n">log_w</span> <span class="o">=</span> <span class="n">logpdf</span><span class="p">(</span><span class="n">xtemp</span><span class="p">)</span> <span class="o">-</span> <span class="n">logpdf</span><span class="p">(</span><span class="n">xold</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">log_w</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">xtemp</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_w</span><span class="p">)</span>
+        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">xtemp</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">xold</span>
+</code></pre></div></div>
+
+<p>Let us now see how to use it</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Our initial point
+</span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># Our target distribution
+</span><span class="n">target</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">).</span><span class="n">logpdf</span>
+
+
+<span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50000</span><span class="p">):</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="n">prop</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
+    <span class="n">res</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
+    
+<span class="c1"># We discard the first half of the sample, since
+# the initial points may be far away from the target distribution
+</span><span class="n">sz</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="c1"># We only take a subsample to reduce the correlation
+</span><span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">sz</span><span class="p">::</span><span class="mi">3</span><span class="p">]</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">xpl</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">3e-2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xpl</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="n">xpl</span><span class="p">)))</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/statistics/mcmc/metropolis.webp" alt="The histogram of the random numbers generated using the Metropolis algorithm" /></p>
+
+<h2 id="the-hamiltonian-monte-carlo-algorithm">The Hamiltonian Monte Carlo algorithm</h2>
+
+<p>For the Metropolis algorithm, the success of the sampling crucially
+depends on the proposal distribution, and this might cause
+problems for strongly correlated high dimensional distributions.
+For this reason, the best algorithm for high dimensional distributions
+is the Hamiltonian Monte Carlo (HMC).
+The underlying idea behind the HMC is that, if $x$ is distributed
+according to \(f(x)\) then</p>
+
+\[g(p, x) = \frac{1}{\sqrt{2 \pi}} e^{-p^2/2} p(x)\]
+
+<p>has \(p(x)\) as marginal distribution. If we then observe that</p>
+
+\[-\log(g(p, x)) = \frac{p^2}{2} - \log(p(x)) + \log{\sqrt{2\pi}}= H(p, x)\]
+
+<p>describes the hamiltonian of a particle with potential \(-\log(p(x))\,.\)
+Thanks to this, it is possible to prove that the following algorithm
+produces a sample distributed according to \(p(x):\)</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">leapfrog</span><span class="p">(</span><span class="n">xold</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">potential</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+    <span class="n">p1</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">dt</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">potential</span><span class="p">(</span><span class="n">xold</span><span class="o">+</span><span class="n">eps</span><span class="p">)</span><span class="o">-</span><span class="n">potential</span><span class="p">(</span><span class="n">xold</span><span class="p">))</span><span class="o">/</span><span class="n">eps</span>
+    <span class="n">xn</span> <span class="o">=</span> <span class="n">xold</span> <span class="o">+</span> <span class="n">dt</span><span class="o">*</span><span class="n">p1</span>
+    <span class="n">p2</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">-</span> <span class="n">dt</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">potential</span><span class="p">(</span><span class="n">xn</span><span class="o">+</span><span class="n">eps</span><span class="p">)</span><span class="o">-</span><span class="n">potential</span><span class="p">(</span><span class="n">xn</span><span class="p">))</span><span class="o">/</span><span class="n">eps</span>
+    <span class="k">return</span> <span class="n">p2</span><span class="p">,</span> <span class="n">xn</span>
+
+<span class="k">def</span> <span class="nf">hamiltonian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">potential</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">p</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">potential</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+<span class="n">L</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.5</span>
+<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-4</span>
+
+<span class="k">def</span> <span class="nf">pot</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">target</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<span class="n">xn</span> <span class="o">=</span> <span class="n">x0</span>
+<span class="n">rs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50000</span><span class="p">):</span>
+    <span class="n">pn</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+        <span class="n">ptmp</span><span class="p">,</span> <span class="n">xtmp</span> <span class="o">=</span> <span class="n">leapfrog</span><span class="p">(</span><span class="n">xn</span><span class="p">,</span> <span class="n">pn</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">pot</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">hamiltonian</span><span class="p">(</span><span class="n">xtmp</span><span class="p">,</span> <span class="n">ptmp</span><span class="p">,</span> <span class="n">pot</span><span class="p">)</span><span class="o">+</span><span class="n">hamiltonian</span><span class="p">(</span><span class="n">xn</span><span class="p">,</span> <span class="n">pn</span><span class="p">,</span> <span class="n">pot</span><span class="p">))])</span>
+        <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">alpha</span><span class="p">:</span>
+            <span class="n">xn</span> <span class="o">=</span> <span class="n">xtmp</span>
+        <span class="n">rs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">xn</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">xpl</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">3e-2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">rs</span><span class="p">[</span><span class="mi">20000</span><span class="p">::</span><span class="mi">5</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xpl</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="n">xpl</span><span class="p">)))</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/statistics/mcmc/hmc.webp" alt="The histogram of the random numbers generated using the Metropolis algorithm" /></p>
+
+<p>This method works much better than the Metropolis algorithm, especially
+for highly correlated variables.
+Up to few years ago, this method was not very popular because
+implementing it requires the computation of the Jacobian matrix (the derivative
+of the log pdf).
+In the 2010s, however, automatic differentiation became available,
+and it became possible to easily implement this algorithm
+within STAN and many other frameworks to perform Bayesian statistics.</p>
+
+<h2 id="bayesian-inference-with-hmc">Bayesian inference with HMC</h2>
+
+<p>We can now leverage what we implemented above to compute the posterior
+distribution of a one dimensional system.
+Let us assume that we have some data, and we know that it is
+distributed according to a Student-t distribution with 5 dof
+and parameter $\sigma=1\,,$ but we don’t know its mean.
+What we know is that the mean’s order of magnitude is roughly 1.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Sample the fake data
+</span><span class="n">data</span> <span class="o">=</span> <span class="mf">0.8</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">standard_t</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+
+<span class="c1"># We now implement Bayes theorem.
+# We take as prior for our parameter a normal distribution with sigma=20
+</span>
+<span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">).</span><span class="n">logpdf</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+    <span class="n">prior</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">20</span><span class="p">).</span><span class="n">logpdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">likelihood</span><span class="p">)</span> <span class="o">-</span> <span class="n">prior</span>
+
+<span class="n">xn</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">rs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">dtn</span> <span class="o">=</span> <span class="mf">1e-2</span>
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20000</span><span class="p">):</span>
+    <span class="n">pn</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
+        <span class="n">ptmp</span><span class="p">,</span> <span class="n">xtmp</span> <span class="o">=</span> <span class="n">leapfrog</span><span class="p">(</span><span class="n">xn</span><span class="p">,</span> <span class="n">pn</span><span class="p">,</span> <span class="n">dtn</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">hamiltonian</span><span class="p">(</span><span class="n">xtmp</span><span class="p">,</span> <span class="n">ptmp</span><span class="p">,</span> <span class="n">post</span><span class="p">)</span><span class="o">+</span><span class="n">hamiltonian</span><span class="p">(</span><span class="n">xn</span><span class="p">,</span> <span class="n">pn</span><span class="p">,</span> <span class="n">post</span><span class="p">))])</span>
+        <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">alpha</span><span class="p">:</span>
+            <span class="n">xn</span> <span class="o">=</span> <span class="n">xtmp</span>
+        <span class="n">rs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">xn</span><span class="p">)</span>
+
+<span class="n">trace</span> <span class="o">=</span> <span class="n">rs</span><span class="p">[</span><span class="mi">2000</span><span class="p">::</span><span class="mi">5</span><span class="p">]</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/mcmc/bayes.webp" alt="Our sample describing the posterior distribution for our unknown parameter" /></p>
+
+<p>We can now easily compute any estimate for the parameter.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="code">
+0.786
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="code">
+0.696
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="code">
+0.870
+</div>
+
+<p>We can therefore conclude that our parameter
+has mean 0.88 and 94% credible interval 
+\([0.78, 0.97]\,.\)</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>I hope I managed to give you an idea of how does a probabilistic
+programming language works.
+In the next posts we will see how to use PyMC to write down statistical models
+and criticize them.</p>
+
+  </div><a class="u-url" href="/statistics/mcmc_intro" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jun 1, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

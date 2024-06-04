@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Introduction to bayesian statistics | Data Perspectives</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Introduction to bayesian statistics" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A little bit more about bayesian statistics" />
+<meta property="og:description" content="A little bit more about bayesian statistics" />
+<link rel="canonical" href="http://localhost:4000/statistics/bayes_intro" />
+<meta property="og:url" content="http://localhost:4000/statistics/bayes_intro" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-05-25T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Introduction to bayesian statistics" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-05-25T00:00:00+00:00","datePublished":"2024-05-25T00:00:00+00:00","description":"A little bit more about bayesian statistics","headline":"Introduction to bayesian statistics","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/bayes_intro"},"url":"http://localhost:4000/statistics/bayes_intro"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        How does MCMC works;/statistics/mcmc_intro;1
+                </li><li>
+                        Introduction to bayesian statistics;/statistics/bayes_intro;2
+                </li><li>
+                        The autoregressive model;/statistics/autoregressive;3
+                </li><li>
+                        Introduction to time series modelling;/statistics/time_series;4
+                </li><li>
+                        Synthetic control;/statistics/synthetic_control;5
+                </li><li>
+                        Regression discontinuity ;/statistics/discontinuity_regression;6
+                </li><li>
+                        Difference in difference;/statistics/difference_in_differences;7
+                </li><li>
+                        Instrumental variable regression;/statistics/instrumental_variable;8
+                </li><li>
+                        Randomized controlled trials;/statistics/randomized;9
+                </li><li>
+                        Causal inference;/statistics/causal_intro;10
+                </li><li>
+                        Random models and mixed models;/statistics/random_models;11
+                </li><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;12
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;13
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;14
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;15
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;16
+                </li><li>
+                        Poisson regression;/statistics/poisson_regression;17
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;18
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;19
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;20
+                </li><li>
+                        Model comparison;/statistics/model_averaging;21
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;22
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;23
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;24
+                </li><li>
+                        Mixture models;/statistics/mixture;25
+                </li><li>
+                        Multidimensional distributions;/statistics/categories;26
+                </li><li>
+                        Exponential model, gaussian model and their evolutions;/statistics/reals;27
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;28
+                </li><li>
+                        The Poisson model;/statistics/poisson;29
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;30
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;31
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;32
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;33
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;34
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;35
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;36
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;37
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;38
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;39
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;40
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;41
+                </li><li>
+                        Perception;/dataviz/perception;42
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;43
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;44
+                </li><li>
+                        Data abstraction;/dataviz/data-types;45
+                </li><li>
+                        Data visualization;/dataviz/dataviz;46
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/autoregressive" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+                  <a href="/statistics/mcmc_intro" class="next">&#8250;</a>
+                  
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">Introduction to bayesian statistics</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-05-25T00:00:00+00:00" itemprop="datePublished">
+        May 25, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  7&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>The main topic of this section will be statistics, and we will mostly discuss Bayesian
+models.</p>
+
+<h2 id="why-should-you-learn-bayesian-statistics">Why should you learn Bayesian statistics</h2>
+
+<p>Bayesian statistics attracted much interest in the last years, and in the last decades
+many Bayesian models have been developed to tackle any kind of problem.</p>
+
+<p><img src="/docs/assets/images/statistics/intro/nature_count.webp" alt="The number of Nature research article 
+matching the keyword &quot;bayes&quot;" /></p>
+
+<p>Bayesian statistics can be a valuable tool for any data scientist, as it easily allows you
+to build, fit and criticize any kind of model with a minimal effort.
+In Bayesian inference you don’t only get an estimate for your parameters,
+but you get the entire probability distribution for them, and this implies that
+you can immediately get the uncertainty for your parameters.</p>
+
+<p>In any statistical model you must specify a likelihood, which represents
+the probability distribution which generated the data, and we will refer to this quantity
+as</p>
+
+\[P(X | \theta)\]
+
+<p>where $\theta$ represents the unknown parameter vector.
+In a Bayesian model you must moreover specify a prior distribution for the parameter
+set</p>
+
+\[P(\theta)\,.\]
+
+<p>You can therefore compute the probability distribution of your parameters given the data
+by using the Bayes theorem:</p>
+
+\[P(\theta | X) = \frac{P(X | \theta)}{P(X)} P(\theta)\]
+
+<p>Since the denominator \(P(X)\) is a normalization constant independent on $\theta$ which can be computed by normalizing the left hand side of the equation
+to 1, its dependence is usually neglected and the Bayes theorem is usually rewritten as</p>
+
+\[P(\theta | X) \propto P(X | \theta) P(\theta)\,.\]
+
+<h2 id="a-historical-trip-in-mcmc">A historical trip in MCMC</h2>
+
+<p>While the normalization constant \(P(X)\) can be <strong>in principe</strong> computed for any model,
+it can be analytically computed only for a very limited range of models, namely
+the conjugate models, and for this
+reason Bayesian models have not been so popular for a long time.
+However, thanks to the development of Monte Carlo sampling techniques, it became possible
+to easily sample (pseudo) random numbers according to any probability distribution.
+These techniques have been developed during the WWII by the Manhattan project
+group, and it soon became popular among scientists to perform numerical simulations.
+Up to few years ago, this was however only possible for people with a strong background
+in numerical techniques, as it was necessary to implement from scratch the sampler.
+Nowadays things have changed, and Probabilistic Programming Languages
+such as PyMC, STAN or JAGS allows anyone to implement and fit any
+kind of model with a minimal effort.</p>
+
+<h2 id="some-philosophical-consideration">Some philosophical consideration</h2>
+<p>You may have heard about the war of statistics, which is a debate which lasted
+almost one century between frequentist statisticians and Bayesian ones.
+At the beginning of the last century, a group of statisticians tried and promote
+Bayesian statistics as the only meaningful way to do statistical inference.
+According to them, the prior should have encoded all the available information
+together with any personal consideration of the researcher. In this way,
+the posterior probability distribution $P(\theta | X)$ can be interpreted
+as the updated version of the researcher’s beliefs once the observed data $X$
+has been taken into account by a perfectly rational person.
+This philosophy has been rejected by the majority of the statisticians,
+as they considered this “subjective” probability meaningless.</p>
+
+<p>Today, however, the prior probability is only considered a regularization tool,
+which allows you to use Bayes theorem to compute the posterior probability.
+The results should only weakly depend on the prior choice, and this dependence
+must be taken into account when reporting the fit results.
+In this way, since the <a href="https://en.wikipedia.org/wiki/Bernstein%E2%80%93von_Mises_theorem">Bernstein–von Mises</a> theorem ensures you that
+in the long run the Bayesian inference will produce the same results of the model
+with the same likelihood, one can stick to the usual frequentist interpretation.</p>
+
+<div class="emphbox">
+Nowadays Bayesian statistics is accepted by most statisticians as a tool to make inference,
+and an entire workflow has been developed to ensure that the inference procedure
+has been properly performed.
+</div>
+
+<h2 id="bayesian-statistics-as-a-tool-in-the-replication-crisis">Bayesian statistics as a tool in the replication crisis</h2>
+
+<p>During the beginning of the 2010s, scientists realized that a large part
+of research articles were impossible to replicate.
+In these years, many unsound scientific results have been found, and claims such as
+<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4706048/">the existence of paranormal phenomena</a> or that 
+<a href="http://cda.psych.uiuc.edu/multivariate_fall_2013/salmon_fmri.pdf">a dead salmon was able to recognize human emotions</a> were not as rare
+as one would expect <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<p>A new research field emerged in these years, namely meta-science (which means the science
+which studies science), and this produced many proposals to tackle the scientific crisis.
+One of the issues that came out was that <a href="https://www.nature.com/articles/d41586-019-00874-8">the “golden standard” tool of the 0.05 statistical
+significance was often misused or misinterpreted</a>,
+and statisticians suggested that using a broader set of tools to perform statistical
+analysis would have reduced this problem.
+As you might imagine, due to the simple interpretation and of
+the possibility to easily implement structured models and of combining
+different data sources,
+Bayesian statistics has been popularized by statisticians as one of these tools,
+and it has gained a lot of attention by the scientific community.</p>
+
+<h2 id="technical-considerations-of-using-bayesian-statistics">Technical considerations of using Bayesian statistics</h2>
+
+<p>There are also technical considerations which one should take into account
+when choosing the analysis method.
+For simple models there is no reason why one should prefer Bayesian inference
+to frequentist-based ones,
+at least as long as the sample size is large enough
+to allow you using the central limit theorem.
+However, for complex models, things soon change. One may naively be tempted
+to simply use the maximum likelihood estimation, which is in principle a
+valid way to drop out the prior dependence. However, this method relies
+on finding the extreme of a function, which implies maximizing the derivative
+of the likelihood. This approach soon becomes unstable as soon as the model
+complexity grows, and you should spend a lot of effort in ensuring that
+your numerical approximation is close enough to the true maximum.
+For these reasons, statistical textbooks devoted to complex models such as
+longitudinal data analysis models provide many different methods
+to fit the frequentist models <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
+
+<p>you must find its zeros, and there is no stable procedure to do so for higher dimensional problems.</p>
+
+<p>The Bayesian method, on the other hand, does not require to compute any
+derivative, as you simply need to sample the posterior distribution and, as
+we will see, it is very easy to assess the goodness of such a sampling procedure.
+If you then want to compute any point estimate  \(\mathbb{E}[f(\theta)]\), what you have to do is to compute
+the corresponding expectation value on the sample \(\left\{\theta_i\right\}_i:\)</p>
+
+\[\mathbb{E}[f(\theta)] \approx \frac{1}{N} \sum_{i=1}^N f(\theta_i)\]
+
+<p>and, as we will discuss, the estimate of the error associated with this procedure is already
+implemented in the sampling engine.</p>
+
+<p>There is of course no free lunch, as every method has pros and cons.
+The main drawback of using Bayesian methods is that sampling may require time,
+and while having a high quality sample with few parameters
+requires seconds, you may need hours or more for a good sample if you are
+dealing with thousands of parameters.
+You should also consider that the prior selection might take require some effort,
+especially when you are dealing with a new problem and if you are new to Bayesian
+inference.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>I hope I convinced you that Bayesian statistics is a valuable instrument in the toolbox of
+any data scientist.
+In the next articles I will show you how to implement, check and discuss Bayesian models
+in Python.
+As usual, if you have criticisms or suggestions, feel free to write me.</p>
+
+<p>In this section of the blog we will both discuss Bayesian inference and
+the Bayesian workflow.
+I will use Python to perform the computation, and I will use the PyMC ecosystem.</p>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>One is a joke, the other is not. Choosing which one is a joke is left to the reader as an exercise. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>Even if you analytically compute the derivative, <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </div><a class="u-url" href="/statistics/bayes_intro" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe May 25, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

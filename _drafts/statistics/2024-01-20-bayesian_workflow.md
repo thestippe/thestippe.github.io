@@ -74,8 +74,8 @@ knowledge in order to know a priori if your guess is good enough,
 so a very important step in the Bayesian workflow is to perform the
 prior predictive check.
 
-This is a very easy task and it won't be time consuming,
-but it allow you to check if the hyperparameters in our model
+This is a very easy task, and it won't be time-consuming,
+but it allows you to check if the hyperparameters in our model
 are able to include our data. 
 
 In other words, if the model predicts the outcome variable $Y$ in the range $[-10, 10]$ 
