@@ -15,24 +15,22 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Evolutions of the line chart | Data Perspectives</title>
+<title>Introduction to non-parametric models | Data Perspectives</title>
 <meta name="generator" content="Jekyll v3.9.5" />
-<meta property="og:title" content="Evolutions of the line chart" />
+<meta property="og:title" content="Introduction to non-parametric models" />
 <meta name="author" content="Data-perspectives" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="When a linechart is not enough" />
-<meta property="og:description" content="When a linechart is not enough" />
-<link rel="canonical" href="http://localhost:4000/dataviz/linechart-evolution" />
-<meta property="og:url" content="http://localhost:4000/dataviz/linechart-evolution" />
+<meta name="description" content="Letting the number of parameters vary" />
+<meta property="og:description" content="Letting the number of parameters vary" />
+<link rel="canonical" href="http://localhost:4000/statistics/nonparametric" />
+<meta property="og:url" content="http://localhost:4000/statistics/nonparametric" />
 <meta property="og:site_name" content="Data Perspectives" />
-<meta property="og:image" content="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2023-11-03T00:00:00+00:00" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta property="twitter:image" content="http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png" />
-<meta property="twitter:title" content="Evolutions of the line chart" />
+<meta property="article:published_time" content="2024-06-02T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Introduction to non-parametric models" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2023-11-03T00:00:00+00:00","datePublished":"2023-11-03T00:00:00+00:00","description":"When a linechart is not enough","headline":"Evolutions of the line chart","image":"http://localhost:4000/docs/assets/images/linechart_evolutions/areaplot.png","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/dataviz/linechart-evolution"},"url":"http://localhost:4000/dataviz/linechart-evolution"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-06-02T00:00:00+00:00","datePublished":"2024-06-02T00:00:00+00:00","description":"Letting the number of parameters vary","headline":"Introduction to non-parametric models","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/nonparametric"},"url":"http://localhost:4000/statistics/nonparametric"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
 
@@ -157,7 +155,7 @@
                         Data visualization;/dataviz/dataviz;48
                 </li></ul>
                         <div style="display:flex">
-                  <a href="/dataviz/scatterplot-evolution" class="prev">&#8249;</a>
+                  <a href="/statistics/mcmc_intro" class="prev">&#8249;</a>
                   
                                 <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
                                         <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
@@ -178,11 +176,11 @@
                                 </label>
 
                                 <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
-                                <a href="/dataviz/" class="page-link">Up</a>
+                                <a href="/statistics/" class="page-link">Up</a>
                                 
                                 </div>
                         </nav>
-                  <a href="/dataviz/effectiveness" class="next">&#8250;</a>
+                  <a href="/statistics/splines" class="next">&#8250;</a>
                   
         </div>
 
@@ -208,120 +206,32 @@
 <img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
 
 </a>
-    <h1 class="post-title p-name" itemprop="name headline">Evolutions of the line chart</h1>
-    <p class="post-meta"><time class="dt-published" datetime="2023-11-03T00:00:00+00:00" itemprop="datePublished">
-        Nov 3, 2023
+    <h1 class="post-title p-name" itemprop="name headline">Introduction to non-parametric models</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-06-02T00:00:00+00:00" itemprop="datePublished">
+        Jun 2, 2024
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
   
-  3&prime;
+  1&prime;
 </span>
 </p>
   </header>
   <br>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>In a <a href="/fundamental-charts">previous post</a> we saw some of the most fundamental charts,
-which are the basic building blocks for data visualization.</p>
+    <p>Non-parametric models are becoming more and more popular in Bayesian
+statistics, as they are able to accurately reproduce complex data
+and patterns.
+In this section we will introduce some of the most popular
+non-parametric models, namely splines and Dirichlet processes-related
+models.</p>
 
-<p>Datasets can become very complex, and you should adapt your data visualization
-depending on your needs.
-Here we will take a look at how we can draw more and more complex datasets
-by simply changing few details of the basic visualization, and we will
-do so by using the line chart as fundamental visualization.</p>
+<p>When dealing with these models, one should keep in mind that
+the Bernstein-Von Mises theorem does not hold, so one cannot
+approximate frequentist confidence intervals with Bayesian
+credible intervals.</p>
 
-<h2 id="the-line-chart">The line chart</h2>
-
-<p>As we have already seen, in the line chart we have</p>
-<ul>
-  <li>an ordered key attribute on the $x$ axis</li>
-  <li>a quantitative value attribute on the $y$ axis</li>
-</ul>
-
-<p>As an example, let us take a look at evolution over the years the Italian GDP per capita expressed in US dollars adjusted by the US inflation, which can be found
-<a href="https://github.com/thestippe/thestippe.github.io/blob/main/data/gdp_per_capita_filtered.csv">on the github repo of the blog</a>.</p>
-
-<p>The dataset is based on <a href="https://github.com/RaafatSaleh/GDP-per-capita-and-its-effect-on-the-man-life-quality/blob/master/Data/gdppercapita_us_inflation_adjusted.csv">Raafat Saleh’s repo</a>.</p>
-
-<div id="linechart"> </div>
-<script src="/docs/assets/javascript/linechart_evolution/linechart.js"> </script>
-
-<p>This visualization allow us to see how a quantity (the GDP per capita)
-changes over time, and it does that in a decent way.</p>
-
-<h2 id="issues-with-the-line-chart">Issues with the line chart</h2>
-
-<p>But what does it happen when we add a second categorical key attribute?
-As an example, let’s try and visualize more than one Country in
-a single plot.
-Let us start by using color to encode the Country</p>
-
-<div id="multiple_linechart"> </div>
-<script src="/docs/assets/javascript/linechart_evolution/multiple_linechart.js"> </script>
-
-<p>As the number of lines grows, the graph soon becomes more and more cluttered.
-Already with a small number of lines it becomes difficult to catch the behavior
-of a single line.</p>
-
-<p>We have two main alternatives to the multiple line chart:</p>
-<ul>
-  <li>we can put one line chart per graph and we create a <strong>small multiples</strong></li>
-  <li>we can use another channel to encode the value attribute
-or, of course, we can combine the two techniques.</li>
-</ul>
-
-<h2 id="small-multiples">Small multiples</h2>
-
-<p>Broadly speaking, when you build a small multiple you draw more than
-one visualization, and each visualization is indexed by a label which is not
-used in any of the single images.
-This technique is also called faceting.</p>
-
-<div id="sm_linechart"> </div>
-<script src="/docs/assets/javascript/linechart_evolution/sm_linechart.js"> </script>
-
-<p>Here we used small multiples to put one visualization on the right of the previous,
-but you can also order them vertically or build a grid.</p>
-
-<p>The main advantage of the small multiples is that they reduce clutter,
-but it becomes more difficult to compare the single lines.</p>
-
-<h2 id="stacked-area-chart">Stacked area chart</h2>
-
-<p>If the value attribute is sequential as in our case (the GDP cannot become negative), another possible solution is to stack the lines one above the other one,
-and this is done in the stacked area chart.</p>
-
-<div id="stacked_chart"> </div>
-<script src="/docs/assets/javascript/linechart_evolution/stacked_chart.js"> </script>
-
-<p>The major issue with this solution is that, for all but the lowest curve,
-the baseline is not constant, and this makes difficult to quantify the values.</p>
-
-<h2 id="streamgraph">Streamgraph</h2>
-
-<p>A stacked bar chart can become cumbersome when one has many channels, and in this
-case one may use a streamgraph.</p>
-
-<div id="steamgraph"> </div>
-<script src="/docs/assets/javascript/linechart_evolution/steamgraph.js"> </script>
-
-<p>The streamgraph is obtained by allowing the lower
-line to vary, and either by making it symmetric with respect to the $x$ axis or by choosing it exact shape by minimizing some target quantity.
-This method allows you to show
-a large number of categories, but the main drawback
-is that one needs some practice to read it.</p>
-
-<h2 id="conclusions">Conclusions</h2>
-
-<p>We have seen few possible evolutions of the line chart.
-Those alternatives are appropriate when you want to plot the evolution of a quantitative variable
-for a set of categories.
-Faceting can be combined with anyone of the visualizations we have previous discussed, while stacking can 
-only be applied to bar chart or line chart.
-Finally, we have seen the streamgraph,
-which uses an alternative way of stacking the lines.</p>
-
-  </div><a class="u-url" href="/dataviz/linechart-evolution" hidden></a>
+  </div><a class="u-url" href="/statistics/nonparametric" hidden></a>
 
   <div>
           
@@ -330,7 +240,7 @@ which uses an alternative way of stacking the lines.</p>
 
   <br>
   <div id='autograph'>
-          Stippe Nov 3, 2023
+          Stippe Jun 2, 2024
 
   </div>
 
