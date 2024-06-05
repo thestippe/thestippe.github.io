@@ -5,7 +5,7 @@ categories: /statistics/
 subcategory: Introduction
 section: 4
 tags: /discrete_probabilities/
-date: "2024-01-09"
+date: "2024-01-12"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Derivation of some useful one-dimensional continuous probabilities"
 # published: false

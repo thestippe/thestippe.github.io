@@ -5,7 +5,7 @@ categories: /statistics/
 subcategory: Introduction
 section: 3
 tags: /discrete_probabilities/
-date: "2024-01-08"
+date: "2024-01-09"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Derivation of some useful one-dimensional discrete probabilities"
 # published: false

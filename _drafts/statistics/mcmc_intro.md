@@ -4,7 +4,7 @@ title: "How does MCMC works"
 categories: /statistics/
 subcategory: Introduction
 tags: /mcmc_intro/
-date: "2024-06-01"
+date: "2024-01-07"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Getting an idea of what's happening behind the scenes"
 section: 1
@@ -229,8 +229,10 @@ Up to few years ago, this method was not very popular because
 implementing it requires the computation of the Jacobian matrix (the derivative
 of the log pdf).
 In the 2010s, however, automatic differentiation became available,
-and it became possible to easily implement this algorithm
+and it became possible to implement this algorithm
 within STAN and many other frameworks to perform Bayesian statistics.
+These frameworks allow the user to sample the posterior
+by simply specifying the mathematical model in a natural way.
 
 ## Bayesian inference with HMC
 

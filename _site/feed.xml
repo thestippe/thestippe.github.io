@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-06-05T05:25:07+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Splines regression</title><link href="http://localhost:4000/statistics/splines" rel="alternate" type="text/html" title="Splines regression" /><published>2024-06-03T00:00:00+00:00</published><updated>2024-06-03T00:00:00+00:00</updated><id>http://localhost:4000/statistics/splines</id><content type="html" xml:base="http://localhost:4000/statistics/splines"><![CDATA[<p>A common issue that any data scientist faced at some point
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-06-05T21:34:11+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Splines regression</title><link href="http://localhost:4000/statistics/splines" rel="alternate" type="text/html" title="Splines regression" /><published>2024-06-03T00:00:00+00:00</published><updated>2024-06-03T00:00:00+00:00</updated><id>http://localhost:4000/statistics/splines</id><content type="html" xml:base="http://localhost:4000/statistics/splines"><![CDATA[<p>A common issue that any data scientist faced at some point
 is how to include non-linearities into regression.
 It is well known that higher order polynomials tend to overfit,
 and it is therefore generally not a good idea to use this kind of
@@ -159,455 +159,7 @@ models.</p>
 <p>When dealing with these models, one should keep in mind that
 the Bernstein-Von Mises theorem does not hold, so one cannot
 approximate frequentist confidence intervals with Bayesian
-credible intervals.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/nonparametric_intro/" /><summary type="html"><![CDATA[Letting the number of parameters vary]]></summary></entry><entry><title type="html">How does MCMC works</title><link href="http://localhost:4000/statistics/mcmc_intro" rel="alternate" type="text/html" title="How does MCMC works" /><published>2024-06-01T00:00:00+00:00</published><updated>2024-06-01T00:00:00+00:00</updated><id>http://localhost:4000/statistics/mcmc_intro</id><content type="html" xml:base="http://localhost:4000/statistics/mcmc_intro"><![CDATA[<p>In this post I will try and give you an idea of how does PyMC works
-by performing Bayesian inference from scratch.
-I just want to explain the underlying working principles,
-without entering too much into technical details, so I will try and keep
-things as simple as possible.</p>
-
-<h2 id="sampling-random-numbers">Sampling random numbers</h2>
-
-<h3 id="the-linear-congruential-generator">The linear congruential generator</h3>
-
-<p>This is the simplest generator, and it allows you to generate
-random integers between $0$ and some large integer $c$
-or, equivalently, to generate float numbers between $0$ and $1$.
-Given three integers $a$, $b$ and $c$, a linear congruential generator
-can be constructed as</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">uniform</span><span class="p">,</span> <span class="n">norm</span><span class="p">,</span> <span class="n">t</span>
-
-<span class="k">def</span> <span class="nf">rndn</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="o">+</span><span class="n">b</span><span class="p">)</span><span class="o">%</span><span class="n">c</span>
-</code></pre></div></div>
-
-<p>This is the default random number generator for most programming
-languages, and the choice of the three parameters is not unique.
-On the <a href="https://en.wikipedia.org/wiki/Linear_congruential_generator">Wikipedia page</a>
-you will find a large number of possible choice.
-A possible good one is</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">c</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">31</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
-<span class="n">b</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">29</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span>
-<span class="n">a</span> <span class="o">=</span> <span class="mi">17</span>
-
-<span class="c1"># We initialize the sequence with a random number
-</span><span class="n">seed</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">randint</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">%</span> <span class="n">c</span>
-
-<span class="n">xtmp</span> <span class="o">=</span> <span class="p">[</span><span class="n">seed</span><span class="p">]</span>
-<span class="n">x0</span> <span class="o">=</span> <span class="n">seed</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20000</span><span class="p">):</span>  
-    <span class="n">x0</span> <span class="o">=</span> <span class="n">rndn</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span>
-    <span class="n">xtmp</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">ax1</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">xtmp</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/mcmc/uniform.webp" alt="The histogram of our linear congruential generator" /></p>
-
-<h3 id="inverse-transform-sampling">Inverse transform sampling</h3>
-
-<p>By using this generator we can sample any distribution such that
-the inverse of the cumulative distribution function is known.
-In fact, if $X$ is distributed according to the uniform distribution
-over \([0, 1]\) and $F(x)$ is the cumulative distribution function
-of a distribution with probability density $p(x)\,,$
-then $F^{-1}(X)$ is distributed according to \(p(x)\,.\)</p>
-
-<p>Let us take as an example the normal distribution function with mean $2$</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">xpl</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">200</span><span class="p">)</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">).</span><span class="n">ppf</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">xtmp</span><span class="p">)</span><span class="o">/</span><span class="n">c</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xpl</span><span class="p">,</span> <span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">2</span><span class="p">).</span><span class="n">pdf</span><span class="p">(</span><span class="n">xpl</span><span class="p">))</span>
-<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/mcmc/normal.webp" alt="The histogram of our normally distributed random numbers" /></p>
-
-<p>As you can see, the theoretical distribution matches the sampled one with
-quite a high accuracy.
-There is, of course, the issue that we are sampling
-correlated numbers, while we would like to have independent
-random numbers.
-This is one of the central problems of any random number generator,
-and the easiest way to deal with is to take a slice of the sampled array,
-since the correlation between distant elements is smaller than the one
-between nearby elements.</p>
-
-<h2 id="markov-chain-monte-carlo">Markov Chain Monte Carlo</h2>
-
-<p>The inverse transform sampling only works with distributions
-with known cumulative distribution function. 
-When we perform Bayesian statistics, however, we don’t know how to compute
-it, so other methods are needed.
-Here we will introduce the Markov Chain Monte Carlo (MCMC) techniques.
-These methods rely on properties of Markov processes, and a discussion
-on this topic is far away from the subject of this blog,
-so we will limit ourselves to the illustration of the methods.</p>
-
-<h3 id="the-metropolis-algorithm">The Metropolis algorithm</h3>
-
-<p>The Metropolis algorithm allows you to sample any distribution
-with known density/mass function, you only need a proposal distribution.
-The algorithm can be implemented as follows:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">prop</span><span class="p">(</span><span class="n">xold</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">scale</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">logpdf</span><span class="p">):</span>
-    <span class="c1"># The proposal distribution
-</span>    <span class="n">xtemp</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">)</span>
-    <span class="n">log_w</span> <span class="o">=</span> <span class="n">logpdf</span><span class="p">(</span><span class="n">xtemp</span><span class="p">)</span> <span class="o">-</span> <span class="n">logpdf</span><span class="p">(</span><span class="n">xold</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">log_w</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">xtemp</span>
-    <span class="k">else</span><span class="p">:</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">log_w</span><span class="p">)</span>
-        <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">z</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">xtemp</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="k">return</span> <span class="n">xold</span>
-</code></pre></div></div>
-
-<p>Let us now see how to use it</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Our initial point
-</span><span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="c1"># Our target distribution
-</span><span class="n">target</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">).</span><span class="n">logpdf</span>
-
-
-<span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50000</span><span class="p">):</span>
-    <span class="n">x0</span> <span class="o">=</span> <span class="n">prop</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
-    <span class="n">res</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">x0</span><span class="p">)</span>
-    
-<span class="c1"># We discard the first half of the sample, since
-# the initial points may be far away from the target distribution
-</span><span class="n">sz</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">res</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">)</span>
-
-<span class="c1"># We only take a subsample to reduce the correlation
-</span><span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="n">sz</span><span class="p">::</span><span class="mi">3</span><span class="p">]</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">xpl</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">3e-2</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">res</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xpl</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="n">xpl</span><span class="p">)))</span>
-<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/mcmc/metropolis.webp" alt="The histogram of the random numbers generated using the Metropolis algorithm" /></p>
-
-<h2 id="the-hamiltonian-monte-carlo-algorithm">The Hamiltonian Monte Carlo algorithm</h2>
-
-<p>For the Metropolis algorithm, the success of the sampling crucially
-depends on the proposal distribution, and this might cause
-problems for strongly correlated high dimensional distributions.
-For this reason, the best algorithm for high dimensional distributions
-is the Hamiltonian Monte Carlo (HMC).
-The underlying idea behind the HMC is that, if $x$ is distributed
-according to \(f(x)\) then</p>
-
-\[g(p, x) = \frac{1}{\sqrt{2 \pi}} e^{-p^2/2} p(x)\]
-
-<p>has \(p(x)\) as marginal distribution. If we then observe that</p>
-
-\[-\log(g(p, x)) = \frac{p^2}{2} - \log(p(x)) + \log{\sqrt{2\pi}}= H(p, x)\]
-
-<p>describes the hamiltonian of a particle with potential \(-\log(p(x))\,.\)
-Thanks to this, it is possible to prove that the following algorithm
-produces a sample distributed according to \(p(x):\)</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">def</span> <span class="nf">leapfrog</span><span class="p">(</span><span class="n">xold</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">potential</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
-    <span class="n">p1</span> <span class="o">=</span> <span class="n">p</span> <span class="o">-</span> <span class="n">dt</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">potential</span><span class="p">(</span><span class="n">xold</span><span class="o">+</span><span class="n">eps</span><span class="p">)</span><span class="o">-</span><span class="n">potential</span><span class="p">(</span><span class="n">xold</span><span class="p">))</span><span class="o">/</span><span class="n">eps</span>
-    <span class="n">xn</span> <span class="o">=</span> <span class="n">xold</span> <span class="o">+</span> <span class="n">dt</span><span class="o">*</span><span class="n">p1</span>
-    <span class="n">p2</span> <span class="o">=</span> <span class="n">p1</span> <span class="o">-</span> <span class="n">dt</span><span class="o">/</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">potential</span><span class="p">(</span><span class="n">xn</span><span class="o">+</span><span class="n">eps</span><span class="p">)</span><span class="o">-</span><span class="n">potential</span><span class="p">(</span><span class="n">xn</span><span class="p">))</span><span class="o">/</span><span class="n">eps</span>
-    <span class="k">return</span> <span class="n">p2</span><span class="p">,</span> <span class="n">xn</span>
-
-<span class="k">def</span> <span class="nf">hamiltonian</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">potential</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">p</span><span class="o">**</span><span class="mi">2</span><span class="o">/</span><span class="mi">2</span> <span class="o">+</span> <span class="n">potential</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-<span class="n">p0</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-<span class="n">x0</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
-
-<span class="n">L</span> <span class="o">=</span> <span class="mi">1</span>
-<span class="n">dt</span> <span class="o">=</span> <span class="mf">0.5</span>
-<span class="n">eps</span> <span class="o">=</span> <span class="mf">1e-4</span>
-
-<span class="k">def</span> <span class="nf">pot</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="k">return</span> <span class="o">-</span><span class="n">target</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-
-<span class="n">xn</span> <span class="o">=</span> <span class="n">x0</span>
-<span class="n">rs</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">50000</span><span class="p">):</span>
-    <span class="n">pn</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
-        <span class="n">ptmp</span><span class="p">,</span> <span class="n">xtmp</span> <span class="o">=</span> <span class="n">leapfrog</span><span class="p">(</span><span class="n">xn</span><span class="p">,</span> <span class="n">pn</span><span class="p">,</span> <span class="n">dt</span><span class="p">,</span> <span class="n">pot</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">hamiltonian</span><span class="p">(</span><span class="n">xtmp</span><span class="p">,</span> <span class="n">ptmp</span><span class="p">,</span> <span class="n">pot</span><span class="p">)</span><span class="o">+</span><span class="n">hamiltonian</span><span class="p">(</span><span class="n">xn</span><span class="p">,</span> <span class="n">pn</span><span class="p">,</span> <span class="n">pot</span><span class="p">))])</span>
-        <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">alpha</span><span class="p">:</span>
-            <span class="n">xn</span> <span class="o">=</span> <span class="n">xtmp</span>
-        <span class="n">rs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">xn</span><span class="p">)</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">7</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">xpl</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">3e-2</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">rs</span><span class="p">[</span><span class="mi">20000</span><span class="p">::</span><span class="mi">5</span><span class="p">],</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">xpl</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">target</span><span class="p">(</span><span class="n">xpl</span><span class="p">)))</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/mcmc/hmc.webp" alt="The histogram of the random numbers generated using the Metropolis algorithm" /></p>
-
-<p>This method works much better than the Metropolis algorithm, especially
-for highly correlated variables.
-Up to few years ago, this method was not very popular because
-implementing it requires the computation of the Jacobian matrix (the derivative
-of the log pdf).
-In the 2010s, however, automatic differentiation became available,
-and it became possible to easily implement this algorithm
-within STAN and many other frameworks to perform Bayesian statistics.</p>
-
-<h2 id="bayesian-inference-with-hmc">Bayesian inference with HMC</h2>
-
-<p>We can now leverage what we implemented above to compute the posterior
-distribution of a one dimensional system.
-Let us assume that we have some data, and we know that it is
-distributed according to a Student-t distribution with 5 dof
-and parameter $\sigma=1\,,$ but we don’t know its mean.
-What we know is that the mean’s order of magnitude is roughly 1.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Sample the fake data
-</span><span class="n">data</span> <span class="o">=</span> <span class="mf">0.8</span> <span class="o">+</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">standard_t</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
-
-<span class="c1"># We now implement Bayes theorem.
-# We take as prior for our parameter a normal distribution with sigma=20
-</span>
-<span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
-    <span class="n">likelihood</span> <span class="o">=</span> <span class="n">t</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">loc</span><span class="o">=</span><span class="n">x</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">).</span><span class="n">logpdf</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-    <span class="n">prior</span> <span class="o">=</span> <span class="n">norm</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">20</span><span class="p">).</span><span class="n">logpdf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="nb">sum</span><span class="p">(</span><span class="n">likelihood</span><span class="p">)</span> <span class="o">-</span> <span class="n">prior</span>
-
-<span class="n">xn</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-<span class="n">rs</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">dtn</span> <span class="o">=</span> <span class="mf">1e-2</span>
-<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">20000</span><span class="p">):</span>
-    <span class="n">pn</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">normal</span><span class="p">(</span><span class="n">loc</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">L</span><span class="p">):</span>
-        <span class="n">ptmp</span><span class="p">,</span> <span class="n">xtmp</span> <span class="o">=</span> <span class="n">leapfrog</span><span class="p">(</span><span class="n">xn</span><span class="p">,</span> <span class="n">pn</span><span class="p">,</span> <span class="n">dtn</span><span class="p">,</span> <span class="n">post</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
-        <span class="n">w</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="nb">min</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">hamiltonian</span><span class="p">(</span><span class="n">xtmp</span><span class="p">,</span> <span class="n">ptmp</span><span class="p">,</span> <span class="n">post</span><span class="p">)</span><span class="o">+</span><span class="n">hamiltonian</span><span class="p">(</span><span class="n">xn</span><span class="p">,</span> <span class="n">pn</span><span class="p">,</span> <span class="n">post</span><span class="p">))])</span>
-        <span class="k">if</span> <span class="n">w</span> <span class="o">&lt;</span> <span class="n">alpha</span><span class="p">:</span>
-            <span class="n">xn</span> <span class="o">=</span> <span class="n">xtmp</span>
-        <span class="n">rs</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">xn</span><span class="p">)</span>
-
-<span class="n">trace</span> <span class="o">=</span> <span class="n">rs</span><span class="p">[</span><span class="mi">2000</span><span class="p">::</span><span class="mi">5</span><span class="p">]</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/statistics/mcmc/bayes.webp" alt="Our sample describing the posterior distribution for our unknown parameter" /></p>
-
-<p>We can now easily compute any estimate for the parameter.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-</code></pre></div></div>
-
-<div class="code">
-0.786
-</div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="mf">0.03</span><span class="p">)</span>
-</code></pre></div></div>
-
-<div class="code">
-0.696
-</div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="mf">0.96</span><span class="p">)</span>
-</code></pre></div></div>
-
-<div class="code">
-0.870
-</div>
-
-<p>We can therefore conclude that our parameter
-has mean 0.88 and 94% credible interval 
-\([0.78, 0.97]\,.\)</p>
-
-<h2 id="conclusion">Conclusion</h2>
-
-<p>I hope I managed to give you an idea of how does a probabilistic
-programming language works.
-In the next posts we will see how to use PyMC to write down statistical models
-and criticize them.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/mcmc_intro/" /><summary type="html"><![CDATA[Getting an idea of what's happening behind the scenes]]></summary></entry><entry><title type="html">Introduction to bayesian statistics</title><link href="http://localhost:4000/statistics/bayes_intro" rel="alternate" type="text/html" title="Introduction to bayesian statistics" /><published>2024-05-25T00:00:00+00:00</published><updated>2024-05-25T00:00:00+00:00</updated><id>http://localhost:4000/statistics/bayes_intro</id><content type="html" xml:base="http://localhost:4000/statistics/bayes_intro"><![CDATA[<p>The main topic of this section will be statistics, and we will mostly discuss Bayesian
-models.</p>
-
-<h2 id="why-should-you-learn-bayesian-statistics">Why should you learn Bayesian statistics</h2>
-
-<p>Bayesian statistics attracted much interest in the last years, and in the last decades
-many Bayesian models have been developed to tackle any kind of problem.</p>
-
-<p><img src="/docs/assets/images/statistics/intro/nature_count.webp" alt="The number of Nature research article 
-matching the keyword &quot;bayes&quot;" /></p>
-
-<p>Bayesian statistics can be a valuable tool for any data scientist, as it easily allows you
-to build, fit and criticize any kind of model with a minimal effort.
-In Bayesian inference you don’t only get an estimate for your parameters,
-but you get the entire probability distribution for them, and this implies that
-you can immediately get the uncertainty for your parameters.</p>
-
-<p>In any statistical model you must specify a likelihood, which represents
-the probability distribution which generated the data, and we will refer to this quantity
-as</p>
-
-\[P(X | \theta)\]
-
-<p>where $\theta$ represents the unknown parameter vector.
-In a Bayesian model you must moreover specify a prior distribution for the parameter
-set</p>
-
-\[P(\theta)\,.\]
-
-<p>You can therefore compute the probability distribution of your parameters given the data
-by using the Bayes theorem:</p>
-
-\[P(\theta | X) = \frac{P(X | \theta)}{P(X)} P(\theta)\]
-
-<p>Since the denominator \(P(X)\) is a normalization constant independent on $\theta$ which can be computed by normalizing the left hand side of the equation
-to 1, its dependence is usually neglected and the Bayes theorem is usually rewritten as</p>
-
-\[P(\theta | X) \propto P(X | \theta) P(\theta)\,.\]
-
-<h2 id="a-historical-trip-in-mcmc">A historical trip in MCMC</h2>
-
-<p>While the normalization constant \(P(X)\) can be <strong>in principe</strong> computed for any model,
-it can be analytically computed only for a very limited range of models, namely
-the conjugate models, and for this
-reason Bayesian models have not been so popular for a long time.
-However, thanks to the development of Monte Carlo sampling techniques, it became possible
-to easily sample (pseudo) random numbers according to any probability distribution.
-These techniques have been developed during the WWII by the Manhattan project
-group, and it soon became popular among scientists to perform numerical simulations.
-Up to few years ago, this was however only possible for people with a strong background
-in numerical techniques, as it was necessary to implement from scratch the sampler.
-Nowadays things have changed, and Probabilistic Programming Languages
-such as PyMC, STAN or JAGS allows anyone to implement and fit any
-kind of model with a minimal effort.</p>
-
-<h2 id="some-philosophical-consideration">Some philosophical consideration</h2>
-<p>You may have heard about the war of statistics, which is a debate which lasted
-almost one century between frequentist statisticians and Bayesian ones.
-At the beginning of the last century, a group of statisticians tried and promote
-Bayesian statistics as the only meaningful way to do statistical inference.
-According to them, the prior should have encoded all the available information
-together with any personal consideration of the researcher. In this way,
-the posterior probability distribution $P(\theta | X)$ can be interpreted
-as the updated version of the researcher’s beliefs once the observed data $X$
-has been taken into account by a perfectly rational person.
-This philosophy has been rejected by the majority of the statisticians,
-as they considered this “subjective” probability meaningless.</p>
-
-<p>Today, however, the prior probability is only considered a regularization tool,
-which allows you to use Bayes theorem to compute the posterior probability.
-The results should only weakly depend on the prior choice, and this dependence
-must be taken into account when reporting the fit results.
-In this way, since the <a href="https://en.wikipedia.org/wiki/Bernstein%E2%80%93von_Mises_theorem">Bernstein–von Mises</a> theorem ensures you that
-in the long run the Bayesian inference will produce the same results of the model
-with the same likelihood, one can stick to the usual frequentist interpretation.</p>
-
-<div class="emphbox">
-Nowadays Bayesian statistics is accepted by most statisticians as a tool to make inference,
-and an entire workflow has been developed to ensure that the inference procedure
-has been properly performed.
-</div>
-
-<h2 id="bayesian-statistics-as-a-tool-in-the-replication-crisis">Bayesian statistics as a tool in the replication crisis</h2>
-
-<p>During the beginning of the 2010s, scientists realized that a large part
-of research articles were impossible to replicate.
-In these years, many unsound scientific results have been found, and claims such as
-<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4706048/">the existence of paranormal phenomena</a> or that 
-<a href="http://cda.psych.uiuc.edu/multivariate_fall_2013/salmon_fmri.pdf">a dead salmon was able to recognize human emotions</a> were not as rare
-as one would expect <sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
-
-<p>A new research field emerged in these years, namely meta-science (which means the science
-which studies science), and this produced many proposals to tackle the scientific crisis.
-One of the issues that came out was that <a href="https://www.nature.com/articles/d41586-019-00874-8">the “golden standard” tool of the 0.05 statistical
-significance was often misused or misinterpreted</a>,
-and statisticians suggested that using a broader set of tools to perform statistical
-analysis would have reduced this problem.
-As you might imagine, due to the simple interpretation and of
-the possibility to easily implement structured models and of combining
-different data sources,
-Bayesian statistics has been popularized by statisticians as one of these tools,
-and it has gained a lot of attention by the scientific community.</p>
-
-<h2 id="technical-considerations-of-using-bayesian-statistics">Technical considerations of using Bayesian statistics</h2>
-
-<p>There are also technical considerations which one should take into account
-when choosing the analysis method.
-For simple models there is no reason why one should prefer Bayesian inference
-to frequentist-based ones,
-at least as long as the sample size is large enough
-to allow you using the central limit theorem.
-However, for complex models, things soon change. One may naively be tempted
-to simply use the maximum likelihood estimation, which is in principle a
-valid way to drop out the prior dependence. However, this method relies
-on finding the extreme of a function, which implies maximizing the derivative
-of the likelihood. This approach soon becomes unstable as soon as the model
-complexity grows, and you should spend a lot of effort in ensuring that
-your numerical approximation is close enough to the true maximum.
-For these reasons, statistical textbooks devoted to complex models such as
-longitudinal data analysis models provide many different methods
-to fit the frequentist models <sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>.</p>
-
-<p>you must find its zeros, and there is no stable procedure to do so for higher dimensional problems.</p>
-
-<p>The Bayesian method, on the other hand, does not require to compute any
-derivative, as you simply need to sample the posterior distribution and, as
-we will see, it is very easy to assess the goodness of such a sampling procedure.
-If you then want to compute any point estimate  \(\mathbb{E}[f(\theta)]\), what you have to do is to compute
-the corresponding expectation value on the sample \(\left\{\theta_i\right\}_i:\)</p>
-
-\[\mathbb{E}[f(\theta)] \approx \frac{1}{N} \sum_{i=1}^N f(\theta_i)\]
-
-<p>and, as we will discuss, the estimate of the error associated with this procedure is already
-implemented in the sampling engine.</p>
-
-<p>There is of course no free lunch, as every method has pros and cons.
-The main drawback of using Bayesian methods is that sampling may require time,
-and while having a high quality sample with few parameters
-requires seconds, you may need hours or more for a good sample if you are
-dealing with thousands of parameters.
-You should also consider that the prior selection might take require some effort,
-especially when you are dealing with a new problem and if you are new to Bayesian
-inference.</p>
-
-<h2 id="conclusions">Conclusions</h2>
-
-<p>I hope I convinced you that Bayesian statistics is a valuable instrument in the toolbox of
-any data scientist.
-In the next articles I will show you how to implement, check and discuss Bayesian models
-in Python.
-As usual, if you have criticisms or suggestions, feel free to write me.</p>
-
-<p>In this section of the blog we will both discuss Bayesian inference and
-the Bayesian workflow.
-I will use Python to perform the computation, and I will use the PyMC ecosystem.</p>
-<div class="footnotes" role="doc-endnotes">
-  <ol>
-    <li id="fn:1" role="doc-endnote">
-      <p>One is a joke, the other is not. Choosing which one is a joke is left to the reader as an exercise. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-    <li id="fn:2" role="doc-endnote">
-      <p>Even if you analytically compute the derivative, <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
-    </li>
-  </ol>
-</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/bayes_intro/" /><summary type="html"><![CDATA[A little bit more about bayesian statistics]]></summary></entry><entry><title type="html">The autoregressive model</title><link href="http://localhost:4000/statistics/autoregressive" rel="alternate" type="text/html" title="The autoregressive model" /><published>2024-02-16T00:00:00+00:00</published><updated>2024-02-16T00:00:00+00:00</updated><id>http://localhost:4000/statistics/autoregressive</id><content type="html" xml:base="http://localhost:4000/statistics/autoregressive"><![CDATA[<p>In the last post we introduced the time series, and in this post
+credible intervals.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/nonparametric_intro/" /><summary type="html"><![CDATA[Letting the number of parameters vary]]></summary></entry><entry><title type="html">The autoregressive model</title><link href="http://localhost:4000/statistics/autoregressive" rel="alternate" type="text/html" title="The autoregressive model" /><published>2024-02-16T00:00:00+00:00</published><updated>2024-02-16T00:00:00+00:00</updated><id>http://localhost:4000/statistics/autoregressive</id><content type="html" xml:base="http://localhost:4000/statistics/autoregressive"><![CDATA[<p>In the last post we introduced the time series, and in this post
 we will look more in details to the autoregressive model,
 namely</p>
 
@@ -1561,4 +1113,510 @@ are always one, as they must be, but this causes an error in arviz
 
 <p>We have seen how IV allows us to make causal inference in absence of randomization,
 but making some rather strong assumptions about the causal structure of the problem.
-We have also seen how to implement it in PyMC.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/causal_intro/" /><summary type="html"><![CDATA[Making causal inference without randomization]]></summary></entry></feed>
+We have also seen how to implement it in PyMC.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/causal_intro/" /><summary type="html"><![CDATA[Making causal inference without randomization]]></summary></entry><entry><title type="html">Randomized controlled trials</title><link href="http://localhost:4000/statistics/randomized" rel="alternate" type="text/html" title="Randomized controlled trials" /><published>2024-02-08T00:00:00+00:00</published><updated>2024-02-08T00:00:00+00:00</updated><id>http://localhost:4000/statistics/randomized</id><content type="html" xml:base="http://localhost:4000/statistics/randomized"><![CDATA[<p>As we anticipated in the last post, when we have randomization, association
+implies causation.
+In this case we can use a simple regression model to assess if the treatment
+causes an effect.</p>
+
+<p>Randomized controlled trials are the golden standards in clinical studies,
+but they are widely used in other fields like industry or marketing
+campaigns.
+Thanks to their popularity, even marketing providers such as Mailchimp allow you
+to easily implement this kind of studies, and in this post we will see how
+to analyze them by using Bayesian regression.
+In this experiment we we will analyze the data from a newsletter, and what we will
+determine is whether the presence of the first name (which is required
+in the login form) in the mail preview increases the probability of opening the
+email.
+When we programmed the newsletter, we divided the total audience into
+two blocks, and each recipient has been randomly assigned to one block.
+In the control block (t=0) we sent the email without the first name in the mail
+preview, while to the other recipients we sent the email with the first name
+in the mail preview.</p>
+
+<p>Some mails were bounced, but at the end $n_t = 2326$ users received the test mail
+and $n_c = 2347$ received the control mail.
+$y_t = 787$ users out of 2326 opened the test email, while $y_c=681$ users out
+of 2347 opened the control one.</p>
+
+<p>Since the opening action is a binary variable, we will take
+a binomial likelihood.
+We will therefore use a logistic regression to estimate the ATE.</p>
+
+\[\begin{align}
+&amp;
+y_{c} \sim \mathcal{Binom}(p_c, n_n)
+\\
+&amp;
+y_{t} \sim \mathcal{Binom}(p_t, n_t)
+\\
+&amp;
+p_c = \frac{1}{1+e^{-\beta_0}}
+\\
+&amp;
+p_t = \frac{1}{1+e^{-(\beta_0+ \beta_1)}}
+\end{align}\]
+
+<p>We will take a non-informative prior for both the parameters</p>
+
+\[\beta_i \sim \mathcal{N}(0, 10^3)\]
+
+<p>We can now easily implement our model in PyMC</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">random_seed</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">n_t</span> <span class="o">=</span> <span class="mi">2326</span>
+<span class="n">n_c</span> <span class="o">=</span> <span class="mi">2347</span>
+
+<span class="n">k_t</span> <span class="o">=</span> <span class="mi">787</span>
+<span class="n">k_c</span> <span class="o">=</span> <span class="mi">681</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">pt</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'pt'</span><span class="p">,</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]))))</span>
+    <span class="n">pc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'pc'</span><span class="p">,</span><span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]))))</span>
+    <span class="n">ate</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'ate'</span><span class="p">,</span> <span class="n">pt</span><span class="o">-</span><span class="n">pc</span><span class="p">)</span>
+    <span class="n">y_t</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s">'y_t'</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_t</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">pt</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">k_t</span><span class="p">)</span>
+    <span class="n">y_c</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s">'y_c'</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n_c</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">pc</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">k_c</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">random_seed</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/randomized/trace.webp" alt="The trace of our model" /></p>
+
+<p>The average treatment effect is greater than 0 with a probability
+approximately equal to 1,
+therefore we are almost sure that, in our test,
+using the first name in the mail preview increased the opening
+probability of the newsletter.</p>
+
+<p>Notice that we restricted our discussion to one single newsletter, and we
+avoided more general claims regarding future newsletters we will send.
+However, we have some indication that our audience may prefer more
+personal newsletters.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We saw an example of how to perform causal inference in Bayesian statistics for randomized controlled experiments
+by using regression models in PyMC. We also discussed the proper interpretation of the results.</p>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/randomized/" /><summary type="html"><![CDATA[When association implies causation]]></summary></entry><entry><title type="html">Causal inference</title><link href="http://localhost:4000/statistics/causal_intro" rel="alternate" type="text/html" title="Causal inference" /><published>2024-02-07T00:00:00+00:00</published><updated>2024-02-07T00:00:00+00:00</updated><id>http://localhost:4000/statistics/causal_intro</id><content type="html" xml:base="http://localhost:4000/statistics/causal_intro"><![CDATA[<p>In this post we will try and clarify when it is possible to make statements
+about causation rather than sticking to statistical association,
+and we will do so on the basis of Rubin’s potential outcomes.</p>
+
+<p>The main reference for this part will be the material in
+<a href="https://www.bradyneal.com/Introduction_to_Causal_Inference-Dec17_2020-Neal.pdf">these</a>
+notes by Brady Neal, but I strongly recommend to read the textbook by Guido Imbens
+(who, in 2021, shared the Nobel prize for economics with Joshua Angrist and David Card for their works on causal inference) and Carl Rubin
+(who first developed the potential outcomes framework).</p>
+
+<h2 id="the-counterfactual-definition-of-causality">The counterfactual definition of causality</h2>
+
+<p>You may have heard the mantra “association is not causation” or the more colloquial 
+(but less accurate) “correlation is not causation”.
+Correlation is a statistical measure linear dependence,
+while association generally means statistical dependence.
+However the exact meaning of causation is never given,
+and the first part of these notes will be devoted to clarify what do we mean with causation.</p>
+
+<p>Let us assume that we took a medicine because we had a headache,
+what do we mean when we say that the medicine
+caused the headache to disappear? It means that, if we hadn’t taken the medicine,
+the headache wouldn’t have gone away.</p>
+
+<p>We will therefore stuck to the counterfactual definition of causation,
+so we will say that an event causes an outcome if,
+by removing the event then the outcome disappears.
+The above definition works for binary outcomes, but has some
+problems when we want to investigate causes which can take any real value.
+More generally, we can say that an event causes an outcome if, by modifying
+the cause, the outcome changes.
+This definition already puts a strong constrain on what we can investigate,
+since it requires that we must be able, at least in principle, to modify the
+cause.</p>
+
+<div class="emphbox">
+There's no causation without manipulation.
+</div>
+
+<p>While the meaning of the above sentence may seem obvious at a first sight,
+you should carefully think about it when making causal inference.
+If you want to assess the effect of the ethnicity on the probability of being hired,
+you may not be able to manipulate someone’s ethnicity,
+but you can still manipulate people’s perception of ethnicity by modifying 
+the CV.</p>
+
+<p>When talking about causality, one can be either interested in the determination
+of the effect of a cause (e.g. does my headache disappears when I take medicine?)
+or the cause of an effect (e.g. is my headache gone because I took the medicine?).</p>
+
+<p>Within the counterfactual framework, and in science in general, one generally wants
+to assess the effect of a specific cause.
+Determining the cause of an effect, in fact, is an ill-posed question, as one could
+find a cause of the cause, a cause of the cause of the cause and so on.</p>
+
+<p>A relevant aspect which we must keep in mind is that there could be more than one
+cause. We know that, in order to light a fire, we need oxygen, heat and fuel,
+and all the above are necessary conditions for fire.</p>
+
+<p>Let’s assume that we want to assess if heat causes fire ignition,
+and we perform an experiment to determine it.
+If we first provide both three the elements,
+and we then remove oxygen and heat, we can’t conclude anything about the
+causal relation between heat and fire, since we also removed the oxygen.
+The counterfactual definition of causality requires that
+only the cause must change, while all the other elements must be unchanged.</p>
+
+<h2 id="potential-outcomes">Potential outcomes</h2>
+
+<p>But how can we measure the effect of an event? Let us indicate with $T=1$
+the case where the event happens, as an example we take a therapy,
+while $T=0$ means that we do not take the therapy.
+Suppose that the outcome of the event $T=0$ is $y_0$ while the outcome of $T=1$ is
+$y_1\,.$ We define</p>
+
+\[Y(t) = t y_1 + (1-t) y_0\,.\]
+
+<p>From a counterfactual point of view, a natural way to assess the causal
+effect is via the <strong>Individual Treatment Effect</strong> ITE</p>
+
+\[\tau = Y(1)-Y(0)\]
+
+<p>The definition of $\tau$ is of course arbitrary, but quite general.
+As an example, one could prefer taking
+the ratio of the two, but then taking the logarithm we recover the above definition.</p>
+
+<p>Despite on the exact definition, $\tau$ of course cannot be measured, as either we take the treatment and
+we observe $Y(1)$ or we don’t and we observe $Y(0)\,,$
+and any reasonable definition of $\tau$ involves both the quantities.
+This implies that,</p>
+
+<div class="emphbox">
+while our definition of effect may be individual,
+its quantification can only be done on a larger sample.
+</div>
+
+<p>We must therefore do an experiment in order to estimate it:
+we collect $2N$ individuals and divide them into 2 groups.
+Half individuals are treated with $T=1$ (the treatment group)
+and half of them with $T=0$ (the control group).</p>
+
+<p>In order to proceed, we will stick to the definition $\tau = Y(1)-Y(0)\,.$
+The simplest estimate that we may do is the <strong>Average Treatment Effect</strong> ATE</p>
+
+\[ATE = \mathbb{E}[Y_i(1) - Y_i(0)] =  \mathbb{E}[Y(1) - Y(0)] = \mathbb{E}[Y(1)] - \mathbb{E}[Y(0)]\]
+
+<p>where the average is meant both on the individual and on any other possible source
+of randomness.</p>
+
+<p>To clarify what we are doing, we can put the collected data as</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>i</th>
+      <th>T</th>
+      <th>Y</th>
+      <th>Y(0)</th>
+      <th>Y(1)</th>
+      <th>X</th>
+      <th>Y(1) - Y(0)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>1</td>
+      <td>0</td>
+      <td>$y^1$</td>
+      <td>$y^1$</td>
+      <td>?</td>
+      <td>$x^1$</td>
+      <td>?</td>
+    </tr>
+    <tr>
+      <td>2</td>
+      <td>0</td>
+      <td>$y^2$</td>
+      <td>$y^2$</td>
+      <td>?</td>
+      <td>$x^2$</td>
+      <td>?</td>
+    </tr>
+    <tr>
+      <td>3</td>
+      <td>0</td>
+      <td>$y^3$</td>
+      <td>$y^3$</td>
+      <td>?</td>
+      <td>$x^3$</td>
+      <td>?</td>
+    </tr>
+    <tr>
+      <td>4</td>
+      <td>1</td>
+      <td>$y^4$</td>
+      <td>?</td>
+      <td>$y^4$</td>
+      <td>$x^4$</td>
+      <td>?</td>
+    </tr>
+    <tr>
+      <td>5</td>
+      <td>1</td>
+      <td>$y^5$</td>
+      <td>?</td>
+      <td>$y^5$</td>
+      <td>$x^5$</td>
+      <td>?</td>
+    </tr>
+    <tr>
+      <td>6</td>
+      <td>1</td>
+      <td>$y^6$</td>
+      <td>?</td>
+      <td>$y^6$</td>
+      <td>$x^6$</td>
+      <td>?</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>where $X$ represents other possibly relevant quantity where we must take
+into account to estimate the averages or, in other words, any quantity we may suspect could
+affect the outcome.
+The estimate of the ATE is the so-called <strong>fundamental problem of causal inference</strong>,
+and since the question marks can be seen as missing values,</p>
+
+<div class="emphbox">
+the fundamental problem of causal inference is a missing value problem. 
+</div>
+
+<p>We did a step further, but still we don’t know how to compute that quantity.</p>
+
+<p>In writing the above table, we implicitly made the <strong>no interference</strong> assumptions, namely that</p>
+
+\[Y_i(t_1, t_2, ..., t_{i-1}, t_i, t_{i+1}, ..., t_n) = Y_i(t_i)\]
+
+<p>So each unit’s outcome only depends on his own treatment and not on the treatment of other individuals.
+This implies that, if we are checking the effect of a product in some tomato field,
+we must be sure that the product does not goes in another studied field by mistake.
+Another case can be a study where we are studying an experimental study program in a class.
+If a student is selected in the treatment group and a friend of his is not,
+the latter could be sad for not being selected and his outcome could be lowered.</p>
+
+<p>Generally, a good strategy to enforce this requirement is to take well separated units
+and not letting them communicate during the experiment.</p>
+
+<p>Notice that this is not a necessary requirement, but it greatly simplifies the discussion,
+as it allows us to threat each unit independently on the others.</p>
+
+<p>A quantity that is closely related to the ATE is the <strong>associational difference</strong></p>
+
+\[\mathbb{E}[Y|T=1] - \mathbb{E}[Y|T=0]\]
+
+<p>When are we allowed to replace the ATE with the associational difference?
+In other words, when are we allowed to compute the average only over the observed 
+values and replace the question marks with the appropriate average?</p>
+
+<p>The assumptions that the observed data do not depend on the missing ones
+is called <strong>ignorability</strong>, and it is one of the most important assumptions
+in causal inference.
+Ignorability can be written in mathematical language as</p>
+
+\[Y(0), Y(1) \perp\!\!\!\!\perp T\]
+
+<p>where \(A \perp\!\!\!\!\perp B\) means that $A$ and $B$ are independent one on
+the other one.</p>
+
+<p>If ignorability holds, we are allowed to estimate the average of $Y(0)$
+by only using the $T=0$ group and replace it in the $T=1$ group and vice versa,
+and this is why this assumption is often named <strong>exchangeability</strong>.</p>
+
+<p>We can mathematically write the exchangeability assumption as</p>
+
+\[\mathbb{E}[Y(0) | T=0] = \mathbb{E}[Y(0) | T=1] = \mathbb{E}[Y(0)]\]
+
+<p>and</p>
+
+\[\mathbb{E}[Y(1) | T=0] = \mathbb{E}[Y(1) | T=1] = \mathbb{E}[Y(1)]\]
+
+<p>The above assumption is almost equivalent to <strong>identifiability</strong> assumption:
+a causal quantity $\mathbb{E}[Y(t)]$ is identifiable if it can be computed from a pure statistical quantity $\mathbb{E}[Y | T=t]$.</p>
+
+<p>There are cases where exchangeability does not hold.
+As an example, assume that you are testing a medicine, and that this medicine
+is more effective on patients with a severe version of the disease you are treating.
+If in the $T=1$ group we have
+people with a more severe version of the disease than in the $T=0$
+group we may not be allowed to exchange the two groups,
+as we have no guarantee that the result would be invariant under the group exchange.</p>
+
+<p>Let us decompose the associational difference as</p>
+
+\[\mathbb{E}[Y(1) | T=1] - \mathbb{E}[Y(0) | T=0]
+=
+(\mathbb{E}[Y(1) | T=1] - \mathbb{E}[Y(0) | T=1])
++(\mathbb{E}[Y(0) | T=1] - \mathbb{E}[Y(0) | T=0])\]
+
+<p>The associational difference can be decomposed as
+the average treatment effect on the treated (the first parenthesis)
+plus the sampling bias (the second parenthesis).</p>
+
+<p>Consider the case where $Y$ is the health status of a person and the treatment is
+the hospitalization.
+The associational difference is simply the difference between the health status
+of hospitalized patients and the health status of non-hospitalized people.
+This is simply the sum between the effect of the hospitalization on hospitalized
+patients plus the baseline health difference between hospitalized and non-hospitalized individuals.
+In general, even if hospitalization improves health, the health status of those who go to
+the hospital is generally worst than the other individuals.
+Therefore, in absence of randomization, if we simply use the associational difference to assess the effect of
+hospitalization, we may end up with the conclusion that health get worst due to hospitalization
+simply because only sick people goes to the hospital.</p>
+
+<p>If exchangeability does not hold, then \(\mathbb{E}[Y \vert T=0]\) is different from
+\(\mathbb{E}[Y \vert T=1]\,,\) therefore the associational quantity \(\mathbb{E}[Y \vert T=t]\) is a biased estimator for \(\mathbb{E}[Y(t)]\,.\)</p>
+
+<p>One possible way to ensure that exchangeability holds is to ensure that the missing
+terms are randomly distributed.
+This can be experimentally done by randomly assigning the
+treatment $T$ to each unit, and in this case we are dealing with a randomized experiment.</p>
+
+<p>In a randomized experiment, the treatment assignment does not depend on anything other
+other than the result of a coin toss, therefore</p>
+
+\[\mathbb{E}[Y(1)]-\mathbb{E}[Y(0)] = \mathbb{E}[Y(1)|T=1]-\mathbb{E}[Y(0)|T=0] = \mathbb{E}[Y | T=1]-\mathbb{E}[Y | T=0]\]
+
+<p>We stress that this is only a statistical property, and it doesn’t guarantee that the outcome
+estimate of an experiment will be correct.</p>
+
+<p>In other words, as explained in <a href="http://www.fsb.muohio.edu/lij14/420_paper_Rubin74.pdf">the breaktrhough 1974 Rubin paper</a>:</p>
+<blockquote cite="https://hedibert.org/wp-content/uploads/2015/10/causality-meeting2.pdf">
+Whether treatments are randomly assigned or not, no matter how carefully
+matched the trials, and no matter how large N, a skeptical observer could always
+eventually find some variable that systematically differs in the E (T=1) trials and C (T=0) trials.
+<br />
+Within the experiment there can be no refutation of this claim; only a logical
+argument explaining that the variable cannot causally affect the dependent
+variable or additional data outside the study can be used to counter it.
+</blockquote>
+
+<p>Generally exchangeability is an unrealistic assumption, as it would impossible to verify
+that $X$ and $Y$ are equally distributed with respect to all the 
+relevant variables except for the treatment.
+A weaker assumption is that the assigned treatment only depends on some
+relevant quantity $X$ while the two groups are exchangeable
+with respect to any other quantity.
+This condition is called <strong>conditional exchangeability</strong> or <strong>unconfoundedness</strong> and it is indicated as</p>
+
+\[Y(0), Y(1) \perp\!\!\!\!\perp T | X\]
+
+<p>If conditional exchangeability holds, we have that</p>
+
+\[\begin{align}
+ \mathbb{E}[Y(1)-Y(0)|X] 
+ &amp; = \mathbb{E}[Y(1)|X] - \mathbb{E}[Y(0)|X] \\
+ &amp; = \mathbb{E}[Y(1)| T=1, X] - \mathbb{E}[Y(0)|T=0, X] \\
+ &amp; = \mathbb{E}[Y| T=1, X] - \mathbb{E}[Y|T=0, X] \\
+ \end{align}\]
+
+<p>In order to get the ATE we must simply take the expectation value over $X$</p>
+
+\[\mathbb{E}[Y(1) - Y(0)] = \mathbb{E}_X[ \mathbb{E}[Y(1) - Y(0) | X] ] 
+ = \mathbb{E}_X[ \mathbb{E}[Y |T=1, X] ] - \mathbb{E}_X[ \mathbb{E}[Y |T=0, X] ]\]
+
+<p>And the equality between the first and the last term of this equation is called the <strong>adjustment formula</strong>.</p>
+
+<p>In the above equation we assumed <strong>consistency</strong>, which can be written as</p>
+
+\[T=t \Longrightarrow Y(T) = Y(t)\]
+
+<p>This means that the treatment must be well specified: the treatment must not be “get some medicine” but should rather be “take 15 mg of medicine every 8 hours for 7 days”.
+Only thanks to this hypothesis we can replace</p>
+
+\[\mathbb{E}[Y(T=t) | T=t] = \mathbb{E}[Y | T=t] \,.\]
+
+<p>This is not a necessary requirement, but it greatly simplifies the discussion, otherwise we would be forced to model
+this random aspect too.
+Notice that the concept of consistency is not a mathematical requirement, but rather a conceptual one,
+and only agreement among domain experts can assess whether it holds or not.</p>
+
+<p>In the literature it is often required the <strong>Stable Unit Treatment Value Assumption</strong> SUTVA, which is simply requiring consistency and no interference.</p>
+
+<p>Let us now write explicitly the adjustment formula for $X$ discrete:</p>
+
+\[\begin{align}
+&amp;
+\mathbb{E}_X[ \mathbb{E}[Y |T=1, X] ] - \mathbb{E}_X[ \mathbb{E}[Y |T=0, X] ]  
+\\
+&amp; =  \sum_{x}P(X=x) \sum_{y} y \left(P(Y=y|T=1, X=x) - P(Y=y| T=0, X=x) \right) \\
+&amp; =   \sum_{x}P(X=x) \sum_{y} y \left(\frac{P(Y=y,T=1, X=x)}{P(T=1, X=x)} - \frac{P(Y=y,T=0, X=x)}{P(T=0, X=x)}\right) \\
+= &amp; \sum_{x}P(X=x) \sum_{y} y \left(\frac{P(Y=y,T=1, X=x)}{P(T=1| X=x) P(X=x)} - \frac{P(Y=y,T=0, X=x)}{P(T=0| X=x) P(X=x)}\right) 
+\\
+&amp; = 
+\sum_{x}\sum_{y} y \left(\frac{P(Y=y,T=1, X=x)}{P(T=1| X=x)} - \frac{P(Y=y,T=0, X=x)}{P(T=0| X=x)}\right) 
+\end{align}\]
+
+<p>where the first equivalence comes from the definition of conditional probability,
+the second one from the hypothesis that \(P(T, X) = P(T | X) P(X)\)
+so that $T$ causally depends on $X\,.$</p>
+
+<p>In order for this quantity to be finite we must require that both the denominators are
+strictly positive, and since $P(T=0|X) = 1 - P(T=1, X)$ we can write this requirement,
+named the <strong>positivity</strong> assumption, as</p>
+
+\[0 &lt; P(T=t | X) &lt; 1 \, \forall t\]
+
+<p>In other words, for each value of X we must have some representative individual in
+each group.
+If, for some group, everyone receives the treatment or everyone receives the control,
+we are not able to estimate the treatment versus control effect.</p>
+
+<!--
+We can better see why randomization is important from the adjustment formula.
+If the treatment assignment is not random, one cannot assume that $P(X)$ is the same for the two
+groups, and therefore one should replace it with $P(X=x | T=t)\,.$
+A careful observer could therefore always find some confounder which could differ
+between the two groups, and claim that the difference in the effect is due to the
+different distribution of that confounder.
+Within randomization, this cannot happen, as the probability distribution
+of $X$ is independent on $T\,.$
+-->
+
+<h2 id="some-remarks">Some remarks</h2>
+
+<p>Our discussion on causality both applies to frequentist statistics
+and to bayesian one. However, as pointed out by Rubin himself in his 1990
+article “Formal mode of statistical inference for causal effects”,
+it is straightforward to apply fully bayesian methods to causal inference.
+However, it is very easy to misuse it, as</p>
+
+<blockquote cite="https://www.sciencedirect.com/science/article/abs/pii/0378375890900778">
+there appears to be no formal requirement to make sure
+that the models conform at all to reality. 
+In practice, careful model monitoring is
+needed, and for this purpose, the randomization-based approaches we have presented
+can be regarded as providing useful guidelines.
+</blockquote>
+
+<p>It is therefore crucial both to ensure that experimental setup fulfills the
+above mentioned assumptions and that the statistical model is appropriate
+in describing it.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We introduced the counterfactual definition of causality, and we introduced
+Rubin’s potential outcomes. We also discussed under which conditions
+we can compute the average treatment effect.</p>
+
+<h2 id="suggested-readings">Suggested readings</h2>
+
+<ul>
+  <li><cite>Imbens, G. W., Rubin, D. B. (2015). Causal Inference for Statistics, Social, and Biomedical Sciences: An Introduction. US: Cambridge University Press.<cite></cite></cite></li>
+  <li><cite><a href="https://arxiv.org/pdf/2206.15460.pdf">Li, Ding, Mealli (2022). Bayesian Causal Inference: A Critical Review</a></cite></li>
+</ul>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/causal_intro/" /><summary type="html"><![CDATA[When association implies causation]]></summary></entry></feed>

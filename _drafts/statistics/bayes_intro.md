@@ -1,12 +1,12 @@
 ---
 layout: post
-title: "Introduction to bayesian statistics"
+title: "Introduction to Bayesian inference"
 categories: /statistics/
 subcategory: Introduction
 tags: /bayes_intro/
-date: "2024-05-25"
+date: "2024-01-05"
 # image: "/docs/assets/images/perception/eye.jpg"
-description: "A little bit more about bayesian statistics"
+description: "A little bit more about Bayesian inference"
 section: 0
 ---
 
@@ -53,7 +53,7 @@ $$
 P(\theta | X) \propto P(X | \theta) P(\theta)\,.
 $$
 
-## A historical trip in MCMC
+## A historical tour in MCMC
 
 While the normalization constant $$P(X)$$ can be **in principe** computed for any model,
 it can be analytically computed only for a very limited range of models, namely
@@ -83,7 +83,7 @@ This philosophy has been rejected by the majority of the statisticians,
 as they considered this "subjective" probability meaningless.
 
 Today, however, the prior probability is only considered a regularization tool,
-which allows you to use Bayes theorem to compute the posterior probability.
+which allows you to use Bayes theorem to compute the posterior probability [^3].
 The results should only weakly depend on the prior choice, and this dependence
 must be taken into account when reporting the fit results.
 In this way, since the [Bernstein–von Mises](https://en.wikipedia.org/wiki/Bernstein%E2%80%93von_Mises_theorem) theorem ensures you that
@@ -92,12 +92,12 @@ with the same likelihood, one can stick to the usual frequentist interpretation.
 
 
 <div class="emphbox">
-Nowadays Bayesian statistics is accepted by most statisticians as a tool to make inference,
+Nowadays Bayesian inference is accepted by most statisticians,
 and an entire workflow has been developed to ensure that the inference procedure
 has been properly performed.
 </div>
 
-## Bayesian statistics as a tool in the replication crisis
+## Bayesian inference as a tool in the replication crisis
 
 During the beginning of the 2010s, scientists realized that a large part
 of research articles were impossible to replicate.
@@ -119,10 +119,10 @@ analysis would have reduced this problem.
 As you might imagine, due to the simple interpretation and of
 the possibility to easily implement structured models and of combining
 different data sources,
-Bayesian statistics has been popularized by statisticians as one of these tools,
+Bayesian inference has been popularized by statisticians as one of these tools,
 and it has gained a lot of attention by the scientific community.
 
-## Technical considerations of using Bayesian statistics
+## Technical considerations of using Bayesian inference
 
 There are also technical considerations which one should take into account
 when choosing the analysis method.
@@ -157,18 +157,29 @@ $$
 and, as we will discuss, the estimate of the error associated with this procedure is already
 implemented in the sampling engine.
 
+## Problems you will likely face if you use Bayesian inference
+
 There is of course no free lunch, as every method has pros and cons.
-The main drawback of using Bayesian methods is that sampling may require time,
+
+First of all, unless you are trained as a statistician,
+at the beginning you will
+likely face one problem: the way of thinking.
+Probabilistic thinking requires a training, but in the long run
+it will be a priceless tool, as probability is the **only** consistent
+way to quantify uncertainties.
+
+From a more practical point of view, the main drawback of using Bayesian methods is that sampling may require time,
 and while having a high quality sample with few parameters
 requires seconds, you may need hours or more for a good sample if you are
 dealing with thousands of parameters.
-You should also consider that the prior selection might take require some effort,
-especially when you are dealing with a new problem and if you are new to Bayesian
-inference.
+
+You should also consider that the prior selection might take require
+some effort, especially when you are dealing with a new problem
+or with a new kind of model.
 
 ## Conclusions
 
-I hope I convinced you that Bayesian statistics is a valuable instrument in the toolbox of
+I hope I convinced you that Bayesian inference is a valuable instrument in the toolbox of
 any data scientist.
 In the next articles I will show you how to implement, check and discuss Bayesian models
 in Python.
@@ -177,3 +188,5 @@ As usual, if you have criticisms or suggestions, feel free to write me.
 In this section of the blog we will both discuss Bayesian inference and
 the Bayesian workflow.
 I will use Python to perform the computation, and I will use the PyMC ecosystem.
+
+[^3]: Here we distinguish between Bayesian inference, which is a set of mathematical tools, and Bayesian inference, which we identify as the subjective interpretation of probability.
