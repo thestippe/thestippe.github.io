@@ -2,7 +2,7 @@
 layout: post
 title: "Kolmogorov axioms"
 categories: /statistics/
-subgategory: Introduction
+subcategory: Introduction
 section: 1
 tags: /kolmogorov/
 date: "2024-01-06"

@@ -2,7 +2,7 @@
 layout: post
 title: "Introduction to non-parametric models"
 categories: /statistics/
-subgategory: "Non-parametric models"
+subcategory: "Non-parametric models"
 tags: /nonparametric_intro/
 date: "2024-06-02"
 section: 7

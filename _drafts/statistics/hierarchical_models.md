@@ -2,7 +2,7 @@
 layout: post
 title: "Hierarchical models"
 categories: /statistics/
-subgategory: "Advanced models"
+subcategory: "Advanced models"
 tags: /hierarchical_models/
 section: 0
 # image: "/docs/assets/images/perception/eye.jpg"

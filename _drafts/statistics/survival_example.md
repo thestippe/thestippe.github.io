@@ -2,7 +2,7 @@
 layout: post
 title: "Application of survival analysis 1"
 categories: /statistics/
-subgategory: "Advanced models"
+subcategory: "Advanced models"
 tags: /survival_continuous/
 date: "2024-02-01"
 # image: "/docs/assets/images/perception/eye.jpg"

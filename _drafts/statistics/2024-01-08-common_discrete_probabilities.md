@@ -2,7 +2,7 @@
 layout: post
 title: "Common discrete probabilities"
 categories: /statistics/
-subgategory: Introduction
+subcategory: Introduction
 section: 3
 tags: /discrete_probabilities/
 date: "2024-01-08"

@@ -2,7 +2,7 @@
 layout: post
 title: "Random models and mixed models"
 categories: /statistics/
-subgategory: "Advanced models"
+subcategory: "Advanced models"
 tags: /extreme_values_intro/
 date: "2024-02-03"
 # image: "/docs/assets/images/perception/eye.jpg"

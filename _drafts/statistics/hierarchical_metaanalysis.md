@@ -2,7 +2,7 @@
 layout: post
 title: "Hierarchical models and meta-analysis"
 categories: /statistics/
-subgategory: "Advanced models"
+subcategory: "Advanced models"
 tags: /hierarcical_metaanalysis/
 date: "2024-01-30"
 # image: "/docs/assets/images/perception/eye.jpg"

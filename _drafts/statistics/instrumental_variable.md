@@ -2,7 +2,7 @@
 layout: post
 title: "Instrumental variable regression"
 categories: /statistics/
-subgategory: "Causal inference"
+subcategory: "Causal inference"
 tags: /causal_intro/
 date: "2024-02-09"
 # image: "/docs/5ssets/images/perception/eye.jpg"

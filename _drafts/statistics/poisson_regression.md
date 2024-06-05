@@ -2,7 +2,7 @@
 layout: post
 title: "Poisson regression"
 categories: /statistics/
-subgategory: "Regression"
+subcategory: "Regression"
 tags: /logistic_regression/
 section: 3
 # image: "/docs/assets/images/perception/eye.jpg"

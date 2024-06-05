@@ -245,7 +245,7 @@ enough to include what you know about the problem.</p>
 
 <p>There are many ways you can perform this,
 and this can be done by generating fake data
-according with what you know about the problem
+according to what you know about the problem
 and then fit them.</p>
 
 <p>If you know nothing, you may decide to pick a 
@@ -263,7 +263,7 @@ and we carefully chose the value of the parameters
 by making an educated guess on the order of magnitude
 of the interactions.</p>
 
-<p>Let us now assume that this time we did some
+<p>Let us now assume that this time we made some
 error in the procedure and we take</p>
 
 \[\begin{align}
@@ -310,7 +310,7 @@ Let us now compute this probability.</p>
 0.975
 </div>
 
-<p>It doesn’t really makes much sense to start
+<p>It doesn’t really make much sense to start
 from a model which predicts that the $97\%$
 of our tweets have zero interaction.</p>
 
@@ -334,7 +334,7 @@ while this time we have a peak at around $0.8\,.$
 This means that our inference is strongly
 biased by our prior.
 In fact, our posterior predictive
-is much worst that the one in the old post.</p>
+is much worse that the one in the old post.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pp0</span><span class="p">:</span>
     <span class="n">pp</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>

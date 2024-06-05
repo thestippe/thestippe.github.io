@@ -2,7 +2,7 @@
 layout: post
 title: "Predictive checks"
 categories: /statistics/
-subgategory: "Bayesian workflow"
+subcategory: "Bayesian workflow"
 tags: /predictive_checks/
 date: "2024-01-22"
 section: 2
@@ -36,7 +36,7 @@ enough to include what you know about the problem.
 
 There are many ways you can perform this,
 and this can be done by generating fake data
-according with what you know about the problem
+according to what you know about the problem
 and then fit them.
 
 If you know nothing, you may decide to pick a 
@@ -54,7 +54,7 @@ and we carefully chose the value of the parameters
 by making an educated guess on the order of magnitude
 of the interactions.
 
-Let us now assume that this time we did some
+Let us now assume that this time we made some
 error in the procedure and we take
 
 $$
@@ -106,7 +106,7 @@ Let us now compute this probability.
 0.975
 </div>
 
-It doesn't really makes much sense to start
+It doesn't really make much sense to start
 from a model which predicts that the $97\%$
 of our tweets have zero interaction.
 
@@ -131,7 +131,7 @@ while this time we have a peak at around $0.8\,.$
 This means that our inference is strongly
 biased by our prior.
 In fact, our posterior predictive
-is much worst that the one in the old post.
+is much worse that the one in the old post.
 
 ```python
 with pp0:

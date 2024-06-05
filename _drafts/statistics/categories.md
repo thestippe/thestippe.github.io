@@ -3,7 +3,7 @@ layout: post
 title: "Multidimensional distributions"
 categories: /statistics/
 tags: /multidimensional/
-subgategory: "Simple models"
+subcategory: "Simple models"
 date: "2024-01-17"
 section: 4
 # image: "/docs/assets/images/perception/eye.jpg"

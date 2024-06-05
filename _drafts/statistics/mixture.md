@@ -3,7 +3,7 @@ layout: post
 title: "Mixture models"
 categories: /statistics/
 tags: /mixture/
-subgategory: "Simple models"
+subcategory: "Simple models"
 date: "2024-01-18"
 section: 5
 # image: "/docs/assets/images/perception/eye.jpg"

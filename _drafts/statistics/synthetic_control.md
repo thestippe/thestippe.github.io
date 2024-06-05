@@ -2,7 +2,7 @@
 layout: post
 title: "Synthetic control"
 categories: /statistics/
-subgategory: "Causal inference"
+subcategory: "Causal inference"
 tags: /discontinuity_regression/
 date: "2024-02-12"
 # image: "/docs/5ssets/images/perception/eye.jpg"

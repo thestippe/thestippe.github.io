@@ -2,7 +2,7 @@
 layout: post
 title: "Logistic regression"
 categories: /statistics/
-subgategory: "Regression"
+subcategory: "Regression"
 tags: /logistic_regression/
 date: "2024-01-27"
 section: 2

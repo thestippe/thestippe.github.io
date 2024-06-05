@@ -2,7 +2,7 @@
 layout: post
 title: "Introduction to decision theory"
 categories: /statistics/
-subgategory: Introduction
+subcategory: Introduction
 tags: /decision_theory/
 date: "2024-01-10"
 section: 5

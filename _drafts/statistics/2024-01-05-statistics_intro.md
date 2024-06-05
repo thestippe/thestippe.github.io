@@ -2,7 +2,7 @@
 layout: post
 title: "What is statistics"
 categories: /statistics/
-subgategory: Introduction
+subcategory: Introduction
 tags: /stats_intro/
 date: "2024-01-05"
 # image: "/docs/assets/images/perception/eye.jpg"

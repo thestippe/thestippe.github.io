@@ -2,7 +2,7 @@
 layout: post
 title: "Introduction to Extreme Values theory"
 categories: /statistics/
-subgategory: "Advanced models"
+subcategory: "Advanced models"
 tags: /extreme_values_intro/
 date: "2024-02-02"
 # image: "/docs/assets/images/perception/eye.jpg"

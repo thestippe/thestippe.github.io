@@ -2,7 +2,7 @@
 layout: post
 title: "Interpretations of probability"
 categories: /statistics/
-subgategory: Introduction
+subcategory: Introduction
 section: 2
 tags: /interpretations/
 date: "2024-01-07"

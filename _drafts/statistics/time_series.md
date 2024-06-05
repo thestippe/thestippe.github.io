@@ -2,7 +2,7 @@
 layout: post
 title: "Introduction to time series modelling"
 categories: /statistics/
-subgategory: "Time series"
+subcategory: "Time series"
 tags: /time_series/
 date: "2024-02-15"
 # image: "/docs/5ssets/images/perception/eye.jpg"

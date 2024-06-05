@@ -2,7 +2,7 @@
 layout: post
 title: "Introduction to survival analysis"
 categories: /statistics/
-subgategory: "Advanced models"
+subcategory: "Advanced models"
 tags: /survival_intro/
 date: "2024-01-31"
 # image: "/docs/assets/images/perception/eye.jpg"

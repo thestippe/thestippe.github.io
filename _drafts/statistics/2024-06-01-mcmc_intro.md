@@ -2,7 +2,7 @@
 layout: post
 title: "How does MCMC works"
 categories: /statistics/
-subgategory: Introduction
+subcategory: Introduction
 tags: /mcmc_intro/
 date: "2024-06-01"
 # image: "/docs/assets/images/perception/eye.jpg"

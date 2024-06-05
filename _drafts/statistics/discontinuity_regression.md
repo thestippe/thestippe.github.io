@@ -2,7 +2,7 @@
 layout: post
 title: "Regression discontinuity "
 categories: /statistics/
-subgategory: "Causal inference"
+subcategory: "Causal inference"
 tags: /discontinuity_regression/
 date: "2024-02-11"
 # image: "/docs/5ssets/images/perception/eye.jpg"

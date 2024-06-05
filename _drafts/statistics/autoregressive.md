@@ -2,7 +2,7 @@
 layout: post
 title: "The autoregressive model"
 categories: /statistics/
-subgategory: "Time series"
+subcategory: "Time series"
 tags: /time_series/
 date: "2024-02-16"
 # image: "/docs/5ssets/images/perception/eye.jpg"

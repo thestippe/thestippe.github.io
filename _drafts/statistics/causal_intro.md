@@ -2,7 +2,7 @@
 layout: post
 title: "Causal inference"
 categories: /statistics/
-subgategory: "Causal inference"
+subcategory: "Causal inference"
 tags: /causal_intro/
 date: "2024-02-07"
 # image: "/docs/assets/images/perception/eye.jpg"

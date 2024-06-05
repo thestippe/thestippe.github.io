@@ -3,7 +3,7 @@ layout: post
 title: "The central limit theorem"
 categories: /statistics/
 tags: /central_limit/
-subgategory: Introduction
+subcategory: Introduction
 date: "2024-01-11"
 section: 6
 # image: "/docs/assets/images/perception/eye.jpg"

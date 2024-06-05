@@ -2,7 +2,7 @@
 layout: post
 title: "Introduction to bayesian statistics"
 categories: /statistics/
-subgategory: Introduction
+subcategory: Introduction
 tags: /bayes_intro/
 date: "2024-05-25"
 # image: "/docs/assets/images/perception/eye.jpg"

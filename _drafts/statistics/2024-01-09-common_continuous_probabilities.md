@@ -2,7 +2,7 @@
 layout: post
 title: "Common continuous probabilities"
 categories: /statistics/
-subgategory: Introduction
+subcategory: Introduction
 section: 4
 tags: /discrete_probabilities/
 date: "2024-01-09"

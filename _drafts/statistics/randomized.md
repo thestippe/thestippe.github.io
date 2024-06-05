@@ -2,7 +2,7 @@
 layout: post
 title: "Randomized controlled trials"
 categories: /statistics/
-subgategory: "Causal inference"
+subcategory: "Causal inference"
 tags: /randomized/
 date: "2024-02-08"
 # image: "/docs/assets/images/perception/eye.jpg"

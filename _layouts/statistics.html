@@ -34,7 +34,7 @@ layout: base
   <h2>Post list</h2>
   {% for cat in site.stats_categories_order %}
   <details><summary>{{cat}}</summary>
-        {% assign pst = posts | where: "subgategory", cat | sort: "date"%}
+        {% assign pst = posts | where: "subcategory", cat | sort: "date"%}
         <ol>
         {% for post in pst %}
         <li>
