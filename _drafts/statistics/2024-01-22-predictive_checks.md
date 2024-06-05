@@ -48,7 +48,7 @@ otherwise you may end up overfitting your data.
 ## The twitter data again
 
 Let us consider again the dataset introduced
-in the [post on the Negative Binomial](/negbin).
+in the [post on the Negative Binomial](/statistics/negbin).
 We already discussed some checks in that post,
 and we carefully chose the value of the parameters
 by making an educated guess on the order of magnitude
