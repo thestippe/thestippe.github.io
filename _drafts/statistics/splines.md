@@ -4,7 +4,7 @@ title: "Splines regression"
 categories: /statistics/
 subcategory: "Non-parametric models"
 tags: /splines_regression/
-date: "2024-06-03"
+date: "2024-03-03"
 section: 7
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Going beyond linear models"

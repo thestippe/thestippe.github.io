@@ -4,7 +4,7 @@ title: "Introduction to non-parametric models"
 categories: /statistics/
 subcategory: "Non-parametric models"
 tags: /nonparametric_intro/
-date: "2024-06-02"
+date: "2024-03-02"
 section: 7
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Letting the number of parameters vary"

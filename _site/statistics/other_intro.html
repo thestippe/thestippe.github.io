@@ -15,22 +15,22 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Exponential model, gaussian model and their evolutions | Data Perspectives</title>
+<title>Introduction to this section | Data Perspectives</title>
 <meta name="generator" content="Jekyll v3.9.5" />
-<meta property="og:title" content="Exponential model, gaussian model and their evolutions" />
+<meta property="og:title" content="Introduction to this section" />
 <meta name="author" content="Data-perspectives" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Handling real-valued data" />
-<meta property="og:description" content="Handling real-valued data" />
-<link rel="canonical" href="http://localhost:4000/statistics/reals" />
-<meta property="og:url" content="http://localhost:4000/statistics/reals" />
+<meta name="description" content="Where I will discuss more general topics" />
+<meta property="og:description" content="Where I will discuss more general topics" />
+<link rel="canonical" href="http://localhost:4000/statistics/other_intro" />
+<meta property="og:url" content="http://localhost:4000/statistics/other_intro" />
 <meta property="og:site_name" content="Data Perspectives" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-01-16T00:00:00+00:00" />
+<meta property="article:published_time" content="2024-03-05T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Exponential model, gaussian model and their evolutions" />
+<meta property="twitter:title" content="Introduction to this section" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-16T00:00:00+00:00","datePublished":"2024-01-16T00:00:00+00:00","description":"Handling real-valued data","headline":"Exponential model, gaussian model and their evolutions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/reals"},"url":"http://localhost:4000/statistics/reals"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-03-05T00:00:00+00:00","datePublished":"2024-03-05T00:00:00+00:00","description":"Where I will discuss more general topics","headline":"Introduction to this section","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/other_intro"},"url":"http://localhost:4000/statistics/other_intro"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
 
@@ -157,7 +157,7 @@
                         Data visualization;/dataviz/dataviz;49
                 </li></ul>
                         <div style="display:flex">
-                  <a href="/statistics/negbin" class="prev">&#8249;</a>
+                  <a href="/statistics/splines" class="prev">&#8249;</a>
                   
                                 <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
                                         <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
@@ -182,8 +182,6 @@
                                 
                                 </div>
                         </nav>
-                  <a href="/statistics/categories" class="next">&#8250;</a>
-                  
         </div>
 
 
@@ -208,105 +206,30 @@
 <img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
 
 </a>
-    <h1 class="post-title p-name" itemprop="name headline">Exponential model, gaussian model and their evolutions</h1>
-    <p class="post-meta"><time class="dt-published" datetime="2024-01-16T00:00:00+00:00" itemprop="datePublished">
-        Jan 16, 2024
+    <h1 class="post-title p-name" itemprop="name headline">Introduction to this section</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-03-05T00:00:00+00:00" itemprop="datePublished">
+        Mar 5, 2024
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
   
-  2&prime;
+  1&prime;
 </span>
 </p>
   </header>
   <br>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <p>In the previous post we worked with discrete
-data (either binary or count data).</p>
+    <p>In this section I will put personal opinions and references to statistics which
+are not strictly related to Bayesian models.</p>
 
-<p>Before moving to more advanced topic, we will briefly show that
-dealing with real-valued data only requires
-to use a real-valued likelihood.</p>
+<p>I decided to add this section because statistics is a huge discipline,
+and the more I study it, the more I found interesting topics, which deserve to
+be discussed.
+The reason to discuss them is rather selfish, and it’s simply because
+I think discussing is one of the best ways to clarify my own ideas and spotting
+my own mistakes.</p>
 
-<h2 id="the-normal-distribution">The normal distribution</h2>
-
-<p>In order to show how to deal with real-valued data, we will
-use a well known dataset which is well described by a normal distribution,
-namely the housefly wing dataset provided at <a href="https://seattlecentral.edu/qelp/sets/057/057.html">this page</a>.</p>
-
-<p>As reported in the linked page, the dataset contains the measurements of the wing length
-for a set of housefly expressed in units of $0.1$ mm.</p>
-
-<p>When performing Bayesian statistics, as well as almost any other numerical
-computation, it is crucial to properly scale the data in order to avoid numerical
-issues such as overflow or underflow.
-An appropriate scaling has another advantage, which is making easier to estimate the order of magnitude of the priors.
-We will assume a normal distribution likelihood with mean $\mu$ and variance $\sigma^2$
-for the data expressed in cm.
-We do expect that the housefly has a wing length of few millimeters,
-so assuming</p>
-
-\[\mu \sim \mathcal{N}(0, 1)\]
-
-<p>and</p>
-
-\[\sigma \sim \mathcal{Exp}(1)\]
-
-<p>should be a generous enough guess for our priors.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import numpy as np
-import pymc as pm
-import arviz as az
-import pandas as pd
-from matplotlib import pyplot as plt
-
-df_length = pd.read_csv('https://seattlecentral.edu/qelp/sets/057/s057.txt',
-                        header=None).rename(columns={0: 'wing_length'})
-
-rng = np.random.default_rng(42)
-
-with pm.Model() as model:
-    sig = pm.Exponential('sig', lam=1)
-    mu = pm.Normal('mu', mu=0, sigma=1)
-    y = pm.Normal('y', mu=mu, sigma=sig, observed=df_length['wing_length']/100)
-    trace = pm.sample(random_seed=rng)
-
-az.plot_trace(trace)
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/statistics/reals/trace_norm.webp" alt="The trace for the normal model" /></p>
-
-<p>The trace looks fine, as usual.</p>
-
-<p>Since we are dealing with two variables, looking at the single marginal distributions
-only gives us a partial information about the structure of the posterior.
-We can gain some information by looking at the joint distribution as follows</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'sig'</span><span class="p">,</span> <span class="s">'mu'</span><span class="p">],</span>
-            <span class="n">kind</span><span class="o">=</span><span class="s">'kde'</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/statistics/reals/kde.webp" alt="The joint posterior density" /></p>
-
-<p>Let us verify our posterior predictive.</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>with model:
-    ppc = pm.sample_posterior_predictive(trace, random_seed=rng)
-
-az.plot_ppc(ppc)
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/statistics/reals/ppc_norm.webp" alt="The posterior predictive for the normal model" /></p>
-
-<p>As expected, the agreement is almost perfect.</p>
-
-<h2 id="conclusions">Conclusions</h2>
-
-<p>We showed that dealing with real-valued data requires no modifications to the method discussed
-in the previous posts.
-Starting from the next post, we will discuss how to deal with more advanced models.</p>
-
-  </div><a class="u-url" href="/statistics/reals" hidden></a>
+  </div><a class="u-url" href="/statistics/other_intro" hidden></a>
 
   <div>
           
@@ -315,7 +238,7 @@ Starting from the next post, we will discuss how to deal with more advanced mode
 
   <br>
   <div id='autograph'>
-          Stippe Jan 16, 2024
+          Stippe Mar 5, 2024
 
   </div>
 

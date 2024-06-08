@@ -2,12 +2,16 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+          <loc>https://http://localhost:4000/statistics/other_intro</loc>
+    <lastmod>2024-03-05T00:00:00+00:00</lastmod>
+  </url>
+  <url>
           <loc>https://http://localhost:4000/statistics/splines</loc>
-    <lastmod>2024-06-03T00:00:00+00:00</lastmod>
+    <lastmod>2024-03-03T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/nonparametric</loc>
-    <lastmod>2024-06-02T00:00:00+00:00</lastmod>
+    <lastmod>2024-03-02T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/autoregressive</loc>
@@ -196,51 +200,51 @@
   
   <url>
           <loc>https://http://localhost:4000/404</loc>
-    <lastmod>2024-06-05T21:34:11+00:00</lastmod>
+    <lastmod>2024-06-08T07:30:06+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/about</loc>
-    <lastmod>2024-06-05T21:34:11+00:00</lastmod>
+    <lastmod>2024-06-08T07:30:06+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/dataviz</loc>
-    <lastmod>2024-06-05T21:34:11+00:00</lastmod>
+    <lastmod>2024-06-08T07:30:06+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/index</loc>
-    <lastmod>2024-06-05T21:34:11+00:00</lastmod>
+    <lastmod>2024-06-08T07:30:06+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/minima-social-icons.svg</loc>
-    <lastmod>2024-06-05T21:34:11+00:00</lastmod>
+    <lastmod>2024-06-08T07:30:06+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/links</loc>
-    <lastmod>2024-06-05T21:34:11+00:00</lastmod>
+    <lastmod>2024-06-08T07:30:06+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/sitemap.xml</loc>
-    <lastmod>2024-06-05T21:34:11+00:00</lastmod>
+    <lastmod>2024-06-08T07:30:06+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics</loc>
-    <lastmod>2024-06-05T21:34:11+00:00</lastmod>
+    <lastmod>2024-06-08T07:30:06+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/css/style.css</loc>
-    <lastmod>2024-06-05T21:34:11+00:00</lastmod>
+    <lastmod>2024-06-08T07:30:06+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/main.css</loc>
-    <lastmod>2024-06-05T21:34:11+00:00</lastmod>
+    <lastmod>2024-06-08T07:30:06+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/feed.xml</loc>
-    <lastmod>2024-06-05T21:34:11+00:00</lastmod>
+    <lastmod>2024-06-08T07:30:06+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/robots.txt</loc>
-    <lastmod>2024-06-05T21:34:11+00:00</lastmod>
+    <lastmod>2024-06-08T07:30:06+00:00</lastmod>
   </url>
   
 </urlset>
