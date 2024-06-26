@@ -4,13 +4,13 @@ title: "Model comparison"
 categories: /statistics/
 subcategory: "Bayesian workflow"
 tags: /model_comparison/
-date: "2024-01-23"
+date: "2024-01-25"
 section: 3
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to choose between models"
 ---
 
-Most of the times, you won't deal with a single model
+In the majority of cases, you won't deal with a single model
 for one dataset, but you will try many models
 at the same time.
 

@@ -3,8 +3,8 @@ layout: post
 title: "Random models and mixed models"
 categories: /statistics/
 subcategory: "Advanced models"
-tags: /extreme_values_intro/
-date: "2024-02-03"
+tags: /random_models_intro/
+date: "2024-02-04"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Making inference on subgroups"
 section: 5

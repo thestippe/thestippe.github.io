@@ -4,7 +4,7 @@ title: "Introduction to survival analysis"
 categories: /statistics/
 subcategory: "Advanced models"
 tags: /survival_intro/
-date: "2024-01-31"
+date: "2024-02-01"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Estimating waiting times"
 section: 2

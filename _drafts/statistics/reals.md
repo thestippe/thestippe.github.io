@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Exponential model, gaussian model and their evolutions"
+title: "The Gaussian model"
 categories: /statistics/
 tags: /reals/
 subcategory: "Simple models"
@@ -47,7 +47,7 @@ $$
 
 should be a generous enough guess for our priors.
 
-```
+```python
 import numpy as np
 import pymc as pm
 import arviz as az
@@ -66,6 +66,8 @@ with pm.Model() as model:
     trace = pm.sample(random_seed=rng)
 
 az.plot_trace(trace)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The trace for the normal model](/docs/assets/images/statistics/reals/trace_norm.webp)
@@ -73,7 +75,7 @@ az.plot_trace(trace)
 The trace looks fine, as usual.
 
 Since we are dealing with two variables, looking at the single marginal distributions
-only gives us a partial information about the structure of the posterior.
+only gives us some partial information about the structure of the posterior.
 We can gain some information by looking at the joint distribution as follows
 
 ```python
@@ -85,7 +87,7 @@ az.plot_pair(trace, var_names=['sig', 'mu'],
 
 Let us verify our posterior predictive.
 
-```
+```python
 with model:
     ppc = pm.sample_posterior_predictive(trace, random_seed=rng)
 
@@ -101,3 +103,45 @@ As expected, the agreement is almost perfect.
 We showed that dealing with real-valued data requires no modifications to the method discussed
 in the previous posts.
 Starting from the next post, we will discuss how to deal with more advanced models.
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor
+```
+<div class="code">
+Last updated: Tue Jun 25 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+
+<br>
+matplotlib: 3.9.0
+<br>
+arviz     : 0.18.0
+<br>
+pandas    : 2.2.2
+<br>
+pymc      : 5.15.0
+<br>
+numpy     : 1.26.4
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

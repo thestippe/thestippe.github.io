@@ -15,9 +15,9 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Exponential model, gaussian model and their evolutions | Data Perspectives</title>
+<title>The Gaussian model | Data Perspectives</title>
 <meta name="generator" content="Jekyll v3.9.5" />
-<meta property="og:title" content="Exponential model, gaussian model and their evolutions" />
+<meta property="og:title" content="The Gaussian model" />
 <meta name="author" content="Data-perspectives" />
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Handling real-valued data" />
@@ -28,9 +28,9 @@
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2024-01-16T00:00:00+00:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="Exponential model, gaussian model and their evolutions" />
+<meta property="twitter:title" content="The Gaussian model" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-16T00:00:00+00:00","datePublished":"2024-01-16T00:00:00+00:00","description":"Handling real-valued data","headline":"Exponential model, gaussian model and their evolutions","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/reals"},"url":"http://localhost:4000/statistics/reals"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-16T00:00:00+00:00","datePublished":"2024-01-16T00:00:00+00:00","description":"Handling real-valued data","headline":"The Gaussian model","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/reals"},"url":"http://localhost:4000/statistics/reals"}</script>
 <!-- End Jekyll SEO tag -->
 <link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
 
@@ -58,103 +58,113 @@
         <div id='upperBarr'>
         <script src="https://d3js.org/d3.v7.js"></script>
                 <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
-                        Introduction to this section;/statistics/other_intro;1
+                        Philosophy of science;/statistics/on_philosophy_of_science;1
                 </li><li>
-                        Splines regression;/statistics/splines;2
+                        Introduction to this section;/statistics/other_intro;2
                 </li><li>
-                        Introduction to non-parametric models;/statistics/nonparametric;3
+                        Splines regression;/statistics/splines;3
                 </li><li>
-                        The autoregressive model;/statistics/autoregressive;4
+                        Introduction to non-parametric models;/statistics/nonparametric;4
                 </li><li>
-                        Introduction to time series modelling;/statistics/time_series;5
+                        Introduction to Gaussian processes;/statistics/gaussian_processes;5
                 </li><li>
-                        Synthetic control;/statistics/synthetic_control;6
+                        The autoregressive model;/statistics/autoregressive;6
                 </li><li>
-                        Regression discontinuity ;/statistics/discontinuity_regression;7
+                        Introduction to time series modelling;/statistics/time_series;7
                 </li><li>
-                        Difference in difference;/statistics/difference_in_differences;8
+                        Synthetic control;/statistics/synthetic_control;8
                 </li><li>
-                        Instrumental variable regression;/statistics/instrumental_variable;9
+                        Regression discontinuity ;/statistics/discontinuity_regression;9
                 </li><li>
-                        Randomized controlled trials;/statistics/randomized;10
+                        Difference in difference;/statistics/difference_in_differences;10
                 </li><li>
-                        Causal inference;/statistics/causal_intro;11
+                        Instrumental variable regression;/statistics/instrumental_variable;11
                 </li><li>
-                        Random models and mixed models;/statistics/random_models;12
+                        Randomized controlled trials;/statistics/randomized;12
                 </li><li>
-                        Introduction to Extreme Values theory;/statistics/extreme_intro;13
+                        Causal inference;/statistics/causal_intro;13
                 </li><li>
-                        Application of survival analysis 1;/statistics/survival_example;14
+                        Experiment analysis;/statistics/experiment_design;14
                 </li><li>
-                        Introduction to survival analysis;/statistics/survival_analysis;15
+                        Random models and mixed models;/statistics/random_models;15
                 </li><li>
-                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;16
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;16
                 </li><li>
-                        Hierarchical models;/statistics/hierarchical_models;17
+                        Application of survival analysis 1;/statistics/survival_example;17
                 </li><li>
-                        Poisson regression;/statistics/poisson_regression;18
+                        Introduction to survival analysis;/statistics/survival_analysis;18
                 </li><li>
-                        Logistic regression;/statistics/logistic_regression;19
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;19
                 </li><li>
-                        Robust linear regression;/statistics/robust_regression;20
+                        Hierarchical models;/statistics/hierarchical_models;20
                 </li><li>
-                        Introduction to the linear regression;/statistics/regression;21
+                        Poisson regression;/statistics/poisson_regression;21
                 </li><li>
-                        Model comparison;/statistics/model_averaging;22
+                        Logistic regression;/statistics/logistic_regression;22
                 </li><li>
-                        Predictive checks;/statistics/predictive_checks;23
+                        Robust linear regression;/statistics/robust_regression;23
                 </li><li>
-                        Trace inspection;/statistics/trace_inspection;24
+                        Linear regression with binary input;/statistics/regression_binary_input;24
                 </li><li>
-                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;25
+                        Introduction to the linear regression;/statistics/regression;25
                 </li><li>
-                        Mixture models;/statistics/mixture;26
+                        Model comparison;/statistics/model_averaging;26
                 </li><li>
-                        Multidimensional distributions;/statistics/categories;27
+                        Reparametrizing your model;/statistics/reparametrization;27
                 </li><li>
-                        Exponential model, gaussian model and their evolutions;/statistics/reals;28
+                        Predictive checks;/statistics/predictive_checks;28
                 </li><li>
-                        The Negative Binomial model;/statistics/negbin;29
+                        Trace inspection;/statistics/trace_inspection;29
                 </li><li>
-                        The Poisson model;/statistics/poisson;30
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;30
                 </li><li>
-                        The Beta-Binomial model;/statistics/betabin;31
+                        Mixture models;/statistics/mixture;31
                 </li><li>
-                        Common continuous probabilities;/statistics/common_continuous_probabilities;32
+                        Multidimensional distributions;/statistics/categories;32
                 </li><li>
-                        Common discrete probabilities;/statistics/common_discrete_probabilities;33
+                        The Gaussian model;/statistics/reals;33
                 </li><li>
-                        How does MCMC works;/statistics/mcmc_intro;34
+                        The Negative Binomial model;/statistics/negbin;34
                 </li><li>
-                        Introduction to Bayesian inference;/statistics/bayes_intro;35
+                        The Poisson model;/statistics/poisson;35
                 </li><li>
-                        Design tricks;/dataviz/design-introduction;36
+                        The Beta-Binomial model;/statistics/betabin;36
                 </li><li>
-                        How to choose a color map;/dataviz/palettes-introduction;37
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;37
                 </li><li>
-                        Introduction to color perception;/dataviz/color-introduction;38
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;38
                 </li><li>
-                        Drawing is redrawing;/dataviz/gender-economist;39
+                        How does MCMC works;/statistics/mcmc_intro;39
                 </li><li>
-                        Visual queries;/dataviz/visual-queries;40
+                        Introduction to Bayesian inference;/statistics/bayes_intro;40
                 </li><li>
-                        The Gestalt principles;/dataviz/gestalt;41
+                        Design tricks;/dataviz/design-introduction;41
                 </li><li>
-                        Channel effectiveness;/dataviz/effectiveness;42
+                        How to choose a color map;/dataviz/palettes-introduction;42
                 </li><li>
-                        Evolutions of the line chart;/dataviz/linechart-evolution;43
+                        Introduction to color perception;/dataviz/color-introduction;43
                 </li><li>
-                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;44
+                        Drawing is redrawing;/dataviz/gender-economist;44
                 </li><li>
-                        Perception;/dataviz/perception;45
+                        Visual queries;/dataviz/visual-queries;45
                 </li><li>
-                        Fundamental charts;/dataviz/fundamental-charts;46
+                        The Gestalt principles;/dataviz/gestalt;46
                 </li><li>
-                        Marks and channels;/dataviz/marks-channels;47
+                        Channel effectiveness;/dataviz/effectiveness;47
                 </li><li>
-                        Data abstraction;/dataviz/data-types;48
+                        Evolutions of the line chart;/dataviz/linechart-evolution;48
                 </li><li>
-                        Data visualization;/dataviz/dataviz;49
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;49
+                </li><li>
+                        Perception;/dataviz/perception;50
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;51
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;52
+                </li><li>
+                        Data abstraction;/dataviz/data-types;53
+                </li><li>
+                        Data visualization;/dataviz/dataviz;54
                 </li></ul>
                         <div style="display:flex">
                   <a href="/statistics/negbin" class="prev">&#8249;</a>
@@ -208,13 +218,13 @@
 <img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
 
 </a>
-    <h1 class="post-title p-name" itemprop="name headline">Exponential model, gaussian model and their evolutions</h1>
+    <h1 class="post-title p-name" itemprop="name headline">The Gaussian model</h1>
     <p class="post-meta"><time class="dt-published" datetime="2024-01-16T00:00:00+00:00" itemprop="datePublished">
         Jan 16, 2024
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
   
-  2&prime;
+  3&prime;
 </span>
 </p>
   </header>
@@ -254,24 +264,26 @@ so assuming</p>
 
 <p>should be a generous enough guess for our priors.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import numpy as np
-import pymc as pm
-import arviz as az
-import pandas as pd
-from matplotlib import pyplot as plt
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 
-df_length = pd.read_csv('https://seattlecentral.edu/qelp/sets/057/s057.txt',
-                        header=None).rename(columns={0: 'wing_length'})
+<span class="n">df_length</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'https://seattlecentral.edu/qelp/sets/057/s057.txt'</span><span class="p">,</span>
+                        <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">).</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="mi">0</span><span class="p">:</span> <span class="s">'wing_length'</span><span class="p">})</span>
 
-rng = np.random.default_rng(42)
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 
-with pm.Model() as model:
-    sig = pm.Exponential('sig', lam=1)
-    mu = pm.Normal('mu', mu=0, sigma=1)
-    y = pm.Normal('y', mu=mu, sigma=sig, observed=df_length['wing_length']/100)
-    trace = pm.sample(random_seed=rng)
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s">'sig'</span><span class="p">,</span> <span class="n">lam</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sig</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_length</span><span class="p">[</span><span class="s">'wing_length'</span><span class="p">]</span><span class="o">/</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 
-az.plot_trace(trace)
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/reals/trace_norm.webp" alt="The trace for the normal model" /></p>
@@ -279,7 +291,7 @@ az.plot_trace(trace)
 <p>The trace looks fine, as usual.</p>
 
 <p>Since we are dealing with two variables, looking at the single marginal distributions
-only gives us a partial information about the structure of the posterior.
+only gives us some partial information about the structure of the posterior.
 We can gain some information by looking at the joint distribution as follows</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'sig'</span><span class="p">,</span> <span class="s">'mu'</span><span class="p">],</span>
@@ -290,10 +302,10 @@ We can gain some information by looking at the joint distribution as follows</p>
 
 <p>Let us verify our posterior predictive.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>with model:
-    ppc = pm.sample_posterior_predictive(trace, random_seed=rng)
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 
-az.plot_ppc(ppc)
+<span class="n">az</span><span class="p">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">ppc</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/reals/ppc_norm.webp" alt="The posterior predictive for the normal model" /></p>
@@ -305,6 +317,46 @@ az.plot_ppc(ppc)
 <p>We showed that dealing with real-valued data requires no modifications to the method discussed
 in the previous posts.
 Starting from the next post, we will discuss how to deal with more advanced models.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">pytensor</span>
+</code></pre></div></div>
+<div class="code">
+Last updated: Tue Jun 25 2024
+<br />
+
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.4
+<br />
+IPython version      : 8.24.0
+<br />
+
+<br />
+xarray  : 2024.5.0
+<br />
+pytensor: 2.20.0
+<br />
+
+<br />
+matplotlib: 3.9.0
+<br />
+arviz     : 0.18.0
+<br />
+pandas    : 2.2.2
+<br />
+pymc      : 5.15.0
+<br />
+numpy     : 1.26.4
+<br />
+
+<br />
+Watermark: 2.4.3
+<br />
+</div>
 
   </div><a class="u-url" href="/statistics/reals" hidden></a>
 

@@ -4,7 +4,7 @@ title: "Robust linear regression"
 categories: /statistics/
 subcategory: "Regression"
 tags: /robust_regression/
-date: "2024-01-26"
+date: "2024-01-27"
 section: 1
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Reducing sensitivity to large deviations"
@@ -106,7 +106,7 @@ az.plot_trace(trace_norm)
 
 ![The trace of the normal model](/docs/assets/images/statistics/robust_regression/trace_norm.webp)
 
-The traces doesn't show any relevant issue, and for our purposes it is
+The trace doesn't show any relevant issue, and for our purposes it is
 sufficient this check.
 Let us check our fit
 
@@ -142,7 +142,7 @@ We will leave the parameters $\alpha\,, \beta$ and $\tau = \frac{1}{\sigma}$
 unchanged, but we must choose a prior for the number of degrees of
 freedom $\nu\,.$
 
-We wand a robust estimate, so we want a prior with a small
+We want a robust estimate, so we want a prior with a small
 number of degrees of freedom. However, $\nu \approx 0$
 can be hard to handle from a numeric perspective,
 since the resulting distribution decreases very slowly 
@@ -221,7 +221,7 @@ df_compare
 | Robust model |      1 |   -32.452  | 6.97777 |     1.65029 | 0.120779 | 4.68686 | 2.10687 | False     | log     |
 
 The difference is $1.65\,,$ and the difference due to the number
-of the degrees of freedom is the difference of the $p_loo\,,$
+of the degrees of freedom is the difference of the $p_{loo}\,,$
 which is approximately 2.2, so the entire preference is due
 to the lower number of degrees of freedom of the normal distribution.
 
@@ -265,9 +265,9 @@ Pareto k diagnostic values:
 There are two points which strongly affect our parameters,
 and one reasonable assumption is that one of those is the South Africa.
 
-Let us try and see what does it happens once we remove it.
+Let us try and see what does it happen once we remove it.
 
-```
+```python
 with pm.Model() as model_norm_red:
     alpha = pm.Normal('alpha', mu=0, sigma=20)
     beta = pm.Normal('beta', mu=0, sigma=20)
@@ -312,9 +312,9 @@ which shows a negative association between the turnover
 and the average income inequality.
 Since the conclusion of the full normal model are heavily 
 affected by the South Africa, before drawing
-any conclusion one should carefully assess whether does this
-makes sense. Is the South Africa really representative or
-is it a special case? 
+any conclusion one should carefully assess whether it
+makes sense or not. Is the South Africa really representative or
+is it a special case?
 
 ## Conclusions
 

@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Linear regression with binary input | Data Perspectives</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Linear regression with binary input" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Extending regression to discrete variables" />
+<meta property="og:description" content="Extending regression to discrete variables" />
+<link rel="canonical" href="http://localhost:4000/statistics/regression_binary_input" />
+<meta property="og:url" content="http://localhost:4000/statistics/regression_binary_input" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-01-26T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Linear regression with binary input" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-01-26T00:00:00+00:00","datePublished":"2024-01-26T00:00:00+00:00","description":"Extending regression to discrete variables","headline":"Linear regression with binary input","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/regression_binary_input"},"url":"http://localhost:4000/statistics/regression_binary_input"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;"><ul hidden='hidden' id="postList"><li>
+                        Philosophy of science;/statistics/on_philosophy_of_science;1
+                </li><li>
+                        Introduction to this section;/statistics/other_intro;2
+                </li><li>
+                        Splines regression;/statistics/splines;3
+                </li><li>
+                        Introduction to non-parametric models;/statistics/nonparametric;4
+                </li><li>
+                        Introduction to Gaussian processes;/statistics/gaussian_processes;5
+                </li><li>
+                        The autoregressive model;/statistics/autoregressive;6
+                </li><li>
+                        Introduction to time series modelling;/statistics/time_series;7
+                </li><li>
+                        Synthetic control;/statistics/synthetic_control;8
+                </li><li>
+                        Regression discontinuity ;/statistics/discontinuity_regression;9
+                </li><li>
+                        Difference in difference;/statistics/difference_in_differences;10
+                </li><li>
+                        Instrumental variable regression;/statistics/instrumental_variable;11
+                </li><li>
+                        Randomized controlled trials;/statistics/randomized;12
+                </li><li>
+                        Causal inference;/statistics/causal_intro;13
+                </li><li>
+                        Experiment analysis;/statistics/experiment_design;14
+                </li><li>
+                        Random models and mixed models;/statistics/random_models;15
+                </li><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;16
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;17
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;18
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;19
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;20
+                </li><li>
+                        Poisson regression;/statistics/poisson_regression;21
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;22
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;23
+                </li><li>
+                        Linear regression with binary input;/statistics/regression_binary_input;24
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;25
+                </li><li>
+                        Model comparison;/statistics/model_averaging;26
+                </li><li>
+                        Reparametrizing your model;/statistics/reparametrization;27
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;28
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;29
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;30
+                </li><li>
+                        Mixture models;/statistics/mixture;31
+                </li><li>
+                        Multidimensional distributions;/statistics/categories;32
+                </li><li>
+                        The Gaussian model;/statistics/reals;33
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;34
+                </li><li>
+                        The Poisson model;/statistics/poisson;35
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;36
+                </li><li>
+                        Common continuous probabilities;/statistics/common_continuous_probabilities;37
+                </li><li>
+                        Common discrete probabilities;/statistics/common_discrete_probabilities;38
+                </li><li>
+                        How does MCMC works;/statistics/mcmc_intro;39
+                </li><li>
+                        Introduction to Bayesian inference;/statistics/bayes_intro;40
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;41
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;42
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;43
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;44
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;45
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;46
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;47
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;48
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;49
+                </li><li>
+                        Perception;/dataviz/perception;50
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;51
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;52
+                </li><li>
+                        Data abstraction;/dataviz/data-types;53
+                </li><li>
+                        Data visualization;/dataviz/dataviz;54
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/regression" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+                  <a href="/statistics/robust_regression" class="next">&#8250;</a>
+                  
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">Linear regression with binary input</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-01-26T00:00:00+00:00" itemprop="datePublished">
+        Jan 26, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  5&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>Linear regression can be straightforwardly applied when the independent variable
+$X$ is discrete. One should only pay attention to the interpretation
+of the parameters in this case, as the interpretation provided in the 
+previous post may not apply.</p>
+
+<h2 id="the-model">The model</h2>
+
+<p>Here we will use the “Student alcohol consumption”
+dataset, available on <a href="https://data.world/databeats/student-alcohol-consumption/">this data.world page</a>.
+In this study, the authors analyzed the relationship between
+alcohol consumption and many aspects of the student’s life, including
+the school behavior.
+We will analyze the difference in the math grades between male and female
+students.</p>
+
+<p>Our model will be the following</p>
+
+\[y_i = \mathcal{N}(\mu_i, \sigma)\]
+
+<p>where</p>
+
+\[\mu_i = \beta_0 + \beta_1 x_i\]
+
+<p>and</p>
+
+\[x_i =
+\begin{cases}
+0 &amp; if\, x=F\\
+1 &amp; if\, x=M
+\end{cases}\]
+
+<p>In this case we have that, for female students,
+the average grade is $\beta_0\,,$
+while for male students it is $\beta_0 + \beta_1\,.$</p>
+
+<p>In this case, the female group, namely the one which has average
+grade $\beta_0\,,$ is called the <strong>reference group</strong>.</p>
+
+<p>The parameter $\beta_1$ can be now interpreted as the difference
+between the average male and female grade.</p>
+
+<h2 id="the-implementation">The implementation</h2>
+
+<p>Let us now see how to implement this model</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'https://query.data.world/s/qz5sf27veajjivl3bpa5npazsxzn7z?dws=00000'</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p>Let us now only keep the columns we are interested in</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">df_red</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s">'sex'</span><span class="p">,</span> <span class="s">'G3'</span><span class="p">]]</span>
+
+<span class="n">df_red</span><span class="p">[</span><span class="s">'sex'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_red</span><span class="p">[</span><span class="s">'sex'</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="s">'category'</span><span class="p">)</span>
+
+<span class="n">df_red</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: left">sex</th>
+      <th style="text-align: right">G3</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: left">F</td>
+      <td style="text-align: right">6</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: left">F</td>
+      <td style="text-align: right">6</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left">F</td>
+      <td style="text-align: right">10</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: left">F</td>
+      <td style="text-align: right">15</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: left">F</td>
+      <td style="text-align: right">10</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We can now easily build our model.
+We could easily do this as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_red</span><span class="p">[</span><span class="s">'sex'</span><span class="p">]</span><span class="o">==</span><span class="s">'M'</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>This method works fine for a binary category, but this method becomes
+cumbersome as the number of categories grows.
+Fortunately, pandas provides a builtin function to do this job,
+namely the “factorize” function.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x</span><span class="p">,</span> <span class="n">cat_data</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">factorize</span><span class="p">(</span><span class="n">df_red</span><span class="p">[</span><span class="s">'sex'</span><span class="p">])</span>
+
+<span class="n">cat_data</span>
+</code></pre></div></div>
+<div class="code">
+CategoricalIndex(['F', 'M'], categories=['F', 'M'], ordered=False, dtype='category')
+</div>
+
+<p>Since the first category is “F”, the females will be associated 
+to the 0 values in x, while males will be associated to 1.</p>
+
+<p>We can now implement the model</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">x</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'G3'</span><span class="p">])</span>
+    <span class="n">idata</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/regression_binary/trace.webp" alt="The trace for our simple model" /></p>
+
+<p>Let us take a better look to the beta parameters</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s">'beta'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/regression_binary/forest.webp" alt="The forest plot for the beta parameters" /></p>
+
+<p>It looks like, in this study, the male students 
+have on average a slightly higher math grade than the female students.</p>
+
+<h2 id="posterior-predictive-checks">Posterior predictive checks</h2>
+
+<p>Let us now verify if the observed data are included within the predicted
+uncertainties</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">yt</span> <span class="ow">in</span> <span class="n">az</span><span class="p">.</span><span class="n">extract</span><span class="p">(</span><span class="n">ppc</span><span class="p">,</span> <span class="n">num_samples</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s">'posterior_predictive'</span><span class="p">)[</span><span class="s">'y'</span><span class="p">].</span><span class="n">T</span><span class="p">:</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">low</span><span class="o">=-</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">high</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+    <span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="o">+</span><span class="n">s</span><span class="p">,</span> <span class="n">yt</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">df_red</span><span class="p">[</span><span class="s">'G3'</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xticks</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xticklabels</span><span class="p">([</span><span class="s">'F'</span><span class="p">,</span> <span class="s">'M'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/regression_binary/ppc.webp" alt="The posterior predictive for our model" /></p>
+
+<p>In the above code block, we “jittered” (added a small random number
+to the x variable) in order to be able to distinguish the points.</p>
+
+<p>The posterior predictive looks good, so we can conclude that
+on average the male students performed slightly better than the female
+ones.
+We could of course improve our model by imposing that the grade
+is non-negative, but if we simply want to investigate the mean
+difference, this model is enough for our purposes.
+We want to stress that this does not imply that being males makes
+you perform better at math with respect to females or vice versa,
+this would be wrong for many reasons.
+First of all, as we will discuss in the section about causal inference, this
+statement has no meaning in the counterfactual definition of causality,
+as you cannot manipulate someone’s biological sex.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We extended the linear regression model to a binary outcome,
+and discussed the interpretation of the parameter’s models when
+the binary regressor encodes a categorical variable.</p>
+
+  </div><a class="u-url" href="/statistics/regression_binary_input" hidden></a>
+
+  <div>
+          
+          
+  </div>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jan 26, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

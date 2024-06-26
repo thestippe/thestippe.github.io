@@ -10,7 +10,7 @@ section: 0
 description: "Including dependence on external variables"
 ---
 
-So far we discussed about how to model one variable. With this
+So far we discussed how to model one variable. With this
 post we will start a discussion on how to model the dependence of one
 variable on other variables, named **covariates**, **confounders**, **regressors**,
 **predictors**
@@ -18,7 +18,7 @@ or **risk factors** depending on the research area we are dealing with.
 
 ## Regression
 
-In regression we want to model the dependence of one variable
+In regression, we want to model the dependence of one variable
 $$Y$$ on one or more external variables $$X$$.
 In other words, we are trying to determine an $f$ such that
 
@@ -26,6 +26,9 @@ $$Y_i = f(X_i, \theta) + \varepsilon_i$$
 
 where $\varepsilon_i$ is some random noise and $\theta$ represents a set of parameters.
 In the case of regression, we are not interested in modelling $X_i$.
+Notice that the distribution of the $Y_i$ is now different among
+different elements, as the parameters are assumed to depend on $X_i\,.$
+In other words, the $Y_i$ are no more identically distributed.
 What we want to model is the **statistical dependence**, which is not an exact one, since
 we assume that there is some noise which makes our dependence inaccurate.
 This fact makes statistical dependence different from the mathematical dependence,
@@ -79,6 +82,7 @@ In order to understand our model, we will apply it to investigate the relation b
 a country and its life expectancy.
 
 First of all, let us import the relevant libraries.
+
 ```python
 import requests
 import json
@@ -105,7 +109,7 @@ df = pd.DataFrame.from_dict(dt).transpose().rename(columns={0: 'gdp'})
 
 ```
 
-We also download the country names from the same API and we combine the two tables
+We also download the country names from the same API, and we combine the two tables
 
 ```python
 with requests.get('https://www.imf.org/external/datamapper/api/v1/countries') as countries:
@@ -159,9 +163,9 @@ sns.pairplot(df_final[['log GDP', 'Life expectancy']])
 The homoscedasticity only seems to hold approximately, as in the region with lower GDP the data shows
 a larger variance with respect to countries with higher GDP.
 For the sake of simplicity, we will stick to the constant variance assumption, and we will see how to deal
-with heterogenic variance in a future post.
+with heterogeneous variance in a future post.
 
-Let us now setup our model
+Let us now set up our model
 
 ```python
 rng = np.random.default_rng(42)
@@ -257,10 +261,12 @@ post on linear regression, so we won't implement these models here.
 
 We introduced the linear model, and we saw how to implement it
 with an example.
+As we will see in the future posts, the linear model is the 
+starting point for almost any regression model.
 We discussed the interpretation of the parameters and some
 of the most relevant assumptions we made about data.
 
 ## Suggested readings
 
--  <cite> Kutner, M. H., Nachtsheim, C., Neter, J. (2004). Applied linear regression models. UK: McGraw-Hill/Irwin. </cite>
-- <cite> Gelman, A., Hill, J., Vehtari, A. (2020). Regression and Other Stories. India: Cambridge University Press. </cite>
+-  <cite> Kutner, M. H., Nachtsheim, C., Neter, J. (2004). Applied linear regression models.UK: McGraw-Hill/Irwin. </cite>
+- <cite> Gelman, A., Hill, J., Vehtari, A. (2020). Regression and Other Stories. India: Cambridge University Press. </cite>

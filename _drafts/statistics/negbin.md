@@ -27,27 +27,31 @@ by using the Negative Binomial model.
 
 I downloaded my own twitter data from [analytics.twitter.com](https://analytics.twitter.com),
 and I wanted to analyze what's the distribution of interaction
-rates across my tweets, and here's the results.
+rates across my tweets, and here's the results [^1].
 
-|interactions|count|
-|-----------|------|
-|0    | 29 |
-|1    | 36 |
-|2    | 33 |
-|3    | 28 |
-|4    | 24 |
-|5    | 25 |
-|6    | 13 |
-|7    |  6 |
-|8    |  3 |
-|9    |  4 |
-|10   |  6 |
-|11   |  2 |
-|12   |  2 |
-|14   |  2 |
-|16   |  2 |
+[^1]: This happened when Twitter was a decent platform, and you could access your own statistics.
 
-we can first of all check if the Poisson model does a good job in fitting the data.
+| interactions | count |
+|--------------|-------|
+| 0            | 29    |
+| 1            | 36    |
+| 2            | 33    |
+| 3            | 28    |
+| 4            | 24    |
+| 5            | 25    |
+| 6            | 13    |
+| 7            | 6     |
+| 8            | 3     |
+| 9            | 4     |
+| 10           | 6     |
+| 11           | 2     |
+| 12           | 2     |
+| 14           | 2     |
+| 16           | 2     |
+| 25           | 1     |
+
+
+we can now check if the Poisson model does a good job in fitting the data.
 As before we will assume an exponential model for the Poisson mean,
 but since we have a larger average we choose $\lambda=1/50$ for the exponential
 parameter.
@@ -68,7 +72,7 @@ yobs = df['interactions']
 with pm.Model() as poisson:
     mu = pm.Exponential('mu', lam=1/50)
     y = pm.Poisson('y', mu=mu, observed=yobs)
-    trace = pm.sample(random_seed=rng, chains=4, draws=5000, tune=2000)
+    trace = pm.sample(random_seed=rng, chains=4, draws=5000, tune=2000, nuts_sampler='numpyro')
 
 az.plot_trace(trace)
 ```
@@ -77,6 +81,9 @@ az.plot_trace(trace)
 
 The trace seems OK, and for the sake of brevity we won't perform all the
 trace checks. However, keep in mind that you should always do them.
+To compute the trace, we used the numpyro sampler, which is much
+faster than the ordinary NUTS sampler.
+
 Let us jump to the posterior predictive check and verify if our model
 is capable to reproduce the data.
 
@@ -106,7 +113,80 @@ $$
 Y \sim \mathcal{NegBin}(\theta, \nu)
 $$
 
-The above distribution, in PyMC, has more than one parametrizations,
+
+<details class="math-details">
+<summary> The negative binomial distribution</summary>
+<div class="math-details-detail">
+
+Given a set of i.i.d. Bernoulli random variables $X_i$
+having success probability $p\,,$
+the negative binomial model describes the number of failures $x \in \mathbb{N}$ before you get
+a fixed number of successes $n>0\,.$
+
+$$
+p(x | n, p) \propto p^n (1-p)^x
+$$
+
+We must now count the number of possible ways to rearrange the events.
+The last event is, by construction, a success. Therefore, we
+have that the number of possible ways to get $x$ failures
+out of $n+x-1$ events is $\binom{n+x-1}{x}\,,$
+so
+$$
+p(x | n, p) = \binom{x+n-1}{x} p^n (1-p)^x\,.
+$$
+
+The parameter $n$ should, in principle, be integer.
+We can however extend the definition of the negative binomial
+distribution by means of the Gamma function
+
+$$
+p(x | n, p) = \frac{\Gamma(x+n)}{\Gamma(x+1)\Gamma(n)} p^n (1-p)^x\,.
+$$
+
+The parameter $p$ must belong to the $[0, 1]$ interval, and it can be parametrized as
+
+$$
+p = \frac{\mu}{\mu+n}  \,, \mu \geq 0\,.
+$$
+
+When $n=1$ the negative binomial is also known as the geometric distribution, and this distribution
+has
+
+$$
+p(x | p) = p (1-p)^x\,.
+$$
+
+This distribution has expected value
+
+$$
+\begin{align}
+\mathbb{E}_{geom}[X] = & \sum_{x=0}^\infty x p (1-p)^x = p \left(\sum_{x=1}^\infty   x q^x\right)_{q=1-p}
+=  p  \left(q \sum_{x=0}^\infty   x q^{x-1}\right)_{q=1-p} \\
+ = & p \left(q \frac{\partial}{\partial q} \sum_{x=0}^\infty   q^{x}\right)_{q=1-p} 
+= p \left(q \frac{\partial}{\partial q} \frac{1}{1-q} \right)_{q=1-p} 
+= p \left( \frac{q}{(1-q)^2}\right)_{q=1-p} \\= & p \frac{1-p}{p^2} = \frac{1-p}{p}
+\end{align}
+$$
+
+Since the negative binomial with a general $n$ can be seen as the sum of $n$ independent
+geometric random variables, it is straightforward to get
+
+$$
+\mathbb{E}[X] = n \frac{1-p}{p}\,.
+$$
+
+In the same way we can calculate
+
+$$
+Var[X] = n \frac{1-p}{p^2}\,.
+$$
+
+</div>
+</details>
+
+
+The above distribution, in PyMC, has more than one parametrization,
 but we will stick to the one already introduced,
 where $\theta \in [0, 1]$ and $\nu > 0\,.$
 
@@ -137,9 +217,11 @@ with pm.Model() as negbin:
     nu = pm.Exponential('nu', lam=1/10)
     theta = pm.Uniform('theta')
     y = pm.NegativeBinomial('y', p=theta, n=nu, observed=yobs)
-    trace_nb = pm.sample(random_seed=rng, chains=4, draws=5000, tune=2000)
+    trace_nb = pm.sample(random_seed=rng, chains=4, draws=5000, tune=2000, nuts_sampler='numpyro')
 
 az.plot_trace(trace_nb)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The Negative Binomial trace](/docs/assets/images/statistics/negbin/trace_nb.webp)
@@ -192,3 +274,48 @@ We have discussed the Negative Binomial model and introduced the LOO method
 to perform a model comparison.
 We also saw in which situations it might be appropriate to choose a Negative
 Binomial model over a Poisson one.
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Mon Jun 24 2024
+<br>
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+numpyro : 0.15.0
+<br>
+jax     : 0.4.28
+<br>
+jaxlib  : 0.4.28
+<br>
+<br>
+pandas    : 2.2.2
+<br>
+arviz     : 0.18.0
+<br>
+pymc      : 5.15.0
+<br>
+matplotlib: 3.9.0
+<br>
+numpy     : 1.26.4
+<br>
+<br>
+Watermark: 2.4.3
+<br>
+</div>

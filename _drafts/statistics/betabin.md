@@ -38,6 +38,60 @@ $$
 Y \sim \mathcal{Binom}(\theta, n)
 $$
 
+<details class="math-details">
+<summary> The binomial distribution</summary>
+<div class="math-details-detail">
+
+The binomial distribution $$\mathcal{Binom}(p, n)$$ describes the probability
+of the random variable $$X= \sum_{i=1}^n X_i\,, X \in \{0,1,...,n\}$$
+where the $X_i \in \{0, 1\}$ are independent identically distributed random variables
+following the Bernoulli distribution with probability $p:$
+
+$$
+X_i = 
+\begin{cases}
+1 & \text{with probability } p\\
+0 & \text{with probability } 1-p
+\end{cases}\,,
+p \in [0, 1]
+$$
+
+The Bernoulli distribution has
+
+$$
+\mathbb{E}[X_i] = \sum_{i=0}^1 P(x=i)i = 0(1-p)+1p=p 
+$$
+
+and
+
+$$
+\mathbb{E}[(X_i-\mathbb{E}[X_i])^2] = \sum_{i=0}^1 P(x=i)(i-p)^2 = (1-p)(0-p)^2+p(1-p)^2 = p(1-p)
+$$
+
+Since a binomial random variable is the sum of independent Bernoulli
+random variables, we immediately have
+
+$$
+\begin{align}
+\mathbb{E}[X] & = n p\\
+Var[X] & = n p (1-p) \\
+\end{align}
+$$
+
+The binomial probability mass function must fulfill
+
+$$
+p(k | p, n) \propto p^k (1-p)^{n-k}\,. 
+$$
+
+By normalizing it to 1 we get
+
+$$
+p(k | p, n) = \binom{n}{k} p^k (1-p)^{n-k}
+$$
+</div>
+</details>
+
 The total number of observed retraction is a sufficient statistic
 for $n p\,,$ so our point estimate for $\theta$ is
 
@@ -58,7 +112,7 @@ $$[z_{\alpha/2}, z_{1-\alpha/2}] = [-z_{1-\alpha/2}, z_{1-\alpha/2}]\,,$$
 
 as we are leaving outside from the CI a region with probability $\alpha\,,$
 so we must leave out $\alpha/2$ on the lower side and $\alpha/2$ on the upper side.
-We will stuck for now to the usual $\alpha=0.05\,,$
+We will stick for now to the usual $\alpha=0.05\,,$
 so $z_{0.975}=1.96\,,$ and our confidence interval reads
 
 $$
@@ -88,6 +142,50 @@ We must now specify a prior distribution for $\theta\,,$
 with the requirement that it must have $[0, 1]$ as support.
 A flexible enough family of distributions is given by the Beta distribution
 $$\mathcal{Beta}(\alpha, \beta)\,.$$
+
+
+<details class="math-details">
+<summary> The beta distribution
+</summary>
+<br>
+The beta distribution is defined via
+
+$$
+p(x | \alpha, \beta) \propto x^{\alpha-1} (1-x)^{\beta-1}\,,x\in[0, 1]
+$$
+
+The probability density function $p(x|\alpha, \beta)$ must be integrable,
+we therefore have $\alpha,\beta > 0\,.$
+This distribution takes its name from the normalization constant,
+which is the inverse of the Euler beta function
+
+$$
+B(\alpha, \beta) = \int_0^1 dx x^{\alpha-1}(1-x)^{\beta-1}
+$$
+
+$$
+p(x | \alpha, \beta) = \frac{1}{B(\alpha, \beta)} x^{\alpha-1} (1-x)^{\beta-1}
+$$
+
+The expected value for a random variable distributed according to the beta distribution is
+
+$$
+\begin{align}
+\mathbb{E}[X] = & \frac{1}{B(\alpha, \beta)} \int_0^1 dx x x^{\alpha-1} (1-x)^{\beta-1}
+= \frac{B(\alpha+1, \beta)}{B(\alpha, \beta)} =
+\frac{\Gamma(\alpha+1)\Gamma(\beta)}{\Gamma(\alpha+\beta+1)} \frac{\Gamma(\alpha+\beta)}{\Gamma(\alpha)\Gamma(\beta)}
+= \frac{\alpha}{\alpha+\beta}
+\end{align}
+$$
+
+In a similar way one obtains
+
+$$
+Var[X] = \frac{\alpha \beta}{(\alpha+\beta)^2(\alpha+\beta+1)}
+$$
+
+</details>
+
 Now the question is: which values for $\alpha$ and $\beta$ should we choose should we choose?
 This is one of the central issues in Bayesian statistics, and there are
 many ongoing debates on this.
@@ -113,7 +211,7 @@ An analytic treatment would be possible, but we prefer to show how to use python
 in order to solve this problem.
 
 ```python
-# Let us firts import the libraries
+# Let us first import the libraries
 import numpy as np
 import pymc as pm
 import arviz as az
@@ -142,13 +240,13 @@ with betabin:
 ```
 
 All the sampled data is available inside the trace object.
-We can visually inspected the traces as
+We can visually inspect the traces as
 
 ```python
 az.plot_trace(trace)
 ```
 
-![The sampled trace](/docs/assets/images/statistics/bayesian_intro/trace.webp)
+![The sampled trace](/docs/assets/images/statistics/betabin/trace.webp)
 
 The trace looks fine.
 For the moment trust me, we will discuss later in this blog how to verify if the sampling had problems.
@@ -171,7 +269,11 @@ The remaining statistics (MCSE, ESS and $\hat{R}$) will be discussed in a future
 
 We can also plot the posterior distribution for $\theta$
 
-![The sampled posterior](/docs/assets/images/statistics/bayesian_intro/posterior.webp)
+```python
+az.plot_posterior(trace)
+```
+
+![The sampled posterior](/docs/assets/images/statistics/betabin/posterior.webp)
 
 ## Comparing the results
 
@@ -200,7 +302,7 @@ We also have that, when the sample size is large enough, we can approximate
 the confidence interval with the credible interval.
 
 For this reason, we see no reason not to stick to the Bayesian framework rather
-limiting ourself to large samples and getting similar results.
+limiting ourselves to large samples and getting similar results.
 
 ## Conclusions
 
@@ -211,3 +313,39 @@ Moreover, reporting the full posterior provides much more information about how
 the data constrain the parameter.
 We also introduced two key issues in the Bayesian approach, the prior specification
 and the assessment of the sample convergence.
+
+
+```python
+%load_ext watermark
+```
+```python
+%watermark -n -u -v -iv -w
+```
+
+<div class="code">
+Last updated: Mon Jun 24 2024
+<br>
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+<br>
+numpy     : 1.26.4
+<br>
+matplotlib: 3.9.0
+<br>
+pymc      : 5.15.0
+<br>
+arviz     : 0.18.0
+<br>
+<br>
+Watermark: 2.4.3
+</div>
+
+## Suggested readings
+
+-  <cite> Gelman, A., Carlin, J. B., Stern, H. S., Rubin, D. B. (2003). Bayesian Data Analysis, Second Edition. US: Taylor & Francis. </cite>
+

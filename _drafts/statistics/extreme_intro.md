@@ -4,7 +4,7 @@ title: "Introduction to Extreme Values theory"
 categories: /statistics/
 subcategory: "Advanced models"
 tags: /extreme_values_intro/
-date: "2024-02-02"
+date: "2024-02-03"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Describing rare events"
 section: 4

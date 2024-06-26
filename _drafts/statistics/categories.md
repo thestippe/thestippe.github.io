@@ -61,14 +61,16 @@ import seaborn as sns
 df_f1 = pd.read_csv(
     'https://raw.githubusercontent.com/toUpperCase78/formula1-datasets/master/Formula1_2022season_raceResults.csv')
 
-# Convert the results in a useful format
+df_red = df_f1[df_f1['Position']=='1'].groupby('Driver').count()
 
 y_obs = pd.factorize(df_f1[df_f1['Position']=='1']['Driver'])[0]
+
+seed = np.random.default_rng(seed=42)
 
 with pm.Model() as cat_model:
     p = pm.Dirichlet('p', a=np.ones(len(df_red))/len(df_red))
     y = pm.Categorical('y', p=p, observed=y_obs)
-    trace = pm.sample()
+    trace = pm.sample(nuts_sampler='numpyro', random_seed=seed)
 
 az.plot_trace(trace)
 ```

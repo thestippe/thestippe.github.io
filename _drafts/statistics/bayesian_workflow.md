@@ -87,7 +87,7 @@ As a rule of thumb, at least the 50% of the data should fall in the 50% highest 
 
 Now you can finally run your simulation. At the beginning, you shouldn't waste
 too much time in running very large simulations, but you should rather limit
-yourself to small samples (say one or two thousands of draws).
+yourself to small samples (say one or two thousand of draws).
 In this way you will be able to figure out in a shorter time if there's any issue.
 
 Only once everything looks good you can draw the final sample,
@@ -123,7 +123,7 @@ the salient features of the data.
 As previously stated, all models are wrong, so it's unlikely that you will be able
 to reproduce all the features of the data, 
 but we should at least be able to reproduce the relevant ones,
-where by relevant I mean with respect to your questions.
+whereby relevant I mean with respect to your questions.
 
 Prior and posterior predictive checks
 are discussed in [this post](/predictive_checks).
@@ -136,7 +136,7 @@ is better reproduced by each model.
 This part of the flow is called model comparison or model averaging,
 although in most cases you won't be really averaging over the models.
 
-If the model looks good enough, you can stuck here and use the informations
+If the model looks good enough, you can stick here and use the information
 that you extracted from the model.
 
 We also include sensitivity analysis into this step, as different

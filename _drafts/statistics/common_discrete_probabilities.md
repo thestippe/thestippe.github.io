@@ -166,7 +166,7 @@ must be given by:
 
 $$P(X=k) \propto \frac{\mu^k}{k!}$$
 
-where the denominator has been introduce
+where the denominator has been introduced
 since we don't care the order of the events.
 We can get the overall normalization constant by normalizing the probability to one
 

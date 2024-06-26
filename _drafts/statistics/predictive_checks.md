@@ -4,7 +4,7 @@ title: "Predictive checks"
 categories: /statistics/
 subcategory: "Bayesian workflow"
 tags: /predictive_checks/
-date: "2024-01-22"
+date: "2024-01-23"
 section: 2
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Verifying the predictions of your model"

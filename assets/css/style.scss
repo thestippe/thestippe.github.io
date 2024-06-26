@@ -57,7 +57,6 @@
 
 
 
-
 html, body, fieldset, img {
         font-size: 100%;
         font-family: 'Optima', serif;
@@ -81,6 +80,17 @@ body {
   display: grid;
   gap: 1rem;
 }
+
+.math-details {
+    align: center;
+    width: 98%;
+    background-color: lightgray;
+    padding: 15px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    margin: auto;
+    }
+
 
 @media (min-width: 600px) {
   .cards { grid-template-columns: repeat(2, 1fr); }

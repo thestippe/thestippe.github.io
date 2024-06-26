@@ -12,6 +12,10 @@ description: "How to describe count data"
 
 The last time we saw how to estimate probabilities. In this post we will take
 a first look at how to describe count data, *i.e.* non-negative integers.
+We will also anticipate the Bayesian workflow, which are the
+steps you should follow in order to ensure that your
+model is appropriate for your data.
+These steps will be discussed more in depth in a future section.
 
 ## Clicks on a button
 
@@ -22,10 +26,89 @@ a very frequent event, we only expected a very small number of click
 per week.
 In this kind of situation, a common and appropriate choice is the Poisson model
 for the count data.
-The Poisson model requires a positive parameter $\mu\,,$
-and since we are doing Bayesian statistics, we must specify the prior
+
+<details class="math-details">
+<summary> The Poisson distribution
+</summary>
+The Poisson distribution is probably the simplest distribution for
+count data.
+Let us assume that we have an event that, on average, occurs $\mu>0$ times within a time $t\,.$
+If every event is independent on the others,
+the probability that we observe $k$ events must go as
+
+$$P(X=k | \mu) \propto \frac{\mu^k}{k!}$$
+
+where the denominator has been introduced
+since we don't care the order of the events.
+We can normalize it by observing that
+
+$$
+\sum_{k=0}^\infty \frac{\mu^k}{k!} = e^\mu
+$$
+
+therefore
+$$
+p(k | \mu) =e^{-\mu } \frac{ \mu ^k}{k!}\,.$$
+
+
+We have
+
+$$
+\begin{align}
+\mathbb{E}[X] & = 
+e^{-\mu} \sum_{k=0}^\infty k \frac{\mu^k}{k!}
+\\ &
+=e^{-\mu} \sum_{k=1}^\infty k \frac{\mu^k}{k!}
+\\ &
+=e^{-\mu} \sum_{k=1}^\infty \frac{\mu^k}{(k-1)!}
+\\ &
+=\mu e^{-\mu} \sum_{k=1}^\infty \frac{\mu^{k-1}}{(k-1)!}
+\\ &
+=\mu e^{-\mu} \sum_{k=0}^\infty \frac{\mu^{k}}{k!}
+\\ &
+= \mu
+\end{align}
+$$
+
+Analogously we can obtain
+
+$$
+Var[X] = \mathbb{E}[X^2] - \mathbb{E}[X]^2 = \mu
+$$
+</details>
+
+The Poisson distribution requires a positive parameter $\mu\,,$
+and since we are doing Bayesian inference, we must specify the prior
 distribution for this parameter.
-We will stuck to the simplest possible distribution for $\mu\,,$
+
+<details class="math-details">
+<summary> The exponential and the gamma distribution
+</summary>
+The exponential distribution is the simplest distribution
+for a positive real random variable, and its pdf reads
+
+$$
+p(x | \lambda) = \lambda e^{-\lambda x}, \lambda > 0\,.
+$$
+
+An exponentially distributed random variable $X$ with parameter $\lambda$
+has expected value
+
+$$
+\mathbb{E}[X] = \lambda \int_0^\infty dx x e^{-\lambda x} = \frac{1}{\lambda}
+$$
+
+Since this distribution is often considered too restrictive,
+you may decide and use the gamma distribution, which is a flexible generalization
+of the exponential distribution.
+
+$$
+p(x | \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha -1} e^{-\beta x}
+$$
+
+</details>
+
+We will stick to the simplest possible distribution for $\mu\,,$
 namely the exponential distribution.
 It is an appropriate distribution as it allows for any non-negative
 value, and it only has one parameter.
@@ -57,7 +140,7 @@ For the sake of completeness, here I report the number of occurrences of each co
 |10|1|
 |>10|0|
 
-```
+```python
 import pandas as pd
 import pymc as pm
 import arviz as az
@@ -131,16 +214,17 @@ Let us take a look at the trace summary
 az.summary(trace)
 ```
 
-|    |   mean |    sd |   hdi_3% |   hdi_97% |   mcse_mean |   mcse_sd |   ess_bulk |   ess_tail |   r_hat |
-|:---|-------:|------:|---------:|----------:|------------:|----------:|-----------:|-----------:|--------:|
-| mu |  3.464 | 0.203 |    3.085 |     3.841 |       0.002 |     0.002 |       8696 |      14057 |       1 |
+|          |  mean |    sd |   hdi_3% |   hdi_97% |   mcse_mean |   mcse_sd |   ess_bulk |   ess_tail |   r_hat |
+|:---------|------:|------:|---------:|----------:|------------:|----------:|-----------:|-----------:|--------:|
+| mu | 3.502 | 0.205 |    3.143 |     3.909 |       0.002 |     0.002 |       7765 |       9168 |       1 |
+
 
 As we previously mentioned, the ESS provides an estimate of the sampling
 error.
 In particular, it provides an estimate of the error due to the sampling
-autocorrelation which, ideally, should be zero.
+auto-correlation which, ideally, should be zero.
 The exact meaning of it will be discussed in a future post,
-for now I only leave [this explaination](https://mc-stan.org/docs/2_19/reference-manual/effective-sample-size-section.html) in the Stan website.
+for now I only leave [this explanation](https://mc-stan.org/docs/2_19/reference-manual/effective-sample-size-section.html) in the Stan website.
 As explained in [this R documentation page](https://easystats.github.io/bayestestR/reference/mcse.html), the MCSE is simply the standard deviation of the estimate
 (of the mean or of the standard deviation itself) divided by the ESS.
 
@@ -155,11 +239,13 @@ as it compares different traces, and this is why it should be preferred to it.
 The number of chains should be at least four in order to provide a reliable
 estimate of this quantity.
 
-As previously mentioned, the autocorrelation reduces the effective sample size.
-We can visually inspect the autocorrelation coefficients via
+As previously mentioned, the auto-correlation reduces the effective sample size.
+We can visually inspect the auto-correlation coefficients via
 
 ```python
 az.plot_autocorr(trace)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The autocorrelation coefficients](/docs/assets/images/statistics/poisson/autocorr.webp)
@@ -176,6 +262,8 @@ should get a uniform distribution.
 
 ```python
 az.plot_rank(trace)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The rank plot](/docs/assets/images/statistics/poisson/rank.webp)
@@ -186,7 +274,7 @@ so it doesn't look like there are issues from this diagnostic.
 ## Posterior predictive checks
 
 We can finally verify that our model is able to reproduce the data, and this
-is one of the most important checks that your should always do.
+is one of the most important checks that you should always do.
 For simple models like this one, it is sufficient to sample and plot
 the posterior predictive distribution.
 If the sampled distribution resembles the observed data
@@ -200,6 +288,8 @@ with poisson:
     ppc = pm.sample_posterior_predictive(trace, random_seed=rng)
 
 az.plot_ppc(ppc)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The posterior predictive distribution](/docs/assets/images/statistics/poisson/ppc.webp)
@@ -213,4 +303,34 @@ to describe the data.
 We discussed how to build a model for count data. We also introduced and briefly
 explained some of the most important checks one should do when using MCMC to 
 make Bayesian inference.
+
+```python
+%load_ext watermark
+```
+```python
+%watermark -n -u -v -iv -w
+```
+
+<div class="code">
+Last updated: Mon Jun 24 2024
+<br>
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+<br>
+numpy     : 1.26.4
+<br>
+matplotlib: 3.9.0
+<br>
+pymc      : 5.15.0
+<br>
+arviz     : 0.18.0
+<br>
+<br>
+Watermark: 2.4.3
+</div>
 

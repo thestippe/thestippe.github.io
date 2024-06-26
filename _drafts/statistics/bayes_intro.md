@@ -13,10 +13,23 @@ section: 0
 The main topic of this section will be statistics, and we will mostly discuss Bayesian
 models.
 
-## Why should you learn Bayesian statistics
+## Why learning Bayesian statistics
 
-Bayesian statistics attracted much interest in the last years, and in the last decades
+Bayesian inference attracted much interest in the last years, and in the last decades
 many Bayesian models have been developed to tackle any kind of problem.
+Most of the modern techniques developed in statistics can be viewed as Bayesian,
+as reported by Deborah Mayo, philosopher of science and emeritus professor
+
+<br>
+
+> It is not far off the mark to say that the majority of statistical applications
+> nowadays are placed under the Bayesian umbrella.
+>
+> Deborah Mayo
+
+<br>
+This popularity can be seen by visualizing the number of peer reviewed papers
+appearing on Nature tagged as "Bayes"
 
 ![The number of Nature research article 
 matching the keyword "bayes"](/docs/assets/images/statistics/intro/nature_count.webp)
@@ -27,6 +40,8 @@ In Bayesian inference you don't only get an estimate for your parameters,
 but you get the entire probability distribution for them, and this implies that
 you can immediately get the uncertainty for your parameters.
 
+
+
 In any statistical model you must specify a likelihood, which represents
 the probability distribution which generated the data, and we will refer to this quantity
 as
@@ -34,13 +49,12 @@ as
 $$ P(X | \theta)$$
 
 where $\theta$ represents the unknown parameter vector.
-In a Bayesian model you must moreover specify a prior distribution for the parameter
-set 
 
-$$P(\theta)\,.$$
+We would like to quantify the uncertainties about the unknown parameters,
+and the natural way to do so is to estimate their (posterior) probability
+distribution $$ P(\theta | X)\,.$$
 
-You can therefore compute the probability distribution of your parameters given the data
-by using the Bayes theorem:
+In order to do so, we can use Bayes theorem
 
 $$
 P(\theta | X) = \frac{P(X | \theta)}{P(X)} P(\theta)
@@ -52,6 +66,28 @@ to 1, its dependence is usually neglected and the Bayes theorem is usually rewri
 $$
 P(\theta | X) \propto P(X | \theta) P(\theta)\,.
 $$
+
+We must however provide a prior probability distribution $$P(\theta)$$
+in order to ensure that $$P(\theta | X)$$ can be normalized to one.
+
+While in the past many statisticians interpreted $$P(\theta)$$
+as the subjective probability distribution for the parameters,
+nowadays most of the statisticians agree that this object
+is simply a tool to regularize the integral
+
+$$
+\int d\theta P(X | \theta) P(\theta)
+$$
+
+since choosing $$P(\theta) = 1$$ would make the above integral indefinite.
+The choice for $$P(\theta)$$ should be such that any *relevant*
+expectation value
+
+$$
+\mathbb{E}_\theta[f] = \int d\theta f(\theta) P(X | \theta) P(\theta)
+$$
+
+does only weakly depend on the choice for $$P(\theta)\,.$$
 
 ## A historical tour in MCMC
 
@@ -74,7 +110,7 @@ You may have heard about the war of statistics, which is a debate which lasted
 almost one century between frequentist statisticians and Bayesian ones.
 At the beginning of the last century, a group of statisticians tried and promote
 Bayesian statistics as the only meaningful way to do statistical inference.
-According to them, the prior should have encoded all the available information
+As previously anticipated, according to them, the prior should have encoded all the available information
 together with any personal consideration of the researcher. In this way,
 the posterior probability distribution $P(\theta | X)$ can be interpreted
 as the updated version of the researcher's beliefs once the observed data $X$
@@ -147,15 +183,34 @@ you must find its zeros, and there is no stable procedure to do so for higher di
 The Bayesian method, on the other hand, does not require to compute any
 derivative, as you simply need to sample the posterior distribution and, as
 we will see, it is very easy to assess the goodness of such a sampling procedure.
-If you then want to compute any point estimate  $$\mathbb{E}[f(\theta)] $$, what you have to do is to compute
+If you then want to compute any point estimate  $$\mathbb{E}_\theta[f] $$, what you have to do is to compute
 the corresponding expectation value on the sample $$\left\{\theta_i\right\}_i:$$
 
 $$
-\mathbb{E}[f(\theta)] \approx \frac{1}{N} \sum_{i=1}^N f(\theta_i)
+\mathbb{E}_\theta[f] \approx \frac{1}{N} \sum_{i=1}^N f(\theta_i)
 $$
 
 and, as we will discuss, the estimate of the error associated with this procedure is already
 implemented in the sampling engine.
+
+## Bayesian inference vs Bayesian statistics
+
+There's a lot of confusion around on what using Bayesian inference means.
+Let us stress once more that using Bayesian inference does not imply 
+sticking to the subjective interpretation of probability, nor
+comparing priors to posteriors or anything like that.
+
+<br>
+
+> We are all frequentists here!
+>
+> Andrew Gelman
+
+<br>
+
+Using Bayesian inference simply allows you to add structure to your
+model and being able to directly sample
+the entire posterior probability of your models.
 
 ## Problems you will likely face if you use Bayesian inference
 

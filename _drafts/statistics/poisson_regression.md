@@ -7,7 +7,7 @@ tags: /logistic_regression/
 section: 3
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Regression on count data"
-date: "2024-01-28"
+date: "2024-01-29"
 ---
 
 In the last post we introduced the Generalized Linear Models,

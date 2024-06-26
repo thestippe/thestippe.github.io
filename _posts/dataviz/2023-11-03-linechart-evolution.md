@@ -23,7 +23,7 @@ As we have already seen, in the line chart we have
 - a quantitative value attribute on the $y$ axis
 
 As an example, let us take a look at evolution over the years the Italian GDP per capita expressed in US dollars adjusted by the US inflation, which can be found
-[on the github repo of the blog](https://github.com/thestippe/thestippe.github.io/blob/main/data/gdp_per_capita_filtered.csv).
+[on the gitHub repo of the blog](https://github.com/thestippe/thestippe.github.io/blob/main/data/gdp_per_capita_filtered.csv).
 
 The dataset is based on [Raafat Saleh's repo](https://github.com/RaafatSaleh/GDP-per-capita-and-its-effect-on-the-man-life-quality/blob/master/Data/gdppercapita_us_inflation_adjusted.csv).
 

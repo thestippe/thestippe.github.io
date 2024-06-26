@@ -4,7 +4,7 @@ title: "Logistic regression"
 categories: /statistics/
 subcategory: "Regression"
 tags: /logistic_regression/
-date: "2024-01-27"
+date: "2024-01-28"
 section: 2
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to perform regression on binary data"
@@ -38,7 +38,7 @@ $$ f : \mathbb{R} \rightarrow D$$
 we can map our random variable $$Z$$ to
 the desired domain $$D\,.$$
 
-The general GLM can therefore reads
+The general GLM can therefore be written as
 
 $$
 \begin{align}
@@ -279,6 +279,8 @@ into false positive errors (see [the Wikipedia page on this topic](https://en.wi
 
 ## Conclusions
 
-We introduced the Generalized Linear Model and we analyzed the Challenger dataset
+We introduced the Generalized Linear Model, and we analyzed the Challenger dataset
 by means of a logistic regression.
-In the next post we will discuss about Poisson regression.
+We have seen how, by means of the GLM, we can easily extend the linear regression
+to binary data.
+In the next post we will discuss the Poisson regression.
