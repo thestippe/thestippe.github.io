@@ -111,7 +111,7 @@ In some case you will simply need to run a longer chain or a longer warm-up
 phase, but in some other case you will be forced to modify your model
 or to only run your simulation on a subset of your data.
 
-[This post](/trace_inspection) treats this topic more
+[This post](/statistics/trace_inspection) treats this topic more
 in detail.
 
 ## Posterior predictive checks
@@ -126,7 +126,7 @@ but we should at least be able to reproduce the relevant ones,
 whereby relevant I mean with respect to your questions.
 
 Prior and posterior predictive checks
-are discussed in [this post](/predictive_checks).
+are discussed in [this post](/statistics/predictive_checks).
 
 ## Model comparison
 
@@ -155,3 +155,8 @@ In this case, you should go back to the first step, and start again.
 
 We discussed the structure of the Bayesian workflow, in the next posts
 we will discuss each step in detail with some practical example.
+
+
+## Recommended readings
+- <cite>Gelman et al. (2020).Bayesian Workflow.
+</cite>
