@@ -4,7 +4,7 @@ title: "Linear regression with binary input"
 categories: /statistics/
 subcategory: "Regression"
 tags: /binary_linear_regression/
-date: "2024-01-26"
+date: "2024-03-10"
 section: 0
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Extending regression to discrete variables"
@@ -51,8 +51,8 @@ In this case we have that, for female students,
 the average grade is $\beta_0\,,$
 while for male students it is $\beta_0 + \beta_1\,.$
 
-In this case, the female group, namely the one which has average
-grade $\beta_0\,,$ is called the **reference group**.
+The female group and, more generally, the group 
+with average dependent variable $\beta_0\,,$ is called the **reference group**.
 
 The parameter $\beta_1$ can be now interpreted as the difference
 between the average male and female grade.

@@ -4,7 +4,7 @@ title: "Introduction to this section"
 categories: /statistics/
 subcategory: "Other random thoughts"
 tags: /other_intro/
-date: "2024-03-05"
+date: "2024-07-05"
 section: 8
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Where I will discuss more general topics"

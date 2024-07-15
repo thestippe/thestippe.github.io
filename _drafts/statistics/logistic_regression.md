@@ -4,7 +4,7 @@ title: "Logistic regression"
 categories: /statistics/
 subcategory: "Regression"
 tags: /logistic_regression/
-date: "2024-01-28"
+date: "2024-03-31"
 section: 2
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to perform regression on binary data"

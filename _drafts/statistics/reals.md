@@ -4,13 +4,13 @@ title: "The Gaussian model"
 categories: /statistics/
 tags: /reals/
 subcategory: "Simple models"
-date: "2024-01-16"
+date: "2023-12-31"
 section: 3
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Handling real-valued data"
 ---
 
-In the previous post we worked with discrete
+In the previous posts we worked with discrete
 data (either binary or count data).
 
 Before moving to more advanced topic, we will briefly show that

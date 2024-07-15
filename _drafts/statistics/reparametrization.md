@@ -4,7 +4,7 @@ title: "Reparametrizing your model"
 categories: /statistics/
 subcategory: "Bayesian workflow"
 tags: /model_comparison/
-date: "2024-01-23"
+date: "2024-02-11"
 section: 3
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Building equivalent models with less numerical issues"
@@ -149,3 +149,51 @@ while the non-centered one also explored this region.
 We discussed how model re-parametrization greatly improved the MCMC
 sampling procedure, by allowing you to sample clean traces even
 for highly correlated models.
+
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Mon Jul 08 2024
+<br>
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+numpyro : 0.15.0
+<br>
+jax     : 0.4.28
+<br>
+jaxlib  : 0.4.28
+<br>
+<br>
+pandas    : 2.2.2
+<br>
+seaborn   : 0.13.2
+<br>
+numpy     : 1.26.4
+<br>
+matplotlib: 3.9.0
+<br>
+arviz     : 0.18.0
+<br>
+pymc      : 5.15.0
+<br>
+<br>
+Watermark: 2.4.3
+<br>
+</div>

@@ -4,7 +4,7 @@ title: "The Negative Binomial model"
 categories: /statistics/
 tags: /negbin/
 subcategory: "Simple models"
-date: "2024-01-15"
+date: "2023-12-24"
 section: 1
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "An evolution of the Poisson model"

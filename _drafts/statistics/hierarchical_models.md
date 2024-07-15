@@ -2,12 +2,12 @@
 layout: post
 title: "Hierarchical models"
 categories: /statistics/
-subcategory: "Advanced models"
+subcategory: "Hierarchical models"
 tags: /hierarchical_models/
 section: 0
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to implement hierarchies"
-date: "2024-01-30"
+date: "2024-04-14"
 ---
 
 There are many circumstances where your data are somehow connected,

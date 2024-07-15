@@ -4,7 +4,7 @@ title: "Introduction to the Bayesian workflow"
 categories: /statistics/
 subcategory: "Bayesian workflow"
 tags: /bayes_workflow/
-date: "2024-01-20"
+date: "2024-01-21"
 section: 0
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to make bayesian inference in practice"
@@ -27,9 +27,10 @@ We will assume that you properly collected some data, and you want to analyze it
 The first step is the model selection, and in most cases you won't be
 the first one dealing with that kind of data.
 In order not to re-invent the wheel, you should look around and check if someone
-else faced a similar problem. Good starting points are blogs about statistics
+else faced a similar problem. Good starting points are of course books,
+but also blogs about statistics
 (you will find some in the [resources page](/links)),
-scientific articles (maybe consider taking a look at [arxiv](https://arxiv.org/)) but also the [PyMC gallery](https://www.pymc.io/projects/examples/en/latest/gallery.html) or [Cross-Validated](https://stats.stackexchange.com/).
+scientific articles (maybe consider taking a look at [arxiv](https://arxiv.org/)) as well as the [PyMC gallery](https://www.pymc.io/projects/examples/en/latest/gallery.html) or [Cross-Validated](https://stats.stackexchange.com/).
 
 If you didn't find anything useful, as general principle, [Ockham's razor](https://en.wikipedia.org/wiki/Occam%27s_razor) is a good guideline: start from the
 simplest possible model.

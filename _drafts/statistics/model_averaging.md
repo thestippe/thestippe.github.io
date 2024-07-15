@@ -4,7 +4,7 @@ title: "Model comparison"
 categories: /statistics/
 subcategory: "Bayesian workflow"
 tags: /model_comparison/
-date: "2024-01-25"
+date: "2024-02-18"
 section: 3
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to choose between models"
@@ -106,7 +106,7 @@ az.plot_trace(traces[0])
 ![The trace for model 0](/docs/assets/images/statistics/model_averaging/trace_0.webp)
 
 ```python
-az.plot_trace(traces[0])
+az.plot_trace(traces[1])
 ```
 ![The trace for model 1](/docs/assets/images/statistics/model_averaging/trace_1.webp)
 
@@ -131,7 +131,7 @@ np.log10(np.exp(
 ```
 
 <div class='code'>
-17.29
+18.175240388473817
 </div>
 
 As we can see, there is a substantial preference
@@ -165,58 +165,22 @@ for k, m in enumerate(models):
 ppc[0].posterior_predictive['yl'].mean(['chain', 'draw']).values
 ```
 <div class='code'>
-array(7.5875)
+array(7.57925)
 </div>
 
 ```python
 ppc[1].posterior_predictive['yl'].mean(['chain', 'draw']).values
 ```
 <div class='code'>
-array(17.02425)
+array(16.9575)
 </div>
 
 We recall that the observed value for $y$ was 7,
 which is much closer to the one provided by the preferred
 model than to the one provided by Model 1.
 
-
-## Leave One Out
-
-The second method that we will see is the Leave One Out (LOO) cross validation.
-This method is generally preferred to the above one, as it has been pointed out
-that Bayes factors are appropriate only when one of the models is true,
-while in real world problems we don't have any certainty about which is the model that
-generated the data, assuming that it makes sense to claim that it exists such a model.
-Moreover, the sampler used to compute the Bayes factor, namely Sequential Monte Carlo,
-is generally less stable than the standard one used by PyMC, which is the NUTS sampler.
-There are other, more philosophical reasons, pointed out by Gelman in [this post](
-https://statmodeling.stat.columbia.edu/2017/07/21/bayes-factor-term-came-references-generally-hate/),
-but for now we won't dig into this kind of discussion.
-
-The LOO method is much more in the spirit of the Machine Learning, where
-one splits the sample into a training set and a test set.
-The train set is used to find the parameters, while the second one is
-used to assess the performances of the model for new data.
-This method, namely the **cross validation**, is by far the most
-reliable one, and we generally recommend to use it.
-It is however very common that the dataset is too small to allow
-a full cross-validation.
-The LOO cross validation is equivalent to the computation of
-
-$$
-ELPD = \sum_i \log p_{-i}(y_i)
-$$
-
-where $$p_{-i}(y_i)$$ is the posterior predictive probability
-of the point $$y_i$$ relative to the model fitted by removing $$y_i\,.$$
-
-Since we already discussed how to implement this method in the post on the 
-[negative binomial model](/statistics/negbin), and since it doesn't make much sense
-to check what happens by removing one point out of four thousands,
-we won't repeat it again.
-
 ## Conclusions
 
-We verified two of the main methods to make model comparison.
-We will see other more advanced methods in the future, but for now 
-you should keep in mind that generally the LOO is the preferred one.
+In this post we discussed the Bayes factor to choose between different models.
+In the next post, we will discuss a more powerful method to compare models,
+namely the Leave One Out cross validation.

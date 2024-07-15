@@ -2,13 +2,16 @@
 layout: post
 title: "Random models and mixed models"
 categories: /statistics/
-subcategory: "Advanced models"
+subcategory: "Hierarchical models"
 tags: /random_models_intro/
-date: "2024-02-04"
+date: "2024-04-28"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Making inference on subgroups"
 section: 5
 ---
+
+<!--TODO: write model using the coords construct! Find better syntax! include elpd estimate!-->
+
 
 There are many situations where you want to understand the relation between two
 variables at the subgroup level rather than at the level of the entire sample.

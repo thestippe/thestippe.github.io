@@ -4,7 +4,7 @@ title: "Instrumental variable regression"
 categories: /statistics/
 subcategory: "Causal inference"
 tags: /causal_intro/
-date: "2024-02-09"
+date: "2024-06-16"
 # image: "/docs/5ssets/images/perception/eye.jpg"
 description: "Making causal inference without randomization"
 section: 2

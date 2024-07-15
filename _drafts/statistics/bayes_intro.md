@@ -4,7 +4,7 @@ title: "Introduction to Bayesian inference"
 categories: /statistics/
 subcategory: Introduction
 tags: /bayes_intro/
-date: "2024-01-05"
+date: "2023-11-07"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "A little bit more about Bayesian inference"
 section: 0
@@ -15,10 +15,10 @@ models.
 
 ## Why learning Bayesian statistics
 
-Bayesian inference attracted much interest in the last years, and in the last decades
-many Bayesian models have been developed to tackle any kind of problem.
+Bayesian inference has attracted much interest in recent years,
+and in the past few decades, many Bayesian models have been developed to tackle various kinds of problems.
 Most of the modern techniques developed in statistics can be viewed as Bayesian,
-as reported by Deborah Mayo, philosopher of science and emeritus professor
+as reported by Deborah Mayo, philosopher of science and emeritus professor:
 
 <br>
 
@@ -34,64 +34,63 @@ appearing on Nature tagged as "Bayes"
 ![The number of Nature research article 
 matching the keyword "bayes"](/docs/assets/images/statistics/intro/nature_count.webp)
 
-Bayesian statistics can be a valuable tool for any data scientist, as it easily allows you
-to build, fit and criticize any kind of model with a minimal effort.
-In Bayesian inference you don't only get an estimate for your parameters,
-but you get the entire probability distribution for them, and this implies that
-you can immediately get the uncertainty for your parameters.
-
-
+Bayesian statistics can be a valuable tool for any data scientist, as it easily allows you to build,
+fit, and criticize any kind of model with minimal effort.
+In Bayesian inference, you don’t only get an estimate for your parameters;
+you get the entire probability distribution for them.
+This means that you can immediately assess the uncertainty for your parameters.
 
 In any statistical model you must specify a likelihood, which represents
 the probability distribution which generated the data, and we will refer to this quantity
 as
 
-$$ P(X | \theta)$$
+$$ p(x | \theta)$$
 
 where $\theta$ represents the unknown parameter vector.
 
 We would like to quantify the uncertainties about the unknown parameters,
 and the natural way to do so is to estimate their (posterior) probability
-distribution $$ P(\theta | X)\,.$$
+distribution $$ p(\theta | x)\,.$$
 
 In order to do so, we can use Bayes theorem
 
 $$
-P(\theta | X) = \frac{P(X | \theta)}{P(X)} P(\theta)
+p(\theta | x) = \frac{p(x | \theta)}{p(x)} p(\theta)
 $$
 
-Since the denominator $$P(X)$$ is a normalization constant independent on $\theta$ which can be computed by normalizing the left hand side of the equation
+Since the denominator $$p(x)$$ is a normalization constant independent on $\theta$ which can be computed by normalizing the left hand side of the equation
 to 1, its dependence is usually neglected and the Bayes theorem is usually rewritten as
 
 $$
-P(\theta | X) \propto P(X | \theta) P(\theta)\,.
+p(\theta | x) \propto p(x | \theta) p(\theta)\,.
 $$
 
-We must however provide a prior probability distribution $$P(\theta)$$
-in order to ensure that $$P(\theta | X)$$ can be normalized to one.
+We must however provide a prior probability distribution $$p(\theta)$$
+in order to ensure that $$p(\theta | x)$$ can be normalized to one.
 
-While in the past many statisticians interpreted $$P(\theta)$$
+While in the past many statisticians interpreted $$p(\theta)$$
 as the subjective probability distribution for the parameters,
 nowadays most of the statisticians agree that this object
-is simply a tool to regularize the integral
+is simply a tool to regularize [^4] the integral
 
 $$
-\int d\theta P(X | \theta) P(\theta)
+\int d\theta p(x | \theta) p(\theta)
 $$
 
-since choosing $$P(\theta) = 1$$ would make the above integral indefinite.
-The choice for $$P(\theta)$$ should be such that any *relevant*
+[^4]: By regularizing tool here we mean, as an example, the Tikhonov regularization in the Ridge regression.
+
+since choosing $$p(\theta) = 1$$ would make the above integral indefinite.
+The choice for $$p(\theta)$$ should be such that any *relevant*
 expectation value
 
 $$
-\mathbb{E}_\theta[f] = \int d\theta f(\theta) P(X | \theta) P(\theta)
+\mathbb{E}_\theta[f] = \int d\theta f(\theta) p(x | \theta) p(\theta)
 $$
 
-does only weakly depend on the choice for $$P(\theta)\,.$$
-
+does only weakly depend on the choice for $$p(\theta)\,.$$
 ## A historical tour in MCMC
 
-While the normalization constant $$P(X)$$ can be **in principe** computed for any model,
+While the normalization constant $$p(x)$$ can be **in principe** computed for any model,
 it can be analytically computed only for a very limited range of models, namely
 the conjugate models, and for this
 reason Bayesian models have not been so popular for a long time.
@@ -112,8 +111,8 @@ At the beginning of the last century, a group of statisticians tried and promote
 Bayesian statistics as the only meaningful way to do statistical inference.
 As previously anticipated, according to them, the prior should have encoded all the available information
 together with any personal consideration of the researcher. In this way,
-the posterior probability distribution $P(\theta | X)$ can be interpreted
-as the updated version of the researcher's beliefs once the observed data $X$
+the posterior probability distribution $p(\theta | x)$ can be interpreted
+as the updated version of the researcher's beliefs once the observed data $x$
 has been taken into account by a perfectly rational person.
 This philosophy has been rejected by the majority of the statisticians,
 as they considered this "subjective" probability meaningless.
@@ -172,7 +171,7 @@ valid way to drop out the prior dependence. However, this method relies
 on finding the extreme of a function, which implies maximizing the derivative
 of the likelihood. This approach soon becomes unstable as soon as the model
 complexity grows, and you should spend a lot of effort in ensuring that
-your numerical approximation is close enough to the true maximum.
+your numerical approximation is close enough to the true maximum or in looking for some ad-hoc.
 For these reasons, statistical textbooks devoted to complex models such as
 longitudinal data analysis models provide many different methods
 to fit the frequentist models [^2].
@@ -202,7 +201,7 @@ comparing priors to posteriors or anything like that.
 
 <br>
 
-> We are all frequentists here!
+> We are all frequentist here!
 >
 > Andrew Gelman
 
@@ -231,6 +230,28 @@ dealing with thousands of parameters.
 You should also consider that the prior selection might take require
 some effort, especially when you are dealing with a new problem
 or with a new kind of model.
+
+## Why do I use Bayesian inference
+
+I always consider using Bayesian inference because it allows me to build, improve
+and criticize my own
+models with a minimum effort and some background knowledge.
+Since the model building process is iterative and modular, it is possible to 
+encode structure in an easy and controlled way, and this is a fundamental requirement
+for any real world statistical model.
+These models are 100% transparent, and the fitting procedure is fully transparent too.
+I can use the same procedure to ensure that I have no numerical issues again and again.
+Since MCMC samples the entire probability distribution of the model,
+it is very easy to figure out if there's any numerical issue.
+I can then sample the posterior predictive distribution, and this gives me 
+a lot of freedom in deciding how to compare it with the true data,
+in order to ensure that the model is appropriate for my data.
+In this way I can focus on the data rather than spending time looking for
+any pre-built model and looking each time for the options I should fine-tune
+to improve its performances.
+I can finally share my results and communicate the uncertainties in a simple way,
+talking about probability of the parameters rather than making sure that my audience did not misunderstand
+the concept of confidence interval.
 
 ## Conclusions
 

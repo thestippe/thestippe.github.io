@@ -4,7 +4,7 @@ title: "The Poisson model"
 categories: /statistics/
 subcategory: "Simple models"
 tags: /poisson/
-date: "2024-01-14"
+date: "2023-12-17"
 section: 1
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to describe count data"
@@ -98,6 +98,12 @@ $$
 \mathbb{E}[X] = \lambda \int_0^\infty dx x e^{-\lambda x} = \frac{1}{\lambda}
 $$
 
+In a similar way we can obtain
+
+$$
+Var[X] = \frac{1}{\lambda^2}\,.
+$$
+
 Since this distribution is often considered too restrictive,
 you may decide and use the gamma distribution, which is a flexible generalization
 of the exponential distribution.
@@ -106,6 +112,24 @@ $$
 p(x | \alpha, \beta) = \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha -1} e^{-\beta x}
 $$
 
+where $\alpha, \beta > \,.0$
+
+For this distribution we have
+
+$$
+\begin{align}
+\mathbb{E}[X] = & \int_0^\infty x \frac{\beta^\alpha}{\Gamma(\alpha)} x^{\alpha -1} e^{-\beta x}
+=\frac{\beta^\alpha}{\Gamma(\alpha)} \frac{1}{\beta^{\alpha+1}}\int_0^\infty dy  y^{\alpha}e^{-y}
+= \frac{\beta^\alpha}{\Gamma(\alpha)} \frac{\Gamma(\alpha+1)}{\beta^{\alpha+1}}
+ =\frac{\alpha}{\beta}
+\end{align}
+$$
+
+Analogously
+
+$$
+Var[X] = \frac{\alpha}{\beta^2}
+$$
 </details>
 
 We will stick to the simplest possible distribution for $\mu\,,$
@@ -248,10 +272,10 @@ fig = plt.gcf()
 fig.tight_layout()
 ```
 
-![The autocorrelation coefficients](/docs/assets/images/statistics/poisson/autocorr.webp)
+![The auto-correlation coefficients](/docs/assets/images/statistics/poisson/autocorr.webp)
 
 The coefficients rapidly drop to 0, and this is the desired behavior.
-The gray band provide an estimate of the bounds for the autocorrelation coefficients
+The gray band provide an estimate of the bounds for the auto-correlation coefficients
 of order higher than the calculated ones, and they are very small.
 
 Another useful visual check that can be performed is the rank plot, where

@@ -4,7 +4,7 @@ title: "Synthetic control"
 categories: /statistics/
 subcategory: "Causal inference"
 tags: /discontinuity_regression/
-date: "2024-02-12"
+date: "2024-06-30"
 # image: "/docs/5ssets/images/perception/eye.jpg"
 description: "Building a doppleganger from the control group"
 section: 5

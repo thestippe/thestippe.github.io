@@ -4,7 +4,7 @@ title: "Introduction to the linear regression"
 categories: /statistics/
 subcategory: "Regression"
 tags: /linear_regression/
-date: "2024-01-25"
+date: "2024-03-03"
 section: 0
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Including dependence on external variables"

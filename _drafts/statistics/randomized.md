@@ -4,10 +4,10 @@ title: "Randomized controlled trials"
 categories: /statistics/
 subcategory: "Causal inference"
 tags: /randomized/
-date: "2024-02-08"
+date: "2024-06-09"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "When association implies causation"
-section: 1
+section: 5
 ---
 
 As we anticipated in the last post, when we have randomization, association

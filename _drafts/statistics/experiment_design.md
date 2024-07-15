@@ -4,7 +4,7 @@ title: "Experiment analysis"
 categories: /statistics/
 subcategory: "Advanced models"
 tags: /experiment_analysis/
-date: "2024-02-05"
+date: "2024-05-26"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to design and analyze experiment"
 section: 5
@@ -202,6 +202,51 @@ means for the penicillin model](/docs/assets/images/statistics/experiment_design
 
 As you can see, the treatment 2 gives slightly higher yields with respect to the
 other treatment.
+
+
+## Matched pairs design
+
+The matched pairs design can be considered a special case of the randomized block design.
+Rather than randomly assigning each unit to one of two groups, we first pair
+units with similar relevant features, and then we toss a coin to decide which element
+of the pair belongs to which group.
+
+This kind of pairing can be useful when we have small samples or if we have very similar
+pairs of units, such as twins.
+
+## Latin square design
+
+In the randomized block design, one can only control for one factor, but it may also be the case
+that you need to control for more than one factor.
+The latin square design is useful when you need to control for two factors.
+This design can be visualized by drawing an $n\times n$ table, where each row corresponds
+to the level of one factor, the other level is represented by the column, and each matrix element
+is represented by a number $1,...,n$ or by a (latin) letter.
+In a latin square, no letter can appear twice in any row or column.
+
+All the possible $2\times 2$ latin squares are
+
+$$
+\begin{pmatrix}
+1 & 2 \\
+2 & 1 \\
+\end{pmatrix},
+\begin{pmatrix}
+2 & 1 \\
+1 & 2 \\
+\end{pmatrix}
+$$
+
+while a possible $3\times 3$ latin square is
+
+$$
+\begin{pmatrix}
+1 & 2 & 3 \\
+2 & 3 & 1 \\
+3 & 1 & 2 \\
+\end{pmatrix}
+$$
+
 
 ## Conclusions
 

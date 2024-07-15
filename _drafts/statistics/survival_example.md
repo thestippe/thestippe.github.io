@@ -4,7 +4,7 @@ title: "Application of survival analysis 1"
 categories: /statistics/
 subcategory: "Advanced models"
 tags: /survival_continuous/
-date: "2024-02-02"
+date: "2024-05-12"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Survival analysis with continouous time"
 section: 3

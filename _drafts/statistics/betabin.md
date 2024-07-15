@@ -4,7 +4,7 @@ title: "The Beta-Binomial model"
 categories: /statistics/
 tags: /beta_binomial/
 subcategory: "Simple models"
-date: "2024-01-13"
+date: "2023-12-10"
 section: 0
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Dealing with binary outcomes"
@@ -29,7 +29,7 @@ so that it will be easier to control the sources of error.
 
 Let us start by doing the calculation in the frequentist way.
 First of all, we assume that each article is retracted with
-a probability $\theta \in [0, 1]\,.$
+the same probability $\theta \in [0, 1]\,.$
 This implies that the total number of retracted articles $Y$ out of $n$
 published articles is distributed
 as
@@ -92,10 +92,64 @@ $$
 </div>
 </details>
 
-The total number of observed retraction is a sufficient statistic
-for $n p\,,$ so our point estimate for $\theta$ is
+In other terms, we assume that we are looking for the best distribution
+within the family 
 
-$$\bar\theta=\frac{y}{n} = 1.6 \, 10^{-3}\,.$$
+$$\{p(k \vert \theta, n) = \binom{n}{k} \theta^k (1-\theta)^{n-k}\}_\theta$$
+
+There is more than one possible criteria to decide which is the best parameter $\theta\,.$
+
+### The Maximum likelihood method
+
+This method looks for the parameter $\theta$ such that the likelihood for
+the observed data is maximum for any allowed value for $\theta$:
+
+$$
+\bar\theta : p(x \vert \bar\theta) > p(x \vert \theta)\,  \forall\,  \theta \in \mathcal{D}
+$$
+
+where $\mathcal{D}$ is the domain we are looking for.
+For the binomial model, since the parameter space is continuous, we can simply require
+
+$$\frac{d}{d\theta} \binom{n}{y} \theta^k (1-\theta)^{n-y} = 0\,.$$
+
+Since the probability mass function is positive for any $\theta$ within our domain,
+we can safely take the logarithm of the likelihood and work with the so-called log-likelihood.
+
+$$\frac{d}{d\theta}\log\left( \binom{n}{y} \theta^k (1-\theta)^{n-y}\right) _\bar{\theta}= 0\,.$$
+
+By computing the derivative, we get
+
+$$
+\frac{y}{\bar\theta} - \frac{n-y}{1-\bar\theta} = 0
+$$
+
+and this can be easily solved obtaining
+
+$$
+\bar\theta = \frac{y}{n}\,.
+$$
+
+You can easily verify that it is a maximum, since the second derivative reads
+
+$$
+\frac{d^2}{d\theta^2}\log\left( \binom{n}{y} \theta^k (1-\theta)^{n-y}\right) _{\theta=\bar{\theta}=y/n} = -\frac{1}{\bar{\theta}(1-\bar{\theta})}<0 \, if\, 0<y<n
+$$
+
+
+
+### The method of moments
+
+This method matches the moments of the distribution with the observed corresponding statistics.
+In our case we can simply match $$\mathbb{E}[y]$$ with the observed number of successes:
+
+$$
+y = n \bar\theta
+$$
+
+and, in our case, this is equivalent to the MLE.
+
+### Estimating the confidence interval
 
 We can also obtain a confidence interval for $\theta\,,$
 but in order to do so we must rely on the central limit theorem,

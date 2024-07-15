@@ -4,10 +4,10 @@ title: "How does MCMC works"
 categories: /statistics/
 subcategory: Introduction
 tags: /mcmc_intro/
-date: "2024-01-07"
+date: "2023-11-21"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Getting an idea of what's happening behind the scenes"
-section: 1
+section: 0
 ---
 
 In this post I will try and give you an idea of how does PyMC works
@@ -15,6 +15,7 @@ by performing Bayesian inference from scratch.
 I just want to explain the underlying working principles,
 without entering too much into technical details, so I will try and keep
 things as simple as possible.
+This section can be safely skipped if you are not interested in understanding how MCMC works.
 
 ## Sampling random numbers
 

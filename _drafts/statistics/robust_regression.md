@@ -4,7 +4,7 @@ title: "Robust linear regression"
 categories: /statistics/
 subcategory: "Regression"
 tags: /robust_regression/
-date: "2024-01-27"
+date: "2024-03-24"
 section: 1
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Reducing sensitivity to large deviations"

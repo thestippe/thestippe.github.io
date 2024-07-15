@@ -4,7 +4,7 @@ title: "Multidimensional distributions"
 categories: /statistics/
 tags: /multidimensional/
 subcategory: "Simple models"
-date: "2024-01-17"
+date: "2024-01-07"
 section: 4
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Dealing with more than two categories"
@@ -19,6 +19,23 @@ The categorical model can be seen as a generalization of the Bernoulli model,
 and if the binomial model is the sum of $n$ Bernoulli trials,
 the multinomial model is the sum of $n$ categorical trials.
 
+<details class="math-details">
+<summary> The categorical distribution
+</summary>
+
+The categorical distribution is the most general distribution
+over the set of $k$ distinct elements, and it is defined as
+
+$$
+p(x | \theta_1,\dots \theta_k) = \theta_i \, if \, x = i
+$$
+where $$x \in \{1,2,\dots,k \}\,.$$
+
+Since the total probability must be one, we have that
+
+$$\sum_{i=0}^k \theta_i = 1 $$
+
+</details>
 
 As an example, let us consider the 2022 Formula One championship, and
 let us see what's the winning probability of the best pilots.
@@ -63,10 +80,22 @@ df_f1 = pd.read_csv(
 
 df_red = df_f1[df_f1['Position']=='1'].groupby('Driver').count()
 
-y_obs = pd.factorize(df_f1[df_f1['Position']=='1']['Driver'])[0]
 
 seed = np.random.default_rng(seed=42)
 
+```
+
+In order to build our model, we must map each pilot to an integer, and this can be done
+with pandas' **factorize** function. 
+
+```python
+factors =  pd.factorize(df_f1[df_f1['Position']=='1']['Driver'])
+y_obs = factors[0]
+```
+
+Now we can run our model
+
+```python
 with pm.Model() as cat_model:
     p = pm.Dirichlet('p', a=np.ones(len(df_red))/len(df_red))
     y = pm.Categorical('y', p=p, observed=y_obs)
@@ -77,19 +106,14 @@ az.plot_trace(trace)
 
 ![The trace for the multinomial model](/docs/assets/images/statistics/categories/trace.webp)
 
-Let us take a better look at our estimates
+Let us take a better look at our estimates.
+First of all, we will build a dataframe to match each factor to the corresponding
+name.
 
 ```python
-az.plot_forest(trace)
-```
+df_names = pd.DataFrame.from_dict({'name': factors[1].values,
+                             'number': range(len(factors[1].values))})
 
-![The forest plot for the probabilities](/docs/assets/images/statistics/categories/forest.webp)
-
-In order to translate the number into names, we can do the following
-
-```python
-pd.DataFrame.from_dict({'name': pd.factorize(df_f1[df_f1['Position']=='1']['Driver'])[1].values,
-                             'number': range(len(pd.factorize(df_f1[df_f1['Position']=='1']['Driver'])[1].values))})
 ```
 
 |    | name            |   number |
@@ -99,6 +123,20 @@ pd.DataFrame.from_dict({'name': pd.factorize(df_f1[df_f1['Position']=='1']['Driv
 |  2 | Sergio Perez    |        2 |
 |  3 | Carlos Sainz    |        3 |
 |  4 | George Russell  |        4 |
+
+We can now make our forest plot, by keeping in mind that the $y$ axis goes from the
+bottom to the top (we must therefore revert the order of our dataframe).
+
+```python
+fig = plt.figure()
+ax = fig.add_subplot(111)
+az.plot_forest(trace, ax=ax)
+ax.set_yticklabels([f"{elem}" for elem in df_names['name'][::-1]])
+fig.tight_layout()
+```
+
+![The forest plot for the probabilities](/docs/assets/images/statistics/categories/forest.webp)
+
 
 The components are strongly correlated
 
@@ -113,8 +151,17 @@ We can now take a look at the posterior predictive check
 ```python
 with cat_model:
     ppc = pm.sample_posterior_predictive(trace)
+```
 
-az.plot_ppc(ppc)
+Let us not plot the posterior predictive
+
+```python
+fig = plt.figure()
+ax = fig.add_subplot(111)
+az.plot_ppc(ppc, ax=ax)
+ax.set_xticks(df_names['number']+0.5)
+ax.set_xlim([0, 1+np.max(df_names['number'])])
+ax.set_xticklabels(df_names['name'], rotation=45, fontsize=11)
 ```
 
 ![The ppc for the multinomial model](/docs/assets/images/statistics/categories/ppc_categorical.webp)
@@ -124,7 +171,7 @@ As you can see, our model accurately reproduces the observed data.
 ## Multivariate normal
 
 Since the normal distribution with zero mean only depends on $x$ via $x^2/\sigma^2\,,$
-we can immediately generalize it by replacing $x^2$ with any
+we can immediately generalize it by replacing $x^2/\sigma^2$ with any
 positively-defined form $x \cdot \Sigma \cdot x\,,$
 and the generalization to the general $\mu$ case is straightforward.
 
@@ -157,7 +204,7 @@ with pm.Model() as mvnorm:
     sd_dist = pm.HalfNormal.dist(2.0, size=2)
     chol, corr, sigmas = pm.LKJCholeskyCov('sigma', eta=1., n=2, sd_dist=sd_dist)
     y = pm.MvNormal('y', mu=mu, chol=chol, observed=df_car[['speeding', 'alcohol']])
-    trace_car = pm.sample()
+    trace_car = pm.sample(nuts_sampler='numpyro', random_seed=seed)
 
 az.plot_trace(trace_car, 
                        coords={"sigma_corr_dim_0": 0, "sigma_corr_dim_1": 1})
@@ -186,7 +233,7 @@ fig.tight_layout()
 
 ![The PPC for the multivariate normal model](/docs/assets/images/statistics/categories/ppc_car.webp)
 
-Also the PPC looks quite good except for few outliers. These should be carefully investigated
+The PPC looks quite good too, except for few outliers. These should be carefully investigated
 by considering a more robust model or by changing the model structure and including additional
 covariates. Since this goes beyond the scope of this post, however, we will leave the reader deal with
 this problem.
@@ -212,3 +259,54 @@ to the multidimensional one.
 This is not true for all the models, but often the multivariate normal
 and the multinomial models are good starting points to build more
 involved models.
+
+
+```python
+%load_ext watermark
+```
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Fri Jul 05 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+numpyro : 0.15.0
+<br>
+jax     : 0.4.28
+<br>
+jaxlib  : 0.4.28
+<br>
+
+<br>
+matplotlib: 3.9.0
+<br>
+numpy     : 1.26.4
+<br>
+seaborn   : 0.13.2
+<br>
+arviz     : 0.18.0
+<br>
+pandas    : 2.2.2
+<br>
+pymc      : 5.15.0
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

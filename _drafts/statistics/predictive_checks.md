@@ -4,7 +4,7 @@ title: "Predictive checks"
 categories: /statistics/
 subcategory: "Bayesian workflow"
 tags: /predictive_checks/
-date: "2024-01-23"
+date: "2024-02-04"
 section: 2
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Verifying the predictions of your model"
@@ -32,7 +32,9 @@ they are collected in a single post.
 
 When you are performing a prior predictive check,
 you are verifying if your model is flexible
-enough to include what you know about the problem.
+enough to include what you know about the problem and that you are
+implementing the appropriate constraints.
+
 
 There are many ways you can perform this,
 and this can be done by generating fake data
@@ -71,6 +73,16 @@ While the imported libraries and the data are the same,
 this time the model reads as follows
 
 ```python
+import pandas as pd
+import numpy as np
+import pymc as pm
+import arviz as az
+from matplotlib import pyplot as plt
+
+df = pd.read_csv('./data/tweets.csv')
+
+rng = np.random.default_rng(42)
+
 with pm.Model() as pp0:
     nu = pm.Exponential('nu', lam=50)
     theta = pm.Beta('theta', alpha=1/2, beta=1/2)
@@ -81,7 +93,7 @@ Let us now sample the prior predictive
 
 ```python
 with pp0:
-    prior_pred_pp0 = pm.sample_prior_predictive()
+    prior_pred_pp0 = pm.sample_prior_predictive(random_seed=rng)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -94,20 +106,30 @@ ax.set_xlim([0, 20])
 
 We can see that the value $y=0$ has a probability
 greater than the $90\%.$
-Let us now compute this probability.
+Let us now compute this probability. This can be done by simply counting
+the fraction of sampled points equal to 0, and this can be done as follows:
 
 ```python
-(prior_pred_pp0.prior_predictive['y'].values.reshape(
-    -1)==0).astype(int).sum()/len(
-    prior_pred_pp0.prior_predictive['y'].values.reshape(-1))
+(prior_pred_pp0.prior_predictive['y']==0).mean()
 ```
 
 <div class='code'>
-0.975
+xarray.DataArray
+'y'
+<br>
+    array(0.97648148)
+
+<br>
+<br>
+<ul>
+    <li> Coordinates: (0)</li>
+    <li> Indexes: (0) </li>
+    <li> Attributes: (0) </li>
+</ul>
 </div>
 
 It doesn't really make much sense to start
-from a model which predicts that the $97\%$
+from a model which predicts that the $98\%$
 of our tweets have zero interaction.
 
 At this point, a wise Bayesian would go back and
@@ -118,9 +140,11 @@ follows from the prior.
 
 ```python
 with pp0:
-    trace_pp0 = pm.sample(random_seed=rng, chains=4, draws=5000, tune=2000)
+    trace_pp0 = pm.sample(random_seed=rng, chains=4, draws=5000, tune=2000, nuts_sampler='numpyro')
 
 az.plot_trace(trace_pp0)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The trace plot of the unwise Bayesian](/docs/assets/images/statistics/predictive/trace-wrong.webp)
@@ -135,7 +159,7 @@ is much worse that the one in the old post.
 
 ```python
 with pp0:
-    pp = pm.sample_posterior_predictive(trace)
+    pp = pm.sample_posterior_predictive(trace_pp0, random_seed=rng)
 az.plot_ppc(pp)
 ```
 
@@ -156,3 +180,49 @@ We discussed how to implement some prior predictive
 and posterior predictive check,
 together with the risks that comes by
 not doing them.
+
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Mon Jul 08 2024
+<br>
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+numpyro : 0.15.0
+<br>
+jax     : 0.4.28
+<br>
+jaxlib  : 0.4.28
+<br>
+<br>
+pandas    : 2.2.2
+<br>
+arviz     : 0.18.0
+<br>
+pymc      : 5.15.0
+<br>
+matplotlib: 3.9.0
+<br>
+numpy     : 1.26.4
+<br>
+<br>
+Watermark: 2.4.3
+<br>
+</div>

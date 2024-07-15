@@ -2,9 +2,9 @@
 layout: post
 title: "Hierarchical models and meta-analysis"
 categories: /statistics/
-subcategory: "Advanced models"
+subcategory: "Hierarchical models"
 tags: /hierarcical_metaanalysis/
-date: "2024-01-31"
+date: "2024-04-21"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How hierarchical models can be used to analyze scientific literature"
 section: 1

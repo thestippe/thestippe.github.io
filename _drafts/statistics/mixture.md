@@ -4,7 +4,7 @@ title: "Mixture models"
 categories: /statistics/
 tags: /mixture/
 subcategory: "Simple models"
-date: "2024-01-18"
+date: "2024-01-14"
 section: 5
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "When your population is made by subpopulations"
@@ -29,15 +29,18 @@ $$
 \sum_i \omega_i = 1
 $$
 
-Therefore our observation has been generated according to the probability
+Therefore, our observation has been generated according to the probability
 distribution $P_i$ with probability $\omega_i\,.$
 
 ## Normal mixture model
 
 The normal mixture is a very common model, and it is also used in machine
 learning for unsupervised classification.
+It can be a quick and dirty way to make inference on multimodal data *i.e.* data which shows than one peak.
 We will use seaborn's "geyser" dataset to show an implementation of
 a normal mixture model.
+In order to simplify our discussion, we will only deal with the "duration" dimension,
+but the extension to the multivariate normal is straightforward.
 
 ```python
 import random
@@ -69,16 +72,20 @@ with pm.Model() as mix_model:
     pi = pm.Dirichlet('pi', a=np.ones(shape=2)/2.0)
     phi = pm.Normal.dist(mu=mu, sigma=sigma, shape=2)
     y = pm.Mixture('y', w=pi, comp_dists = phi, observed=geyser['duration'])
-    trace = pm.sample(random_seed=rng)
 
-az.plot_trace(trace)
+with mix_model:
+        trace_mix = pm.sample(random_seed=rng, nuts_sampler='numpyro')
+
+az.plot_trace(trace_mix)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The model trace](/docs/assets/images/statistics/mixture/trace_mix.webp)
 
 ```python
 with mix_model:
-    ppc_mix = pm.sample_posterior_predictive(trace_mix)
+    ppc_mix = pm.sample_posterior_predictive(trace_mix, random_seed=rng)
 
 az.plot_ppc(ppc_mix, num_pp_samples=2000)
 ```
@@ -88,12 +95,12 @@ az.plot_ppc(ppc_mix, num_pp_samples=2000)
 We can now use our model to classify an arbitrary geyser.
 
 ```python
-mu0 = trace.posterior['mu'].values.reshape((-1, 2))[:, 0]
-mu1 = trace.posterior['mu'].values.reshape((-1, 2))[:, 1]
-s0 = trace.posterior['sigma'].values.reshape((-1, 2))[:, 0]
-s1 = trace.posterior['sigma'].values.reshape((-1, 2))[:, 1]
-p0 = trace.posterior['pi'].values.reshape((-1, 2))[:, 0]
-p1 = trace.posterior['pi'].values.reshape((-1, 2))[:, 1]
+mu0 = trace_mix.posterior['mu'].values.reshape((-1, 2))[:, 0]
+mu1 = trace_mix.posterior['mu'].values.reshape((-1, 2))[:, 1]
+s0 = trace_mix.posterior['sigma'].values.reshape((-1, 2))[:, 0]
+s1 = trace_mix.posterior['sigma'].values.reshape((-1, 2))[:, 1]
+p0 = trace_mix.posterior['pi'].values.reshape((-1, 2))[:, 0]
+p1 = trace_mix.posterior['pi'].values.reshape((-1, 2))[:
 
 def f(d):
     x0 = (d-mu0)/s0
@@ -113,14 +120,14 @@ one 3.5.
 f(2.8)
 ```
 <div class='code'>
-(0.5244454577874262, 0.47555454221257376)
+(0.5138327363599765, 0.48616726364002355)
 </div>
 
 ```python
 f(3.5)
 ```
 <div class='code'>
-(1.3407773602217712e-06, 0.9999986592226398)
+(1.2511916521712673e-06, 0.9999987488083479)
 </div>
 
 Therefore, it is slightly more probable that the first geyser is of
@@ -158,7 +165,7 @@ with pm.Model() as inflated_model:
     mu = pm.Exponential('mu', lam=0.1)
     alpha = pm.Exponential('alpha', lam=1)
     y = pm.ZeroInflatedNegativeBinomial('y', psi=w, mu=mu, alpha=alpha, observed=df['count'])
-    trace_inflated = pm.sample(chains=4, random_seed=rng, target_accept=0.9)
+    trace_inflated = pm.sample(chains=4, random_seed=rng, target_accept=0.9, nuts_sampler='numpyro')
 
 az.plot_trace(trace_inflated)
 ```
@@ -183,7 +190,7 @@ ax.set_xticks(np.arange(0, 30, 10))
 
 ![The PPC for the zero-inflated model](/docs/assets/images/statistics/mixture/ppc_fish.webp)
 
-We didn't used arviz because we got some issue due to the very large maximum
+We didn't use arviz because we got some issue due to the very large maximum
 number of count.
 From this figure it looks like the main behavior of the data is well
 captured by the model.
@@ -194,3 +201,56 @@ We discussed the family of the mixture models, and more in detail
 the normal mixture model and the zero-inflated model.
 We finally discussed how to implement them in PyMC and how to use
 a normal mixture model as a classifier.
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Fri Jul 05 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+numpyro : 0.15.0
+<br>
+jax     : 0.4.28
+<br>
+jaxlib  : 0.4.28
+<br>
+
+<br>
+scipy     : 1.13.1
+<br>
+pymc      : 5.15.0
+<br>
+arviz     : 0.18.0
+<br>
+pandas    : 2.2.2
+<br>
+matplotlib: 3.9.0
+<br>
+seaborn   : 0.13.2
+<br>
+numpy     : 1.26.4
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>
