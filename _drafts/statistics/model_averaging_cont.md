@@ -233,6 +233,9 @@ since the ELPD difference only makes sense when compared to one model's ELPD.
 We can however easily overcome this issue as follows
 
 ```python
+elpd_norm = idata_norm.log_likelihood['yobs'].mean(dim=('draw', 'chain'))
+elpd_t = idata_t.log_likelihood['yobs'].mean(dim=('draw', 'chain'))
+
 fig = plt.figure()
 ax = fig.add_subplot(111)
 ax.scatter(elpd_t, elpd_norm-elpd_t, s=14, marker='x')
