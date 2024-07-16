@@ -32,15 +32,19 @@ The train set is used to find the parameters, while the second one is
 used to assess the performances of the model for new data.
 This method, namely the **cross validation**, is by far the most
 reliable one, and we generally recommend to use it.
+
+LOO and cross validation adhere to the principles of scientific method,
+where we use the predictions of our models to compare and criticize them.
+
 It is however very common that the dataset is too small to allow
 a full cross-validation.
 The LOO cross validation is equivalent to the computation of
 
 $$
-ELPD = \sum_i \log p_{-i}(y_i)
+ELPD = \sum_i \log p(y_i \vert y_{-i})
 $$
 
-where $$p_{-i}(y_i)$$ is the posterior predictive probability
+where $$p(y_i\vert y_{-i})$$ is the posterior predictive probability
 of the point $$y_i$$ relative to the model fitted by removing $$y_i\,.$$
 
 We already anticipated this method in the post on the
@@ -169,6 +173,26 @@ df_comp_loo
 | norm |      1 |    740.195 | 7.50734 |     189.008 | 0.129285 | 30.2578 | 25.8493 | False     | log     |
 
 
+We can also use the LOO Probability Integral Transform (LOO-PIT).
+The main idea behind this method is that, if the $y_i$s are distributed
+according to $p(\tilde{y} \vert y_{-i}),$ then the LOO PIT
+
+$$
+P(y_i \leq y^* \vert y_{-i}) = \int_{-\infty}^{y_i} d\tilde{y} p(\tilde{y} \vert y_{-i})
+$$
+
+should be a uniform distribution.
+A very nice explanation of this method can be found in
+[this blog](https://oriolabril.github.io/gsoc2019_blog/2019/07/31/loo-pit.html).
+In the reference there are unfortunately some missing figure where one can
+clearly understand how does the LOO-PIT relates to the posterior predictive
+distribution.
+We therefore decided to make a similar plot
+
+![](/docs/assets/images/statistics/model_averaging_cont/ecdf_comp.webp)
+
+Le left column corresponds to the posterior predictive distribution, the central one to the LOO-PIT and the right one to the LOO-PIT ECDF.
+
 ```python
 az.plot_loo_pit(idata_norm, y="yobs", ecdf=True)
 ```
@@ -180,6 +204,57 @@ az.plot_loo_pit(idata_t, y="yobs", ecdf=True)
 ```
 ![](/docs/assets/images/statistics/model_averaging_cont/loo_pit_t.webp)
 
+It is clear that the normal model is over-dispersed with respect to the observed data,
+while the t-Student model gives a LOO-PIT which is compatible with the uniform distribution.
+
+Another related plot which may be useful is the difference between two models' ELPD
+
+```python
+az.plot_elpd({'norm': idata_norm, 't': idata_t})
+```
+![](/docs/assets/images/statistics/model_averaging_cont/plot_elpd.webp)
+
+Since there are many points below 0, we can see that we should favor the t-Student's model.
+There are also few points far below 0, and the t model gives much better results for them.
+It is in fact likely that those points are far away from the mean value,
+where the normal distribution has very small probability density,
+while the t-Student model allows for heavier tails and therefore are more likely to be observed
+according to this model.
+
+## Some warning
+
+While the LOO method gives reasonable results when the number of variables
+is not too high, it is known that all the information criteria tend to overfit
+when the number of variables grows too much (see Gronau *et al.*).
+
+Moreover, you should always consider what you need to do with your model.
+If you simply need to get the best possible prediction out of your model,
+you should probably go for the most general model
+and integrate over all the uncertainties.
+
+You should also keep in mind that, if you have nested models, that is
+models where one model is a special case of the other, it is generally
+recommended by the Bayesian scientific community to stick to the more
+general one, regardless on what your metrics tell you,
+at least unless you have a reason to put some constraints to your model.
+
+An in-depth discussion about this topic can be found in [Aki Vehtari's course
+on YouTube](https://www.youtube.com/watch?v=D0kVMie93Yk&list=PLBqnAso5Dy7O0IVoVn2b-WtetXQk5CDk6&index=18)
+(lectures 9.1-9.3).
+
+
+## Conclusions
+
+We discussed how to use the Leave One Out method to compare two models
+and how should we read the most relevant plots related to this criterion.
+We also discussed some limitation of this model.
+
+
+## Recommended readings
+
+- <cite> Gronau, Q.F., Wagenmakers, EJ. Limitations of Bayesian Leave-One-Out Cross-Validation for Model Selection. Comput Brain Behav 2, 1–11 (2019). https://doi.org/10.1007/s42113-018-0011-7</cite>
+- <cite> Vehtari A., Gelman A., Gabry J. Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC. https://arxiv.org/abs/1507.04544v5</cite>
+
 ```python
 %load_ext watermark
 ```
@@ -188,7 +263,7 @@ az.plot_loo_pit(idata_t, y="yobs", ecdf=True)
 %watermark -n -u -v -iv -w -p xarray,pytensor,numpyro,jax,jaxlib
 ```
 <div class="code">
-Last updated: Mon Jul 08 2024
+Last updated: Tue Jul 16 2024
 <br>
 <br>
 Python implementation: CPython
