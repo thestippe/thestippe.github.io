@@ -165,14 +165,14 @@ for k, m in enumerate(models):
 ppc[0].posterior_predictive['yl'].mean(['chain', 'draw']).values
 ```
 <div class='code'>
-array(7.57925)
+array(7.445)
 </div>
 
 ```python
 ppc[1].posterior_predictive['yl'].mean(['chain', 'draw']).values
 ```
 <div class='code'>
-array(16.9575)
+array(16.98925)
 </div>
 
 We recall that the observed value for $y$ was 7,
@@ -184,3 +184,47 @@ model than to the one provided by Model 1.
 In this post we discussed the Bayes factor to choose between different models.
 In the next post, we will discuss a more powerful method to compare models,
 namely the Leave One Out cross validation.
+
+```python
+%load_ext watermark
+```
+
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor,numpyro,jax,jaxlib
+```
+<div class="code">
+Last updated: Tue Jul 16 2024
+<br>
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+numpyro : 0.15.0
+<br>
+jax     : 0.4.28
+<br>
+jaxlib  : 0.4.28
+<br>
+<br>
+pymc      : 5.15.0
+<br>
+numpy     : 1.26.4
+<br>
+pandas    : 2.2.2
+<br>
+arviz     : 0.18.0
+<br>
+matplotlib: 3.9.0
+<br><br>
+Watermark: 2.4.3
+<br>
+</div>

@@ -216,7 +216,7 @@
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
   
-  6&prime;
+  7&prime;
 </span>
 </p>
   </header>
@@ -395,13 +395,13 @@ overlaps with the frequentist CI.</p>
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'yl'</span><span class="p">].</span><span class="n">mean</span><span class="p">([</span><span class="s">'chain'</span><span class="p">,</span> <span class="s">'draw'</span><span class="p">]).</span><span class="n">values</span>
 </code></pre></div></div>
 <div class="code">
-array(7.57925)
+array(7.445)
 </div>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'yl'</span><span class="p">].</span><span class="n">mean</span><span class="p">([</span><span class="s">'chain'</span><span class="p">,</span> <span class="s">'draw'</span><span class="p">]).</span><span class="n">values</span>
 </code></pre></div></div>
 <div class="code">
-array(16.9575)
+array(16.98925)
 </div>
 
 <p>We recall that the observed value for $y$ was 7,
@@ -413,6 +413,47 @@ model than to the one provided by Model 1.</p>
 <p>In this post we discussed the Bayes factor to choose between different models.
 In the next post, we will discuss a more powerful method to compare models,
 namely the Leave One Out cross validation.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">pytensor</span><span class="p">,</span><span class="n">numpyro</span><span class="p">,</span><span class="n">jax</span><span class="p">,</span><span class="n">jaxlib</span>
+</code></pre></div></div>
+<div class="code">
+Last updated: Tue Jul 16 2024
+<br />
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.4
+<br />
+IPython version      : 8.24.0
+<br />
+<br />
+xarray  : 2024.5.0
+<br />
+pytensor: 2.20.0
+<br />
+numpyro : 0.15.0
+<br />
+jax     : 0.4.28
+<br />
+jaxlib  : 0.4.28
+<br />
+<br />
+pymc      : 5.15.0
+<br />
+numpy     : 1.26.4
+<br />
+pandas    : 2.2.2
+<br />
+arviz     : 0.18.0
+<br />
+matplotlib: 3.9.0
+<br /><br />
+Watermark: 2.4.3
+<br />
+</div>
 
   </div><a class="u-url" href="/statistics/model_averaging" hidden></a>
 
