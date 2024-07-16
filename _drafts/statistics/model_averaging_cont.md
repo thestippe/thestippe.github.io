@@ -193,6 +193,7 @@ We therefore decided to make a similar plot
 
 Le left column corresponds to the posterior predictive distribution, the central one to the LOO-PIT and the right one to the LOO-PIT ECDF.
 
+
 ```python
 az.plot_loo_pit(idata_norm, y="yobs", ecdf=True)
 ```
@@ -207,7 +208,12 @@ az.plot_loo_pit(idata_t, y="yobs", ecdf=True)
 It is clear that the normal model is over-dispersed with respect to the observed data,
 while the t-Student model gives a LOO-PIT which is compatible with the uniform distribution.
 
-Another related plot which may be useful is the difference between two models' ELPD
+Another related plot which may be useful is the difference between two models' Expected Log Pointwise Density (ELPD),
+defined as
+
+$$
+\int d\theta \log(p(y_i \vert \theta)) p(\theta \vert y) \approx \frac{1}{S} \sum_s \log(p(y_i \vert \theta^s)) 
+$$
 
 ```python
 az.plot_elpd({'norm': idata_norm, 't': idata_t})
@@ -220,6 +226,30 @@ It is in fact likely that those points are far away from the mean value,
 where the normal distribution has very small probability density,
 while the t-Student model allows for heavier tails and therefore are more likely to be observed
 according to this model.
+
+Notice that Arviz plots the ELPD difference against the point index, it would
+be instead better to plot the ELPD difference against one model's ELPD,
+since the ELPD difference only makes sense when compared to one model's ELPD.
+We can however easily overcome this issue as follows
+
+```python
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.scatter(elpd_t, elpd_norm-elpd_t, s=14, marker='x')
+ax.axhline(y=0, color='k', ls=':')
+ax.set_ylabel('ELPD diff')
+ax.set_xlabel('t ELPD')
+fig = plt.gcf()
+fig.tight_layout()
+```
+![](/docs/assets/images/statistics/model_averaging_cont/plot_elpd_mine.webp)
+
+This plot contains much more information with respect to the previous
+one, and it tells us that the Student model 
+does a better job in reproducing both the points
+with very close to the center (those with very high ELPD)
+and those far away to the center (those with very small ELPD),
+while the normal model only focuses on the intermediate points.
 
 ## Some warning
 
