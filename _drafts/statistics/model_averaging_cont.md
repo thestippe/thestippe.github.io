@@ -254,6 +254,11 @@ with very close to the center (those with very high ELPD)
 and those far away to the center (those with very small ELPD),
 while the normal model only focuses on the intermediate points.
 
+The ELPD has an issue which is not present when using the LOO:
+we are using our data twice. For this reason, the LOO method
+is generally preferred over any method which relies on the simple
+log density of the posterior.
+
 ## Some warning
 
 While the LOO method gives reasonable results when the number of variables
