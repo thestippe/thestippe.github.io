@@ -236,3 +236,4 @@ We discussed how hierarchical models allow us to share information
 across the variables and to make predictions for new, unobserved, variables.
 In the next post we will discuss a very important application
 of hierarchical models to meta-analysis.
+

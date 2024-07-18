@@ -54,7 +54,7 @@ from matplotlib import pyplot as plt
 import pymc.sampling_jax as pmjax
 
 df_turnout = pd.read_csv('data/inequality.csv')
-
+rng = np.random.default_rng(42)
 sns.pairplot(df_turnout)
 ```
 
@@ -98,10 +98,10 @@ with pm.Model() as model_norm:
     y = pm.Normal('y', mu=alpha+df_turnout['turnout'].values*beta, observed=df_turnout['inequality'].values, tau=tau)
 
 with model_norm:
-    trace_norm = pm.sample(draws=4000, chains=4, tune=4000, 
+    idata_norm = pm.sample(draws=4000, chains=4, tune=4000, nuts_sampler='numpyro',
                            idata_kwargs = {'log_likelihood': True}, random_seed=rng)
 
-az.plot_trace(trace_norm)
+az.plot_trace(idata_norm)
 ```
 
 ![The trace of the normal model](/docs/assets/images/statistics/robust_regression/trace_norm.webp)
@@ -116,14 +116,17 @@ x_plt = np.arange(0, 1, 0.001)
 with model_norm:
     y_pred = pm.Normal('y_pred', mu=alpha+x_plt*beta, tau=tau)
     
+
 with model_norm:
-    ppc_norm = pm.sample_posterior_predictive(trace_norm, var_names=['y', 'y_pred'], random_seed=rng)
+    idata_norm.extend(pm.sample_posterior_predictive(idata_norm, var_names=['y', 'y_pred'], random_seed=rng))
+
+    
     
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(x_plt, ppc_norm.posterior_predictive['y_pred'].mean(dim=['draw', 'chain']))
-ax.fill_between(x_plt, ppc_norm.posterior_predictive['y_pred'].quantile(q=0.025, dim=['draw', 'chain']),
-                ppc_norm.posterior_predictive['y_pred'].quantile(q=0.975, dim=['draw', 'chain']), alpha=0.5, color='grey')
+ax.plot(x_plt, idata_norm.posterior_predictive['y_pred'].mean(dim=['draw', 'chain']))
+ax.fill_between(x_plt, idata_norm.posterior_predictive['y_pred'].quantile(q=0.025, dim=['draw', 'chain']),
+                idata_norm.posterior_predictive['y_pred'].quantile(q=0.975, dim=['draw', 'chain']), alpha=0.5, color='grey')
 ax.scatter(df_turnout['turnout'].values, df_turnout['inequality'].values)
 ```
 
@@ -159,11 +162,11 @@ with pm.Model() as model_robust:
     y = pm.StudentT('y', mu=alpha+df_turnout['turnout'].values*beta, observed=df_turnout['inequality'].values, sigma=1/tau, nu=nu)
 
 with model_robust:
-    trace_robust = pm.sample(draws=4000, chains=4, tune=4000, 
-                                             idata_kwargs = {'log_likelihood': True}, 
-                                             random_seed=rng)
+    idata_robust = pm.sample(draws=4000, chains=4, tune=4000, 
+                             idata_kwargs = {'log_likelihood': True}, 
+                             nuts_sampler='numpyro', random_seed=rng)
 
-az.plot_trace(trace_robust)
+az.plot_trace(idata_robust)
 ```
 
 ![The trace of the robust model](/docs/assets/images/statistics/robust_regression/trace_robust.webp)
@@ -175,14 +178,14 @@ with model_robust:
     y_pred = pm.StudentT('y_pred', mu=alpha+x_plt*beta, sigma=1/tau, nu=nu)
 
 with model_robust:
-    ppc_robust = pm.sample_posterior_predictive(trace_robust, var_names=['y', 'y_pred'], random_seed=rng)
+    idata_robust.extend(pm.sample_posterior_predictive(idata_robust, var_names=['y', 'y_pred'], random_seed=rng))
 
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(x_plt, ppc_robust.posterior_predictive['y_pred'].median(dim=['draw', 'chain']))
-ax.fill_between(x_plt, ppc_robust.posterior_predictive['y_pred'].quantile(q=0.025, dim=['draw', 'chain']),
-                ppc_robust.posterior_predictive['y_pred'].quantile(q=0.975, dim=['draw', 'chain']), alpha=0.5, color='grey')
+ax.plot(x_plt, idata_robust.posterior_predictive['y_pred'].median(dim=['draw', 'chain']))
+ax.fill_between(x_plt, idata_robust.posterior_predictive['y_pred'].quantile(q=0.025, dim=['draw', 'chain']),
+                idata_robust.posterior_predictive['y_pred'].quantile(q=0.975, dim=['draw', 'chain']), alpha=0.5, color='grey')
 ax.scatter(df_turnout['turnout'].values, df_turnout['inequality'].values)
 ```
 
@@ -198,10 +201,7 @@ with this robust model this conclusion does not appear so clearly.
 Let us try and see what does the LOO can tell us.
 
 ```python
-loo_normal = az.loo(trace_norm, model_norm)
-loo_robust = az.loo(trace_robust, model_robust)
-
-df_loo = az.compare({'Normal model': trace_norm, 'Robust model': trace_robust})
+df_compare = az.compare({'Normal model': idata_norm, 'Robust model': idata_robust})
 
 az.plot_compare(df_compare)
 ```
@@ -215,10 +215,10 @@ they are however very similar. Let us try and understand why.
 df_compare
 ```
 
-|              |   rank |   elpd_loo |   p_loo |   elpd_diff |   weight |      se |     dse | warning   | scale   |
-|:-------------|-------:|-----------:|--------:|------------:|---------:|--------:|--------:|:----------|:--------|
-| Normal model |      0 |   -30.8017 | 4.74402 |     0       | 0.879221 | 4.33551 | 0       | True      | log     |
-| Robust model |      1 |   -32.452  | 6.97777 |     1.65029 | 0.120779 | 4.68686 | 2.10687 | False     | log     |
+|              |   rank |   elpd_loo |   p_loo |   elpd_diff |   weight |      se |   dse | warning   | scale   |
+|:-------------|-------:|-----------:|--------:|------------:|---------:|--------:|------:|:----------|:--------|
+| Normal model |      0 |   -30.9967 | 4.92972 |     0       | 0.889385 | 4.39811 | 0     | True      | log     |
+| Robust model |      1 |   -32.3574 | 6.88334 |     1.36077 | 0.110615 | 4.66233 | 1.855 | False     | log     |
 
 The difference is $1.65\,,$ and the difference due to the number
 of the degrees of freedom is the difference of the $p_{loo}\,,$
@@ -231,35 +231,42 @@ estimate is not exact, and it's only reliable when
 removing one point does not affect too much log predictive density.
 
 ```python
+loo_normal = az.loo(idata_norm)
+
 loo_normal
 ```
 
 <div class=code>
 Computed from 16000 posterior samples and 18 observations log-likelihood matrix.
 <br>
-&nbsp; &nbsp; &nbsp; &nbsp;         Estimate       SE
+
 <br>
-elpd_loo   -30.80     4.34
+         Estimate       SE
 <br>
-p_loo        4.74        -
+elpd_loo   -31.00     4.40
+<br>
+p_loo        4.93        -
 <br>
 
+<br>
 There has been a warning during the calculation. Please check the results.
 <br>
-- - - -
+------
 <br>
 
+<br>
 Pareto k diagnostic values:
 <br>
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Count   Pct.
+                         Count   Pct.
 <br>
 (-Inf, 0.5]   (good)       16   88.9%
 <br>
- (0.5, 0.7]   &nbsp; (ok)  &nbsp; 0    0.0%
+ (0.5, 0.7]   (ok)          1    5.6%
 <br>
- (0.7, 1]   &nbsp; (bad)  &nbsp;  2   11.1%
+   (0.7, 1]   (bad)         0    0.0%
 <br>
-   (1, Inf)   (very bad)    0    0.0%
+   (1, Inf)   (very bad)    1    5.6%
+<br>
 </div>
 
 There are two points which strongly affect our parameters,
@@ -275,11 +282,12 @@ with pm.Model() as model_norm_red:
     y = pm.Normal('y', mu=alpha+df_turnout['turnout'].values[:17]*beta, observed=df_turnout['inequality'].values[:17], tau=tau)
 
 with model_norm_red:
-    trace_norm_red = pm.sample(draws=2000, chains=4, tune=2000,
+    idata_norm_red = pm.sample(draws=2000, chains=4, tune=2000,
                                idata_kwargs = {'log_likelihood': True},
+                               nuts_sampler='numpyro',
                                random_seed=rng)
-
-az.plot_trace(trace_norm_red)
+    
+az.plot_trace(idata_norm_red)
 
 ```
 
@@ -289,14 +297,15 @@ az.plot_trace(trace_norm_red)
 with model_norm_red:
     y_pred_red = pm.Normal('y_pred', mu=alpha+x_plt*beta, tau=tau)
 
-with model_norm_red:
-    ppc_norm_red = pm.sample_posterior_predictive(trace_norm_red, var_names=['y', 'y_pred'], random_seed=rng)
 
+with model_norm_red:
+    idata_norm_red.extend(pm.sample_posterior_predictive(idata_norm_red, var_names=['y', 'y_pred'], random_seed=rng))
+    
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.plot(x_plt, ppc_norm_red.posterior_predictive['y_pred'].mean(dim=['draw', 'chain']))
-ax.fill_between(x_plt, ppc_norm_red.posterior_predictive['y_pred'].quantile(q=0.025, dim=['draw', 'chain']),
-                ppc_norm_red.posterior_predictive['y_pred'].quantile(q=0.975, dim=['draw', 'chain']), alpha=0.5, color='grey')
+ax.plot(x_plt, idata_norm_red.posterior_predictive['y_pred'].mean(dim=['draw', 'chain']))
+ax.fill_between(x_plt, idata_norm_red.posterior_predictive['y_pred'].quantile(q=0.025, dim=['draw', 'chain']),
+                idata_norm_red.posterior_predictive['y_pred'].quantile(q=0.975, dim=['draw', 'chain']), alpha=0.5, color='grey')
 ax.scatter(df_turnout['turnout'].values, df_turnout['inequality'].values)
 ```
 
@@ -322,3 +331,52 @@ We have discussed how to perform a robust linear regression,
 and we have shown with an example that using it instead of a normal
 linear regression makes our model more stable to the presence
 of non-representative items.
+
+
+## Recommended readings
+- <cite>Healy, K. (2019). Data Visualization: A Practical Introduction. Princeton University Press.
+</cite>
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor
+```
+<div class="code">
+Last updated: Thu Jul 18 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+
+<br>
+arviz     : 0.18.0
+<br>
+matplotlib: 3.9.0
+<br>
+pandas    : 2.2.2
+<br>
+numpy     : 1.26.4
+<br>
+pymc      : 5.15.0
+<br>
+seaborn   : 0.13.2
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

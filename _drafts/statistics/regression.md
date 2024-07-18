@@ -140,7 +140,8 @@ We can now combine the two dataframes. We will stick to the year 2021, as it is 
 most of the countries.
 
 ```python
-df_le = df_lifexp[['Country Code', '2021']].set_index('Country Code').dropna()
+df_le = df_lifexp[['Country Code', '2021']].set_index('Country Code').dropna().rename(
+    columns={'2021': 'Life expectancy'})
 
 df_final = df_n.join(df_le, how='inner')
 
@@ -179,9 +180,11 @@ with pm.Model() as model:
     y_pred = pm.Normal('y_pred', mu=alpha+beta*x_pred, sigma=sigma)  # We want to get the error bands for all the values of x_pred
 
 with model:
-    trace = pm.sample(random_seed=rng, chains=4, draws=2000, tune=2000)
+    trace = pm.sample(random_seed=rng, chains=4, draws=2000, tune=2000, nuts_sampler='numpyro')
 
 az.plot_trace(trace, var_names=['alpha', 'beta', 'sigma'])
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The trace plot](/docs/assets/images/statistics/regression/trace.webp)
@@ -215,25 +218,27 @@ Let us now inspect which nations show the biggest error
 
 ```python
 (df_final['Life expectancy'] - np.mean(trace.posterior['alpha'].values.reshape(-1))
-- np.mean(trace.posterior['beta'].values.reshape(-1))*df_final['log GDP']).sort_values(ascending=True)
+- np.mean(trace.posterior['beta'].values.reshape(-1))*df_final['log GDP']).sort_values(ascending=True).head()
 ```
 
 <div class='code'>
-NGA   -13.359600
+NGA   -13.328530
 <br>
-SWZ   -12.138907
+SWZ   -12.201977
 <br>
-GNQ   -11.857505
+GNQ   -11.809278
 <br>
-NAM   -10.662630
+NRU   -11.197007
 <br>
-BWA   -10.601424
+NAM   -10.621142
+<br>
+dtype: float64
 </div>
 
-The above nations are Nigeria, eSwatini, Guyana, Namibia and Botswana,
+The above nations are Nigeria, eSwatini, Equatorial Guinea, Nuaru and Nambia
 so it looks like our model fails to reproduce some
-African countries, which have an average life expectancy
-much lower than non-African countries with similar GDP.
+African and Oceania countries, which have an average life expectancy
+much lower than non-African and non-Oceania countries with similar GDP.
 
 Let us also check if the assumption about the normality of the deviation
 from the average trend is fulfilled within a good approximation
@@ -270,3 +275,57 @@ of the most relevant assumptions we made about data.
 
 -  <cite> Kutner, M. H., Nachtsheim, C., Neter, J. (2004). Applied linear regression models.UK: McGraw-Hill/Irwin. </cite>
 - <cite> Gelman, A., Hill, J., Vehtari, A. (2020). Regression and Other Stories. India: Cambridge University Press. </cite>
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor,numpyro,jax,jaxlib
+```
+<div class="code">
+Last updated: Tue Jul 16 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+numpyro : 0.15.0
+<br>
+jax     : 0.4.28
+<br>
+jaxlib  : 0.4.28
+<br>
+
+<br>
+numpy     : 1.26.4
+<br>
+arviz     : 0.18.0
+<br>
+seaborn   : 0.13.2
+<br>
+pandas    : 2.2.2
+<br>
+requests  : 2.32.2
+<br>
+matplotlib: 3.9.0
+<br>
+json      : 2.0.9
+<br>
+pymc      : 5.15.0
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

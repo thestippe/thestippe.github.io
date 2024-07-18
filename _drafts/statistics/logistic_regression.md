@@ -179,10 +179,15 @@ with pm.Model() as logistic:
     theta = 1/(1+pm.math.exp(-log_theta))
     y = pm.Binomial('y', p=theta, n=df_oring['count'], observed=df_oring['undamaged'])
 
-with logistic:
-    trace_logistic = pm.sample(draws=5000, tune=5000, chains=4, random_seed=rng)
 
-az.plot_trace(trace_logistic)
+with logistic:
+    idata_logistic = pm.sample(draws=5000, tune=5000, chains=4,
+                               random_seed=rng, nuts_sampler='numpyro')
+
+
+az.plot_trace(idata_logistic)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The trace of the logistic model](/docs/assets/images/statistics/logistic/trace.webp)
@@ -197,18 +202,19 @@ with logistic:
     p = pm.Deterministic('p', 1/(1+pm.math.exp(-mu)))
 
 with logistic:
-    posterior_predictive = pm.sample_posterior_predictive(trace_logistic, var_names=['y', 'mu', 'p'])
+    idata_logistic.extend(pm.sample_posterior_predictive(idata_logistic, var_names=['y', 'mu', 'p'],
+                                                        random_seed=rng))
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
 ax.fill_between(x_pl, 1-
-posterior_predictive.posterior_predictive.p.quantile(q=0.025, dim=['draw', 'chain']),
+                idata_logistic.posterior_predictive.p.quantile(q=0.025, dim=['draw', 'chain']),
                 1-
-posterior_predictive.posterior_predictive.p.quantile(q=0.975, dim=['draw', 'chain']),
-        color='lightgray', alpha=0.7)
+                idata_logistic.posterior_predictive.p.quantile(q=0.975, dim=['draw', 'chain']),
+                color='lightgray', alpha=0.7)
 
 ax.plot(x_pl, 1-
-posterior_predictive.posterior_predictive.p.mean(dim=['draw', 'chain']),
+        idata_logistic.posterior_predictive.p.mean(dim=['draw', 'chain']),
         color='k')
 
 ax.scatter(df_oring['deg'], df_oring['damaged']/df_oring['count'],
@@ -249,6 +255,7 @@ h_0 = [k for k in range(7)]
 
 # And we now estimate the corresponding probability
 
+df_h = pd.DataFrame({'n': h_0, 'count_m': hm, 'count_M': hM})
 df_h['prob_m'] = df_h['count_m']/df_h['count_m'].sum()
 df_h['prob_M'] = df_h['count_M']/df_h['count_M'].sum()
 
@@ -265,7 +272,9 @@ df_h[df_h['n']==0]['prob_M']
 ```
 
 <div class=code>
-0.949
+0    0.9469
+<br>
+Name: prob_M, dtype: float64
 </div>
 The most probable scenario is that all O-rings get damaged, and this 
 is scenario has, according to our model, the $95\%$ or probability to happen.
@@ -284,3 +293,50 @@ by means of a logistic regression.
 We have seen how, by means of the GLM, we can easily extend the linear regression
 to binary data.
 In the next post we will discuss the Poisson regression.
+
+## Suggested readings
+- <cite><a href="http://www.stat.columbia.edu/~gelman/book/BDA3.pdf">Gelman, A. (2014). Bayesian Data Analysis, Third Edition. Taylor & Francis.</a></cite>
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor
+```
+<div class="code">
+Last updated: Thu Jul 18 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+
+<br>
+pymc      : 5.15.0
+<br>
+pandas    : 2.2.2
+<br>
+seaborn   : 0.13.2
+<br>
+numpy     : 1.26.4
+<br>
+matplotlib: 3.9.0
+<br>
+arviz     : 0.18.0
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

@@ -121,14 +121,17 @@ to the 0 values in x, while males will be associated to 1.
 We can now implement the model
 
 ```python
+rng = np.random.default_rng(42)
 with pm.Model() as model:
     beta = pm.Normal('beta', mu=0, sigma=20, shape=(2))
     sigma = pm.HalfNormal('sigma', sigma=20)
     mu = beta[0] + beta[1]*x
-    y = pm.Normal('y', mu=mu, sigma=sigma, observed=df['G3'])
-    idata = pm.sample(nuts_sampler='numpyro')
+    y = pm.Normal('y', mu=mu, sigma=sigma, observed=df_red['G3'])
+    idata = pm.sample(nuts_sampler='numpyro', random_seed=rng)
 
 az.plot_trace(idata)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The trace for our simple model](/docs/assets/images/statistics/regression_binary/trace.webp)
@@ -151,12 +154,12 @@ uncertainties
 
 ```python
 with model:
-    ppc = pm.sample_posterior_predictive(idata)
+    ppc = pm.sample_posterior_predictive(idata, random_seed=rng)
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
 for yt in az.extract(ppc, num_samples=20, group='posterior_predictive')['y'].T:
-    s = np.random.uniform(low=-0.1, high=0.1, size=len(x))
+    s = rng.uniform(low=-0.1, high=0.1, size=len(x))
     ax.scatter(x+s, yt, color='lightgray', s=5)
 ax.scatter(x, df_red['G3'], s=5)
 ax.set_xticks([0, 1])
@@ -186,3 +189,54 @@ as you cannot manipulate someone's biological sex.
 We extended the linear regression model to a binary outcome,
 and discussed the interpretation of the parameter's models when
 the binary regressor encodes a categorical variable.
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Tue Jul 16 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+numpyro : 0.15.0
+<br>
+jax     : 0.4.28
+<br>
+jaxlib  : 0.4.28
+<br>
+
+<br>
+arviz     : 0.18.0
+<br>
+matplotlib: 3.9.0
+<br>
+numpy     : 1.26.4
+<br>
+seaborn   : 0.13.2
+<br>
+pandas    : 2.2.2
+<br>
+pymc      : 5.15.0
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

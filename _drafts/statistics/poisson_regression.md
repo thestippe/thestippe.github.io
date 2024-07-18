@@ -70,13 +70,14 @@ with pm.Model() as poisson_regr:
     beta = pm.Normal('beta', mu=0, sigma=2)
     z = pm.math.exp(alpha + beta*df_fit['is_black'])
     y = pm.Poisson('y', mu=z, observed=df_fit['Count'])
-    y_brown = pm.Poisson('y_brown', mu=pm.math.exp(alpha))
-    y_black = pm.Poisson('y_black', mu=pm.math.exp(alpha+beta))
 
 with poisson_regr:
-    trace = pm.sample(draws=2000, tune=2000, random_seed=rng)
+    idata = pm.sample(draws=2000, tune=2000, random_seed=rng,
+                     nuts_sampler='numpyro')
 
-az.plot_trace(trace)
+az.plot_trace(idata)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The trace of the Poisson model](/docs/assets/images/statistics/poisson_glm/trace.webp)
@@ -85,12 +86,15 @@ The trace seems fine, we can now verify if the model is compatible with the data
 
 ```python
 with poisson_regr:
-    ppc = pm.sample_posterior_predictive(trace, var_names=['y', 'y_brown', 'y_black'], random_seed=rng)
-
+    y_brown = pm.Poisson('y_brown', mu=pm.math.exp(alpha))
+    y_black = pm.Poisson('y_black', mu=pm.math.exp(alpha+beta))
+    
+with poisson_regr:
+    idata.extend(pm.sample_posterior_predictive(idata, var_names=['y', 'y_brown', 'y_black'], random_seed=rng))
 # Let us estimate the probability that, in one year, there are k brown/black bear attacks 
 
-n_brown = np.array([np.count_nonzero(ppc.posterior_predictive['y_brown'].values.reshape(-1)==k) for k in range(10)])
-n_black = np.array([np.count_nonzero(ppc.posterior_predictive['y_black'].values.reshape(-1)==k) for k in range(10)])
+n_brown = np.array([np.count_nonzero(idata.posterior_predictive['y_brown'].values.reshape(-1)==k) for k in range(10)])
+n_black = np.array([np.count_nonzero(idata.posterior_predictive['y_black'].values.reshape(-1)==k) for k in range(10)])
 
 fig = plt.figure()
 ax = fig.add_subplot(211)
@@ -121,3 +125,56 @@ by black bears is compatible with the average attack number by brown bears.
 We discussed a second kind of GLM, namely the Poisson regression,
 and we applied this model to estimate the average number of lethal
 attacks by wild bears in North America.
+
+
+## Suggested readings
+- <cite><a href="http://www.stat.columbia.edu/~gelman/book/BDA3.pdf">Gelman, A. (2014). Bayesian Data Analysis, Third Edition. Taylor & Francis.</a></cite>
+
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor
+```
+
+<div class="code">
+Last updated: Thu Jul 18 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+
+<br>
+arviz     : 0.18.0
+<br>
+matplotlib: 3.9.0
+<br>
+pymc      : 5.15.0
+<br>
+pandas    : 2.2.2
+<br>
+numpy     : 1.26.4
+<br>
+seaborn   : 0.13.2
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+
+<br>
+</div>
+
