@@ -4,7 +4,7 @@ title: "Causal inference"
 categories: /statistics/
 subcategory: "Causal inference"
 tags: /causal_intro/
-date: "2024-06-02"
+date: "2024-06-09"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "When association implies causation"
 section: 0

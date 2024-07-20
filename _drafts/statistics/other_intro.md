@@ -8,6 +8,7 @@ date: "2024-07-05"
 section: 8
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Where I will discuss more general topics"
+published: false
 ---
 
 In this section I will put personal opinions and references to statistics which

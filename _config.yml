@@ -43,4 +43,5 @@ stats_categories_order:
         - Hierarchical models
         - Advanced models
         - Causal inference
+        - Non-parametric models
         - Other random thoughts

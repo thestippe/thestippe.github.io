@@ -4,7 +4,7 @@ title: "Experiment analysis"
 categories: /statistics/
 subcategory: "Advanced models"
 tags: /experiment_analysis/
-date: "2024-05-26"
+date: "2024-06-02"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to design and analyze experiment"
 section: 5

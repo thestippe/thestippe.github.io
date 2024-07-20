@@ -4,7 +4,7 @@ title: "Randomized controlled trials"
 categories: /statistics/
 subcategory: "Causal inference"
 tags: /randomized/
-date: "2024-06-09"
+date: "2024-06-16"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "When association implies causation"
 section: 5

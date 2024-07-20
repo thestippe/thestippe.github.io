@@ -6,12 +6,12 @@ subcategory: "Advanced models"
 tags: /survival_continuous/
 date: "2024-05-12"
 # image: "/docs/assets/images/perception/eye.jpg"
-description: "Survival analysis with continouous time"
+description: "Survival analysis with continuous time"
 section: 3
 ---
 
 In the previous post we introduced survival
-analysis and we discussed how to correctly treat
+analysis, and we discussed how to correctly treat
 censorship.
 In this post we will see an application of survival analysis.
 
@@ -94,13 +94,16 @@ $$
 The Weibull distribution has pdf
 
 $$
-p(x | \alpha, \beta) = \alpha \frac{x^{\alpha-1}}{\beta^\alpha} e^{-(x/\beta)^\alpha}
+p(x | \alpha, \lambda) = \alpha \frac{x^{\alpha-1}}{\lambda^\alpha} e^{-(x/\lambda)^\alpha}
 $$
 
+Notice that, often, the second parameter is named $\beta$,
+but since we will use this method for another purpose, we will use $\lambda$
+for the second parameter.
 Both the parameters must be positive, and the mean of the distribution is
 
 $$
-\mu = \beta \Gamma\left(1+\alpha^{-1}\right)
+\mu = \lambda \Gamma\left(1+\alpha^{-1}\right)
 $$
 
 We want to assess the effectiveness of the treatment. The first possibility
@@ -232,9 +235,9 @@ treatment gives better results than the control one.
 ## Conclusions
 
 We discussed an application of survival analysis with continuous time, we explained how
-to include the regressor dependence in bayesian survival analysis
+to include the regressor dependence in bayesian survival analysis,
 and we also introduced the Weibull distribution.
 
 ## Suggested readings
 
-- <cite>Ibrahim, J. G., Chen, M., Sinha, D. (2013). Bayesian Survival Analysis. Switzerland: Springer New York.</cite>
+- <cite>Ibrahim, J. G., Chen, M., Sinha, D. (2013). Bayesian Survival Analysis. Springer New York.</cite>
