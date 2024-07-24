@@ -128,11 +128,11 @@
                 </li><li>
                         How does MCMC works;/statistics/mcmc_intro;35
                 </li><li>
-                        The Gestalt principles;/dataviz/gestalt;36
+                        Introduction to Bayesian inference;/statistics/bayes_intro;36
                 </li><li>
-                        Introduction to Bayesian inference;/statistics/bayes_intro;37
+                        An overview to statistics;/statistics/preface;37
                 </li><li>
-                        An overview to statistics;/statistics/preface;38
+                        The Gestalt principles;/dataviz/gestalt;38
                 </li><li>
                         Design tricks;/dataviz/design-introduction;39
                 </li><li>
@@ -218,7 +218,7 @@
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
   
-  9&prime;
+  10&prime;
 </span>
 </p>
   </header>
@@ -313,27 +313,33 @@ Below we provide the relevant statistics for the different launchers.</p>
 <span class="n">df_spacex</span><span class="p">[</span><span class="s">'mu'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_spacex</span><span class="p">[</span><span class="s">'y'</span><span class="p">]</span><span class="o">/</span><span class="n">df_spacex</span><span class="p">[</span><span class="s">'N'</span><span class="p">]</span>
 
 <span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">coords</span> <span class="o">=</span> <span class="p">{</span><span class="s">'obs_id'</span><span class="p">:</span> <span class="n">df_spacex</span><span class="p">[</span><span class="s">'N'</span><span class="p">].</span><span class="n">values</span><span class="p">}</span>
 </code></pre></div></div>
 
 <h3 id="no-pooling">No pooling</h3>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">spacex_model_no_pooling</span><span class="p">:</span>  
-  <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Beta</span><span class="p">(</span><span class="s">'theta'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df_spacex</span><span class="p">[</span><span class="s">'N'</span><span class="p">].</span><span class="n">values</span><span class="p">))</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">spacex_model_no_pooling</span><span class="p">:</span>  
+  <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Beta</span><span class="p">(</span><span class="s">'theta'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_id'</span><span class="p">])</span>
   <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="s">'N'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span>
-                  <span class="n">observed</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="s">'y'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">observed</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="s">'y'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_id'</span><span class="p">])</span>
 
 <span class="n">pm</span><span class="p">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">spacex_model_no_pooling</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p><img src="/docs/assets/images/statistics/hierarchical/model_unpooled.webp" alt="The structure of the unpooled model" /></p>
+<p><img src="/docs/assets/images/statistics/hierarchical/model_unpooled.webp" alt="The structure of the unpooled model" width="300" /></p>
 
 <p>In the above diagram we see that each of the four vehicle has its own
 parameter.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">spacex_model_no_pooling</span><span class="p">:</span>
-  <span class="n">trace_spacex_no_pooling</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">)</span>
+    <span class="n">idata_spacex_no_pooling</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+                                        <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
+                                       <span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">)</span>
 
-<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_spacex_no_pooling</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_spacex_no_pooling</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/hierarchical/trace_unpooled.webp" alt="The trace of the unpooled model" /></p>
@@ -342,7 +348,7 @@ parameter.</p>
 numerical issues.
 The trace looks fine, but let us now take a better look at the estimated parameters.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">trace_spacex_no_pooling</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">idata_spacex_no_pooling</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/hierarchical/forest_unpooled.webp" alt="The forest plot of the unpooled model" /></p>
@@ -353,28 +359,31 @@ Let us now take a look at the pooled model.</p>
 
 <h3 id="full-pooling">Full pooling</h3>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">spacex_model_full_pooling</span><span class="p">:</span>  
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">spacex_model_full_pooling</span><span class="p">:</span>  
   <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Beta</span><span class="p">(</span><span class="s">'theta'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span>
   <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="s">'N'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span>
-                  <span class="n">observed</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="s">'y'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">observed</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="s">'y'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_id'</span><span class="p">])</span>
 
 <span class="n">pm</span><span class="p">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">spacex_model_full_pooling</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p><img src="/docs/assets/images/statistics/hierarchical/model_pooled.webp" alt="The structure of the pooled model" /></p>
+<p><img src="/docs/assets/images/statistics/hierarchical/model_pooled.webp" alt="The structure of the pooled model" width="300" /></p>
 
 <p>In this model, all the launches are treated as sampled from a common
 iid, and we therefore have only one parameter for all the launch vehicle.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">spacex_model_full_pooling</span><span class="p">:</span>
-  <span class="n">trace_spacex_full_pooling</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+  <span class="n">idata_spacex_full_pooling</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span>
+                                       <span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">)</span>
 
-<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_spacex_full_pooling</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_spacex_full_pooling</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/hierarchical/trace_pooled.webp" alt="The trace of the pooled model" /></p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">trace_spacex_full_pooling</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">idata_spacex_full_pooling</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/hierarchical/forest_pooled.webp" alt="The forest plot of the pooled model" /></p>
@@ -386,32 +395,31 @@ but this is what you should do according to this model.</p>
 
 <h3 id="hierarchical-model">Hierarchical model</h3>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">spacex_model_hierarchical</span><span class="p">:</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">spacex_model_hierarchical</span><span class="p">:</span>
     <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">"alpha"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">"beta"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
     <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">"mu"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">/</span><span class="p">(</span><span class="n">alpha</span><span class="o">+</span><span class="n">beta</span><span class="p">))</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Beta</span><span class="p">(</span><span class="s">'theta'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df_spacex</span><span class="p">[</span><span class="s">'N'</span><span class="p">].</span><span class="n">values</span><span class="p">))</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Beta</span><span class="p">(</span><span class="s">'theta'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_id'</span><span class="p">])</span>
     <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="s">'N'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span>
-                  <span class="n">observed</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="s">'y'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+                  <span class="n">observed</span><span class="o">=</span><span class="n">df_spacex</span><span class="p">[</span><span class="s">'y'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_id'</span><span class="p">])</span>
 
 <span class="n">pm</span><span class="p">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">spacex_model_hierarchical</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p><img src="/docs/assets/images/statistics/hierarchical/model_hierarchical.webp" alt="The structure of the hierarchical model" /></p>
+<p><img src="/docs/assets/images/statistics/hierarchical/model_hierarchical.webp" alt="The structure of the hierarchical model" width="450" /></p>
 
 <p>In this case, each vehicle has its own parameter. The parameters are
 however sampled according to a Beta distribution, with priors
 $\alpha$ and $\beta\,.$</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">spacex_model_hierarchical</span><span class="p">:</span>
-    <span class="n">trace_spacex_hierarchical</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-
-<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_spacex_hierarchical</span><span class="p">)</span>
+    <span class="n">idata_spacex_hierarchical</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span>
+                                         <span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/hierarchical/trace_hierarchical.webp" alt="The trace of the hierarchical model" /></p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">trace_spacex_hierarchical</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s">'theta'</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">idata_spacex_hierarchical</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/hierarchical/forest_hierarchical.webp" alt="The forest plot of the hierarchical model" /></p>
@@ -428,11 +436,9 @@ to estimate its success probability.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">spacex_model_hierarchical</span><span class="p">:</span>
     <span class="n">theta_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Beta</span><span class="p">(</span><span class="s">'th_new'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">)</span>
-    <span class="n">ppc_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace_spacex_hierarchical</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'th_new'</span><span class="p">])</span>
+    <span class="n">ppc_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata_spacex_hierarchical</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'th_new'</span><span class="p">])</span>
 
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">ppc_new</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'th_new'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">),</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">ppc_new</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'th_new'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/hierarchical/hierarchical_new_theta.webp" alt="The probability distribution for a new theta" /></p>
@@ -440,11 +446,11 @@ to estimate its success probability.</p>
 <p>We can moreover estimate the average success rate for any SpaceX
 vehicle.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">map_mu</span> <span class="o">=</span> <span class="n">st</span><span class="p">.</span><span class="n">mode</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">trace_spacex_hierarchical</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">"mu"</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">))).</span><span class="n">mode</span><span class="o">/</span><span class="mi">100</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">map_mu</span> <span class="o">=</span> <span class="n">st</span><span class="p">.</span><span class="n">mode</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">digitize</span><span class="p">(</span><span class="n">idata_spacex_hierarchical</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">"mu"</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">))).</span><span class="n">mode</span><span class="o">/</span><span class="mi">100</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">az</span><span class="p">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">trace_spacex_hierarchical</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">"mu"</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">idata_spacex_hierarchical</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">"mu"</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">.</span><span class="n">text</span><span class="p">(</span><span class="mf">0.3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="sa">f</span><span class="s">'MAP: </span><span class="si">{</span><span class="n">map_mu</span><span class="si">}</span><span class="s">'</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 </code></pre></div></div>
 
@@ -465,6 +471,61 @@ across the variables and to make predictions for new, unobserved, variables.
 In the next post we will discuss a very important application
 of hierarchical models to meta-analysis.</p>
 
+<h2 id="suggested-readings">Suggested readings</h2>
+<ul>
+  <li><cite><a href="http://www.stat.columbia.edu/~gelman/book/BDA3.pdf">Gelman, A. (2014). Bayesian Data Analysis, Third Edition. Taylor &amp; Francis.</a></cite></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">pytensor</span><span class="p">,</span><span class="n">numpyro</span><span class="p">,</span><span class="n">jax</span><span class="p">,</span><span class="n">jaxlib</span>
+</code></pre></div></div>
+
+<div class="code">
+Last updated: Sat Jul 20 2024
+<br />
+
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.4
+<br />
+IPython version      : 8.24.0
+<br />
+
+<br />
+xarray  : 2024.5.0
+<br />
+pytensor: 2.20.0
+<br />
+numpyro : 0.15.0
+<br />
+jax     : 0.4.28
+<br />
+jaxlib  : 0.4.28
+<br />
+
+<br />
+scipy     : 1.13.1
+<br />
+pandas    : 2.2.2
+<br />
+seaborn   : 0.13.2
+<br />
+matplotlib: 3.9.0
+<br />
+numpy     : 1.26.4
+<br />
+arviz     : 0.18.0
+<br />
+pymc      : 5.15.0
+<br />
+
+<br />
+Watermark: 2.4.3
+<br />
+</div>
 
   </div><a class="u-url" href="/statistics/hierarchical_models" hidden></a>
 

@@ -128,11 +128,11 @@
                 </li><li>
                         How does MCMC works;/statistics/mcmc_intro;35
                 </li><li>
-                        The Gestalt principles;/dataviz/gestalt;36
+                        Introduction to Bayesian inference;/statistics/bayes_intro;36
                 </li><li>
-                        Introduction to Bayesian inference;/statistics/bayes_intro;37
+                        An overview to statistics;/statistics/preface;37
                 </li><li>
-                        An overview to statistics;/statistics/preface;38
+                        The Gestalt principles;/dataviz/gestalt;38
                 </li><li>
                         Design tricks;/dataviz/design-introduction;39
                 </li><li>
@@ -218,7 +218,7 @@
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
   
-  9&prime;
+  14&prime;
 </span>
 </p>
   </header>
@@ -239,8 +239,9 @@ In this post we will see an application of survival analysis.</p>
 <span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
 <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
 <span class="kn">from</span> <span class="nn">SurvSet.data</span> <span class="kn">import</span> <span class="n">SurvLoader</span>
+<span class="kn">import</span> <span class="nn">pytensor</span> <span class="k">as</span> <span class="n">pt</span>
 
-<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">()</span>
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">loader</span> <span class="o">=</span> <span class="n">SurvLoader</span><span class="p">()</span>
 
 <span class="n">df_melanoma</span><span class="p">,</span> <span class="n">ref_melanoma</span> <span class="o">=</span> <span class="n">loader</span><span class="p">.</span><span class="n">load_dataset</span><span class="p">(</span><span class="n">ds_name</span> <span class="o">=</span> <span class="s">'e1684'</span><span class="p">).</span><span class="n">values</span><span class="p">()</span>
@@ -344,11 +345,16 @@ while it is 0 if the event is censored.</p>
 9.64384
 </div>
 
-<h2 id="the-model">The model</h2>
+<h2 id="the-models">The models</h2>
 
-<p>We will use a Weibull likelihood, which is a quite flexible distribution,
-which allows for fat tails, and it should thereby be more robust than
-a Gamma distribution.</p>
+<p>We will try and fit two models:
+first we will try with an Exponential likelihood,</p>
+
+\[Y \sim \mathcal{Exponential}(\lambda)\]
+
+<p>we will then try with a Weibull likelihood, which is a quite flexible distribution,
+which allows for fatter tails, and it should thereby be more robust than
+an exponential or a Gamma distribution.</p>
 
 \[Y \sim \mathcal{Weibull}(\sigma, \lambda)\]
 
@@ -394,44 +400,113 @@ and the priors are very uninformative.
 Let us introduce the censoring variable</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_melanoma</span><span class="p">[</span><span class="s">'censoring'</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="bp">None</span> <span class="k">if</span> <span class="n">x</span><span class="o">==</span><span class="mi">1</span> <span class="k">else</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">df_melanoma</span><span class="p">[</span><span class="s">'event'</span><span class="p">],</span> <span class="n">df_melanoma</span><span class="p">[</span><span class="s">'time'</span><span class="p">])]</span>
+<span class="n">df_melanoma</span><span class="p">[</span><span class="s">'trt'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df_melanoma</span><span class="p">[</span><span class="s">'fac_trt'</span><span class="p">]</span><span class="o">==</span><span class="s">'IFN'</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
 </code></pre></div></div>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+<p>We will first try with the exponential model,
+as discussed in chapter 2 of “Bayesian Survival Analysis”</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">expon_model</span><span class="p">:</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">df_melanoma</span><span class="p">[</span><span class="s">'trt'</span><span class="p">])</span>
+    <span class="n">dist</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Exponential</span><span class="p">.</span><span class="n">dist</span><span class="p">(</span><span class="n">lam</span><span class="o">=</span><span class="n">lam</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Censored</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">df_melanoma</span><span class="p">[</span><span class="s">'censoring'</span><span class="p">],</span>
+                    <span class="n">observed</span><span class="o">=</span><span class="n">df_melanoma</span><span class="p">[</span><span class="s">'time'</span><span class="p">])</span>
+    <span class="n">idata_expon</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span>
+                           <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_expon</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/survival_melanoma/trace_expon.webp" alt="The trace of the exponential model model" /></p>
+
+<p>The image is similar, but not identical to the one of the reference.
+However, our model is identical to the one provided in the reference.
+In order to check this, you can try and fit the following model:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">expon_model_check</span><span class="p">:</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">df_melanoma</span><span class="p">[</span><span class="s">'trt'</span><span class="p">])</span>
+    <span class="k">def</span> <span class="nf">logp</span><span class="p">(</span><span class="n">lam</span><span class="p">,</span> <span class="n">nu</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">nu</span><span class="o">*</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">lam</span><span class="p">)</span><span class="o">-</span><span class="n">y</span><span class="o">*</span><span class="n">lam</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Potential</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">logp</span><span class="p">(</span><span class="n">lam</span><span class="p">,</span> <span class="n">df_melanoma</span><span class="p">[</span><span class="s">'event'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span> <span class="n">df_melanoma</span><span class="p">[</span><span class="s">'time'</span><span class="p">].</span><span class="n">values</span><span class="p">))</span>
+</code></pre></div></div>
+
+<p>The formula for the log-likelihood is the one provided in the reference.
+If you try and fit the model, you will get exactly the same figure we obtained.
+The reason for the different trace is, probably, that the samplers
+improved quite a lot in more than 20 years, in fact our trace looks much
+better than the one in the reference.</p>
+
+<p>We will now improve our model and try with the Weibull model</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">weibull_model</span><span class="p">:</span>
     <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
     <span class="n">lam</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">df_melanoma</span><span class="p">[</span><span class="s">'trt'</span><span class="p">])</span>
     <span class="n">dist</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Weibull</span><span class="p">.</span><span class="n">dist</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">alpha</span><span class="p">),</span> <span class="n">beta</span><span class="o">=</span><span class="n">lam</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Censored</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">df_melanoma</span><span class="p">[</span><span class="s">'censoring'</span><span class="p">],</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_melanoma</span><span class="p">[</span><span class="s">'time'</span><span class="p">])</span>
-    
-    <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Censored</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">dist</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="n">df_melanoma</span><span class="p">[</span><span class="s">'censoring'</span><span class="p">],</span>
+                    <span class="n">observed</span><span class="o">=</span><span class="n">df_melanoma</span><span class="p">[</span><span class="s">'time'</span><span class="p">])</span>
 
-<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">weibull_model</span><span class="p">:</span>
+    <span class="n">idata_weibull</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
 </code></pre></div></div>
 
-<p><img src="/docs/assets/images/statistics/survival_melanoma/trace.webp" alt="The trace of our model" /></p>
+<p><img src="/docs/assets/images/statistics/survival_melanoma/trace_weibull.webp" alt="The trace of the Weibull model model" /></p>
+
+<p>As we discussed, when you have two nested model, it is generally better to
+use the more general one.
+We will however try and compare the models in order to see which is the more appropriate</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">expon_model</span><span class="p">:</span>
+    <span class="n">pm</span><span class="p">.</span><span class="n">compute_log_likelihood</span><span class="p">(</span><span class="n">idata_expon</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">weibull_model</span><span class="p">:</span>
+    <span class="n">pm</span><span class="p">.</span><span class="n">compute_log_likelihood</span><span class="p">(</span><span class="n">idata_weibull</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">expon_model</span><span class="p">:</span>
+    <span class="n">idata_expon</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata_expon</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">weibull_model</span><span class="p">:</span>
+    <span class="n">idata_weibull</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata_weibull</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">))</span>
+
+<span class="n">df_compare</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="n">compare</span><span class="p">({</span><span class="s">'Exponential'</span><span class="p">:</span> <span class="n">idata_expon</span><span class="p">,</span> <span class="s">'Weibull'</span><span class="p">:</span> <span class="n">idata_weibull</span><span class="p">})</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_compare</span><span class="p">(</span><span class="n">df_compare</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/survival_melanoma/loo.webp" alt="The LOO model comparison" /></p>
+
+<p>The Weibull model seems much more appropriate to describe the data,
+we will therefore stick to it from now on.</p>
 
 <h2 id="treatment-comparison">Treatment comparison</h2>
 
-<p>By the above figure we observe that $\beta_1&gt;0\,,$
+<p>By looking at the Weibull trace, we observe that $\beta_1&gt;0\,,$
 and this indicates that the test treatment is more effective than the control one.
 This becomes clearer by showing the distribution of the mean $\mu$</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="n">mu0</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">trace</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'beta'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">gammaln</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">trace</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'alpha'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))))</span>
-<span class="n">mu1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">trace</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'beta'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">trace</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'beta'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">gammaln</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">trace</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'alpha'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))))</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">weibull_model</span><span class="p">:</span>
+    <span class="n">mu0</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'mu0'</span><span class="p">,</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">pt</span><span class="p">.</span><span class="n">tensor</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">gammaln</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">alpha</span><span class="p">))))</span>
+    <span class="n">mu1</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'mu1'</span><span class="p">,</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">beta</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">beta</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">*</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">pt</span><span class="p">.</span><span class="n">tensor</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">gammaln</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="mi">1</span><span class="o">/</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">alpha</span><span class="p">))))</span>
 
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">weibull_model</span><span class="p">:</span>
+    <span class="n">idata_mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata_weibull</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'mu0'</span><span class="p">,</span> <span class="s">'mu1'</span><span class="p">])</span>
 
-<span class="n">ax</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">mu0</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'Control'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">hist</span><span class="p">(</span><span class="n">mu1</span><span class="p">,</span> <span class="n">density</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">bins</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">),</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s">'IFN'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">15</span><span class="p">])</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
-<span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">xlim</span> <span class="o">=</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">idata_mu</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s">'posterior_predictive'</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s">'mu0'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">idata_mu</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s">'posterior_predictive'</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s">'mu1'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xlim</span><span class="p">(</span><span class="n">xlim</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_title</span><span class="p">(</span><span class="s">"$</span><span class="se">\\</span><span class="s">mu_0$"</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_title</span><span class="p">(</span><span class="s">"$</span><span class="se">\\</span><span class="s">mu_1$"</span><span class="p">)</span>
 <span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p><img src="/docs/assets/images/statistics/survival_melanoma/mean.webp" alt="The posterior for the parameter mu" /></p>
+<p><img src="/docs/assets/images/statistics/survival_melanoma/mean_new.webp" alt="The posterior for the parameter mu" /></p>
 
 <p>The mean for the test treatment is typically higher for the test group
 than for the control group, and the peak of the mean for the IFN
@@ -445,20 +520,19 @@ treatment is roughly twice than the one for the control treatment.</p>
     <span class="n">y</span> <span class="o">=</span> <span class="p">(</span><span class="n">t</span><span class="o">/</span><span class="n">beta</span><span class="p">)</span><span class="o">**</span><span class="n">alpha</span>
     <span class="k">return</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">y</span><span class="p">)</span>
 
-<span class="n">t_pl</span> <span class="o">=</span>  <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
-<span class="n">s0</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">alph</span><span class="p">,</span> <span class="n">b0</span><span class="p">))</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_pl</span><span class="p">]</span>
+<span class="n">t_pl</span> <span class="o">=</span>  <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mf">0.</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">)</span>
 
-<span class="n">alph</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">trace</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'alpha'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-<span class="n">b0</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">trace</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'beta'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">])</span>
-<span class="n">b1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">trace</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'beta'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">trace</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'beta'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
+<span class="n">alph</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata_weibull</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'alpha'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">b0</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata_weibull</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'beta'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">])</span>
+<span class="n">b1</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata_weibull</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'beta'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)[:,</span> <span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">idata_weibull</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'beta'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">)[:,</span> <span class="mi">1</span><span class="p">])</span>
 
 <span class="n">s0</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">alph</span><span class="p">,</span> <span class="n">b0</span><span class="p">))</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_pl</span><span class="p">]</span>
-<span class="n">s0_low</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">alph</span><span class="p">,</span> <span class="n">b0</span><span class="p">),</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_pl</span><span class="p">]</span>
-<span class="n">s0_high</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">alph</span><span class="p">,</span> <span class="n">b0</span><span class="p">),</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_pl</span><span class="p">]</span>
+<span class="n">s0_low</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">alph</span><span class="p">,</span> <span class="n">b0</span><span class="p">),</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_pl</span><span class="p">]</span>
+<span class="n">s0_high</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">alph</span><span class="p">,</span> <span class="n">b0</span><span class="p">),</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_pl</span><span class="p">]</span>
 
 <span class="n">s1</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">alph</span><span class="p">,</span> <span class="n">b1</span><span class="p">))</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_pl</span><span class="p">]</span>
-<span class="n">s1_low</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">alph</span><span class="p">,</span> <span class="n">b1</span><span class="p">),</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_pl</span><span class="p">]</span>
-<span class="n">s1_high</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">alph</span><span class="p">,</span> <span class="n">b1</span><span class="p">),</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_pl</span><span class="p">]</span>
+<span class="n">s1_low</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">alph</span><span class="p">,</span> <span class="n">b1</span><span class="p">),</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_pl</span><span class="p">]</span>
+<span class="n">s1_high</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">S</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">alph</span><span class="p">,</span> <span class="n">b1</span><span class="p">),</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">t_pl</span><span class="p">]</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
@@ -485,11 +559,63 @@ treatment gives better results than the control one.</p>
 to include the regressor dependence in bayesian survival analysis,
 and we also introduced the Weibull distribution.</p>
 
+<p>In the next post, we will discuss a more flexible way to estimate the
+survival function.</p>
+
 <h2 id="suggested-readings">Suggested readings</h2>
 
 <ul>
   <li><cite>Ibrahim, J. G., Chen, M., Sinha, D. (2013). Bayesian Survival Analysis. Springer New York.</cite></li>
 </ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">numpyro</span><span class="p">,</span><span class="n">jax</span><span class="p">,</span><span class="n">jaxlib</span>
+</code></pre></div></div>
+
+<div class="code">
+Last updated: Sun Jul 21 2024
+<br />
+
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.4
+<br />
+IPython version      : 8.24.0
+<br />
+
+<br />
+xarray : 2024.5.0
+<br />
+numpyro: 0.15.0
+<br />
+jax    : 0.4.28
+<br />
+jaxlib : 0.4.28
+<br />
+
+<br />
+pandas     : 2.2.2
+<br />
+arviz      : 0.18.0
+<br />
+kaplanmeier: 0.2.0
+<br />
+pymc       : 5.15.0
+<br />
+pytensor   : 2.20.0
+<br />
+numpy      : 1.26.4
+<br />
+matplotlib : 3.9.0
+<br />
+
+<br />
+Watermark: 2.4.3
+<br />
+</div>
 
   </div><a class="u-url" href="/statistics/survival_example" hidden></a>
 

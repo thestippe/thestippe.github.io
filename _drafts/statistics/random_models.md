@@ -10,8 +10,6 @@ description: "Making inference on subgroups"
 section: 5
 ---
 
-<!--TODO: write model using the coords construct! Find better syntax! include elpd estimate!-->
-
 
 There are many situations where you want to understand the relation between two
 variables at the subgroup level rather than at the level of the entire sample.
@@ -39,6 +37,7 @@ import pymc.sampling_jax as pmj
 
 df = pd.read_csv('data/Reaction.csv')
 
+rng = np.random.default_rng(42)
 df.head()
 ```
 
@@ -59,30 +58,41 @@ $$
 
 ```python
 df['y'] = (df['Reaction'] - mean)/df['Reaction'].std()
+df['subj_id']=df['Subject'].map({elem: k for k, elem in enumerate(df['Subject'].drop_duplicates())})
+df['intercept'] = 1
+X_v = df[['intercept','Days']]
+X_s = pd.DataFrame({'subj':df['subj_id'].drop_duplicates()})
+coords = {'cols': X_v.columns, 'obs_id': X_v.index, 'subj_id': X_s.index, 'subj_col': X_s.columns}
+
 
 with pm.Model() as model_fixed:
     alpha = pm.Normal('alpha', mu=0, sigma=500)
     beta = pm.Normal('beta', mu=0, sigma=500)
     sigma = pm.HalfNormal('sigma', sigma=500)
     yhat = pm.Normal('y', mu=alpha + beta*df['Days'], sigma=sigma, observed=df['y'])
-    trace_fixed = pm.sample()
 
-az.plot_trace(trace_fixed)
+with model_fixed:
+    idata_fixed = pm.sample(nuts_sampler='numpyro', random_seed=rng)
+
+az.plot_trace(idata_fixed)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![](/docs/assets/images/statistics/random_models/trace_fixed.webp)
 
 ```python
-yfit = jnp.outer(trace_fixed.posterior['alpha'].values.reshape(-1), jnp.ones(len(df['Days'].drop_duplicates().values)))+jnp.outer(trace_fixed.posterior['beta'].values.reshape(-1), jnp.arange(len(df['Days'].drop_duplicates().values)))
+yfit = jnp.outer(idata_fixed.posterior['alpha'].values.reshape(-1), jnp.ones(len(df['Days'].drop_duplicates().values)))+jnp.outer(
+    idata_fixed.posterior['beta'].values.reshape(-1), jnp.arange(len(df['Days'].drop_duplicates().values)))
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-ax.fill_between(df['Days'].drop_duplicates().values, jnp.quantile(yfit, q=0.025, axis=0),jnp.quantile(yfit, q=0.975, axis=0),
+ax.fill_between(df['Days'].drop_duplicates().values, jnp.quantile(yfit, q=0.03, axis=0),jnp.quantile(yfit, q=0.97, axis=0),
                color='lightgray', alpha=0.8)
 ax.plot(df['Days'].drop_duplicates().values, jnp.mean(yfit, axis=0))
 sns.scatterplot(df, x='Days', y='y', hue='Subject', ax=ax)
 ax.get_legend().remove()
-
+fig.tight_layout()
 ```
 
 ![](/docs/assets/images/statistics/random_models/ppc_fixed.webp)
@@ -118,37 +128,54 @@ y_i &= \alpha_{[j]i} + \beta_{[j]i} X_{i} + \varepsilon_i
 $$
 
 ```python
-with pm.Model() as model:
-    mu = pm.Normal('mu', sigma=10, shape=(2))
-    sd_dist = pm.HalfNormal.dist(sigma=5, size=2)
-    chol, corr, sig = pm.LKJCholeskyCov('sig', n=2, eta=1.0, sd_dist=sd_dist)
+with pm.Model(coords=coords) as model:
+    mu = pm.Normal('mu', sigma=10, dims=['cols'])
+    X = pm.Data('X', X_v, dims=['obs_id', 'cols'])
+    sd_dist = pm.HalfNormal.dist(sigma=5, size=X_v.shape[1])
+    chol, corr, sig = pm.LKJCholeskyCov('sig', n=X_v.shape[1], eta=1.0, sd_dist=sd_dist)
     sigma = pm.HalfNormal('sigma', sigma=5)
-    alpha = pm.MvNormal(f'alpha', mu=mu, chol=chol, shape=(len(df['Subject'].drop_duplicates()), 2))
-    alpha_new = pm.MvNormal(f'alpha_new', mu=mu, chol=chol, shape=(2))
-    yhat_new = pm.Normal(f'yhat_new', mu=alpha_new[0]+alpha_new[1]*np.arange(10), sigma=sigma)
-    for k, elem in enumerate(df['Subject'].drop_duplicates()):
-        df_red = df[df['Subject']==elem]
-        yhat = pm.Normal(f'yhat_{k}', mu=alpha[k][0]+alpha[k][1]*df_red['Days'], sigma=sigma, observed=df_red['y'])
+    # sig = pm.HalfNormal('sig', 5, dims=['cols'])
+    alpha = pm.MvNormal(f'alpha', mu=mu, chol=chol, dims=['subj_id', 'cols'], shape=(len(df['Subject'].drop_duplicates()), X_v.shape[1]))
+    tau = pm.Deterministic('tau', pm.math.sum([alpha[df['subj_id'], k]*X.T[k,:] for k in range(X_v.shape[1])], axis=0),
+                          dims=['obs_id'])
+    yhat = pm.Normal(f'yhat', mu=tau, sigma=sigma, observed=df['y'], dims=['obs_id'])
+
+with model:
+    idata = pm.sample(nuts_sampler='numpyro',
+                     random_seed=rng)
+
+az.plot_trace(idata, 
+              coords={"sig_corr_dim_0": 0, "sig_corr_dim_1": 1})
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![](/docs/assets/images/statistics/random_models/trace.webp)
 
-In the above model, we already implemented the probability distribution
-for a new hypothetical participant $\hat{y}_{new}$.
+The trace looks fine, let us now look at the posterior predictive.
 
 ```python
 with model:
-    ppc = pm.sample_posterior_predictive(trace)
+    ppc = pm.sample_posterior_predictive(idata, random_seed=rng)
+    
+sub_dict_inv = {k: elem for k, elem in enumerate(df['Subject'].drop_duplicates())}
 
 x_pl = np.arange(10)
 fig, ax=plt.subplots(nrows=6, ncols=3, figsize=(9, 8))
+df_subs = pd.DataFrame({'Subject': df['Subject'], 
+                        'Days': df['Days'],
+                        'y': df['y'],
+                        'mean': ppc.posterior_predictive['yhat'].mean(dim=['draw', 'chain']),
+                       'low': ppc.posterior_predictive['yhat'].quantile(q=0.03, dim=['draw', 'chain']),
+                       'high': ppc.posterior_predictive['yhat'].quantile(q=0.97, dim=['draw', 'chain']),
+})
 for i in range(6):
     for j in range(3):
         k =3*i + j
-        df_red = df[df['Subject']==sub_dict_inv[k]]
-        y_pl = ppc.posterior_predictive[f'yhat_{k}'].mean(dim=['draw', 'chain'])
-        y_m = ppc.posterior_predictive[f'yhat_{k}'].quantile(q=0.025, dim=['draw', 'chain'])
-        y_M = ppc.posterior_predictive[f'yhat_{k}'].quantile(q=0.975, dim=['draw', 'chain'])
+        df_red = df_subs[df_subs['Subject']==sub_dict_inv[k]]
+        y_pl = df_red['mean']
+        y_m = df_red['low']
+        y_M = df_red['high']
         ax[i][j].fill_between(x_pl, y_m, y_M, alpha=0.8, color='lightgray')
         ax[i][j].plot(x_pl, y_pl)
         ax[i][j].scatter(df_red['Days'], df_red['y'])
@@ -158,7 +185,7 @@ for i in range(6):
 fig.tight_layout()
 ```
 
-![](/docs/assets/images/statistics/random_models/ppc_pooled.webp)
+![](/docs/assets/images/statistics/random_models/ppc_mixed.webp)
 
 The performances of the new model are way better than the previous one,
 and this is not surprising since we have many more parameters.
@@ -167,7 +194,8 @@ We can now verify how much does the average performance degradation changes
 with the participant.
 
 ```python
-az.plot_forest(trace, var_names=['alpha'], coords={'alpha_dim_1':1})
+az.plot_forest(idata, var_names="alpha",
+              coords={"cols": ["Days"]})
 ```
 
 ![](/docs/assets/images/statistics/random_models/forest_pooled.webp)
@@ -175,12 +203,20 @@ az.plot_forest(trace, var_names=['alpha'], coords={'alpha_dim_1':1})
 We can also predict how will a new participant perform
 
 ```python
+with model:
+    alpha_new = pm.MvNormal('alpha_new', mu=mu, chol=chol, shape=(2), dims=['cols'])
+    tau_new = pm.Deterministic('tau_new', alpha_new[0]+alpha_new[1]*df['Days'].drop_duplicates())
+    y_new = pm.Normal(f'yhat_new', mu=tau_new, sigma=sigma)
+
+with model:
+    ppc_new = pm.sample_posterior_predictive(idata, var_names=['yhat_new', 'alpha_new', 'tau_new'])
+
 fig = plt.figure()
 ax = fig.add_subplot(111)
 
-y_pl = trace.posterior[f'yhat_new'].mean(dim=['draw', 'chain'])
-y_m = trace.posterior[f'yhat_new'].quantile(q=0.025, dim=['draw', 'chain'])
-y_M = trace.posterior[f'yhat_new'].quantile(q=0.975, dim=['draw', 'chain'])
+y_pl = ppc_new.posterior_predictive[f'yhat_new'].mean(dim=['draw', 'chain'])
+y_m = ppc_new.posterior_predictive[f'yhat_new'].quantile(q=0.025, dim=['draw', 'chain'])
+y_M = ppc_new.posterior_predictive[f'yhat_new'].quantile(q=0.975, dim=['draw', 'chain'])
 ax.plot(np.arange(10), y_pl)
 ax.fill_between(np.arange(10), y_m, y_M, color='lightgray', alpha=0.8)
 
@@ -192,7 +228,9 @@ Another advantage of the hierarchical model is that we can estimate
 the distribution of the slope and intercept for a new participant
 
 ```python
-az.plot_pair(trace, group='posterior', var_names=['alpha_new'], kind='kde')
+az.plot_pair(ppc_new, group='posterior_predictive', var_names=['alpha_new'], kind='kde')
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![](/docs/assets/images/statistics/random_models/alpha_new.webp)
@@ -203,3 +241,60 @@ We discussed the main features of random models, and we discussed when
 it may be appropriate to use them.
 We have also seen what are the advantages of implementing a hierarchical
 structure on random effect models.
+
+## Suggested readings
+- <cite>Gelman, A., Hill, J. (2007). Data Analysis Using Regression and Multilevel/Hierarchical Models. CUP.
+</cite>
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Mon Jul 22 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+numpyro : 0.15.0
+<br>
+jax     : 0.4.28
+<br>
+jaxlib  : 0.4.28
+<br>
+
+<br>
+pandas    : 2.2.2
+<br>
+arviz     : 0.18.0
+<br>
+jax       : 0.4.28
+<br>
+numpy     : 1.26.4
+<br>
+matplotlib: 3.9.0
+<br>
+seaborn   : 0.13.2
+<br>
+pymc      : 5.15.0
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

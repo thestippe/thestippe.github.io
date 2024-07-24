@@ -25,8 +25,9 @@ import pymc as pm
 import arviz as az
 from matplotlib import pyplot as plt
 from SurvSet.data import SurvLoader
+import pytensor as pt
 
-rng = np.random.default_rng()
+rng = np.random.default_rng(42)
 loader = SurvLoader()
 
 df_melanoma, ref_melanoma = loader.load_dataset(ds_name = 'e1684').values()
@@ -81,11 +82,18 @@ df_melanoma['time'].max()
 9.64384
 </div>
 
-## The model
+## The models
 
-We will use a Weibull likelihood, which is a quite flexible distribution,
-which allows for fat tails, and it should thereby be more robust than
-a Gamma distribution.
+We will try and fit two models:
+first we will try with an Exponential likelihood,
+
+$$
+Y \sim \mathcal{Exponential}(\lambda)
+$$
+
+we will then try with a Weibull likelihood, which is a quite flexible distribution,
+which allows for fatter tails, and it should thereby be more robust than
+an exponential or a Gamma distribution.
 
 $$
 Y \sim \mathcal{Weibull}(\sigma, \lambda)
@@ -142,46 +150,124 @@ Let us introduce the censoring variable
 
 ```python
 df_melanoma['censoring'] = [None if x==1 else y for x, y in zip(df_melanoma['event'], df_melanoma['time'])]
+df_melanoma['trt'] = (df_melanoma['fac_trt']=='IFN').astype(int)
 ```
 
+We will first try with the exponential model,
+as discussed in chapter 2 of "Bayesian Survival Analysis"
+
 ```python
-with pm.Model() as model:
+with pm.Model() as expon_model:
+    beta = pm.Normal('beta', mu=0, sigma=1000, shape=2)
+    lam = pm.math.exp(beta[0] + beta[1]*df_melanoma['trt'])
+    dist = pm.Exponential.dist(lam=lam)
+    y = pm.Censored('y', dist, lower=None, upper=df_melanoma['censoring'],
+                    observed=df_melanoma['time'])
+    idata_expon = pm.sample(nuts_sampler='numpyro',
+                           draws=5000, random_seed=rng)
+
+az.plot_trace(idata_expon)
+fig = plt.gcf()
+fig.tight_layout()
+```
+
+![The trace of the exponential model model](
+/docs/assets/images/statistics/survival_melanoma/trace_expon.webp)
+
+The image is similar, but not identical to the one of the reference.
+However, our model is identical to the one provided in the reference.
+In order to check this, you can try and fit the following model:
+
+```python
+with pm.Model() as expon_model_check:
+    beta = pm.Normal('beta', mu=0, sigma=1000, shape=2)
+    lam = pm.math.exp(beta[0] + beta[1]*df_melanoma['trt'])
+    def logp(lam, nu, y):
+        return nu*pm.math.log(lam)-y*lam
+    y = pm.Potential('y', logp(lam, df_melanoma['event'].values, df_melanoma['time'].values))
+```
+
+The formula for the log-likelihood is the one provided in the reference.
+If you try and fit the model, you will get exactly the same figure we obtained.
+The reason for the different trace is, probably, that the samplers
+improved quite a lot in more than 20 years, in fact our trace looks much
+better than the one in the reference.
+
+We will now improve our model and try with the Weibull model
+
+```python
+with pm.Model() as weibull_model:
     alpha = pm.Normal('alpha', mu=0, sigma=100)
     beta = pm.Normal('beta', mu=0, sigma=100, shape=2)
     lam = pm.math.exp(beta[0] + beta[1]*df_melanoma['trt'])
     dist = pm.Weibull.dist(alpha=pm.math.exp(alpha), beta=lam)
-    y = pm.Censored('y', dist, lower=None, upper=df_melanoma['censoring'], observed=df_melanoma['time'])
-    
-    trace = pm.sample(draws=5000, chains=4, tune=5000, random_seed=rng)
+    y = pm.Censored('y', dist, lower=None, upper=df_melanoma['censoring'],
+                    observed=df_melanoma['time'])
 
-az.plot_trace(trace)
+with weibull_model:
+    idata_weibull = pm.sample(nuts_sampler='numpyro', draws=5000, random_seed=rng)
 ```
 
-![The trace of our model](/docs/assets/images/statistics/survival_melanoma/trace.webp)
+
+![The trace of the Weibull model model](
+/docs/assets/images/statistics/survival_melanoma/trace_weibull.webp)
+
+As we discussed, when you have two nested model, it is generally better to
+use the more general one.
+We will however try and compare the models in order to see which is the more appropriate
+
+```python
+with expon_model:
+    pm.compute_log_likelihood(idata_expon)
+
+with weibull_model:
+    pm.compute_log_likelihood(idata_weibull)
+
+with expon_model:
+    idata_expon.extend(pm.sample_posterior_predictive(idata_expon, random_seed=rng))
+
+with weibull_model:
+    idata_weibull.extend(pm.sample_posterior_predictive(idata_weibull, random_seed=rng))
+
+df_compare = az.compare({'Exponential': idata_expon, 'Weibull': idata_weibull})
+
+az.plot_compare(df_compare)
+```
+
+
+![The LOO model comparison](
+/docs/assets/images/statistics/survival_melanoma/loo.webp)
+
+The Weibull model seems much more appropriate to describe the data,
+we will therefore stick to it from now on.
+
 
 ## Treatment comparison
 
-By the above figure we observe that $\beta_1>0\,,$
+By looking at the Weibull trace, we observe that $\beta_1>0\,,$
 and this indicates that the test treatment is more effective than the control one.
 This becomes clearer by showing the distribution of the mean $\mu$ 
 
 ``` python
+with weibull_model:
+    mu0 = pm.Deterministic('mu0', pm.math.exp(beta[0])*pm.math.exp(pt.tensor.math.gammaln(1+1/pm.math.exp(alpha))))
+    mu1 = pm.Deterministic('mu1', pm.math.exp(beta[0]+beta[1])*pm.math.exp(pt.tensor.math.gammaln(1+1/pm.math.exp(alpha))))
 
-mu0 = np.exp(trace.posterior['beta'].values.reshape(-1, 2)[:, 0])*np.exp(gammaln(1+1/np.exp(trace.posterior['alpha'].values.reshape(-1))))
-mu1 = np.exp(trace.posterior['beta'].values.reshape(-1, 2)[:, 0]+trace.posterior['beta'].values.reshape(-1, 2)[:, 1])*np.exp(gammaln(1+1/np.exp(trace.posterior['alpha'].values.reshape(-1))))
+with weibull_model:
+    idata_mu = pm.sample_posterior_predictive(idata_weibull, var_names=['mu0', 'mu1'])
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
-
-ax.hist(mu0, density=True, bins=np.arange(0, 15, 0.2), alpha=0.6, label='Control')
-ax.hist(mu1, density=True, bins=np.arange(0, 15, 0.2), alpha=0.6, label='IFN')
-ax.set_xlim([0, 15])
-ax.set_ylim([0, 0.5])
-legend = plt.legend()
+fig, ax = plt.subplots(nrows=2)
+xlim = [2, 15]
+az.plot_posterior(idata_mu, group='posterior_predictive', var_names='mu0', ax=ax[0])
+az.plot_posterior(idata_mu, group='posterior_predictive', var_names='mu1', ax=ax[1])
+ax[0].set_xlim(xlim)
+ax[1].set_xlim(xlim)
+ax[0].set_title("$\\mu_0$")
+ax[1].set_title("$\\mu_1$")
 fig.tight_layout()
 ```
 
-![The posterior for the parameter mu](/docs/assets/images/statistics/survival_melanoma/mean.webp)
+![The posterior for the parameter mu](/docs/assets/images/statistics/survival_melanoma/mean_new.webp)
 
 The mean for the test treatment is typically higher for the test group
 than for the control group, and the peak of the mean for the IFN
@@ -198,20 +284,19 @@ def S(t, alpha, beta):
     y = (t/beta)**alpha
     return np.exp(-y)
 
-t_pl =  np.arange(0., 40, 0.02)
-s0 = [np.mean(S(t, alph, b0)) for t in t_pl]
+t_pl =  np.arange(0., 5, 0.02)
 
-alph = np.exp(trace.posterior['alpha'].values.reshape(-1))
-b0 = np.exp(trace.posterior['beta'].values.reshape(-1,2)[:, 0])
-b1 = np.exp(trace.posterior['beta'].values.reshape(-1,2)[:, 0]+trace.posterior['beta'].values.reshape(-1,2)[:, 1])
+alph = np.exp(idata_weibull.posterior['alpha'].values.reshape(-1))
+b0 = np.exp(idata_weibull.posterior['beta'].values.reshape(-1,2)[:, 0])
+b1 = np.exp(idata_weibull.posterior['beta'].values.reshape(-1,2)[:, 0]+idata_weibull.posterior['beta'].values.reshape(-1,2)[:, 1])
 
 s0 = [np.mean(S(t, alph, b0)) for t in t_pl]
-s0_low = [np.quantile(S(t, alph, b0), q=0.025) for t in t_pl]
-s0_high = [np.quantile(S(t, alph, b0), q=0.975) for t in t_pl]
+s0_low = [np.quantile(S(t, alph, b0), q=0.03) for t in t_pl]
+s0_high = [np.quantile(S(t, alph, b0), q=0.97) for t in t_pl]
 
 s1 = [np.mean(S(t, alph, b1)) for t in t_pl]
-s1_low = [np.quantile(S(t, alph, b1), q=0.025) for t in t_pl]
-s1_high = [np.quantile(S(t, alph, b1), q=0.975) for t in t_pl]
+s1_low = [np.quantile(S(t, alph, b1), q=0.03) for t in t_pl]
+s1_high = [np.quantile(S(t, alph, b1), q=0.97) for t in t_pl]
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
@@ -238,6 +323,61 @@ We discussed an application of survival analysis with continuous time, we explai
 to include the regressor dependence in bayesian survival analysis,
 and we also introduced the Weibull distribution.
 
+In the next post, we will discuss a more flexible way to estimate the
+survival function.
+
 ## Suggested readings
 
 - <cite>Ibrahim, J. G., Chen, M., Sinha, D. (2013). Bayesian Survival Analysis. Springer New York.</cite>
+
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Sun Jul 21 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray : 2024.5.0
+<br>
+numpyro: 0.15.0
+<br>
+jax    : 0.4.28
+<br>
+jaxlib : 0.4.28
+<br>
+
+<br>
+pandas     : 2.2.2
+<br>
+arviz      : 0.18.0
+<br>
+kaplanmeier: 0.2.0
+<br>
+pymc       : 5.15.0
+<br>
+pytensor   : 2.20.0
+<br>
+numpy      : 1.26.4
+<br>
+matplotlib : 3.9.0
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

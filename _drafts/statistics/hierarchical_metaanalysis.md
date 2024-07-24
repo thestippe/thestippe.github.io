@@ -13,10 +13,13 @@ section: 1
 In the last post we discussed how to build a hierarchical model.
 These models are often used in meta-analysis and reviews,
 *i.e.* in academic publications where the results of many studies are collected,
-criticized and combined together.
+criticized and combined.
 In this kind of study using a full pooling would not be appropriate,
 as each study is performed at its own conditions,
 so a hierarchical model is much more appropriate to combine the results together.
+This topic is extensively discussed in Gelman's textbook,
+and we will limit ourselves to show an application of hierarchical model
+to the meta-analysis.
 
 We will use this method to re-analyze an old meta-analysis by Daryl Bem,
 a well known researcher who published the famous 
@@ -112,37 +115,40 @@ with pm.Model() as binom_meta:
                   observed=df['y'].values)
 
 with binom_meta:
-    trace_meta = pm.sample(5000, tune=5000, chains=4, target_accept=0.98, random_seed=rng)
+    idata_meta = pm.sample(5000, tune=5000, chains=4, target_accept=0.98,
+                           random_seed=rng, nuts_sampler='numpyro')
 
-az.plot_trace(trace_meta)
+az.plot_trace(idata_meta)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The trace of the hierarchical model](/docs/assets/images/statistics/hierarchical_meta/trace.webp)
 
 ```python
-az.summary(trace_meta)
+az.summary(idata_meta)
 ```
 
 |           |   mean |    sd |   hdi_3% |   hdi_97% |   mcse_mean |   mcse_sd |   ess_bulk |   ess_tail |   r_hat |
 |:----------|-------:|------:|---------:|----------:|------------:|----------:|-----------:|-----------:|--------:|
-| alpha     |  8.198 | 3.069 |    2.821 |    13.908 |       0.03  |     0.021 |      10166 |      11478 |       1 |
-| beta      | 14.197 | 5.294 |    5.034 |    24.155 |       0.05  |     0.035 |      10506 |      11784 |       1 |
-| theta[0]  |  0.365 | 0.076 |    0.22  |     0.502 |       0     |     0     |      28685 |      14641 |       1 |
-| theta[1]  |  0.356 | 0.091 |    0.19  |     0.531 |       0.001 |     0     |      26656 |      13005 |       1 |
-| theta[2]  |  0.316 | 0.063 |    0.202 |     0.438 |       0     |     0     |      30418 |      13072 |       1 |
-| theta[3]  |  0.278 | 0.054 |    0.179 |     0.379 |       0     |     0     |      27290 |      15091 |       1 |
-| theta[4]  |  0.361 | 0.057 |    0.252 |     0.467 |       0     |     0     |      32101 |      14623 |       1 |
-| theta[5]  |  0.32  | 0.057 |    0.214 |     0.426 |       0     |     0     |      29704 |      14628 |       1 |
-| theta[6]  |  0.346 | 0.064 |    0.229 |     0.468 |       0     |     0     |      28892 |      14533 |       1 |
-| theta[7]  |  0.431 | 0.08  |    0.283 |     0.584 |       0     |     0     |      29458 |      14330 |       1 |
-| theta[8]  |  0.383 | 0.097 |    0.2   |     0.561 |       0.001 |     0     |      30103 |      13251 |       1 |
-| theta[9]  |  0.32  | 0.056 |    0.214 |     0.426 |       0     |     0     |      32310 |      13805 |       1 |
-| theta[10] |  0.516 | 0.08  |    0.368 |     0.664 |       0.001 |     0     |      19487 |      13738 |       1 |
+| alpha     |  8.234 | 3.079 |    2.857 |    13.904 |       0.03  |     0.021 |       9818 |      11696 |       1 |
+| beta      | 14.226 | 5.351 |    4.903 |    24.217 |       0.051 |     0.036 |      10128 |      10807 |       1 |
+| theta[0]  |  0.366 | 0.074 |    0.231 |     0.507 |       0     |     0     |      23085 |      15421 |       1 |
+| theta[1]  |  0.357 | 0.09  |    0.191 |     0.528 |       0.001 |     0     |      22702 |      13380 |       1 |
+| theta[2]  |  0.316 | 0.063 |    0.196 |     0.433 |       0     |     0     |      23299 |      13816 |       1 |
+| theta[3]  |  0.279 | 0.054 |    0.178 |     0.381 |       0     |     0     |      23776 |      14155 |       1 |
+| theta[4]  |  0.362 | 0.058 |    0.255 |     0.471 |       0     |     0     |      23117 |      14252 |       1 |
+| theta[5]  |  0.32  | 0.056 |    0.216 |     0.427 |       0     |     0     |      24735 |      14446 |       1 |
+| theta[6]  |  0.346 | 0.064 |    0.226 |     0.464 |       0     |     0     |      25809 |      14362 |       1 |
+| theta[7]  |  0.431 | 0.08  |    0.284 |     0.584 |       0.001 |     0     |      22630 |      14849 |       1 |
+| theta[8]  |  0.384 | 0.097 |    0.202 |     0.564 |       0.001 |     0     |      24538 |      13129 |       1 |
+| theta[9]  |  0.32  | 0.056 |    0.218 |     0.428 |       0     |     0     |      23604 |      15030 |       1 |
+| theta[10] |  0.515 | 0.081 |    0.369 |     0.67  |       0.001 |     0     |      20264 |      14867 |       1 |
 
 There is no evident issue in the sampling procedure.
 
 ```python
-az.plot_forest(trace_meta, var_names=['theta'], rope=rope_reg)
+az.plot_forest(idata_meta, var_names=['theta'], rope=rope_reg)
 ```
 
 ![The forest plot of the hierarchical model](/docs/assets/images/statistics/hierarchical_meta/forest.webp)
@@ -158,13 +164,14 @@ with binom_meta:
     log_neff = pm.Deterministic("log_neff", pm.math.log(alpha+beta))
 
 with binom_meta:
-    ppc = pm.sample_posterior_predictive(trace_meta, var_names=['alpha', 'beta', 'logit_mu', 'log_neff'])
-
+    ppc = pm.sample_posterior_predictive(idata_meta, var_names=['logit_mu', 'log_neff'])
+    
+    
 fig = plt.figure()
 ax = fig.add_subplot(111)
 az.plot_pair(ppc.posterior_predictive, var_names=["logit_mu", "log_neff"], kind="kde", ax=ax)
-ax.set_xlim([-5, 5])
-ax.set_ylim([1, 4])
+ax.set_xlim([-1.5, 0.5])
+ax.set_ylim([2, 4])
 fig.tight_layout()
 ```
 
@@ -174,3 +181,60 @@ fig.tight_layout()
 
 We applied the beta binomial hierarchical model to a meta-analysis on
 precognition. We also introduced the Region Of Practical Equivalence (ROPE).
+
+
+## Suggested readings
+- <cite><a href="http://www.stat.columbia.edu/~gelman/book/BDA3.pdf">Gelman, A. (2014). Bayesian Data Analysis, Third Edition. Taylor & Francis.</a></cite>
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Mon Jul 22 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+numpyro : 0.15.0
+<br>
+jax     : 0.4.28
+<br>
+jaxlib  : 0.4.28
+<br>
+
+<br>
+numpy     : 1.26.4
+<br>
+arviz     : 0.18.0
+<br>
+matplotlib: 3.9.0
+<br>
+pandas    : 2.2.2
+<br>
+pymc      : 5.15.0
+<br>
+seaborn   : 0.13.2
+<br>
+scipy     : 1.13.1
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

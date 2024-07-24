@@ -338,7 +338,7 @@ might face when dealing with problematic datasets.
 
 
 
-## Recommended readings
+## Suggested readings
 - <cite>Gelman, A., Hill, J. (2007). Data Analysis Using Regression and Multilevel/Hierarchical Models. CUP.
 </cite>
 

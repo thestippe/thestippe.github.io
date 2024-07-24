@@ -333,7 +333,7 @@ linear regression makes our model more stable to the presence
 of non-representative items.
 
 
-## Recommended readings
+## Suggested readings
 - <cite>Healy, K. (2019). Data Visualization: A Practical Introduction. Princeton University Press.
 </cite>
 

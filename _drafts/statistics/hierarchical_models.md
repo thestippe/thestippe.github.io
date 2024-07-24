@@ -73,30 +73,38 @@ df_spacex = pd.DataFrame({'Mission': ['Falcon 1', 'Falcon 9', 'Falcon Heavy', 'S
 df_spacex['mu'] = df_spacex['y']/df_spacex['N']
 
 rng = np.random.default_rng(42)
+
+coords = {'obs_id': df_spacex['N'].values}
 ```
 
 
 ### No pooling
 
 ```python
-with pm.Model() as spacex_model_no_pooling:  
-  theta = pm.Beta('theta', alpha=1/2, beta=1/2, shape=len(df_spacex['N'].values))
+with pm.Model(coords=coords) as spacex_model_no_pooling:  
+  theta = pm.Beta('theta', alpha=1/2, beta=1/2, dims=['obs_id'])
   y = pm.Binomial('y', p=theta, n=df_spacex['N'].values,
-                  observed=df_spacex['y'].values)
+                  observed=df_spacex['y'].values, dims=['obs_id'])
 
 pm.model_to_graphviz(spacex_model_no_pooling)
 ```
 
-![The structure of the unpooled model](/docs/assets/images/statistics/hierarchical/model_unpooled.webp)
+
+<img src="/docs/assets/images/statistics/hierarchical/model_unpooled.webp" 
+alt="The structure of the unpooled model" width="300"> 
 
 In the above diagram we see that each of the four vehicle has its own
 parameter.
 
 ```python
 with spacex_model_no_pooling:
-  trace_spacex_no_pooling = pm.sample(5000, tune=5000, chains=4, random_seed=rng, target_accept=0.95)
+    idata_spacex_no_pooling = pm.sample(5000, tune=5000, chains=4,
+                                        random_seed=rng, target_accept=0.95,
+                                       nuts_sampler='numpyro')
 
-az.plot_trace(trace_spacex_no_pooling)
+az.plot_trace(idata_spacex_no_pooling)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The trace of the unpooled model](/docs/assets/images/statistics/hierarchical/trace_unpooled.webp)
@@ -106,7 +114,7 @@ numerical issues.
 The trace looks fine, but let us now take a better look at the estimated parameters.
 
 ```python
-az.plot_forest(trace_spacex_no_pooling)
+az.plot_forest(idata_spacex_no_pooling)
 ```
 
 ![The forest plot of the unpooled model](/docs/assets/images/statistics/hierarchical/forest_unpooled.webp)
@@ -118,30 +126,34 @@ Let us now take a look at the pooled model.
 ### Full pooling
 
 ```python
-with pm.Model() as spacex_model_full_pooling:  
+with pm.Model(coords=coords) as spacex_model_full_pooling:  
   theta = pm.Beta('theta', alpha=1/2, beta=1/2)
   y = pm.Binomial('y', p=theta, n=df_spacex['N'].values,
-                  observed=df_spacex['y'].values)
+                  observed=df_spacex['y'].values, dims=['obs_id'])
 
 pm.model_to_graphviz(spacex_model_full_pooling)
 ```
 
-![The structure of the pooled model](/docs/assets/images/statistics/hierarchical/model_pooled.webp)
+
+<img src="/docs/assets/images/statistics/hierarchical/model_pooled.webp" alt="The structure of the pooled model" width="300"> 
 
 In this model, all the launches are treated as sampled from a common
 iid, and we therefore have only one parameter for all the launch vehicle.
 
 ```python
 with spacex_model_full_pooling:
-  trace_spacex_full_pooling = pm.sample(5000, tune=5000, chains=4, random_seed=rng)
+  idata_spacex_full_pooling = pm.sample(5000, tune=5000, chains=4, random_seed=rng,
+                                       nuts_sampler='numpyro')
 
-az.plot_trace(trace_spacex_full_pooling)
+az.plot_trace(idata_spacex_full_pooling)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The trace of the pooled model](/docs/assets/images/statistics/hierarchical/trace_pooled.webp)
 
 ```python
-az.plot_forest(trace_spacex_full_pooling)
+az.plot_forest(idata_spacex_full_pooling)
 ```
 
 ![The forest plot of the pooled model](/docs/assets/images/statistics/hierarchical/forest_pooled.webp)
@@ -154,18 +166,19 @@ but this is what you should do according to this model.
 ### Hierarchical model
 
 ```python
-with pm.Model() as spacex_model_hierarchical:
+with pm.Model(coords=coords) as spacex_model_hierarchical:
     alpha = pm.HalfNormal("alpha", sigma=10)
     beta = pm.HalfNormal("beta", sigma=10)
     mu = pm.Deterministic("mu", alpha/(alpha+beta))
-    theta = pm.Beta('theta', alpha=alpha, beta=beta, shape=len(df_spacex['N'].values))
+    theta = pm.Beta('theta', alpha=alpha, beta=beta, dims=['obs_id'])
     y = pm.Binomial('y', p=theta, n=df_spacex['N'].values,
-                  observed=df_spacex['y'].values)
+                  observed=df_spacex['y'].values, dims=['obs_id'])
 
 pm.model_to_graphviz(spacex_model_hierarchical)
 ```
 
-![The structure of the hierarchical model](/docs/assets/images/statistics/hierarchical/model_hierarchical.webp)
+<img src="/docs/assets/images/statistics/hierarchical/model_hierarchical.webp" 
+alt="The structure of the hierarchical model" width="450"> 
 
 In this case, each vehicle has its own parameter. The parameters are
 however sampled according to a Beta distribution, with priors
@@ -173,15 +186,14 @@ $\alpha$ and $\beta\,.$
 
 ```python
 with spacex_model_hierarchical:
-    trace_spacex_hierarchical = pm.sample(5000, tune=5000, chains=4, target_accept=0.98, random_seed=rng)
-
-az.plot_trace(trace_spacex_hierarchical)
+    idata_spacex_hierarchical = pm.sample(5000, tune=5000, chains=4, target_accept=0.98, random_seed=rng,
+                                         nuts_sampler='numpyro')
 ```
 
 ![The trace of the hierarchical model](/docs/assets/images/statistics/hierarchical/trace_hierarchical.webp)
 
 ```python
-az.plot_forest(trace_spacex_hierarchical, var_names='theta')
+az.plot_forest(idata_spacex_hierarchical)
 ```
 
 ![The forest plot of the hierarchical model](/docs/assets/images/statistics/hierarchical/forest_hierarchical.webp)
@@ -199,11 +211,9 @@ to estimate its success probability.
 ```python
 with spacex_model_hierarchical:
     theta_new = pm.Beta('th_new', alpha=alpha, beta=beta)
-    ppc_new = pm.sample_posterior_predictive(trace_spacex_hierarchical, var_names=['th_new'])
+    ppc_new = pm.sample_posterior_predictive(idata_spacex_hierarchical, var_names=['th_new'])
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.hist(ppc_new.posterior_predictive['th_new'].values.reshape(-1), bins=np.arange(0, 1, 0.02), density=True)
+az.plot_posterior(ppc_new.posterior_predictive['th_new'].values.reshape(-1))
 ```
 
 ![The probability distribution for a new theta](/docs/assets/images/statistics/hierarchical/hierarchical_new_theta.webp)
@@ -212,11 +222,11 @@ We can moreover estimate the average success rate for any SpaceX
 vehicle.
 
 ```python
-map_mu = st.mode(np.digitize(trace_spacex_hierarchical.posterior["mu"].values.reshape(-1), bins=np.linspace(0, 1, 100))).mode/100
+map_mu = st.mode(np.digitize(idata_spacex_hierarchical.posterior["mu"].values.reshape(-1), bins=np.linspace(0, 1, 100))).mode/100
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-az.plot_posterior(trace_spacex_hierarchical, var_names=["mu"], ax=ax)
+az.plot_posterior(idata_spacex_hierarchical, var_names=["mu"], ax=ax)
 ax.text(0.3, 3, f'MAP: {map_mu}', fontsize=15)
 ```
 
@@ -237,3 +247,60 @@ across the variables and to make predictions for new, unobserved, variables.
 In the next post we will discuss a very important application
 of hierarchical models to meta-analysis.
 
+
+## Suggested readings
+- <cite><a href="http://www.stat.columbia.edu/~gelman/book/BDA3.pdf">Gelman, A. (2014). Bayesian Data Analysis, Third Edition. Taylor & Francis.</a></cite>
+
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,pytensor,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Sat Jul 20 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray  : 2024.5.0
+<br>
+pytensor: 2.20.0
+<br>
+numpyro : 0.15.0
+<br>
+jax     : 0.4.28
+<br>
+jaxlib  : 0.4.28
+<br>
+
+<br>
+scipy     : 1.13.1
+<br>
+pandas    : 2.2.2
+<br>
+seaborn   : 0.13.2
+<br>
+matplotlib: 3.9.0
+<br>
+numpy     : 1.26.4
+<br>
+arviz     : 0.18.0
+<br>
+pymc      : 5.15.0
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

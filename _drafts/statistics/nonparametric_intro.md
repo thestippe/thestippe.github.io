@@ -18,5 +18,10 @@ on the following families:
 
 - Dirichlet Processes (DP), in particular Dirichlet Process Mixtures (DPM)
 - Gaussian Processes (GP)
-- Basis function expansions
+- Basis function expansions, in particular splines
 - Bayesian Additive Regression Trees (BART)
+
+These model are generally more flexible than the models discussed up
+to now. They are also however more involved, and consequently harder
+to understand. You also have a higher probability to overfit, so you should
+be careful when using them.

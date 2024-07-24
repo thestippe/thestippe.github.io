@@ -128,11 +128,11 @@
                 </li><li>
                         How does MCMC works;/statistics/mcmc_intro;35
                 </li><li>
-                        The Gestalt principles;/dataviz/gestalt;36
+                        Introduction to Bayesian inference;/statistics/bayes_intro;36
                 </li><li>
-                        Introduction to Bayesian inference;/statistics/bayes_intro;37
+                        An overview to statistics;/statistics/preface;37
                 </li><li>
-                        An overview to statistics;/statistics/preface;38
+                        The Gestalt principles;/dataviz/gestalt;38
                 </li><li>
                         Design tricks;/dataviz/design-introduction;39
                 </li><li>
@@ -218,16 +218,14 @@
       </time></p>
     <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
   
-  10&prime;
+  13&prime;
 </span>
 </p>
   </header>
   <br>
 
   <div class="post-content e-content" itemprop="articleBody">
-    <!--TODO: write model using the coords construct! Find better syntax! include elpd estimate!-->
-
-<p>There are many situations where you want to understand the relation between two
+    <p>There are many situations where you want to understand the relation between two
 variables at the subgroup level rather than at the level of the entire sample.
 Random effect models are linear models where each subgroup has its own
 slope and intercept, while in mixed effect models you either assign
@@ -252,6 +250,7 @@ for three hours per night.</p>
 
 <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'data/Reaction.csv'</span><span class="p">)</span>
 
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
 <span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
 </code></pre></div></div>
 
@@ -316,29 +315,40 @@ and let us assume</p>
 \[y_i = \alpha + \beta X_{i} + \varepsilon_i\]
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">[</span><span class="s">'y'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Reaction'</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span><span class="o">/</span><span class="n">df</span><span class="p">[</span><span class="s">'Reaction'</span><span class="p">].</span><span class="n">std</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'subj_id'</span><span class="p">]</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">].</span><span class="nb">map</span><span class="p">({</span><span class="n">elem</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">())})</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'intercept'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">X_v</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s">'intercept'</span><span class="p">,</span><span class="s">'Days'</span><span class="p">]]</span>
+<span class="n">X_s</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'subj'</span><span class="p">:</span><span class="n">df</span><span class="p">[</span><span class="s">'subj_id'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">()})</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="p">{</span><span class="s">'cols'</span><span class="p">:</span> <span class="n">X_v</span><span class="p">.</span><span class="n">columns</span><span class="p">,</span> <span class="s">'obs_id'</span><span class="p">:</span> <span class="n">X_v</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="s">'subj_id'</span><span class="p">:</span> <span class="n">X_s</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="s">'subj_col'</span><span class="p">:</span> <span class="n">X_s</span><span class="p">.</span><span class="n">columns</span><span class="p">}</span>
+
 
 <span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_fixed</span><span class="p">:</span>
     <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
     <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
     <span class="n">yhat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">],</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'y'</span><span class="p">])</span>
-    <span class="n">trace_fixed</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">()</span>
 
-<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">trace_fixed</span><span class="p">)</span>
+<span class="k">with</span> <span class="n">model_fixed</span><span class="p">:</span>
+    <span class="n">idata_fixed</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_fixed</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/random_models/trace_fixed.webp" alt="" /></p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">yfit</span> <span class="o">=</span> <span class="n">jnp</span><span class="p">.</span><span class="n">outer</span><span class="p">(</span><span class="n">trace_fixed</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'alpha'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">jnp</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">().</span><span class="n">values</span><span class="p">)))</span><span class="o">+</span><span class="n">jnp</span><span class="p">.</span><span class="n">outer</span><span class="p">(</span><span class="n">trace_fixed</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'beta'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">jnp</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">().</span><span class="n">values</span><span class="p">)))</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">yfit</span> <span class="o">=</span> <span class="n">jnp</span><span class="p">.</span><span class="n">outer</span><span class="p">(</span><span class="n">idata_fixed</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'alpha'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">jnp</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">().</span><span class="n">values</span><span class="p">)))</span><span class="o">+</span><span class="n">jnp</span><span class="p">.</span><span class="n">outer</span><span class="p">(</span>
+    <span class="n">idata_fixed</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'beta'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">jnp</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">().</span><span class="n">values</span><span class="p">)))</span>
 
 <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">().</span><span class="n">values</span><span class="p">,</span> <span class="n">jnp</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">yfit</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span><span class="n">jnp</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">yfit</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">().</span><span class="n">values</span><span class="p">,</span> <span class="n">jnp</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">yfit</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span><span class="n">jnp</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">yfit</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
                <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">().</span><span class="n">values</span><span class="p">,</span> <span class="n">jnp</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yfit</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
 <span class="n">sns</span><span class="p">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s">'Days'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'y'</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s">'Subject'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">.</span><span class="n">get_legend</span><span class="p">().</span><span class="n">remove</span><span class="p">()</span>
-
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/random_models/ppc_fixed.webp" alt="" /></p>
@@ -371,36 +381,53 @@ y_i &amp;= \alpha_{[j]i} + \beta_{[j]i} X_{i} + \varepsilon_i
 \Sigma &amp; \sim \mathcal{LKJ}(1)
 \end{align}\]
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-    <span class="n">sd_dist</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">.</span><span class="n">dist</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">chol</span><span class="p">,</span> <span class="n">corr</span><span class="p">,</span> <span class="n">sig</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">LKJCholeskyCov</span><span class="p">(</span><span class="s">'sig'</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">eta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sd_dist</span><span class="o">=</span><span class="n">sd_dist</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'cols'</span><span class="p">])</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Data</span><span class="p">(</span><span class="s">'X'</span><span class="p">,</span> <span class="n">X_v</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_id'</span><span class="p">,</span> <span class="s">'cols'</span><span class="p">])</span>
+    <span class="n">sd_dist</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">.</span><span class="n">dist</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">X_v</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">chol</span><span class="p">,</span> <span class="n">corr</span><span class="p">,</span> <span class="n">sig</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">LKJCholeskyCov</span><span class="p">(</span><span class="s">'sig'</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">X_v</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">eta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sd_dist</span><span class="o">=</span><span class="n">sd_dist</span><span class="p">)</span>
     <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="sa">f</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">chol</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">()),</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="n">alpha_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="sa">f</span><span class="s">'alpha_new'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">chol</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
-    <span class="n">yhat_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="sa">f</span><span class="s">'yhat_new'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha_new</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">alpha_new</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">()):</span>
-        <span class="n">df_red</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">]</span><span class="o">==</span><span class="n">elem</span><span class="p">]</span>
-        <span class="n">yhat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="sa">f</span><span class="s">'yhat_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s">'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">alpha</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">df_red</span><span class="p">[</span><span class="s">'Days'</span><span class="p">],</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df_red</span><span class="p">[</span><span class="s">'y'</span><span class="p">])</span>
+    <span class="c1"># sig = pm.HalfNormal('sig', 5, dims=['cols'])
+</span>    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="sa">f</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">chol</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'subj_id'</span><span class="p">,</span> <span class="s">'cols'</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">()),</span> <span class="n">X_v</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'tau'</span><span class="p">,</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="nb">sum</span><span class="p">([</span><span class="n">alpha</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s">'subj_id'</span><span class="p">],</span> <span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">X</span><span class="p">.</span><span class="n">T</span><span class="p">[</span><span class="n">k</span><span class="p">,:]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X_v</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                          <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_id'</span><span class="p">])</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="sa">f</span><span class="s">'yhat'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'y'</span><span class="p">],</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_id'</span><span class="p">])</span>
+
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">idata</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span>
+                     <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> 
+              <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s">"sig_corr_dim_0"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"sig_corr_dim_1"</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/random_models/trace.webp" alt="" /></p>
 
-<p>In the above model, we already implemented the probability distribution
-for a new hypothetical participant $\hat{y}_{new}$.</p>
+<p>The trace looks fine, let us now look at the posterior predictive.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
-    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+    
+<span class="n">sub_dict_inv</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">elem</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">())}</span>
 
 <span class="n">x_pl</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">df_subs</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'Subject'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">],</span> 
+                        <span class="s">'Days'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">],</span>
+                        <span class="s">'y'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s">'y'</span><span class="p">],</span>
+                        <span class="s">'mean'</span><span class="p">:</span> <span class="n">ppc</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'yhat'</span><span class="p">].</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">]),</span>
+                       <span class="s">'low'</span><span class="p">:</span> <span class="n">ppc</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'yhat'</span><span class="p">].</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">]),</span>
+                       <span class="s">'high'</span><span class="p">:</span> <span class="n">ppc</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'yhat'</span><span class="p">].</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">]),</span>
+<span class="p">})</span>
 <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
         <span class="n">k</span> <span class="o">=</span><span class="mi">3</span><span class="o">*</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span>
-        <span class="n">df_red</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">]</span><span class="o">==</span><span class="n">sub_dict_inv</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
-        <span class="n">y_pl</span> <span class="o">=</span> <span class="n">ppc</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sa">f</span><span class="s">'yhat_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s">'</span><span class="p">].</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">])</span>
-        <span class="n">y_m</span> <span class="o">=</span> <span class="n">ppc</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sa">f</span><span class="s">'yhat_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s">'</span><span class="p">].</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">])</span>
-        <span class="n">y_M</span> <span class="o">=</span> <span class="n">ppc</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sa">f</span><span class="s">'yhat_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s">'</span><span class="p">].</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">])</span>
+        <span class="n">df_red</span> <span class="o">=</span> <span class="n">df_subs</span><span class="p">[</span><span class="n">df_subs</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">]</span><span class="o">==</span><span class="n">sub_dict_inv</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+        <span class="n">y_pl</span> <span class="o">=</span> <span class="n">df_red</span><span class="p">[</span><span class="s">'mean'</span><span class="p">]</span>
+        <span class="n">y_m</span> <span class="o">=</span> <span class="n">df_red</span><span class="p">[</span><span class="s">'low'</span><span class="p">]</span>
+        <span class="n">y_M</span> <span class="o">=</span> <span class="n">df_red</span><span class="p">[</span><span class="s">'high'</span><span class="p">]</span>
         <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_pl</span><span class="p">,</span> <span class="n">y_m</span><span class="p">,</span> <span class="n">y_M</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">)</span>
         <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="n">x_pl</span><span class="p">,</span> <span class="n">y_pl</span><span class="p">)</span>
         <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_red</span><span class="p">[</span><span class="s">'Days'</span><span class="p">],</span> <span class="n">df_red</span><span class="p">[</span><span class="s">'y'</span><span class="p">])</span>
@@ -410,7 +437,7 @@ for a new hypothetical participant $\hat{y}_{new}$.</p>
 <span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </code></pre></div></div>
 
-<p><img src="/docs/assets/images/statistics/random_models/ppc_pooled.webp" alt="" /></p>
+<p><img src="/docs/assets/images/statistics/random_models/ppc_mixed.webp" alt="" /></p>
 
 <p>The performances of the new model are way better than the previous one,
 and this is not surprising since we have many more parameters.</p>
@@ -418,19 +445,28 @@ and this is not surprising since we have many more parameters.</p>
 <p>We can now verify how much does the average performance degradation changes
 with the participant.</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'alpha'</span><span class="p">],</span> <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s">'alpha_dim_1'</span><span class="p">:</span><span class="mi">1</span><span class="p">})</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s">"alpha"</span><span class="p">,</span>
+              <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s">"cols"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Days"</span><span class="p">]})</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/random_models/forest_pooled.webp" alt="" /></p>
 
 <p>We can also predict how will a new participant perform</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">alpha_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s">'alpha_new'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">chol</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'cols'</span><span class="p">])</span>
+    <span class="n">tau_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'tau_new'</span><span class="p">,</span> <span class="n">alpha_new</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">alpha_new</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">())</span>
+    <span class="n">y_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="sa">f</span><span class="s">'yhat_new'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">tau_new</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">ppc_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'yhat_new'</span><span class="p">,</span> <span class="s">'alpha_new'</span><span class="p">,</span> <span class="s">'tau_new'</span><span class="p">])</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
 
-<span class="n">y_pl</span> <span class="o">=</span> <span class="n">trace</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="sa">f</span><span class="s">'yhat_new'</span><span class="p">].</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">])</span>
-<span class="n">y_m</span> <span class="o">=</span> <span class="n">trace</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="sa">f</span><span class="s">'yhat_new'</span><span class="p">].</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">])</span>
-<span class="n">y_M</span> <span class="o">=</span> <span class="n">trace</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="sa">f</span><span class="s">'yhat_new'</span><span class="p">].</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">])</span>
+<span class="n">y_pl</span> <span class="o">=</span> <span class="n">ppc_new</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sa">f</span><span class="s">'yhat_new'</span><span class="p">].</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">])</span>
+<span class="n">y_m</span> <span class="o">=</span> <span class="n">ppc_new</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sa">f</span><span class="s">'yhat_new'</span><span class="p">].</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">])</span>
+<span class="n">y_M</span> <span class="o">=</span> <span class="n">ppc_new</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sa">f</span><span class="s">'yhat_new'</span><span class="p">].</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">])</span>
 <span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">y_pl</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">y_m</span><span class="p">,</span> <span class="n">y_M</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
 
@@ -441,7 +477,9 @@ with the participant.</p>
 <p>Another advantage of the hierarchical model is that we can estimate
 the distribution of the slope and intercept for a new participant</p>
 
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s">'posterior'</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'alpha_new'</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s">'kde'</span><span class="p">)</span>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">ppc_new</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s">'posterior_predictive'</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'alpha_new'</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s">'kde'</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
 </code></pre></div></div>
 
 <p><img src="/docs/assets/images/statistics/random_models/alpha_new.webp" alt="" /></p>
@@ -452,6 +490,63 @@ the distribution of the slope and intercept for a new participant</p>
 it may be appropriate to use them.
 We have also seen what are the advantages of implementing a hierarchical
 structure on random effect models.</p>
+
+<h2 id="suggested-readings">Suggested readings</h2>
+<ul>
+  <li><cite>Gelman, A., Hill, J. (2007). Data Analysis Using Regression and Multilevel/Hierarchical Models. CUP.
+</cite></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">pytensor</span><span class="p">,</span><span class="n">numpyro</span><span class="p">,</span><span class="n">jax</span><span class="p">,</span><span class="n">jaxlib</span>
+</code></pre></div></div>
+
+<div class="code">
+Last updated: Mon Jul 22 2024
+<br />
+
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.4
+<br />
+IPython version      : 8.24.0
+<br />
+
+<br />
+xarray  : 2024.5.0
+<br />
+pytensor: 2.20.0
+<br />
+numpyro : 0.15.0
+<br />
+jax     : 0.4.28
+<br />
+jaxlib  : 0.4.28
+<br />
+
+<br />
+pandas    : 2.2.2
+<br />
+arviz     : 0.18.0
+<br />
+jax       : 0.4.28
+<br />
+numpy     : 1.26.4
+<br />
+matplotlib: 3.9.0
+<br />
+seaborn   : 0.13.2
+<br />
+pymc      : 5.15.0
+<br />
+
+<br />
+Watermark: 2.4.3
+<br />
+</div>
 
   </div><a class="u-url" href="/statistics/random_models" hidden></a>
 
