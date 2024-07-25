@@ -16,8 +16,8 @@ which is not fixed a priori, but it is rather decided depending on the data.
 In this section we will discuss this kind of model, and we will focus
 on the following families:
 
-- Dirichlet Processes (DP), in particular Dirichlet Process Mixtures (DPM)
 - Gaussian Processes (GP)
+- Dirichlet Processes (DP), in particular Dirichlet Process Mixtures (DPM)
 - Basis function expansions, in particular splines
 - Bayesian Additive Regression Trees (BART)
 
