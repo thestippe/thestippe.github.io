@@ -21,7 +21,7 @@ campaigns.
 Thanks to their popularity, even marketing providers such as Mailchimp allow you
 to easily implement this kind of studies, and in this post we will see how
 to analyze them by using Bayesian regression.
-In this experiment we we will analyze the data from a newsletter, and what we will
+In this experiment we will analyze the data from a newsletter, and what we will
 determine is whether the presence of the first name (which is required
 in the login form) in the mail preview increases the probability of opening the
 email.
@@ -86,9 +86,11 @@ with pm.Model() as model:
     ate = pm.Deterministic('ate', pt-pc)
     y_t = pm.Binomial('y_t', n=n_t, p=pt, observed=k_t)
     y_c = pm.Binomial('y_c', n=n_c, p=pc, observed=k_c)
-    trace = pm.sample(random_seed=random_seed)
+    trace = pm.sample(random_seed=random_seed, nuts_sampler='numpyro')
 
 az.plot_trace(trace)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The trace of our model](/docs/assets/images/statistics/randomized/trace.webp)
@@ -108,3 +110,57 @@ personal newsletters.
 
 We saw an example of how to perform causal inference in Bayesian statistics for randomized controlled experiments
 by using regression models in PyMC. We also discussed the proper interpretation of the results.
+
+
+## Suggested readings
+
+- <cite>Imbens, G. W., Rubin, D. B. (2015). Causal Inference for Statistics, Social, and Biomedical Sciences: An Introduction. US: Cambridge University Press.<cite>
+- <cite><a href='https://arxiv.org/pdf/2206.15460.pdf'>Li, Ding, Mealli (2022). Bayesian Causal Inference: A Critical Review</a></cite>
+- <cite>Ding, P. (2024). A First Course in Causal Inference. CRC Press.</cite>
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Tue Aug 20 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray : 2024.5.0
+<br>
+numpyro: 0.15.0
+<br>
+jax    : 0.4.28
+<br>
+jaxlib : 0.4.28
+<br>
+
+<br>
+matplotlib: 3.9.0
+<br>
+arviz     : 0.18.0
+<br>
+pandas    : 2.2.2
+<br>
+pymc      : 5.15.0
+<br>
+numpy     : 1.26.4
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>  

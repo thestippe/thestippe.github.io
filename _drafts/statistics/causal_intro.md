@@ -329,7 +329,7 @@ the second one from the hypothesis that $$P(T, X) = P(T | X) P(X) $$
 so that $T$ causally depends on $X\,.$
 
 In order for this quantity to be finite we must require that both the denominators are
-strictly positive, and since $P(T=0|X) = 1 - P(T=1, X)$ we can write this requirement,
+strictly positive, and since $P(T=0 \vert X) = 1 - P(T=1\vert X)$ we can write this requirement,
 named the **positivity** assumption, as
 
 $$ 0 < P(T=t | X) < 1 \, \forall t$$
@@ -381,5 +381,6 @@ we can compute the average treatment effect.
 
 - <cite>Imbens, G. W., Rubin, D. B. (2015). Causal Inference for Statistics, Social, and Biomedical Sciences: An Introduction. US: Cambridge University Press.<cite>
 - <cite><a href='https://arxiv.org/pdf/2206.15460.pdf'>Li, Ding, Mealli (2022). Bayesian Causal Inference: A Critical Review</a></cite>
+- <cite>Ding, P. (2024). A First Course in Causal Inference. CRC Press.</cite>
 
 [^1]: But pay attention not to think that randomized tests are perfect. See [this article](https://www.bmj.com/content/363/bmj.k5094) as an example.

@@ -109,7 +109,6 @@ import arviz as az
 import seaborn as sns
 from matplotlib import pyplot as plt
 from pytensor.tensor.extra_ops import cumprod
-import pymc.sampling_jax as pmjx
 
 random_seed = np.random.default_rng(42)
 
@@ -139,12 +138,14 @@ with pm.Model() as instrumental_variable:
     y_pred = pm.MvStudentT('y_pred', mu=mu, chol=chol, nu=nu)
 
 with instrumental_variable:
-    trace_instrumental_variable = pmjx.sample_numpyro_nuts(draws=2000, tune=2000, chains=4, random_seed=random_seed)
+    trace_instrumental_variable = pm.sample(draws=2000, tune=2000, chains=4, random_seed=random_seed,
+                                           nuts_sampler='numpyro')
 
 az.plot_trace(trace_instrumental_variable ,
-
               var_names=['alpha', 'beta', 'sigma', 'nu'],
               coords={'sigma_corr_dim_0':0, 'sigma_corr_dim_1':1})
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The trace plot of the above model](/docs/assets/images/statistics/instrumental_variable/trace.webp)
@@ -213,3 +214,59 @@ We have seen how IV allows us to make causal inference in absence of randomizati
 but making some rather strong assumptions about the causal structure of the problem.
 We have also seen how to implement it in PyMC.
 
+
+## Suggested readings
+
+- <cite>Imbens, G. W., Rubin, D. B. (2015). Causal Inference for Statistics, Social, and Biomedical Sciences: An Introduction. US: Cambridge University Press.<cite>
+- <cite><a href='https://arxiv.org/pdf/2206.15460.pdf'>Li, Ding, Mealli (2022). Bayesian Causal Inference: A Critical Review</a></cite>
+- <cite>Ding, P. (2024). A First Course in Causal Inference. CRC Press.</cite>
+- <cite>Angrist, J. D., Pischke, J. (2009). Mostly harmless econometrics : an empiricist's companion. Princeton University Press.</cite>
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Tue Aug 20 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray : 2024.5.0
+<br>
+numpyro: 0.15.0
+<br>
+jax    : 0.4.28
+<br>
+jaxlib : 0.4.28
+<br>
+
+<br>
+matplotlib: 3.9.0
+<br>
+pandas    : 2.2.2
+<br>
+pymc      : 5.15.0
+<br>
+seaborn   : 0.13.2
+<br>
+arviz     : 0.18.0
+<br>
+numpy     : 1.26.4
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

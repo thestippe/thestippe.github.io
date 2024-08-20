@@ -11,8 +11,9 @@ description: "How to make the normal distribution infinite dimensional"
 ---
 
 As explained on the [stan user guide](https://mc-stan.org/docs/stan-users-guide/gaussian-processes.html),
-gaussian processes, for short GPs, is a powerful tool to perform regression.
-A GP assumes that the variable $y$ follows a multivariate normal distribution
+gaussian processes, for short GPs, is a powerful tool to perform regression,
+and its underlying assumption is
+that the variable $y$ follows a multivariate normal distribution
 
 $$
 y \sim \mathcal{MvN}(m(x), K(x \vert \theta))
@@ -42,7 +43,7 @@ does not depend on the absolute position on the point,
 but only on the relative distance from the other points.
 
 In the following, we will restrict our discussion to the one-dimensional
-case, so we will replace $\lvert x-y \rvert^2$ with $(x-y)^2$
+case, so we will replace $\lVert x-y \rVert^2$ with $(x-y)^2$
 and $x\cdot y$ with $xy\,,$
 but it is immediate to recover the general definition.
 
@@ -55,14 +56,20 @@ by the parameter.
 
 ### The Rational Quadratic kernel
 
-This kernel is, often, the first choice, and it reads
+This kernel is, often, the first choice, due to its nice properties.
+It has in fact some nice properties one may desire:
+- it vanishes as $\lVert x-y \rVert \rightarrow \infty$
+- it is a smooth function of $\lVert x-y \rVert^2\,.$
+
+This kernel reads:
 
 $$
 K(x, y \vert \sigma, \ell) = \sigma^2 
 \exp{\left( -\frac{(x-y)^2}{2\ell^2} \right)}
 $$
 
-Let us now visualize how does a function distributed according to this kernel behave
+Let us now visualize how does a function distributed according to this
+kernel behave
 
 ```python
 import pandas as pd
@@ -86,7 +93,7 @@ for i, s in enumerate(sigma):
         kf = s**2*np.array([[kexpquad(x, y, l) for x in xtest] for y in xtest])
         for k in range(nplot):
             ax[i][j].plot(xtest, np.random.multivariate_normal(mean=0*xtest, cov=kf))
-            ax[i][j].set_title(r"$\sigma=$"+str(s)+r", $l=$"+str(l))
+            ax[i][j].set_title(r"$\sigma=$"+str(s)+r", $\ell=$"+str(l))
 fig = plt.gcf()
 fig.suptitle(r"$K(x,y)=\sigma^2 \exp\left({-(x-y)^2/(2\ell^2)}\right)$")
 fig.tight_layout()
@@ -122,7 +129,7 @@ for i, a in enumerate(alpha):
         kf = np.array([[kratquad(x, y, a, l) for x in xtest] for y in xtest])
         for k in range(nplot):
             ax[i][j].plot(xtest, np.random.multivariate_normal(mean=0*xtest, cov=kf))
-            ax[i][j].set_title(r"$\alpha=$"+str(a)+r", $l=$"+str(l))
+            ax[i][j].set_title(r"$\alpha=$"+str(a)+r", $\ell=$"+str(l))
 fig = plt.gcf()
 fig.suptitle(r"$K(x,y)=\left(1+\frac{(x-y)^2}{2\alpha \ell^2}\right)^{-\alpha}$")
 fig.tight_layout()
@@ -160,7 +167,7 @@ for i, p in enumerate(pval):
         kf = np.array([[kmatern(x, y, p, l) for x in xtest] for y in xtest])
         for k in range(nplot):
             ax[i][j].plot(xtest, np.random.multivariate_normal(mean=0*xtest, cov=kf))
-            ax[i][j].set_title(r"$p=$"+str(p)+r", $l=$"+str(l))
+            ax[i][j].set_title(r"$p=$"+str(p)+r", $\ell=$"+str(l))
 fig = plt.gcf()
 fig.suptitle(r"$K^{Matern}_{p+1/2}(x,y,\ell)$")
 fig.tight_layout()
@@ -171,7 +178,7 @@ according to the Matern kernel](/docs/assets/images/statistics/gp/maternkernel.w
 
 Notice that the $p=0$ kernel is sometimes named exponential
 or Ornstein-Uhlenbeck kernel, and it defines a Markov process.
-An GP defined by the exponential kernel is equivalent to a AR(1) process.
+An GP defined by the exponential kernel is equivalent to an AR(1) process.
 
 ### The cosine kernel
 
@@ -195,7 +202,7 @@ for j, l in enumerate(lng):
     kf = np.array([[kcos(x, y, l) for x in xtest] for y in xtest])
     for k in range(nplot):
         ax[j].plot(xtest, np.random.multivariate_normal(mean=0*xtest, cov=kf))
-        ax[j].set_title(r"$l=$"+str(l))
+        ax[j].set_title(r"$\ell=$"+str(l))
 fig.suptitle(r"$K(x,y)=\cos\left(\frac{2\pi\left| x-y\right|}{\ell^2}\right)$")
 fig.tight_layout()
 ```
@@ -229,7 +236,7 @@ for i, t in enumerate(tval):
         kf = np.array([[kperiodic(x, y, t, l) for x in xtest] for y in xtest])
         for k in range(nplot):
             ax[i][j].plot(xtest, np.random.multivariate_normal(mean=0*xtest, cov=kf))
-            ax[i][j].set_title(r"$T=$"+str(t)+r", $l=$"+str(l))
+            ax[i][j].set_title(r"$T=$"+str(t)+r", $\ell=$"+str(l))
 fig.suptitle(r"$K(x,y)=\exp(-\frac{\sin^2(\pi(x-y)/T)}{2\ell^2})$")
 fig.tight_layout()
 ```
@@ -302,7 +309,8 @@ This kernel is usually implemented to encode the fact that the measurements are 
 
 ### The Brownian motion
 
-Also the brownian motion can be considered a GP, with the kernel
+The brownian motion can be considered a GP too, and this process is obtained
+by using the following kernel:
 
 $$
 K(x, y) = min(x, y)
@@ -331,6 +339,7 @@ In particular, some possible ways to build new kernels are the following:
 - you can multiply two kernels $K_1(x, y)K_2(x, y)$
 - you can replace your variable with any function of it $K(\Phi(x), K(\Phi(y))$
 - You can define $\Phi(x) K(x, y) \Phi(y)$ for any positive $\Phi(x)\,.$
+- You can take the convolution of a kernel with any positive function $\int dx dy K(x, y)f(x-x_0)f(y-y_0)$
 
 As an example, if you take as kernel the superposition
 of a squared exponential kernel and a periodic kernel, you will

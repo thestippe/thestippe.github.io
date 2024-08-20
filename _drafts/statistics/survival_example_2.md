@@ -173,6 +173,7 @@ ax.fill_between(X1_f['t'], idata1.posterior['h'].quantile(q=0.03, dim=('draw', '
 ax.plot(X1_f['t'], idata1.posterior['h'].mean(dim=('draw', 'chain')), label='B')
 ax.set_title(f"h(t)")
 legend = fig.legend(loc='upper right',  borderaxespad=3, frameon=False)
+fig.tight_layout()
 ```
 ![Our estimate for the hazard functions](/docs/assets/images/statistics/survival_logistic/hazard.webp)
 
@@ -209,3 +210,50 @@ as it enable us to easily encode structure in a controlled and easily interpreta
 
 - <cite>Ibrahim, J. G., Chen, M., Sinha, D. (2013). Bayesian Survival Analysis. Springer New York.</cite>
 - <cite>Efron, B. (1988). Logistic Regression, Survival Analysis, and the Kaplan-Meier Curve. Journal of the American Statistical Association, 83(402), 414–425. [https://doi.org/10.1080/01621459.1988.10478612](https://doi.org/10.1080/01621459.1988.10478612)</cite>
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Mon Aug 19 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray : 2024.5.0
+<br>
+numpyro: 0.15.0
+<br>
+jax    : 0.4.28
+<br>
+jaxlib : 0.4.28
+<br>
+
+<br>
+pymc      : 5.15.0
+<br>
+pandas    : 2.2.2
+<br>
+arviz     : 0.18.0
+<br>
+matplotlib: 3.9.0
+<br>
+numpy     : 1.26.4
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

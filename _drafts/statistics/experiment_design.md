@@ -72,6 +72,8 @@ import arviz as az
 
 df = pd.read_csv('data/coagulation.csv')
 
+fig = plt.figure()
+ax = fig.add_subplot(111)
 sns.boxplot(df, x='Y', hue='X1', ax=ax)
 ```
 
@@ -112,16 +114,18 @@ with pm.Model() as coag_model:
     mu = pm.Normal('mu', mu=0, sigma=100, shape=(4))
     sigma = pm.HalfNormal('sigma', sigma=100)
     y = pm.Normal('y', mu=mu[df['X1']-1], sigma=sigma, observed=df['Y'])
-    idata = pm.sample(nuts_sampler='numpyro', draws=5000)
+    idata_coag = pm.sample(nuts_sampler='numpyro', draws=5000, random_seed=rng)
 
-az.plot_trace(idata)
+az.plot_trace(idata_coag)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The trace of the
 coagulation model](/docs/assets/images/statistics/experiment_design/coagulation_trace.webp)
 
 ```python
-az.plot_forest(idata, var_names=['mu'])
+az.plot_forest(idata_coag, var_names=['mu'])
 ```
 
 
@@ -203,10 +207,31 @@ means for the penicillin model](/docs/assets/images/statistics/experiment_design
 As you can see, the treatment 2 gives slightly higher yields with respect to the
 other treatment.
 
+When designing an experiment, the simplest solution is to use a completely randomized design,
+and measure the remaining blocking variables.
+This might however allocate treatment in an undesired way,
+so you might decide to assign the treatment according to a probability
+which depends on the blocking variable.
+
+In fact, if a relevant variable is unbalanced across the treatment groups, you cannot
+exclude that a difference into the outcome can be imputed to the different average values
+of the variable across the groups.
+
+If the blocking variable is discrete, blocking for it is  a straightforward procedure.
+If it is continuous, however, in order to do so, you are forced stratify it,
+namely to build a discrete variable and mapping the continuous variable to the discrete one.
+As an example, when blocking on the age of a person, you might stratify it into
+0-9, 10-19, 20-29 etc.
+The values of the discrete variable are often named strata (plural of stratum) of levels
+of the continuous variable, and the first term is generally used if you are measuring it,
+while the latter is preferred when you are fixing it.
+For a more in-depth discussion on this topic, you can take a look at
+[https://arxiv.org/pdf/2305.18793](https://arxiv.org/pdf/2305.18793).
 
 ## Matched pairs design
 
-The matched pairs design can be considered a special case of the randomized block design.
+The matched pairs design can be considered a special case of the randomized block design
+with two treatment groups (the extension to more groups is straightforward).
 Rather than randomly assigning each unit to one of two groups, we first pair
 units with similar relevant features, and then we toss a coin to decide which element
 of the pair belongs to which group.
@@ -214,41 +239,122 @@ of the pair belongs to which group.
 This kind of pairing can be useful when we have small samples or if we have very similar
 pairs of units, such as twins.
 
-## Latin square design
+In order to illustrate the analysis method, we will re-analyze the [Orley Ashenfelter and Alan Krueger](https://www.jstor.org/stable/2117766)
+article, where the authors observed the impact on the instruction on the wage on a large set
+of twins.
+The dataset is available [here](https://dataspace.princeton.edu/handle/88435/dsp012801pg35n).
 
-In the randomized block design, one can only control for one factor, but it may also be the case
-that you need to control for more than one factor.
-The latin square design is useful when you need to control for two factors.
-This design can be visualized by drawing an $n\times n$ table, where each row corresponds
-to the level of one factor, the other level is represented by the column, and each matrix element
-is represented by a number $1,...,n$ or by a (latin) letter.
-In a latin square, no letter can appear twice in any row or column.
+```python
+dfk = pd.read_stata('data/pubtwins.dta')
 
-All the possible $2\times 2$ latin squares are
+df_red = dfk[dfk['first']==1][['deduct', 'dlwage']]
+```
 
-$$
-\begin{pmatrix}
-1 & 2 \\
-2 & 1 \\
-\end{pmatrix},
-\begin{pmatrix}
-2 & 1 \\
-1 & 2 \\
-\end{pmatrix}
-$$
+In the above dataset, we only kept the rows corresponding to the first child,
+and the columns corresponding to the number of education difference between the first
+and the second child in years and their wage difference.
+Since each subject has a similar test subject,
+we can directly make inference on their wage difference.
 
-while a possible $3\times 3$ latin square is
+```python
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.scatter(df_red['deduct'], df_red['dlwage'])
+```
+![](/docs/assets/images/statistics/experiment_design/twins_scatter.webp)
 
-$$
-\begin{pmatrix}
-1 & 2 & 3 \\
-2 & 3 & 1 \\
-3 & 1 & 2 \\
-\end{pmatrix}
-$$
+```python
+with pm.Model() as model:
+    beta = pm.Normal('beta', mu=0, sigma=10)
+    sigma = pm.HalfNormal('sigma',  sigma=10)
+    mu = beta*df_red['deduct']
+    y = pm.Normal('y', mu=mu, sigma=sigma, observed=df_red['dlwage'])
+    idata_twins = pm.sample(nuts_sampler='numpyro', draws=5000, tune=5000,
+                      chains=4, random_seed=rng)
 
+az.plot_trace(idata_twins)
+fig = plt.gcf()
+fig.tight_layout()
+```
+
+![](/docs/assets/images/statistics/experiment_design/twins_trace.webp)
+
+```python
+xpl = np.arange(-6.5, 6.5, 0.05)
+dt = idata_twins.posterior['beta'].values.reshape((-1, 1))*xpl
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.fill_between(xpl, np.quantile(dt, axis=0, q=0.03), np.quantile(dt, axis=0, q=0.97),
+               color='lightgray', alpha=0.8)
+ax.plot(xpl, np.mean(dt, axis=0), color='k')
+ax.scatter(df_red['deduct'], df_red['dlwage'])
+fig.tight_layout()
+```
+
+![](/docs/assets/images/statistics/experiment_design/twins_ppc.webp)
 
 ## Conclusions
 
 We have discussed how to adapt some classical model used in experimental
 design to make them Bayesian, and we have done so by using PyMC.
+This was only an introductory discussion on the topic, as experimental design
+is a very broad and active research topic.
+In the next post, we will continue our discussion about
+experimental design for more involved experiments.
+
+
+## Suggested readings
+
+- <cite>Box, G. E. P., Hunter, J. S., Hunter, W.G. (2005). Statistics for experimenters: design, innovation, and discovery. Wiley.</cite>
+- <cite>Lawson, J. (2014). Design and Analysis of Experiments with R. CRC Press.<cite>
+
+```python
+%load_ext watermark
+```
+
+
+```python
+%watermark -n -u -v -iv -w -p xarray,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Mon Aug 19 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray : 2024.5.0
+<br>
+numpyro: 0.15.0
+<br>
+jax    : 0.4.28
+<br>
+jaxlib : 0.4.28
+<br>
+
+<br>
+matplotlib: 3.9.0
+<br>
+pymc      : 5.15.0
+<br>
+seaborn   : 0.13.2
+<br>
+numpy     : 1.26.4
+<br>
+arviz     : 0.18.0
+<br>
+pandas    : 2.2.2
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+</div>

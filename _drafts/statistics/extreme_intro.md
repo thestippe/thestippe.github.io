@@ -77,6 +77,8 @@ import arviz as az
 from matplotlib import pyplot as plt
 import yfinance as yf
 
+rng = np.random.default_rng(9876556789)
+
 df = yf.download('AAPL', start='2020-01-01', end='2023-12-01').reset_index()
 df['Date'] = pd.to_datetime(df['Date'])
 df['LogRet'] = np.log(df['Close']).diff()
@@ -136,11 +138,12 @@ model
 
 ```python
 with pm.Model() as model_gev:
-    mu = pm.Normal('mu', sigma=2)
-    sigma = pm.HalfNormal('sigma', sigma=1)
-    xi = pm.Normal('xi', sigma=5)
+    mu = pm.Normal('mu', sigma=0.2)
+    sigma = pm.HalfNormal('sigma', sigma=0.2)
+    xi = pm.Normal('xi', sigma=1)
     gev = pmx.GenExtreme('gev',mu=mu, sigma=sigma, xi=xi, observed=dt)
-    trace = pm.sample(tune=5000, draws=5000, chains=4, target_accept=0.9, random_seed=rng)
+    trace = pm.sample(tune=2000, draws=2000, chains=4, 
+                      nuts_sampler='numpyro', random_seed=rng)
 
 az.plot_trace(trace)
 ```
@@ -148,6 +151,12 @@ az.plot_trace(trace)
 ![The trace of our model](/docs/assets/images/statistics/extreme_intro/trace.webp)
 
 Let us take a look at the joint posterior distribution.
+
+```python
+az.plot_pair(trace, kind='kde')
+fig = plt.gcf()
+fig.tight_layout()
+```
 
 ![The KDE plot of the posterior distribution](/docs/assets/images/statistics/extreme_intro/kde.webp)
 
@@ -160,7 +169,7 @@ with model_gev:
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-az.plot_ppc(ppc, ax=ax, alpha=0.8, kind='kde', num_pp_samples=100)
+az.plot_ppc(ppc, ax=ax, alpha=0.8, kind='kde', num_pp_samples=500)
 ```
 
 ![The posterior predictive distribution](/docs/assets/images/statistics/extreme_intro/ppc.webp)
@@ -209,13 +218,15 @@ as this value is high enough to be far from the center and low enough to provide
 a discrete amount of data.
 We do expect $\sigma \ll 1\,,$ therefore assuming a variance of 1 for it may be enough.
 $\xi$ must be lower than 1. If it is 1, then the mean
-does not exists, and this doesn't make much sense. 
+does not exist, and this doesn't make much sense. 
 If $\xi$ is negative, then the support of the GDP has an upper bound,
 and it doesn't make much sense too, so we can assume it is non-negative.
 We can therefore take a half normal distribution for it, with variance 10.
 
 ```python
-from generalized_pareto import GPD
+from gen_pareto.generalized_pareto import GPD
+
+thr = 0.03
 
 dt1 = -df[-df['LogRet']>thr]['LogRet'].values
 
@@ -223,7 +234,8 @@ with pm.Model() as pareto_model:
     sigma = pm.HalfNormal('sigma',sigma=1)
     xi = pm.HalfNormal('xi', sigma=10)
     y = GPD('y', mu=thr, sigma=sigma, xi=xi, observed=dt1)
-    trace_pareto = pm.sample(draws=2000, tune=2000, chains=4, random_seed=rng)
+    trace_pareto = pm.sample(draws=2000, tune=2000, chains=4, random_seed=rng,
+                            nuts_sampler='numpyro')
 
 az.plot_trace(trace_pareto)
 ```
@@ -238,7 +250,7 @@ with pareto_model:
 
 fig = plt.figure()
 ax = fig.add_subplot(111)
-az.plot_ppc(ppc, ax=ax, mean=False)
+az.plot_ppc(ppc, ax=ax, mean=False, num_pp_samples=500)
 ax.set_xlim([thr, 0.3])
 ```
 
@@ -261,3 +273,53 @@ distribution.
 
 - <cite>Haan, L. d., Ferreira, A. (2006). Extreme Value Theory: An Introduction. UK: Springer New York.</cite>
 - <cite>Coles, S. (2001). An Introduction to Statistical Modeling of Extreme Values. Germany: Springer London.</cite>
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Mon Aug 19 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray : 2024.5.0
+<br>
+numpyro: 0.15.0
+<br>
+jax    : 0.4.28
+<br>
+jaxlib : 0.4.28
+<br>
+
+<br>
+pymc             : 5.15.0
+<br>
+pandas           : 2.2.2
+<br>
+matplotlib       : 3.9.0
+<br>
+yfinance         : 0.2.40
+<br>
+pymc_experimental: 0.1.1
+<br>
+numpy            : 1.26.4
+<br>
+arviz            : 0.18.0
+<br>
+
+<br>
+Watermark: 2.4.3
+</div>

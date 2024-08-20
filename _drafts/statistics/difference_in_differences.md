@@ -74,6 +74,8 @@ from matplotlib import pyplot as plt
 
 df_employment = pd.read_csv('data/employment.csv')
 
+rng = np.random.default_rng(42)
+
 sns.pairplot(data=df_employment, hue='state')
 ```
 
@@ -113,9 +115,12 @@ with pm.Model() as did_model:
     mu = beta_0 + beta_g*df_reg['g']+ beta_t*df_reg['t']+ beta_gt*df_reg['gt']
     y = pm.StudentT('y', mu=mu, sigma=sigma, nu=nu,
                   observed=df_reg['Y'].values)
-    trace_did = pm.sample(5000, tune=5000, chains=4)
+    trace_did = pm.sample(5000, tune=5000, chains=4,
+                         nuts_sampler='numpyro', random_seed=rng)
 
 az.plot_trace(trace_did)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 ![The model trace](/docs/assets/images/statistics/difference_in_difference/trace.webp)
@@ -158,7 +163,7 @@ provide an estimate of the uncertainties.
 We can finally verify if there is any effect:
 
 ```python
-az.plot_forest(trace_did, var_names=['beta_gt'])
+az.plot_posterior(trace_did, var_names=['beta_gt'])
 ```
 
 ![Our estimate for the minimum wage increase effect
@@ -180,3 +185,63 @@ so you can't use it to estimate the average effect.
 We have seen how to implement the DiD method with PyMC, and we used to
 re-analyze the Krueger and Card article on the relation between the minimum
 salary and the occupation.
+
+
+## Suggested readings
+
+- <cite>Imbens, G. W., Rubin, D. B. (2015). Causal Inference for Statistics, Social, and Biomedical Sciences: An Introduction. US: Cambridge University Press.<cite>
+- <cite><a href='https://arxiv.org/pdf/2206.15460.pdf'>Li, Ding, Mealli (2022). Bayesian Causal Inference: A Critical Review</a></cite>
+- <cite>Ding, P. (2024). A First Course in Causal Inference. CRC Press.</cite>
+- <cite>Angrist, J. D., Pischke, J. (2009). Mostly harmless econometrics : an empiricist's companion. Princeton University Press.</cite>
+
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Tue Aug 20 2024
+<br>
+
+<br>
+Python implementation: CPython
+<br>
+Python version       : 3.12.4
+<br>
+IPython version      : 8.24.0
+<br>
+
+<br>
+xarray : 2024.5.0
+<br>
+numpyro: 0.15.0
+<br>
+jax    : 0.4.28
+<br>
+jaxlib : 0.4.28
+<br>
+
+<br>
+numpy     : 1.26.4
+<br>
+seaborn   : 0.13.2
+<br>
+matplotlib: 3.9.0
+<br>
+pandas    : 2.2.2
+<br>
+pymc      : 5.15.0
+<br>
+arviz     : 0.18.0
+<br>
+
+<br>
+Watermark: 2.4.3
+<br>
+
+<br>
+</div>
