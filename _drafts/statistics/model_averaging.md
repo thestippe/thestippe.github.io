@@ -21,6 +21,16 @@ models.
 Comparing model sometimes may be understood as choosing the best model, but in most cases it means to asses which model is better to describe or predict some particular aspect of your data.
 Model comparison can be done analytically in some case, but most of the time it will be done numerically or graphically, and here we will give an overview of the most important tools.
 
+<br>
+
+> Since all models are wrong the scientist must be alert
+> to what is importantly wrong. It is inappropriate to be
+> concerned about mice when there are tigers abroad.
+>
+>  George Box
+
+<br>
+
 Here we will take a look at two of the most important
 methods, the Bayes factor analysis and the
 Leave One Out cross-validation.
@@ -184,7 +194,7 @@ model than to the one provided by Model 1.
 In this post we discussed the Bayes factor to choose between different models.
 In the next post, we will discuss a more powerful method to compare models,
 namely the Leave One Out cross validation.
-
+c
 ```python
 %load_ext watermark
 ```

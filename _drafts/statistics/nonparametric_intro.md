@@ -4,7 +4,7 @@ title: "Nonparametric models"
 categories: /statistics/
 subcategory: "Non-parametric models"
 tags: /nonparametric_intro/
-date: "2024-07-12"
+date: "2024-07-21"
 section: 6
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "When your focus in on flexibility"
@@ -23,5 +23,6 @@ on the following families:
 
 These model are generally more flexible than the models discussed up
 to now. They are also however more involved, and consequently harder
-to understand. You also have a higher probability to overfit, so you should
-be careful when using them.
+to understand. 
+With respect to parametric models, non-parametric models are more likely to overfit,
+so you should be careful when using them.

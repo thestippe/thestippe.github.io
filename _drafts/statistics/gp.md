@@ -4,7 +4,7 @@ title: "Gaussian processes"
 categories: /statistics/
 subcategory: "Non-parametric models"
 tags: /nonparametric_intro/
-date: "2024-07-19"
+date: "2024-07-28"
 section: 6
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to make the normal distribution infinite dimensional"

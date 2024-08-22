@@ -292,6 +292,7 @@ We also discussed some limitation of this model.
 
 - <cite> Gronau, Q.F., Wagenmakers, EJ. Limitations of Bayesian Leave-One-Out Cross-Validation for Model Selection. Comput Brain Behav 2, 1–11 (2019). https://doi.org/10.1007/s42113-018-0011-7</cite>
 - <cite> Vehtari A., Gelman A., Gabry J. Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC. https://arxiv.org/abs/1507.04544v5</cite>
+- <cite> Navarro, D.J. Between the Devil and the Deep Blue Sea: Tensions Between Scientific Judgement and Statistical Model Selection. Comput Brain Behav 2, 28–34 (2019). https://doi.org/10.1007/s42113-018-0019-z </cite>
 
 ```python
 %load_ext watermark

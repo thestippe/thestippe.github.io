@@ -2,20 +2,36 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+          <loc>https://http://localhost:4000/statistics/dp</loc>
+    <lastmod>2024-08-18T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/bart</loc>
+    <lastmod>2024-08-11T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/spline</loc>
+    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/gp_example</loc>
+    <lastmod>2024-07-29T00:00:00+00:00</lastmod>
+  </url>
+  <url>
           <loc>https://http://localhost:4000/statistics/gp</loc>
-    <lastmod>2024-07-19T00:00:00+00:00</lastmod>
+    <lastmod>2024-07-28T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/nonparametric_intro</loc>
-    <lastmod>2024-07-12T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/rdd</loc>
-    <lastmod>2024-07-06T00:00:00+00:00</lastmod>
+    <lastmod>2024-07-21T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/synthetic_control</loc>
-    <lastmod>2024-07-05T00:00:00+00:00</lastmod>
+    <lastmod>2024-07-14T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/rdd</loc>
+    <lastmod>2024-07-07T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/difference_in_differences</loc>
@@ -220,51 +236,51 @@
   
   <url>
           <loc>https://http://localhost:4000/404</loc>
-    <lastmod>2024-08-20T10:43:41+00:00</lastmod>
+    <lastmod>2024-08-22T15:26:09+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/about</loc>
-    <lastmod>2024-08-20T10:43:41+00:00</lastmod>
+    <lastmod>2024-08-22T15:26:09+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/dataviz</loc>
-    <lastmod>2024-08-20T10:43:41+00:00</lastmod>
+    <lastmod>2024-08-22T15:26:09+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/index</loc>
-    <lastmod>2024-08-20T10:43:41+00:00</lastmod>
+    <lastmod>2024-08-22T15:26:09+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/minima-social-icons.svg</loc>
-    <lastmod>2024-08-20T10:43:41+00:00</lastmod>
+    <lastmod>2024-08-22T15:26:09+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/links</loc>
-    <lastmod>2024-08-20T10:43:41+00:00</lastmod>
+    <lastmod>2024-08-22T15:26:09+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/sitemap.xml</loc>
-    <lastmod>2024-08-20T10:43:41+00:00</lastmod>
+    <lastmod>2024-08-22T15:26:09+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics</loc>
-    <lastmod>2024-08-20T10:43:41+00:00</lastmod>
+    <lastmod>2024-08-22T15:26:09+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/css/style.css</loc>
-    <lastmod>2024-08-20T10:43:41+00:00</lastmod>
+    <lastmod>2024-08-22T15:26:09+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/main.css</loc>
-    <lastmod>2024-08-20T10:43:41+00:00</lastmod>
+    <lastmod>2024-08-22T15:26:09+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/feed.xml</loc>
-    <lastmod>2024-08-20T10:43:41+00:00</lastmod>
+    <lastmod>2024-08-22T15:26:09+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/robots.txt</loc>
-    <lastmod>2024-08-20T10:43:41+00:00</lastmod>
+    <lastmod>2024-08-22T15:26:09+00:00</lastmod>
   </url>
   
 </urlset>

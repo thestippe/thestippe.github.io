@@ -23,6 +23,19 @@ prediction with the true data.
 The posterior predictive checks, instead, are focused
 on clarifying if your fitted model can catch the relevant
 aspects of the data.
+You should always keep in mind that, even if it does a good job in
+describing the known data, this does not imply that
+the model will be successful in predicting future observations.
+
+<br>
+
+> I believe that it is possible to learn from experience. That is where
+> my faith comes in. And I think that all scientists who believe the same are consciously
+> or unconsciously exercising an act of faith.
+>
+> J. O. Irwin 
+
+<br>
 
 While the two phases are in principle different,
 they use similar methods, and for this reason

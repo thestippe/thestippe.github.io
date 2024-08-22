@@ -4,7 +4,7 @@ title: "Synthetic control"
 categories: /statistics/
 subcategory: "Causal inference"
 tags: /synthetic_control/
-date: "2024-07-05"
+date: "2024-07-14"
 # image: "/docs/5ssets/images/perception/eye.jpg"
 description: "Building a doppleganger from the control group"
 section: 5

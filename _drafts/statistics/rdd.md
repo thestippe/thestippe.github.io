@@ -4,7 +4,7 @@ title: "Regression discontinuity design"
 categories: /statistics/
 subcategory: "Causal inference"
 tags: /discontinuity_regression/
-date: "2024-07-06"
+date: "2024-07-07"
 # image: "/docs/5ssets/images/perception/eye.jpg"
 description: "Introducing an arbitrary threshold to infer causality"
 section: 5

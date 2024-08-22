@@ -16,6 +16,14 @@ In order to simplify it, statisticians came out with what is known as the
 **Bayesian workflow**, which is a set of rules to follow in order to
 properly doing Bayesian inference.
 
+<br>
+
+> I have regarded concepts and techniques as guides rather than rigid recipes.
+> 
+> M. S. Bartlett
+
+<br>
+
 The Bayesian workflow is illustrated in [this paper by Gelman et al.](http://www.stat.columbia.edu/~gelman/research/unpublished/Bayesian_Workflow_article.pdf),
 and we will illustrate in this post and in the following ones how to implement
 it in PyMC.
