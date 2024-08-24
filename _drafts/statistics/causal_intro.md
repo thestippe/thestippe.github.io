@@ -17,7 +17,7 @@ and we will do so on the basis of Rubin's potential outcomes.
 The main reference for this part will be the material in
 [these](https://www.bradyneal.com/Introduction_to_Causal_Inference-Dec17_2020-Neal.pdf)
 notes by Brady Neal, but I strongly recommend to read the textbook by Guido Imbens
-(who, in 2021, shared the Nobel prize for economics with Joshua Angrist and David Card for their works on causal inference) and Carl Rubin
+(who, in 2021, shared the Nobel Prize for economics with Joshua Angrist and David Card for their works on causal inference) and Carl Rubin
 (who first developed the potential outcomes framework).
 
 ## The counterfactual definition of causality
@@ -41,7 +41,7 @@ The above definition works for binary outcomes, but has some
 problems when we want to investigate causes which can take any real value.
 More generally, we can say that an event causes an outcome if, by modifying
 the cause, the outcome changes.
-This definition already puts a strong constrain on what we can investigate,
+This definition already puts a strong constraint on what we can investigate,
 since it requires that we must be able, at least in principle, to modify the
 cause.
 
@@ -60,10 +60,13 @@ When talking about causality, one can be either interested in the determination
 of the effect of a cause (e.g. does my headache disappears when I take medicine?)
 or the cause of an effect (e.g. is my headache gone because I took the medicine?).
 
-Within the counterfactual framework, and in science in general, one generally wants
+Within the counterfactual framework, one generally wants
 to assess the effect of a specific cause.
-Determining the cause of an effect, in fact, is an ill-posed question, as one could
+Determining the cause of an effect, in fact, is a less well-posed question, as one could
 find a cause of the cause, a cause of the cause of the cause and so on.
+For a deeper discussion on this topic, take a look at 
+[this work by Imbens and Gelman](
+http://www.stat.columbia.edu/~gelman/research/unpublished/reversecausal_13oct05.pdf).
 
 A relevant aspect which we must keep in mind is that there could be more than one
 cause. We know that, in order to light a fire, we need oxygen, heat and fuel,

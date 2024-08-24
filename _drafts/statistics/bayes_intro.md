@@ -201,11 +201,13 @@ comparing priors to posteriors or anything like that.
 
 <br>
 
-> We are all frequentist here!
+> We are all frequentist here![^5]
 >
 > Andrew Gelman
 
 <br>
+
+[^5]: As usual, [see  Gelman's blog and references therein.](https://statmodeling.stat.columbia.edu/2024/01/08/bayesians-are-frequentists-2/)
 
 Using Bayesian inference simply allows you to add structure to your
 model and being able to directly sample

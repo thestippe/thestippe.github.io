@@ -194,7 +194,7 @@ model than to the one provided by Model 1.
 In this post we discussed the Bayes factor to choose between different models.
 In the next post, we will discuss a more powerful method to compare models,
 namely the Leave One Out cross validation.
-c
+
 ```python
 %load_ext watermark
 ```
