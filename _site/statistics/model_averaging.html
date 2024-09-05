@@ -253,7 +253,8 @@ at the same time.</p>
 we will discuss some methods to compare
 models.</p>
 
-<p>Comparing model sometimes may be understood as choosing the best model, but in most cases it means to asses which model is better to describe or predict some particular aspect of your data.
+<p>Comparing model sometimes may be understood as choosing the best model, but in most cases it means to 
+assess which model is better to describe or predict some particular aspect of your data.
 Model comparison can be done analytically in some case, but most of the time it will be done numerically or graphically, and here we will give an overview of the most important tools.</p>
 
 <p><br /></p>
@@ -329,7 +330,8 @@ marginal likelihood.</p>
 <p>One may think to compute $p(M_k| y)$ by starting from $p(y | \theta, M_k)$ and integrating out $\theta$ but doing this naively is generally not a good idea, as
 this method is unstable and prone to numerical errors.</p>
 
-<p>However can use the Sequential Monte Carlo to compare the two models, since it allows to estimate the (log) marginal likelihood of the model.</p>
+<p>We can however use the Sequential Monte Carlo to compare the two models,
+since it allows to estimate the (log) marginal likelihood of the model.</p>
 
 <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="n">traces</span> <span class="o">=</span> <span class="p">[]</span>
