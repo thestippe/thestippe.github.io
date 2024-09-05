@@ -13,6 +13,8 @@ section: 5
 Regression Discontinuity Design (RDD) can be applied when there is a threshold
 above which some causal effect applies, and allows you to infer the impact of such an effect
 on your population.
+More precisely, you can determine the average treatment effect
+on a neighborhood of the threshold.
 In most countries, there is a retirement age, and you might analyze the impact of the
 retirement on your lifestyle.
 There are also countries where school classes has a maximum number of students,

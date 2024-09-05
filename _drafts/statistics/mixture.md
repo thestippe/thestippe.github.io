@@ -100,7 +100,7 @@ mu1 = trace_mix.posterior['mu'].values.reshape((-1, 2))[:, 1]
 s0 = trace_mix.posterior['sigma'].values.reshape((-1, 2))[:, 0]
 s1 = trace_mix.posterior['sigma'].values.reshape((-1, 2))[:, 1]
 p0 = trace_mix.posterior['pi'].values.reshape((-1, 2))[:, 0]
-p1 = trace_mix.posterior['pi'].values.reshape((-1, 2))[:
+p1 = trace_mix.posterior['pi'].values.reshape((-1, 2))[:, 1]
 
 def f(d):
     x0 = (d-mu0)/s0

@@ -138,7 +138,7 @@ df_cat = pd.concat([df_col, df_clar, df_cert], axis=1)
 
 We can now try and fit the data with a linear model.
 We will use two additional features which PyMC provides us, namely the
-'coords' option and the 'Data class.
+"coords" option and the "Data" class.
 
 ```python
 coords = {'ind': df_cat.index, 'col': df_cat.columns}

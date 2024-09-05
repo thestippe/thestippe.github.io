@@ -104,7 +104,7 @@ with pm.Model() as model_c:
     w_c = pm.StickBreakingWeights('w_c', alpha=alpha_c, K=K-1)
     lam_c = pm.Gamma("lam_c", 1/10, 1/10, shape=(K))
     y_c = pm.Mixture(
-        "y_c", w_c, pm.Poisson.dist(lam_c), observed=nhosp_control
+        "y_c", w_c, pm.Poisson.dist(lam_c), observed=nhosp_control)
 
 with pm.Model() as model_t:
     alpha_t = pm.Gamma("alpha_t", 1.0, 1.0)
@@ -207,6 +207,7 @@ and we have seen an application of this kind of model to the IHGA dataset.
 ## Suggested readings
 - <cite>Müller, P., Quintana, F. A., Jara, A., Hanson, T. (2015). Bayesian Nonparametric Data Analysis. Springer International Publishing.</cite>
 - <cite>Milovan Krnjajić, Athanasios Kottas, David Draper,  Parametric and nonparametric Bayesian model specification: A case study involving models for count data,  Computational Statistics & Data Analysis,  Volume 52, Issue 4,  2008,</cite>
+
 ```python
 %load_ext watermark
 ```

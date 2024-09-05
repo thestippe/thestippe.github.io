@@ -18,7 +18,8 @@ In this phase of the Bayesian workflow
 we will discuss some methods to compare
 models.
 
-Comparing model sometimes may be understood as choosing the best model, but in most cases it means to asses which model is better to describe or predict some particular aspect of your data.
+Comparing model sometimes may be understood as choosing the best model, but in most cases it means to 
+assess which model is better to describe or predict some particular aspect of your data.
 Model comparison can be done analytically in some case, but most of the time it will be done numerically or graphically, and here we will give an overview of the most important tools.
 
 <br>
@@ -93,7 +94,8 @@ As usual, an analytic calculation is only possible in a very limited number of m
 One may think to compute $p(M_k| y)$ by starting from $p(y | \theta, M_k)$ and integrating out $\theta$ but doing this naively is generally not a good idea, as
 this method is unstable and prone to numerical errors.
 
-However can use the Sequential Monte Carlo to compare the two models, since it allows to estimate the (log) marginal likelihood of the model.
+We can however use the Sequential Monte Carlo to compare the two models,
+since it allows to estimate the (log) marginal likelihood of the model.
 
 ```python
 models = []

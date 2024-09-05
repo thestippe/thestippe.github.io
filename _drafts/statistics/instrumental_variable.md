@@ -29,7 +29,7 @@ in quite a good approximation in some circumstance.
 
 This method has been applied to analyze the effect of school years ($T$)
 on earning ($Y$).
-In this case the variable $Z$ was the assignment of some economical assistance
+In this case the variable $Z$ was the assignment of some monetary assistance
 (a voucher) to go to school.
 
 One would be tempted to simply use linear regression to fit this model:
@@ -44,6 +44,9 @@ This has an impact on the variance estimate of $Y\,,$ as we do not
 correctly propagate the uncertainty due to the $T$ dependence on $Z\,.$
 In fact, linear regression always predicts homoscedastic variance,
 while IV can also reproduce heteroscedasticity.
+
+The model we used here is an adaptation of
+[the one provided in this page](https://juanitorduz.github.io/iv_pymc/).
 
 ## Application to the cigarettes sales 
 

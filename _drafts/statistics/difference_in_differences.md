@@ -5,7 +5,7 @@ categories: /statistics/
 subcategory: "Causal inference"
 tags: /causal_intro/
 date: "2024-06-30"
-# image: "/docs/5ssets/images/perception/eye.jpg"
+# image: "/docs/assets/images/perception/eye.jpg"
 description: "Causal inference from 1850"
 section: 3
 ---

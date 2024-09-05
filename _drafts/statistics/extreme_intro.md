@@ -131,7 +131,7 @@ one, so we will take a standard deviation of 2 for the first one and
 equal to 1 for the latter.
 
 From the [Wikipedia page](https://en.wikipedia.org/wiki/Generalized_extreme_value_distribution) we observe that, if 
-$$| \xi|>1\,,$$ the mean does not exists.
+$$| \xi|>1\,,$$ the mean does not exist.
 Since it is reasonable to assume that it exists, we expect that $\xi$
 will be bounded into the $[-1, 1]$ region, therefore we have the following
 model
@@ -210,7 +210,7 @@ Now it comes one bad news and one good news. The bad one is that in PyMC it is o
 implemented the Pareto type I distribution, which is a special case of the GPD.
 The good one is that it is really easy to implement custom distributions in PyMC,
 and this can be done following [this very nice tutorial](https://www.pymc.io/projects/examples/en/2022.12.0/howto/custom_distribution.html).
-You can find my own implementation [on my github repo](https://github.com/thestippe/thestippe.github.io/blob/main/scripts/generalized_pareto.py).
+You can find my own implementation [on my GitHub repo](https://github.com/thestippe/thestippe.github.io/blob/main/scripts/generalized_pareto.py).
 
 Let us see how to model the tail of the Apple stocks by using it.
 A reasonably high enough threshold for the log returns is $0.03\,,$

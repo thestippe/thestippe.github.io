@@ -70,7 +70,7 @@ One of the member of the commission was the physicist Richard Feynman,
 who proved that the incident was caused by a loss of flexibility of the shuttle
 O-rings caused by the low temperature 
 (see the [Wikipedia page](https://en.wikipedia.org/wiki/Space_Shuttle_Challenger_disaster))
-Here we will take the data on the number of O-rings damaged in each mission of the Challenger
+Here we will take the data on the number of O-rings damaged in each mission of the Challenger,
 and we will provide an estimate on the probability that one o-ring becomes damaged as a function of the temperature.
 The original data can be found [here](https://archive.ics.uci.edu/dataset/92/challenger+usa+space+shuttle+o+ring),
 and we provide here the dataset grouped by temperature for completeness (the temperature is expressed in &deg;F).
@@ -154,7 +154,7 @@ $$
 $$
 
 We can therefore identify $\alpha$ with the log odds at $T=0&deg;C$
-It doesn't really makes sense to assume either a too big number or a too small one,
+It doesn't really make sense to assume either a too big number or a too small one,
 so we will take
 
 $$

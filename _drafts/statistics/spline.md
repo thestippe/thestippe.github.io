@@ -20,6 +20,12 @@ to the resulting function.
 There are many spline families, and we will focus on B-splines, as they are very easy to implement
 and numerically very stable (while this might not be true for other kind of splines such
 as polynomial splines).
+You will find more on this topic on the
+[PyMC gallery](https://www.pymc.io/projects/examples/en/latest/howto/spline.html),
+where the PyMC team used [Patsy](https://patsy.readthedocs.io/en/latest/)
+to implement the splines.
+We will instead do it from scratch, as it might be instructive to see how
+to do so.
 
 Given a set of $m+1$ points named **knots** $t_0,t_1,\dots,t_m\,,$ B-splines
 are recursively defined:

@@ -48,7 +48,7 @@ There are many reasons for this:
 - Simple models are generally easier to understand (and to explain to your colleagues, clients or to the decision makers).
 - It is easier to add complexity than to figure out which are the irrelevant features of your model.
 
-Thus, as an example, before using a Student' t distribution, you should verify
+Thus, as an example, before using a Students' t distribution, you should verify
 if your data is well described by a normal distribution.
 
 Model selection also includes variable transformations, and this step has more than
