@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-09-05T20:44:02+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Application of the Lotka-Volterra model</title><link href="http://localhost:4000/statistics/lotka_volterra" rel="alternate" type="text/html" title="Application of the Lotka-Volterra model" /><published>2024-08-27T00:00:00+00:00</published><updated>2024-08-27T00:00:00+00:00</updated><id>http://localhost:4000/statistics/lotka_volterra</id><content type="html" xml:base="http://localhost:4000/statistics/lotka_volterra"><![CDATA[<p>In the last post we saw how to implement an ODE solver in PyMC, and we did so
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-09-05T20:49:18+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Application of the Lotka-Volterra model</title><link href="http://localhost:4000/statistics/lotka_volterra" rel="alternate" type="text/html" title="Application of the Lotka-Volterra model" /><published>2024-08-27T00:00:00+00:00</published><updated>2024-08-27T00:00:00+00:00</updated><id>http://localhost:4000/statistics/lotka_volterra</id><content type="html" xml:base="http://localhost:4000/statistics/lotka_volterra"><![CDATA[<p>In the last post we saw how to implement an ODE solver in PyMC, and we did so
 by using a dataset by Gause.
 In this post we will go a little bit forward, and we will see how 
 we could use the above concepts to try and falsify the model proposed in Gause’s textbook.
@@ -2884,7 +2884,7 @@ of a policy for the reduction of the $CO_2$ emissions in the UK.
 The dataset used in this work can be found <a href="https://zenodo.org/records/4566804">on Zenodo</a>.</p>
 
 <p>The authors of the original work, in fact, performed a careful analysis
-of the control set, while we will limit ourself to the set of countries
+of the control set, while we will limit ourselves to the set of countries
 who were in the OECD organization in 2001 and who had not adopted any 
 $CO_2$ reduction policy before that year.
 We will assume</p>
@@ -3059,4 +3059,4 @@ arviz     : 0.18.0
 <br />
 Watermark: 2.4.3
 <br />
-</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/synthetic_control/" /><summary type="html"><![CDATA[Building a doppleganger from the control group]]></summary></entry></feed>
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/synthetic_control/" /><summary type="html"><![CDATA[Building a doppelganger from the control group]]></summary></entry></feed>

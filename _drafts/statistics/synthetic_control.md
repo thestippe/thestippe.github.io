@@ -5,8 +5,8 @@ categories: /statistics/
 subcategory: "Causal inference"
 tags: /synthetic_control/
 date: "2024-07-14"
-# image: "/docs/5ssets/images/perception/eye.jpg"
-description: "Building a doppleganger from the control group"
+# image: "/docs/assets/images/perception/eye.jpg"
+description: "Building a doppelganger from the control group"
 section: 5
 ---
 
@@ -33,7 +33,7 @@ of a policy for the reduction of the $CO_2$ emissions in the UK.
 The dataset used in this work can be found [on Zenodo](https://zenodo.org/records/4566804).
 
 The authors of the original work, in fact, performed a careful analysis
-of the control set, while we will limit ourself to the set of countries
+of the control set, while we will limit ourselves to the set of countries
 who were in the OECD organization in 2001 and who had not adopted any 
 $CO_2$ reduction policy before that year.
 We will assume

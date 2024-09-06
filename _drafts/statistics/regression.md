@@ -235,7 +235,7 @@ NAM   -10.621142
 dtype: float64
 </div>
 
-The above nations are Nigeria, eSwatini, Equatorial Guinea, Nuaru and Nambia
+The above nations are Nigeria, eSwatini, Equatorial Guinea, Nuaru and Nambia,
 so it looks like our model fails to reproduce some
 African and Oceania countries, which have an average life expectancy
 much lower than non-African and non-Oceania countries with similar GDP.

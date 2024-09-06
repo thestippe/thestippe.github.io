@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Reparametrizing your model"
+title: "Re-parametrizing your model"
 categories: /statistics/
 subcategory: "Bayesian workflow"
 tags: /model_comparison/

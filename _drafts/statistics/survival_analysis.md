@@ -72,8 +72,9 @@ One of the main issues of survival analysis is that we are only able
 to observe our system for a finite amount of time $c$, and in this
 period the event may or may not occur.
 
-Let us assume that we performed a study with duration $c\,,$ if we do not observe the event within the end of the study we cannot conclude that the event did not happened,
-we can only conclude that it did not happened within time $c$. We assume that the event must happen at some time.
+Let us assume that we performed a study with duration $c\,,$ if we do not observe the event within the end of the study we cannot conclude that the event did not 
+happen,
+we can only conclude that it did not happen within time $c$. We assume that the event must happen at some time.
 We introduce the outcome variable $y$ as $$y = \min(t, c)$$ and define the
 **censoring status** variable $\delta$ which indicates if the event was observed or not
 
@@ -98,7 +99,7 @@ and this quantity is sometimes defined as the **generalized likelihood**.
 
 ## Wrong methods for accounting of censoring
 
-If you are new to survival analysis and you don't know how to correctly
+If you are new to survival analysis, and you don't know how to correctly
 include censoring in your model, you may end up with a biased estimate of the 
 waiting time.
 
@@ -190,7 +191,7 @@ az.summary(trace_dropped)
 |:----|-------:|-----:|---------:|----------:|------------:|----------:|-----------:|-----------:|--------:|
 | lam |   1.73 | 0.19 |    1.368 |     2.082 |       0.002 |     0.001 |       8492 |      14744 |       1 |
 
-This estimate is even worst than the above one.
+This estimate is even worse than the above one.
 
 ## Correct method
 

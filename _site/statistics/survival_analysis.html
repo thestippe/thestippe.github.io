@@ -122,7 +122,7 @@
                 </li><li>
                         Model comparison;/statistics/model_averaging;32
                 </li><li>
-                        Reparametrizing your model;/statistics/reparametrization;33
+                        Re-parametrizing your model;/statistics/reparametrization;33
                 </li><li>
                         Predictive checks;/statistics/predictive_checks;34
                 </li><li>
@@ -306,8 +306,9 @@ If we otherwise assume that $\lim_{t\rightarrow \infty} S(t)=p_0\,,$ we must req
 to observe our system for a finite amount of time $c$, and in this
 period the event may or may not occur.</p>
 
-<p>Let us assume that we performed a study with duration $c\,,$ if we do not observe the event within the end of the study we cannot conclude that the event did not happened,
-we can only conclude that it did not happened within time $c$. We assume that the event must happen at some time.
+<p>Let us assume that we performed a study with duration $c\,,$ if we do not observe the event within the end of the study we cannot conclude that the event did not 
+happen,
+we can only conclude that it did not happen within time $c$. We assume that the event must happen at some time.
 We introduce the outcome variable $y$ as \(y = \min(t, c)\) and define the
 <strong>censoring status</strong> variable $\delta$ which indicates if the event was observed or not</p>
 
@@ -330,7 +331,7 @@ Thus the likelihood can be written as</p>
 
 <h2 id="wrong-methods-for-accounting-of-censoring">Wrong methods for accounting of censoring</h2>
 
-<p>If you are new to survival analysis and you don’t know how to correctly
+<p>If you are new to survival analysis, and you don’t know how to correctly
 include censoring in your model, you may end up with a biased estimate of the 
 waiting time.</p>
 
@@ -469,7 +470,7 @@ while excluding the remaining.</p>
   </tbody>
 </table>
 
-<p>This estimate is even worst than the above one.</p>
+<p>This estimate is even worse than the above one.</p>
 
 <h2 id="correct-method">Correct method</h2>
 
