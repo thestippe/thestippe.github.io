@@ -45,7 +45,7 @@ ax.axvline(x=df[df['law']==1]['Date'].min(), ls=':', color='grey')
 ![](/docs/assets/images/statistics/structural_ts/drivers.webp)
 
 The data shows a strong periodic (yearly) component, and this seems quite reasonable,
-due to ice and other climate-related factors.
+due to bad road conditions in winter caused by ice and other climate-related factors.
 
 ```python
 df['month'] = df['Date'].dt.month
