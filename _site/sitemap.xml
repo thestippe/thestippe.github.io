@@ -3,38 +3,46 @@
   
   <url>
           <loc>https://http://localhost:4000/statistics/lotka_volterra</loc>
-    <lastmod>2024-08-27T00:00:00+00:00</lastmod>
+    <lastmod>2024-09-09T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/ode</loc>
-    <lastmod>2024-08-26T00:00:00+00:00</lastmod>
+    <lastmod>2024-09-08T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/mrp</loc>
-    <lastmod>2024-08-25T00:00:00+00:00</lastmod>
+    <lastmod>2024-09-01T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/dp</loc>
-    <lastmod>2024-08-18T00:00:00+00:00</lastmod>
+    <lastmod>2024-08-25T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/bart</loc>
-    <lastmod>2024-08-11T00:00:00+00:00</lastmod>
+    <lastmod>2024-08-18T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/spline</loc>
-    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
+    <lastmod>2024-08-11T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/gp_example</loc>
-    <lastmod>2024-07-29T00:00:00+00:00</lastmod>
+    <lastmod>2024-08-05T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/gp</loc>
-    <lastmod>2024-07-28T00:00:00+00:00</lastmod>
+    <lastmod>2024-08-04T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/nonparametric_intro</loc>
+    <lastmod>2024-07-28T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/structural_time_series</loc>
+    <lastmod>2024-07-22T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/time_series</loc>
     <lastmod>2024-07-21T00:00:00+00:00</lastmod>
   </url>
   <url>
@@ -248,51 +256,51 @@
   
   <url>
           <loc>https://http://localhost:4000/404</loc>
-    <lastmod>2024-09-05T20:49:18+00:00</lastmod>
+    <lastmod>2024-09-18T06:03:21+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/about</loc>
-    <lastmod>2024-09-05T20:49:18+00:00</lastmod>
+    <lastmod>2024-09-18T06:03:21+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/dataviz</loc>
-    <lastmod>2024-09-05T20:49:18+00:00</lastmod>
+    <lastmod>2024-09-18T06:03:21+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/index</loc>
-    <lastmod>2024-09-05T20:49:18+00:00</lastmod>
+    <lastmod>2024-09-18T06:03:21+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/minima-social-icons.svg</loc>
-    <lastmod>2024-09-05T20:49:18+00:00</lastmod>
+    <lastmod>2024-09-18T06:03:21+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/links</loc>
-    <lastmod>2024-09-05T20:49:18+00:00</lastmod>
+    <lastmod>2024-09-18T06:03:21+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/sitemap.xml</loc>
-    <lastmod>2024-09-05T20:49:18+00:00</lastmod>
+    <lastmod>2024-09-18T06:03:21+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics</loc>
-    <lastmod>2024-09-05T20:49:18+00:00</lastmod>
+    <lastmod>2024-09-18T06:03:21+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/css/style.css</loc>
-    <lastmod>2024-09-05T20:49:18+00:00</lastmod>
+    <lastmod>2024-09-18T06:03:21+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/main.css</loc>
-    <lastmod>2024-09-05T20:49:18+00:00</lastmod>
+    <lastmod>2024-09-18T06:03:21+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/feed.xml</loc>
-    <lastmod>2024-09-05T20:49:18+00:00</lastmod>
+    <lastmod>2024-09-18T06:03:21+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/robots.txt</loc>
-    <lastmod>2024-09-05T20:49:18+00:00</lastmod>
+    <lastmod>2024-09-18T06:03:21+00:00</lastmod>
   </url>
   
 </urlset>

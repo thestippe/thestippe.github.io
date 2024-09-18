@@ -11,7 +11,19 @@ section: 4
 ---
 
 In some circumstances you may be not interested in modelling the distribution itself,
- but you may be interested in understanding its asymptotic behavior, and the extreme value theory is the discipline which studies this topic.
+ but you may be interested in understanding its asymptotic behavior, 
+and the extreme value theory is the discipline which studies this topic.
+
+<br>
+
+> Extreme value theory is unique as a 
+> statistical discipline in that it
+> develops techniques and models for
+> describing the unusual rather than the usual.
+>
+> Stuart Coles
+ 
+<br>
 
 The EV theory is appropriate when you want to investigate the distribution
 of the minimum or maximum value of some quantity,
