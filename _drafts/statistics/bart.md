@@ -4,8 +4,8 @@ title: "Bayesian Additive Regression Trees"
 categories: /statistics/
 subcategory: "Non-parametric models"
 tags: /nonparametric_intro/
-date: "2024-08-11"
-section: 6
+date: "2024-08-18"
+section: 7
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Flexible interpolation with regression trees"
 ---

@@ -173,9 +173,8 @@ We also re-analyzed [this article](https://link.springer.com/article/10.1007/s10
 
 
 ## Suggested readings
--<cite>Alice Lépissier & Matto Mildenberger, 2021.
-<A HREF="https://ideas.repec.org/a/spr/climat/v166y2021i3d10.1007_s10584-021-03111-2.html">Unilateral climate policies can substantially reduce national carbon pollution</A>,
-<A HREF="https://ideas.repec.org/s/spr/climat.html">Climatic Change</A>, Springer, vol. 166(3), pages 1-21, June.</cite>
+
+- <cite>Alice Lépissier & Matto Mildenberger, 2021. <A HREF="https://ideas.repec.org/a/spr/climat/v166y2021i3d10.1007_s10584-021-03111-2.html">Unilateral climate policies can substantially reduce national carbon pollution</A>, <A HREF="https://ideas.repec.org/s/spr/climat.html">Climatic Change</A>, Springer, vol. 166(3), pages 1-21, June.</cite>
 
 ```python
 %load_ext watermark

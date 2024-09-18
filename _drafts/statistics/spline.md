@@ -4,8 +4,8 @@ title: "Splines"
 categories: /statistics/
 subcategory: "Non-parametric models"
 tags: /nonparametric_intro/
-date: "2024-08-04"
-section: 6
+date: "2024-08-11"
+section: 7
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Wisely using piecewise functions"
 ---

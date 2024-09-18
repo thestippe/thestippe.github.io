@@ -4,8 +4,8 @@ title: "Gaussian processes regression"
 categories: /statistics/
 subcategory: "Non-parametric models"
 tags: /nonparametric_intro/
-date: "2024-07-29"
-section: 6
+date: "2024-08-05"
+section: 7
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Using GPs for flexible regression"
 ---

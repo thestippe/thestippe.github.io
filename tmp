@@ -1,1 +1,6 @@
-“Il metodo scientifico per difendersi dalle fake news”
+- tipi di studio (cross sectional data, longitudinal data, time series...)
+- multicollinearity (horsehoe prior e simili)
+- time series (AR e annesse)
+- geostatistica (CAR...)
+- mediation analysis, moderation analysis
+- tipi di prior? (laplace insufficient reason, prior improprie, jeffreys etc)

@@ -4,8 +4,8 @@ title: "Application of the Lotka-Volterra model"
 categories: /statistics/
 subcategory: "Other random thoughts"
 tags: /mrp/
-date: "2024-08-27"
-section: 7
+date: "2024-09-09"
+section: 8
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Testing the predictive power of a scientific model"
 ---
