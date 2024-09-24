@@ -145,7 +145,7 @@ for elem in basis_plot_1:
     ax[1].set_title(r"$p=1$")
 for elem in basis_plot_2:
     ax[2].plot(x_plot, elem)
-    ax[2].set_title(r"$p=1$")
+    ax[2].set_title(r"$p=2$")
 fig.tight_layout()
 ```
 

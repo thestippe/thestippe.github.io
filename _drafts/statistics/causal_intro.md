@@ -102,7 +102,7 @@ As an example, one could prefer taking
 the ratio of the two, but then taking the logarithm we recover the above definition.
 
 Despite on the exact definition, $\tau$ of course cannot be measured, as either we take the treatment and
-we observe $Y(1)$ or we don't and we observe $Y(0)\,,$
+we observe $Y(1)$ or we don't, and we observe $Y(0)\,,$
 and any reasonable definition of $\tau$ involves both the quantities.
 This implies that, 
 

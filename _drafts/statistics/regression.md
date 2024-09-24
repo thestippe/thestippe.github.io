@@ -12,7 +12,7 @@ description: "Including dependence on external variables"
 
 So far we discussed how to model one variable. With this
 post we will start a discussion on how to model the dependence of one
-variable on other variables, named **covariates**, **confounders**, **regressors**,
+variable on other variables, named **covariates**,  **regressors**,
 **predictors**
 or **risk factors** depending on the research area we are dealing with.
 
