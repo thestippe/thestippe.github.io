@@ -269,21 +269,21 @@ involved models.
 ```
 
 <div class="code">
-Last updated: Fri Jul 05 2024
+Last updated: Sun Oct 06 2024
 <br>
 
 <br>
 Python implementation: CPython
 <br>
-Python version       : 3.12.4
+Python version       : 3.12.6
 <br>
 IPython version      : 8.24.0
 <br>
 
 <br>
-xarray  : 2024.5.0
+xarray  : 2024.9.0
 <br>
-pytensor: 2.20.0
+pytensor: 2.25.5
 <br>
 numpyro : 0.15.0
 <br>
@@ -293,17 +293,17 @@ jaxlib  : 0.4.28
 <br>
 
 <br>
-matplotlib: 3.9.0
+matplotlib: 3.9.2
 <br>
 numpy     : 1.26.4
 <br>
 seaborn   : 0.13.2
 <br>
-arviz     : 0.18.0
+arviz     : 0.20.0
 <br>
-pandas    : 2.2.2
+pandas    : 2.2.3
 <br>
-pymc      : 5.15.0
+pymc      : 5.17.0
 <br>
 
 <br>

@@ -638,12 +638,21 @@ table {
         color: #405059;
 }
 
+#homeTextGIS {
+        color: #405059;
+}
+
+
 #homeCardDataviz {
         animation: 0.5s ease-out 0s 1 slideInFromLeft;
 }
 
 #homeCardStatistics {
         animation: 0.5s ease-out 0s 1 slideInFromRight;
+}
+
+#homeCardGIS {
+        animation: 0.5s ease-out 0s 1 slideInFromLeft;
 }
 
 .homeText {
