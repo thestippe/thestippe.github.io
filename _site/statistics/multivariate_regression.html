@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Multi-linear regression | Data Perspectives</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Multi-linear regression" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Including many covariates" />
+<meta property="og:description" content="Including many covariates" />
+<link rel="canonical" href="http://localhost:4000/statistics/multivariate_regression" />
+<meta property="og:url" content="http://localhost:4000/statistics/multivariate_regression" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-10-30T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Multi-linear regression" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-10-30T00:00:00+00:00","datePublished":"2024-10-30T00:00:00+00:00","description":"Including many covariates","headline":"Multi-linear regression","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/multivariate_regression"},"url":"http://localhost:4000/statistics/multivariate_regression"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;">
+
+                
+                
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    
+                    
+                    
+                    
+                    
+
+        <ul hidden='hidden' id="postList"><li>
+                        Poisson regression;/statistics/poisson_regression;1
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;2
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;3
+                </li><li>
+                        Multi-linear regression;/statistics/multivariate_regression;4
+                </li><li>
+                        Linear regression with binary input;/statistics/regression_binary_input;5
+                </li><li>
+                        Horseshoe priors;/statistics/horseshoe;6
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;7
+                </li><li>
+                        MRP;/statistics/mrp;8
+                </li><li>
+                        Model comparison, cont.;/statistics/model_averaging_cont;9
+                </li><li>
+                        Model comparison;/statistics/model_averaging;10
+                </li><li>
+                        Application of the Lotka-Volterra model;/statistics/lotka_volterra;11
+                </li><li>
+                        Differential equations;/statistics/ode;12
+                </li><li>
+                        Introduction to GIS;/gis/gis_intro;13
+                </li><li>
+                        Re-parametrizing your model;/statistics/reparametrization;14
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;15
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;16
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;17
+                </li><li>
+                        Mixture models;/statistics/mixture;18
+                </li><li>
+                        Multidimensional distributions;/statistics/categories;19
+                </li><li>
+                        Dirichlet Process Mixture Models;/statistics/dp;20
+                </li><li>
+                        The Gaussian model;/statistics/reals;21
+                </li><li>
+                        Bayesian Additive Regression Trees;/statistics/bart;22
+                </li><li>
+                        Bonus: counting animals in a park;/statistics/hypergeom;23
+                </li><li>
+                        Splines;/statistics/spline;24
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;25
+                </li><li>
+                        Gaussian processes regression;/statistics/gp_example;26
+                </li><li>
+                        Gaussian processes;/statistics/gp;27
+                </li><li>
+                        The Poisson model;/statistics/poisson;28
+                </li><li>
+                        Nonparametric models;/statistics/nonparametric_intro;29
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;30
+                </li><li>
+                        Structural time series;/statistics/structural_time_series;31
+                </li><li>
+                        Time series;/statistics/time_series;32
+                </li><li>
+                        Some notation about probability;/statistics/probability_reminder;33
+                </li><li>
+                        Synthetic control;/statistics/synthetic_control;34
+                </li><li>
+                        How does MCMC works;/statistics/mcmc_intro;35
+                </li><li>
+                        Regression discontinuity design;/statistics/rdd;36
+                </li><li>
+                        Introduction to Bayesian inference;/statistics/bayes_intro;37
+                </li><li>
+                        An overview to statistics;/statistics/preface;38
+                </li><li>
+                        Difference in difference;/statistics/difference_in_differences;39
+                </li><li>
+                        Instrumental variable regression;/statistics/instrumental_variable;40
+                </li><li>
+                        Randomized controlled trials;/statistics/randomized;41
+                </li><li>
+                        Causal inference and Bayesian networks;/statistics/causal_intro_2;42
+                </li><li>
+                        Causal inference;/statistics/causal_intro;43
+                </li><li>
+                        Experiment analysis with many blocking variables;/statistics/experiment_design_cont;44
+                </li><li>
+                        Experiment analysis;/statistics/experiment_design;45
+                </li><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;46
+                </li><li>
+                        Application of survival analysis with discrete times;/statistics/survival_example_2;47
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;48
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;49
+                </li><li>
+                        Random models and mixed models;/statistics/random_models;50
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;51
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;52
+                </li><li>
+                        Drawing geographic maps;/dataviz/geography;53
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;54
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;55
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;56
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;57
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;58
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;59
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;60
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;61
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;62
+                </li><li>
+                        Perception;/dataviz/perception;63
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;64
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;65
+                </li><li>
+                        Data abstraction;/dataviz/data-types;66
+                </li><li>
+                        Data visualization;/dataviz/dataviz;67
+                </li><li>
+                        Section introduction;/statistics/simple_models_intro;68
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/regression_binary_input" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+                  <a href="/statistics/robust_regression" class="next">&#8250;</a>
+                  
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">Multi-linear regression</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-10-30T00:00:00+00:00" itemprop="datePublished">
+        Oct 30, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  15&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>When dealing with real-world datasets, you will often only
+have to deal with more than one independent variable.
+Here we will see how to adapt our framework to this case.
+As you will see, doing so is straightforward, at least in theory.
+In practice, this is not true, as deciding how to improve your model may be a tricky question,
+and only practice and domain knowledge will, sometimes, help you in this task.</p>
+
+<h2 id="the-dataset">The dataset</h2>
+
+<p>In this post, we will use the dataset provided in <a href="https://www.tandfonline.com/doi/full/10.1080/10691898.2001.11910659">this</a>
+very nice article, where the aim of the author is to show some of the difficulties
+one faces when dealing with real World datasets.
+The aim is to predict the price of a set of diamonds, given their carat numbers,
+their color, their clarity and their certification.
+I found this dataset in <a href="https://vincentarelbundock.github.io/Rdatasets/datasets.html">this amazing repo</a></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'https://vincentarelbundock.github.io/Rdatasets/csv/Ecdat/Diamond.csv'</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">rownames</th>
+      <th style="text-align: right">carat</th>
+      <th style="text-align: left">colour</th>
+      <th style="text-align: left">clarity</th>
+      <th style="text-align: left">certification</th>
+      <th style="text-align: right">price</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0.3</td>
+      <td style="text-align: left">D</td>
+      <td style="text-align: left">VS2</td>
+      <td style="text-align: left">GIA</td>
+      <td style="text-align: right">1302</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">0.3</td>
+      <td style="text-align: left">E</td>
+      <td style="text-align: left">VS1</td>
+      <td style="text-align: left">GIA</td>
+      <td style="text-align: right">1510</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">0.3</td>
+      <td style="text-align: left">G</td>
+      <td style="text-align: left">VVS1</td>
+      <td style="text-align: left">GIA</td>
+      <td style="text-align: right">1510</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">0.3</td>
+      <td style="text-align: left">G</td>
+      <td style="text-align: left">VS1</td>
+      <td style="text-align: left">GIA</td>
+      <td style="text-align: right">1260</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">0.31</td>
+      <td style="text-align: left">D</td>
+      <td style="text-align: left">VS1</td>
+      <td style="text-align: left">GIA</td>
+      <td style="text-align: right">1641</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>It is known that white, clear diamonds look brighter, and because of this they
+have higher price than more opaque or colorful diamonds.
+When considering colour and clarity, one should however keep in mind
+that these values are assigned by experts, and two experts might provide
+different values for the same diamond.</p>
+
+<p>Let us now take a look at the relation between carat and price.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">sns</span><span class="p">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s">'carat'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'price'</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/statistics/multilinear/scatter.webp" alt="" /></p>
+
+<p>From the above figure, we can see that it is unlikely that a linear fit would
+work, since the dataset shows a very pronounced heteroskedasticity.
+In order to improve the homoscedasticity, we can try the following transformation</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">[</span><span class="s">'log_price'</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'price'</span><span class="p">])</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s">'carat'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'log_price'</span><span class="p">)</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/statistics/multilinear/scatter_log.webp" alt="" /></p>
+
+<p>The above transformation improved the homoscedasticity, so we now have higher chances
+to be able to properly fit the dataset.</p>
+
+<p>Let us now take a look at the categorical columns.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">certification</span><span class="p">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="code">
+0      GIA
+<br />
+151    IGI
+<br />
+229    HRD
+<br />
+Name: certification, dtype: object
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">colour</span><span class="p">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="code">
+0    D <br />
+1    E <br />
+2    G <br />
+6    F <br />
+8    H <br />
+9    I <br />
+Name: colour, dtype: object
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">clarity</span><span class="p">.</span><span class="n">drop_duplicates</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="code">
+0      VS2 <br />
+1      VS1 <br />
+2     VVS1 <br />
+7     VVS2 <br />
+83      IF <br />
+Name: clarity, dtype: object
+</div>
+
+<p>These columns encode categories, and we should treat them by making an
+indicator variable for each possible value of the three variables.</p>
+
+<p>Taking the color as an example, we will take one value as baseline (say “D”) such that
+all the indicator variables are zero for it.
+We will then define four indicator variables “E”, “F”, “G” and “H”
+with value 0 if the color is not the one corresponding to the variable,
+1 otherwise.
+This can be easily done with pandas as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_col</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'colour'</span><span class="p">],</span> <span class="n">drop_first</span><span class="o">=</span><span class="bp">True</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">df_clar</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'clarity'</span><span class="p">],</span> <span class="n">drop_first</span><span class="o">=</span><span class="bp">True</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">df_cert</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">get_dummies</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'certification'</span><span class="p">],</span> <span class="n">drop_first</span><span class="o">=</span><span class="bp">True</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">df_cat</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">concat</span><span class="p">([</span><span class="n">df_col</span><span class="p">,</span> <span class="n">df_clar</span><span class="p">,</span> <span class="n">df_cert</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>We can now try and fit the data with a linear model.
+We will use two additional features which PyMC provides us, namely the
+“coords” option and the “Data” class.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">coords</span> <span class="o">=</span> <span class="p">{</span><span class="s">'ind'</span><span class="p">:</span> <span class="n">df_cat</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="s">'col'</span><span class="p">:</span> <span class="n">df_cat</span><span class="p">.</span><span class="n">columns</span><span class="p">}</span>
+
+<span class="n">yobs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'log_price'</span><span class="p">].</span><span class="n">values</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">X_cat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Data</span><span class="p">(</span><span class="s">'X_cat'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">df_cat</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_idx'</span><span class="p">,</span> <span class="s">'feature'</span><span class="p">])</span>
+    <span class="n">X_carat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Data</span><span class="p">(</span><span class="s">'X_carat'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'carat'</span><span class="p">]</span><span class="o">-</span><span class="n">df</span><span class="p">[</span><span class="s">'carat'</span><span class="p">].</span><span class="n">mean</span><span class="p">())</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s">'carat'</span><span class="p">].</span><span class="n">std</span><span class="p">()),</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_idx'</span><span class="p">])</span>
+    <span class="n">beta_cat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta_cat'</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'feature'</span><span class="p">],</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">beta_carat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta_carat'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beta_cat</span><span class="p">,</span> <span class="n">X_cat</span><span class="p">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="n">beta_carat</span><span class="o">*</span><span class="n">X_carat</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">yobs</span><span class="p">)</span>
+
+<span class="n">pm</span><span class="p">.</span><span class="n">model_to_graphviz</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/multilinear/model.webp" alt="" /></p>
+
+<p>In our model $\alpha$ is the intercept for the baseline diamond, $\beta_{cat}$ the average log-price
+difference associated to the categorical variables and $\beta_{carat}$ the slope,
+while $sigma$ is the standard deviation of our model.</p>
+
+<p>As explained by Gelman, it is often suitable to replace a continuous regressor
+$X$ with its standardized  version, as we did in our model,
+in order to simplify the comparison between the corresponding
+variable and the ones associated to discrete variables.
+We divided by two standard deviations so that a difference between $-\sigma$
+and $\sigma$ is not mapped into a $\Delta X = 1\,.$</p>
+
+<p>By using the standardized  regressor, we also have two more advantages.
+The first one is that the parameter $\alpha$ is now associated with an observable quantity,
+namely the value of the log price when the carat number is equal to the average
+carat number, and we don’t need to relate it to the extrapolated log price
+when the carat number is 0.
+The second advantage is that it is now easier to guess a prior for $\beta_{carat}\,,$
+while it might not be so easy to do the same for the un-standardized regressor.</p>
+
+<p>We can now fit our model</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">idata</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'alpha'</span><span class="p">,</span> <span class="s">'beta'</span><span class="p">,</span> <span class="s">'sigma'</span><span class="p">],</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s">'like'</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/multilinear/trace_model.webp" alt="" /></p>
+
+<p>The traces look fine, let us now take a look at the posterior predictive</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">idata</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">))</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/multilinear/ppc_model.webp" alt="" /></p>
+
+<p>It doesn’t look like our model is appropriate to describe the data:
+the log-price is overestimated close to the tails, while it is underestimated
+close to the center of the distribution.</p>
+
+<p>If we look again at the carat vs log-price scatterplot,
+it looks like close to 0 the behavior is not polynomial, and this
+suggests us that we should use, as independent variable,
+a function of $x$ which is not analytic in 0.
+The two most common choices are the logarithm and the square root.
+We will follow the linked article and use the square root.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">model_s</span><span class="p">:</span>
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">model_s</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">X_cat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Data</span><span class="p">(</span><span class="s">'X_cat'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="n">df_cat</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_idx'</span><span class="p">,</span> <span class="s">'feature'</span><span class="p">])</span>
+    <span class="n">X_carat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Data</span><span class="p">(</span><span class="s">'X_carat'</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'carat'</span><span class="p">])</span><span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'carat'</span><span class="p">])))</span><span class="o">/</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'carat'</span><span class="p">]))),</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_idx'</span><span class="p">])</span>
+    <span class="n">beta_cat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta_cat'</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'feature'</span><span class="p">],</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">beta_carat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta_carat'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beta_cat</span><span class="p">,</span> <span class="n">X_cat</span><span class="p">.</span><span class="n">T</span><span class="p">)</span> <span class="o">+</span> <span class="n">beta_carat</span><span class="o">*</span><span class="n">X_carat</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">yobs</span><span class="p">)</span>
+    <span class="n">idata_s</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_s</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'alpha'</span><span class="p">,</span> <span class="s">'beta'</span><span class="p">,</span> <span class="s">'sigma'</span><span class="p">],</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s">'like'</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/multilinear/trace_model_s.webp" alt="" /></p>
+
+<p>Also in this case the trace looks fine. Let us now look at the posterior predictive
+distribution</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_s</span><span class="p">:</span>
+    <span class="n">idata_s</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata_s</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">))</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">idata_s</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/multilinear/ppc_model_s.webp" alt="" /></p>
+
+<p>It looks like the result slightly improved.
+Let us try and compare the two models.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">pm</span><span class="p">.</span><span class="n">compute_log_likelihood</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model_s</span><span class="p">:</span>
+    <span class="n">pm</span><span class="p">.</span><span class="n">compute_log_likelihood</span><span class="p">(</span><span class="n">idata_s</span><span class="p">)</span>
+
+<span class="n">df_comp</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="n">compare</span><span class="p">({</span><span class="s">'linear'</span><span class="p">:</span> <span class="n">idata</span><span class="p">,</span> <span class="s">'square root'</span><span class="p">:</span> <span class="n">idata_s</span><span class="p">})</span>
+
+<span class="n">df_comp</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">rank</th>
+      <th style="text-align: right">elpd_loo</th>
+      <th style="text-align: right">p_loo</th>
+      <th style="text-align: right">elpd_diff</th>
+      <th style="text-align: right">weight</th>
+      <th style="text-align: right">se</th>
+      <th style="text-align: right">dse</th>
+      <th style="text-align: left">warning</th>
+      <th style="text-align: left">scale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">square root</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">363.968</td>
+      <td style="text-align: right">13.2115</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">9.61651</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: left">False</td>
+      <td style="text-align: left">log</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">linear</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">164.762</td>
+      <td style="text-align: right">13.7875</td>
+      <td style="text-align: right">199.206</td>
+      <td style="text-align: right">6.12772e-10</td>
+      <td style="text-align: right">9.96487</td>
+      <td style="text-align: right">8.65212</td>
+      <td style="text-align: left">False</td>
+      <td style="text-align: left">log</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_compare</span><span class="p">(</span><span class="n">df_comp</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/multilinear/compare_1.webp" alt="" /></p>
+
+<p>There are no warnings, we can therefore consider the estimate
+as reliable, and there is no doubt that the latter model greatly improved the result.</p>
+
+<p>Let us also take a look at the LOO-PIT</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">15</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_loo_pit</span><span class="p">(</span><span class="n">idata_s</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'y'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_loo_pit</span><span class="p">(</span><span class="n">idata_s</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'y'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">ecdf</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/multilinear/loo_pit_s.webp" alt="" /></p>
+
+<p>There is still margin for improvement, as it doesn’t really look like
+the LOO-PIT is compatible with the uniform distribution.
+We won’t however improve our model for now.</p>
+
+<p>Let us instead inspect the impact of the categorical variables on the log price</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">idata_s</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s">'beta_cat'</span><span class="p">,</span> <span class="n">filter_vars</span><span class="o">=</span><span class="s">'like'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">combined</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_yticklabels</span><span class="p">(</span><span class="n">df_cat</span><span class="p">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">':'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'grey'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/multilinear/forest_s.webp" alt="" /></p>
+
+<p>All the categorical variables has an important effect on the log price,
+as we expected.
+In this case, we already knew which variables to include in our model,
+in general it won’t be this case, as you might have more variables than needed.</p>
+
+<p>Gelman, in the textbook “Data Analysis Using Regression and Multilevel/Hierarchical Models”.
+suggests the following method to decide which variables are relevant:</p>
+
+<p>Keep all variables that you expect might be relevant in the outcome prediction.
+If you also have additional variables:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left">A parameter</th>
+      <th>has the expected sign</th>
+      <th>does not have the expected sign</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left"><strong>is not significant</strong></td>
+      <td>Keep it</td>
+      <td>Don’t keep it</td>
+    </tr>
+    <tr>
+      <td style="text-align: left"><strong>is significant</strong></td>
+      <td>Keep it</td>
+      <td>You should ask yourself why this is happening. Are you not considering a variable?</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Finally, if an independent variable has a large effect, consider including an interaction
+term.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>The regression with multiple variables is a deep topic, and we barely introduced
+the main concepts and gave few hints on how to work with this kind of model.
+We did so by using a real-World dataset, and we also showed some of the issues one 
+might face when dealing with problematic datasets.</p>
+
+<h2 id="suggested-readings">Suggested readings</h2>
+<ul>
+  <li><cite>Gelman, A., Hill, J. (2007). Data Analysis Using Regression and Multilevel/Hierarchical Models. CUP.
+</cite></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">pytensor</span>
+</code></pre></div></div>
+
+<div class="code">
+Last updated: Wed Nov 20 2024
+<br />
+
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.7
+<br />
+IPython version      : 8.24.0
+<br />
+
+<br />
+xarray  : 2024.9.0
+<br />
+pytensor: 2.25.5
+<br />
+
+<br />
+matplotlib: 3.9.2
+<br />
+arviz     : 0.20.0
+<br />
+seaborn   : 0.13.2
+<br />
+pandas    : 2.2.3
+<br />
+pymc      : 5.17.0
+<br />
+numpy     : 1.26.4
+<br />
+
+<br />
+Watermark: 2.4.3
+<br />
+</div>
+
+  </div><a class="u-url" href="/statistics/multivariate_regression" hidden></a>
+
+  <br>
+  <div id='autograph'>
+          Stippe Oct 30, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+                  Opinions are mine, mistakes too, and if you find any feel free to report it via mail or via Twitter.
+                  <br>
+                  Most of the material in the statistics section is an adaptation to Python of some pre-existing model.
+                  <br>
+                  I have tried to provide the necessary credits, but if you think that a relevant contribution is missing, please let me know.
+                  <br>
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

@@ -28,9 +28,27 @@ can hardly be used, since the spatial channels are already encoding
 the geographical information.
 There are, however, cases where one simply cannot avoid using geographical maps.
 
+## Idealizing the Earth
+
+The Earth is an object with its own shape, but our aim is to map its
+surface onto a plane, and to do so we must start from a geometrical
+model of the Earth.
+The first thing we must do is to define what do we mean by Earth
+surface, and by this we mean the mean sea level.
+
+The simplest model is of course the perfect sphere, but this is often
+considered as a too simplistic model, since it does not take
+into account the Earth deformation due to its rotation around the pole axis.
+
+The model which is nowadays most common is the World Geodetic System 1984,
+also known as WGS84 or EPSG:4326, where the mean seal level is
+defined as an ellipsoid
+having a semi-major axis of 6378.137 kilometers
+and a semi-minor axis of approximately 6356.752 kilometers.
+
 ## Latitude and longitude
 Let us now recall how latitude and longitude,
-which are the most common coordinates on the spherical Earth, are defined.
+which are the most common coordinates on both the spherical and on the ellipsoidal Earth, are defined.
 This will be easier if we first define the **great circle**,
 which is any circle given by the intersection
 of the sphere (the Earth) with a plane going through the center of the sphere.
@@ -122,6 +140,9 @@ Here we show how equidistant parallels and meridians are mapped for the above pr
 
 ![](/docs/assets/images/geo/polar_planar_projections.webp)
 
+It is sometimes useful to use a secant plane rather than a tangent one, but here
+we only focus on tangent projections.
+
 Each projection has pros and cons, as usual.
 As an example, in the gnomonic projection, arcs of great circles are always
 mapped onto straight lines, making them convenient to trace routes. However,
@@ -134,7 +155,8 @@ On the other hand, the central cylindrical projection is well suited to show
 regions close to the equator, but the poles are mapped at the infinity.
 
 Finally, the stereographic projection is a **conformal** projection,
-and this means that angles are preserved in the mapping, and this makes them
+and this means that angles are locally preserved in the mapping, so
+shapes are preserved too. This makes them
 suitable to calculate angle differences.
 
 Conformal projections form a very important class of projections, and the stereographic
@@ -159,6 +181,23 @@ where one wants to compare quantities for different countries and relate
 these quantities to the extension of the country itself.
 Above, we show some example of equal-area projection, namely the **Lambert conical**,
 the **Equal Earth** and the **Hammer** projections.
+
+We finally mention the **equidistant** projections, which preserve
+some distance, usually distances from one point or along one axis.
+As an example, the **equirectangular** projection preserves the distances
+along meridians, while the **azimuthal equidistant projection** preserves
+distances from the central point.
+Another equidistant projection you might easily encounter is the
+**equidistant conic** projection, which both preserves distances along
+meridians and along the two standard parallels (in the figure 0 and -40 degrees).
+The equidistant projection having as standard parallel the equator
+is also known as **plate carrée**.
+
+
+![](/docs/assets/images/geo/south_pole_equidistant.webp)
+
+This class of projections can be useful when you need to precisely map
+distances, and are therefore often used when analyzing routes.
 
 ## Conclusions
 

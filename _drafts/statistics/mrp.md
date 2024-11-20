@@ -4,8 +4,8 @@ title: "MRP"
 categories: /statistics/
 subcategory: "Other random thoughts"
 tags: /mrp/
-date: "2024-09-08"
-section: 9
+date: "2024-10-13"
+section: 10
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "The one who guessed US election results"
 ---

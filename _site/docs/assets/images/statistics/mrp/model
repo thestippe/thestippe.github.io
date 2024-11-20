@@ -1,0 +1,71 @@
+digraph {
+	gamma_centro [label="gamma_centro
+~
+Normal" shape=ellipse]
+	alpha [label="alpha
+~
+Normal" shape=ellipse]
+	alpha_male_edu [label="alpha_male_edu
+~
+Normal" shape=ellipse]
+	beta_male [label="beta_male
+~
+Normal" shape=ellipse]
+	sigma_group [label="sigma_group
+~
+Exponential" shape=ellipse]
+	sigma_degree [label="sigma_degree
+~
+Exponential" shape=ellipse]
+	sigma_male_edu [label="sigma_male_edu
+~
+Exponential" shape=ellipse]
+	alpha_degree [label="alpha_degree
+~
+Normal" shape=ellipse]
+	gamma_mezzogiorno [label="gamma_mezzogiorno
+~
+Normal" shape=ellipse]
+	subgraph cluster5 {
+		beta_group_std [label="beta_group_std
+~
+Normal" shape=ellipse]
+		beta_male_edu_std [label="beta_male_edu_std
+~
+Normal" shape=ellipse]
+		beta_male_edu [label="beta_male_edu
+~
+Deterministic" shape=box]
+		beta_degree [label="beta_degree
+~
+Deterministic" shape=box]
+		beta_degree_std [label="beta_degree_std
+~
+Normal" shape=ellipse]
+		beta_group [label="beta_group
+~
+Deterministic" shape=box]
+		label=5 labeljust=r labelloc=b style=rounded
+	}
+	subgraph cluster754 {
+		y [label="y
+~
+Bernoulli" shape=ellipse style=filled]
+		label=754 labeljust=r labelloc=b style=rounded
+	}
+	sigma_group -> beta_group
+	beta_group_std -> beta_group
+	beta_degree_std -> beta_degree
+	alpha_degree -> beta_degree
+	sigma_degree -> beta_degree
+	sigma_male_edu -> beta_male_edu
+	alpha_male_edu -> beta_male_edu
+	beta_male_edu_std -> beta_male_edu
+	gamma_centro -> y
+	alpha -> y
+	beta_male -> y
+	gamma_mezzogiorno -> y
+	beta_male_edu -> y
+	beta_degree -> y
+	beta_group -> y
+}

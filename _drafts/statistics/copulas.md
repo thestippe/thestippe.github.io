@@ -4,10 +4,11 @@ title: "The copula model"
 categories: /statistics/
 subcategory: "Other random thoughts"
 tags: /mrp/
-date: "2024-09-23"
-section: 9
+date: "2024-10-20"
+section: 10
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Building more flexible multivariate distribution from simpler ones"
+published: false
 ---
 
 Copulas are a very popular family of distribution, especially in finance.
@@ -45,28 +46,34 @@ We can therefore split the construction of the joint probability
 into the marginal distributions and the copula.
 
 There are many possible choices for the copulas, and we will only discuss
-the Student-t copulas.
-Let us consider a multivariate standard Student-t distribution with $\nu$
-degrees of freedom and correlation matrix $\Sigma\,.$
+the normal copulas.
+Let us consider a multivariate standard normal distribution with correlation matrix $\Sigma\,.$
 The associated copula can be constructed as
 
 $$
-C^t_{\nu, \Sigma}(u_1,...u_n) = t_{\nu, \Sigma}(t^{-1}_{\nu}(u_1),...,t^{-1}_{\nu}(u_n))\,.
+C^n_{\Sigma}(u_1,...u_n) = \Phi_{\Sigma}(\Phi^{-1}(u_1),...,\Phi^{-1}(u_n))\,.
 $$
 
 Also drawing random numbers is immediate by using copulas.
-In order to sample from $C^t_{\nu, \Sigma}$ you can draw 
+In order to sample from $C^n_{\Sigma}$ you can draw 
 
 $$
-X=(X_1,...,X_n) \sim t_{\nu, \Sigma}
+X=(X_1,...,X_n) \sim \Phi_{\Sigma}
 $$
 
 and then return 
 
-$$U=(t^{-1}_\nu(Z_1),...,t^{-1}_\nu(Z_n)) \sim C^t_{\nu, \Sigma}\,.$$
+$$U=(\Phi^{-1}(Z_1),...,\Phi^{-1}(Z_n)) \sim C^n_{\Sigma}\,.$$
 
 We also have that
 
 $$(F_1(U_1),...,F_n(U_n)) \sim F\,,$$
 
 so we can also easily sample from $F\,.$
+
+I did the same by starting from the existing PyMC code by using the Student-t
+for the marginals, and you can find it at [this link](https://github.com/thestippe/thestippe.github.io/blob/main/scripts/copula.py).
+
+## Using the copulas
+
+Let us now try and

@@ -1,8 +1,8 @@
 ---
 layout: gis
-title: "GIS"
+title: "GIS and geostatistics"
 permalink: /gis
-description: "Dealing with GIS data"
+description: "Dealing with georeferenced data"
 ---
 
 
@@ -15,7 +15,7 @@ How to handle geographic data.
 is the discipline which handles geographic data.
 When I first approached this discipline, few years ago, I had to learn myself how
 to manipulate GIS data, and I couldn't find many resources to do this in Python.
-Since that time, I decide to dive in the topic, and here I will share some basic knowledge
+Since that time, I decided to dive in the topic, and here I will share some basic knowledge
 about it.
 
 <br>

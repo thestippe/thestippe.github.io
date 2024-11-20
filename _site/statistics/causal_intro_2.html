@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-W9G73E5P44"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-W9G73E5P44');
+</script>
+          <link rel="icon" 
+                type="image/png" 
+                href="/docs/assets/images/dp_icon.png">
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Causal inference and Bayesian networks | Data Perspectives</title>
+<meta name="generator" content="Jekyll v3.9.5" />
+<meta property="og:title" content="Causal inference and Bayesian networks" />
+<meta name="author" content="Data-perspectives" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When does association imply causation?" />
+<meta property="og:description" content="When does association imply causation?" />
+<link rel="canonical" href="http://localhost:4000/statistics/causal_intro_2" />
+<meta property="og:url" content="http://localhost:4000/statistics/causal_intro_2" />
+<meta property="og:site_name" content="Data Perspectives" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-06-10T00:00:00+00:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Causal inference and Bayesian networks" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Data-perspectives"},"dateModified":"2024-06-10T00:00:00+00:00","datePublished":"2024-06-10T00:00:00+00:00","description":"When does association imply causation?","headline":"Causal inference and Bayesian networks","mainEntityOfPage":{"@type":"WebPage","@id":"http://localhost:4000/statistics/causal_intro_2"},"url":"http://localhost:4000/statistics/causal_intro_2"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Data Perspectives" />
+
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      processEscapes: true
+    }
+  });
+</script>
+
+
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML">
+</script>
+<a rel="me" href="https://vis.social/@thestippe" style="display: none;">Mastodon</a>
+<link rel="manifest" href="manifest.json">
+</head>
+<body>
+
+        <div id='upperBar'><header class="site-header">
+
+        <div id='upperBarr'>
+        <script src="https://d3js.org/d3.v7.js"></script>
+                <div class="wrapper" style="display:flex;">
+
+                
+                
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                
+                  
+                    
+                    
+                    
+                    
+                    
+
+        <ul hidden='hidden' id="postList"><li>
+                        Poisson regression;/statistics/poisson_regression;1
+                </li><li>
+                        Logistic regression;/statistics/logistic_regression;2
+                </li><li>
+                        Robust linear regression;/statistics/robust_regression;3
+                </li><li>
+                        Multi-linear regression;/statistics/multivariate_regression;4
+                </li><li>
+                        Linear regression with binary input;/statistics/regression_binary_input;5
+                </li><li>
+                        Horseshoe priors;/statistics/horseshoe;6
+                </li><li>
+                        Introduction to the linear regression;/statistics/regression;7
+                </li><li>
+                        MRP;/statistics/mrp;8
+                </li><li>
+                        Model comparison, cont.;/statistics/model_averaging_cont;9
+                </li><li>
+                        Model comparison;/statistics/model_averaging;10
+                </li><li>
+                        Application of the Lotka-Volterra model;/statistics/lotka_volterra;11
+                </li><li>
+                        Differential equations;/statistics/ode;12
+                </li><li>
+                        Introduction to GIS;/gis/gis_intro;13
+                </li><li>
+                        Re-parametrizing your model;/statistics/reparametrization;14
+                </li><li>
+                        Predictive checks;/statistics/predictive_checks;15
+                </li><li>
+                        Trace inspection;/statistics/trace_inspection;16
+                </li><li>
+                        Introduction to the Bayesian workflow;/statistics/bayesian_workflow;17
+                </li><li>
+                        Mixture models;/statistics/mixture;18
+                </li><li>
+                        Multidimensional distributions;/statistics/categories;19
+                </li><li>
+                        Dirichlet Process Mixture Models;/statistics/dp;20
+                </li><li>
+                        The Gaussian model;/statistics/reals;21
+                </li><li>
+                        Bayesian Additive Regression Trees;/statistics/bart;22
+                </li><li>
+                        Bonus: counting animals in a park;/statistics/hypergeom;23
+                </li><li>
+                        Splines;/statistics/spline;24
+                </li><li>
+                        The Negative Binomial model;/statistics/negbin;25
+                </li><li>
+                        Gaussian processes regression;/statistics/gp_example;26
+                </li><li>
+                        Gaussian processes;/statistics/gp;27
+                </li><li>
+                        The Poisson model;/statistics/poisson;28
+                </li><li>
+                        Nonparametric models;/statistics/nonparametric_intro;29
+                </li><li>
+                        The Beta-Binomial model;/statistics/betabin;30
+                </li><li>
+                        Structural time series;/statistics/structural_time_series;31
+                </li><li>
+                        Time series;/statistics/time_series;32
+                </li><li>
+                        Some notation about probability;/statistics/probability_reminder;33
+                </li><li>
+                        Synthetic control;/statistics/synthetic_control;34
+                </li><li>
+                        How does MCMC works;/statistics/mcmc_intro;35
+                </li><li>
+                        Regression discontinuity design;/statistics/rdd;36
+                </li><li>
+                        Introduction to Bayesian inference;/statistics/bayes_intro;37
+                </li><li>
+                        An overview to statistics;/statistics/preface;38
+                </li><li>
+                        Difference in difference;/statistics/difference_in_differences;39
+                </li><li>
+                        Instrumental variable regression;/statistics/instrumental_variable;40
+                </li><li>
+                        Randomized controlled trials;/statistics/randomized;41
+                </li><li>
+                        Causal inference and Bayesian networks;/statistics/causal_intro_2;42
+                </li><li>
+                        Causal inference;/statistics/causal_intro;43
+                </li><li>
+                        Experiment analysis with many blocking variables;/statistics/experiment_design_cont;44
+                </li><li>
+                        Experiment analysis;/statistics/experiment_design;45
+                </li><li>
+                        Introduction to Extreme Values theory;/statistics/extreme_intro;46
+                </li><li>
+                        Application of survival analysis with discrete times;/statistics/survival_example_2;47
+                </li><li>
+                        Application of survival analysis 1;/statistics/survival_example;48
+                </li><li>
+                        Introduction to survival analysis;/statistics/survival_analysis;49
+                </li><li>
+                        Random models and mixed models;/statistics/random_models;50
+                </li><li>
+                        Hierarchical models and meta-analysis;/statistics/hierarchical_metaanalysis;51
+                </li><li>
+                        Hierarchical models;/statistics/hierarchical_models;52
+                </li><li>
+                        Drawing geographic maps;/dataviz/geography;53
+                </li><li>
+                        The Gestalt principles;/dataviz/gestalt;54
+                </li><li>
+                        Design tricks;/dataviz/design-introduction;55
+                </li><li>
+                        How to choose a color map;/dataviz/palettes-introduction;56
+                </li><li>
+                        Introduction to color perception;/dataviz/color-introduction;57
+                </li><li>
+                        Drawing is redrawing;/dataviz/gender-economist;58
+                </li><li>
+                        Visual queries;/dataviz/visual-queries;59
+                </li><li>
+                        Channel effectiveness;/dataviz/effectiveness;60
+                </li><li>
+                        Evolutions of the line chart;/dataviz/linechart-evolution;61
+                </li><li>
+                        Beyond the 1D scatterplot;/dataviz/scatterplot-evolution;62
+                </li><li>
+                        Perception;/dataviz/perception;63
+                </li><li>
+                        Fundamental charts;/dataviz/fundamental-charts;64
+                </li><li>
+                        Marks and channels;/dataviz/marks-channels;65
+                </li><li>
+                        Data abstraction;/dataviz/data-types;66
+                </li><li>
+                        Data visualization;/dataviz/dataviz;67
+                </li><li>
+                        Section introduction;/statistics/simple_models_intro;68
+                </li></ul>
+                        <div style="display:flex">
+                  <a href="/statistics/causal_intro" class="prev">&#8249;</a>
+                  
+                                <a href="/"><img class="site-masthead" src="/docs/assets/images/logo_dp.png" alt="Data Perspectives" id="logo" /></a><div id='searchNav' style="flex;">
+                                        <input type="search" id="search_0" class="searchBar" onkeydown="searchText()" placeholder="Search">
+                                </div>
+
+                                <div hidden='hidden' id="search_focus">0</div>
+
+
+
+                        </div><nav class="site-nav" style="display:flex;">
+                                <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+                                <label for="nav-trigger">
+                                        <span class="menu-icon">
+                                                <svg viewBox="0 0 18 15" width="18px" height="15px">
+                                                        <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+                                                </svg>
+                                        </span>
+                                </label>
+
+                                <div class="trigger"><a  class="page-link" href="/about">About me</a><a  class="page-link" href="/links">Resources</a>
+                                <a href="/statistics/" class="page-link">Up</a>
+                                
+                                </div>
+                        </nav>
+                  <a href="/statistics/randomized" class="next">&#8250;</a>
+                  
+        </div>
+
+
+        <script src="/docs/assets/javascript/search.js">
+        </script>
+                </div>
+
+</header>
+<div class="progress-container">
+    <div class="progress-bar" id="myBar"></div>
+    </div>
+        </div>
+
+
+    <main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+          <div id='topPage'></div>
+        <a href='/index'>
+<img src="/docs/assets/images/background_resized.webp" alt="backround" style="margin:auto;display:block;width:1200px">
+
+</a>
+    <h1 class="post-title p-name" itemprop="name headline">Causal inference and Bayesian networks</h1>
+    <p class="post-meta"><time class="dt-published" datetime="2024-06-10T00:00:00+00:00" itemprop="datePublished">
+        Jun 10, 2024
+      </time></p>
+    <p class="post-meta"> Reading time: <span class="reading-time" title="Estimated read time">
+  
+  9&prime;
+</span>
+</p>
+  </header>
+  <br>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <p>In the last section we discussed how to ensure, from a theoretical
+point of view, that association implies causation.
+We stress that we are talking about the theoretical point of view
+because, from a practical perspective, only domain knowledge
+can ensure us that theory matches with reality.</p>
+
+<p>In this post we will discuss a set of tools which might be helpful
+when discussing causal relations, namely Directed Acyclic Graphs or DAGs.
+In a DAG we draw, as nodes, all the quantities which might
+be relevant in the determination of our outcome, included the outcome
+itself, and we draw an arrow whenever one quantity might causally affect another
+quantity. Therefore, if we draw $A \rightarrow B\,,$
+we assume that a change in $A$ would imply a change in $B\,.$
+Of course, we always want to keep a probabilistic perspective,
+we can therefore make the above statement more precise and
+say that a change in $A$ would imply a change in the probability
+distribution of $B\,.$
+In the case of two events, we might have that the events are disconnected,
+so $A$ and $B$ are not causally connected, or $A$ causes $B$, or $B$ causes
+$A\,.$
+We assume that events are well located in time, therefore we cannot have
+cycles. In other words, if $A$ changes $B$ then $B$ cannot change $A\,,$
+since the arrow of time goes from $A$ to $B\,.$
+We might however have $A_t \rightarrow B_t \rightarrow A_{t+1}\dots\,,$
+but this case won’t be discussed here.</p>
+
+<p>A DAG is simply a visual representation of the structure
+of the joint probability distribution of the relevant quantities.</p>
+
+<p><img src="/docs/assets/images/statistics/causal_intro/disconnected.webp" alt="" /></p>
+
+<p>If we only have two disconnected quantities $X$ and $Y\,,$
+then</p>
+
+\[p(x, y) = p(x)p(y)\]
+
+<p><img src="/docs/assets/images/statistics/causal_intro/connected.webp" alt="" /></p>
+
+<p>On the other hand in a graph as the one above, we have</p>
+
+\[p(x, y) = p(x) p(y \vert x)\]
+
+<p>Let us now consider how might we connect a vertex $X$
+to two other vertices $Y$ and $Z$.</p>
+
+<p>If the $X$ has an incoming arrow and an outgoing one, it is called a <strong>chain</strong>.</p>
+
+<p><img src="/docs/assets/images/statistics/causal_intro/chain.webp" alt="" /></p>
+
+<p>For the chain, we have</p>
+
+\[p(x, y, z) = p(y) p(x \vert y) p(z \vert x)\]
+
+<p>If $X$ has two outgoing arrows, then it is called a <strong>fork</strong>.</p>
+
+<p><img src="/docs/assets/images/statistics/causal_intro/fork.webp" alt="" /></p>
+
+<p>In the case of the fork, the joint probability reads</p>
+
+\[p(x, y, z) = p(x) p(y \vert x) p(z \vert x)\]
+
+<p>Finally, if it has two incoming arrows, it is called a <strong>collider</strong>.</p>
+
+<p><img src="/docs/assets/images/statistics/causal_intro/collider.webp" alt="" /></p>
+
+<p>In this case</p>
+
+\[p(x, y, z) = p(y) p(z) p(x \vert y, z )\]
+
+<h2 id="when-does-association-imply-causation">When does association imply causation?</h2>
+
+<p>We can now look for a way to determine when association implies causation.</p>
+
+<p>Let us take a look to what happens when we condition on $x$
+in the case of the chain. By using Bayes rule</p>
+
+\[p(y, z \vert x) = \frac{p(x, y, z)}{p(x)} =
+\frac{p(y) p(x \vert y) p(z \vert x)}{p(x)}
+=p(y \vert x) p(z \vert x)\]
+
+<p>This proves that \(Y \perp\!\!\!\!\perp Z \vert X\,,\)
+and this implies that there is conditional ignorability
+between $Y$ and $Z$ given $X\,.$</p>
+
+<p>Analogously, for the fork, we have</p>
+
+\[p(y, z \vert x) =  \frac{p(x)  p(y \vert x) p(z \vert x)} {p(x)}= p(y \vert x) p(z \vert x)\]
+
+<p>and we again got \(Y \perp\!\!\!\!\perp Z \vert X\,.\)</p>
+
+<p>On the other hand, if we have a collider, and we want to ensure
+that ignorability holds between them, we must integrate
+out $X\,,$ since</p>
+
+\[p(y, z) = \int dx p(x, y, z) = \int dx p(y) p(z) p(x \vert y, z)
+=  p(y) p(z) \int dx p(x \vert y, z) = p(y) p(z)\,.\]
+
+<p>In other terms, if we condition on $X$ and we have a fork or a chain,
+an association flow implies a causal flow.
+In the case of colliders, on the other hand,
+we must not condition on $X\,,$ since doing so would introduce
+the so-called collider bias. For colliders, if we integrate out
+$X\,,$ an association between $Y$ and $Z$ implies causality.</p>
+
+<p>To be totally fair, we must say that, even if theoretically
+the collider bias might be an issue, up to there has never been
+any evidence<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup> in any study where this kind of bias have been a true issue,
+as this bias has always been negligible.
+However, there is no reason to introduce a possible source of error when
+this can be avoided, so one should always consider if the collider
+bias might be a risk.
+As an example, researchers are afraid about the effect of the collider
+bias in the risk assessments related to COVID-19,
+as reported in <a href="https://www.nature.com/articles/s41467-020-19478-2">this article</a>.</p>
+
+<p>The above discussion can be extended to an arbitrary DAG:
+in order to ensure that association implies causation,
+we must block all the unblocked (or open) paths, where a path is open if it contains
+chains or forks.
+On the other hand, a path is blocked by a collider, and we control for it
+(or for one of its descendants), we unblock it, and in this way we introduce a bias
+in our causal estimate.
+When blocking an open path, we only need to condition on one knot,
+since conditioning on it is sufficient to identify the flow
+passing through it.
+When dealing with a large number of potential causes, this can be a very useful
+tool to identify a set of minimal quantities we should condition on.</p>
+
+<h2 id="why-is-it-necessary-to-block">Why is it necessary to block?</h2>
+
+<p>Confounders are variables which might introduce a bias into
+our estimate, and are those we should control when we want to assess
+the presence of a causal relationship.
+Let us clarify why confounders might be an issue.</p>
+
+<p><img src="/docs/assets/images/statistics/causal_intro/confounding.webp" alt="" /></p>
+
+<p>In an observational study, there might be variables which affect the
+treatment and/or the outcome.
+If the variable only affects one of them, this is not an issue at all,
+since this cannot introduce any bias in the estimate.
+If however the variable both affects the treatment and the outcome,
+it means it is a fork, it might introduce a correlation between
+$T$ and $Y$ even if there is no causal relations between them.</p>
+
+<p>These variables are known as <strong>confounders</strong>, and they are the main issue
+in causal inference.
+As we have seen, we must control for them, but we might not be aware
+of the existence of such a variable, or we might not know
+its role in the DAG of the process we are considering.</p>
+
+<p>Therefore, we observational causal studies are always risky, and the presence
+of unknown confounders is a concrete risk in any observational study.
+On the other hand, as we have previously seen, in RCTs the treatment
+cannot depend on $X\,,$ since $T$ is a random variable.
+This is the main reason why, whenever possible, RCTs are considered the
+gold standard for study design of any scientific discipline.</p>
+
+<h2 id="a-practical-perspective">A practical perspective</h2>
+
+<p>We spent quite a lot of time talking about conditioning, but how can this
+be done in practical studies?
+We can condition in many ways:</p>
+<ul>
+  <li>for discrete (or discretized<sup id="fnref:2" role="doc-noteref"><a href="#fn:2" class="footnote" rel="footnote">2</a></sup>) variables, we can simply provide different results for different values of $X$</li>
+  <li>we can use $X$ as a regression variable in our models</li>
+  <li>for discrete (or discretized) variables, we can stratify our population on $X$</li>
+  <li>we can match on $X$, namely for every individual in the test sample, we look for one or more control individual with
+the same (or at least a close) value of $X$.
+Matching has important drawbacks too. In particular, once you match, you cannot unmatch.
+This means that you cannot think about the test and the control samples, but only about the test and control individuals, since the control individuals cannot be considered as randomly taken from any population.
+Moreover, if the dimensionality of $X$ grows, it might become difficult to find an appropriate control individual.</li>
+  <li>we can restrict our study to a particular value of $X\,.$</li>
+</ul>
+
+<h2 id="bradford-hill-criteria">Bradford-Hill criteria</h2>
+
+<p>In 1965 Austin Bradford-Hill, a statistician and epidemiologist
+who first established the causal relationship between smoke and cancer,
+formulated a list of criteria which are often helpful in assessing the presence
+of a causal relationship. As explained in <a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC8206235/">this article</a>, these are:</p>
+<ol>
+  <li><strong>Strength</strong>: usually strong correlations are less likely originated from chance or bias.</li>
+  <li><strong>Consistency</strong>: if the relationship appears in different experiments performed in different setup and with different methodologies, it is more likely that there is a causal relationship.</li>
+  <li><strong>Specificity</strong>: the causal relationship is more likely when both the population and the effect is well-defined.</li>
+  <li><strong>Temporality</strong>: obviously, the effect should always come after the cause.</li>
+  <li><strong>Dose-response gradient</strong>: if the effect increases when the exposure to the cause is increased, then a causal relationship is more likely. This is not always the case, as there might be some threshold effect.</li>
+  <li><strong>Plausibility</strong>: the relationship should be soundy. Of course, it might always be the case that the relationship cannot be explained within the current knowledge, but in most cases this is not true.</li>
+  <li><strong>Coherence</strong>: the causal interpretation should not seriously conflict with the known domain knowledge.</li>
+  <li><strong>Experiment</strong>: causal relationship coming from reliable experimental setup, preferably RCTs, are more likely to be true.</li>
+</ol>
+
+<h2 id="conclusions">Conclusions</h2>
+<p>Causal inference is a very hard topic, and before claiming a causal relationship one should be able to exclude any
+other interpretation for the observed correlation and systematically reproduce the effect.
+DAG formalism might be helpful in clarifying the possible relations within the relevant
+variables, but one should keep in mind that unknown confounders might be always present and relevant.</p>
+
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>There has never been as far as I know and up to the moment I am writing, of course. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+    <li id="fn:2" role="doc-endnote">
+      <p>Discretizing is never optimal, since you lose resolution in your variable, but as usual compromises are sometimes necessary. <a href="#fnref:2" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+  </div><a class="u-url" href="/statistics/causal_intro_2" hidden></a>
+
+  <br>
+  <div id='autograph'>
+          Stippe Jun 10, 2024
+
+  </div>
+
+</article>
+
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/"></data>
+
+
+  <div class="wrapper">
+          <div class='footer-text'>
+                  Opinions are mine, mistakes too, and if you find any feel free to report it via mail or via Twitter.
+                  <br>
+                  Most of the material in the statistics section is an adaptation to Python of some pre-existing model.
+                  <br>
+                  I have tried to provide the necessary credits, but if you think that a relevant contribution is missing, please let me know.
+                  <br>
+                  No AI were harmed in creating this blog.
+                  <br>
+                  This is a blog, not a bakery: there are no cookies here!
+                  <br>
+                  The top image has been generated with a modified version Dan Gries' code, available at <a href="http://rectangleworld.com/blog/archives/538">http://rectangleworld.com</a>.
+          </div>
+          <br>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="http://localhost:4000/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+        <ul class="contact-list">
+          <li class="p-name">Data-perspectives</li>
+          <li><a class="u-email" href="mailto:dataperspectivesblog@gmail.com">dataperspectivesblog@gmail.com</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <p></p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li>
+  <a rel="me" href="https://twitter.com/SteffPy" target="_blank" title="twitter">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#twitter"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://stackoverflow.com/users/11065831/stefano" target="_blank" title="stackoverflow">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#stackoverflow"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://github.com/thestippe/" target="_blank" title="github">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#github"></use>
+    </svg>
+  </a>
+</li>
+<li>
+  <a rel="me" href="https://vis.social/@thestippe" target="_blank" title="mastodon">
+    <svg class="svg-icon grey">
+      <use xlink:href="/assets/minima-social-icons.svg#mastodon"></use>
+    </svg>
+  </a>
+</li>
+</ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+  <script src="/docs/assets/javascript/scroll.js">
+  </script>
+
+</html>
+

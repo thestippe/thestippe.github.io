@@ -41,7 +41,7 @@ Here I will share some ideas about dataviz and data science.
 </div>
 <div class='homeCard' id='homeCardGIS'>
 <a href="/gis">
-<h2 class="homeText" id="homeTextGIS">GIS</h2>
+<h2 class="homeText" id="homeTextGIS">GIS and geostatistics</h2>
 <img src="/docs/assets/images/gis_new.webp" alt="GIS" class='homeImg'>
 </a>
 </div>

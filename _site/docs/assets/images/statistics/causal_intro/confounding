@@ -1,0 +1,8 @@
+digraph {
+	X [label=X]
+	T [label=T]
+	Y [label=Y]
+	T -> Y
+	X -> T
+	X -> Y
+}

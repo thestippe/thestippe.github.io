@@ -4,8 +4,8 @@ title: "Differential equations"
 categories: /statistics/
 subcategory: "Other random thoughts"
 tags: /mrp/
-date: "2024-09-15"
-section: 9
+date: "2024-10-06"
+section: 10
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "When your mathematical model cannot be explicitly solved"
 ---

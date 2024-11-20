@@ -2,40 +2,104 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+          <loc>https://http://localhost:4000/statistics/poisson_regression</loc>
+    <lastmod>2024-11-20T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/logistic_regression</loc>
+    <lastmod>2024-11-13T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/robust_regression</loc>
+    <lastmod>2024-11-06T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/multivariate_regression</loc>
+    <lastmod>2024-10-30T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/regression_binary_input</loc>
+    <lastmod>2024-10-23T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/horseshoe</loc>
+    <lastmod>2024-10-20T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/regression</loc>
+    <lastmod>2024-10-16T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/mrp</loc>
+    <lastmod>2024-10-13T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/model_averaging_cont</loc>
+    <lastmod>2024-10-10T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/model_averaging</loc>
+    <lastmod>2024-10-09T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/lotka_volterra</loc>
+    <lastmod>2024-10-07T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/ode</loc>
+    <lastmod>2024-10-06T00:00:00+00:00</lastmod>
+  </url>
+  <url>
           <loc>https://http://localhost:4000/gis/gis_intro</loc>
     <lastmod>2024-10-03T00:00:00+00:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/statistics/copulas</loc>
-    <lastmod>2024-09-23T00:00:00+00:00</lastmod>
+          <loc>https://http://localhost:4000/statistics/reparametrization</loc>
+    <lastmod>2024-10-02T00:00:00+00:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/statistics/lotka_volterra</loc>
-    <lastmod>2024-09-16T00:00:00+00:00</lastmod>
+          <loc>https://http://localhost:4000/statistics/predictive_checks</loc>
+    <lastmod>2024-09-25T00:00:00+00:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/statistics/ode</loc>
-    <lastmod>2024-09-15T00:00:00+00:00</lastmod>
+          <loc>https://http://localhost:4000/statistics/trace_inspection</loc>
+    <lastmod>2024-09-18T00:00:00+00:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/statistics/mrp</loc>
-    <lastmod>2024-09-08T00:00:00+00:00</lastmod>
+          <loc>https://http://localhost:4000/statistics/bayesian_workflow</loc>
+    <lastmod>2024-09-11T00:00:00+00:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/statistics/study_design</loc>
-    <lastmod>2024-09-01T00:00:00+00:00</lastmod>
+          <loc>https://http://localhost:4000/statistics/mixture</loc>
+    <lastmod>2024-09-04T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/categories</loc>
+    <lastmod>2024-08-28T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/dp</loc>
     <lastmod>2024-08-25T00:00:00+00:00</lastmod>
   </url>
   <url>
+          <loc>https://http://localhost:4000/statistics/reals</loc>
+    <lastmod>2024-08-21T00:00:00+00:00</lastmod>
+  </url>
+  <url>
           <loc>https://http://localhost:4000/statistics/bart</loc>
     <lastmod>2024-08-18T00:00:00+00:00</lastmod>
   </url>
   <url>
+          <loc>https://http://localhost:4000/statistics/hypergeom</loc>
+    <lastmod>2024-08-14T00:00:00+00:00</lastmod>
+  </url>
+  <url>
           <loc>https://http://localhost:4000/statistics/spline</loc>
     <lastmod>2024-08-11T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/negbin</loc>
+    <lastmod>2024-08-07T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/gp_example</loc>
@@ -46,8 +110,16 @@
     <lastmod>2024-08-04T00:00:00+00:00</lastmod>
   </url>
   <url>
+          <loc>https://http://localhost:4000/statistics/poisson</loc>
+    <lastmod>2024-07-31T00:00:00+00:00</lastmod>
+  </url>
+  <url>
           <loc>https://http://localhost:4000/statistics/nonparametric_intro</loc>
     <lastmod>2024-07-28T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/betabin</loc>
+    <lastmod>2024-07-25T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/structural_time_series</loc>
@@ -58,12 +130,28 @@
     <lastmod>2024-07-21T00:00:00+00:00</lastmod>
   </url>
   <url>
+          <loc>https://http://localhost:4000/statistics/probability_reminder</loc>
+    <lastmod>2024-07-17T00:00:00+00:00</lastmod>
+  </url>
+  <url>
           <loc>https://http://localhost:4000/statistics/synthetic_control</loc>
     <lastmod>2024-07-14T00:00:00+00:00</lastmod>
   </url>
   <url>
+          <loc>https://http://localhost:4000/statistics/mcmc_intro</loc>
+    <lastmod>2024-07-10T00:00:00+00:00</lastmod>
+  </url>
+  <url>
           <loc>https://http://localhost:4000/statistics/rdd</loc>
     <lastmod>2024-07-07T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/bayes_intro</loc>
+    <lastmod>2024-07-03T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/preface</loc>
+    <lastmod>2024-07-02T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/difference_in_differences</loc>
@@ -120,102 +208,6 @@
   <url>
           <loc>https://http://localhost:4000/statistics/hierarchical_models</loc>
     <lastmod>2024-04-14T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/poisson_regression</loc>
-    <lastmod>2024-04-07T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/logistic_regression</loc>
-    <lastmod>2024-03-31T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/robust_regression</loc>
-    <lastmod>2024-03-24T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/multivariate_regression</loc>
-    <lastmod>2024-03-17T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/regression_binary_input</loc>
-    <lastmod>2024-03-10T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/regression</loc>
-    <lastmod>2024-03-03T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/model_averaging_cont</loc>
-    <lastmod>2024-02-25T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/model_averaging</loc>
-    <lastmod>2024-02-18T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/reparametrization</loc>
-    <lastmod>2024-02-11T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/predictive_checks</loc>
-    <lastmod>2024-02-04T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/trace_inspection</loc>
-    <lastmod>2024-01-28T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/bayesian_workflow</loc>
-    <lastmod>2024-01-21T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/mixture</loc>
-    <lastmod>2024-01-14T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/categories</loc>
-    <lastmod>2024-01-07T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/reals</loc>
-    <lastmod>2023-12-31T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/hypergeom</loc>
-    <lastmod>2023-12-25T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/negbin</loc>
-    <lastmod>2023-12-24T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/poisson</loc>
-    <lastmod>2023-12-17T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/betabin</loc>
-    <lastmod>2023-12-10T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/simple_models_intro</loc>
-    <lastmod>2023-12-03T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/probability_reminder</loc>
-    <lastmod>2023-11-28T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/mcmc_intro</loc>
-    <lastmod>2023-11-21T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/bayes_intro</loc>
-    <lastmod>2023-11-07T00:00:00+00:00</lastmod>
-  </url>
-  <url>
-          <loc>https://http://localhost:4000/statistics/preface</loc>
-    <lastmod>2023-11-01T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/dataviz/geography</loc>
@@ -277,58 +269,62 @@
           <loc>https://http://localhost:4000/dataviz/dataviz</loc>
     <lastmod>2023-10-11T00:00:00+00:00</lastmod>
   </url>
+  <url>
+          <loc>https://http://localhost:4000/statistics/simple_models_intro</loc>
+    <lastmod>0204-07-24T00:00:00+00:00</lastmod>
+  </url>
   
   <url>
           <loc>https://http://localhost:4000/404</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/about</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/dataviz</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/gis</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/index</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/minima-social-icons.svg</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/links</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/sitemap.xml</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/css/style.css</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/main.css</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/feed.xml</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/robots.txt</loc>
-    <lastmod>2024-10-24T15:42:40+00:00</lastmod>
+    <lastmod>2024-11-20T17:51:26+00:00</lastmod>
   </url>
   
 </urlset>
