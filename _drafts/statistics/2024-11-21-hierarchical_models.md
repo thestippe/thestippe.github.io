@@ -7,7 +7,7 @@ tags: /hierarchical_models/
 section: 0
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to implement hierarchies"
-date: "2024-04-14"
+date: "2024-11-21"
 ---
 
 There are many circumstances where your data are somehow connected,
@@ -74,7 +74,7 @@ df_spacex['mu'] = df_spacex['y']/df_spacex['N']
 
 rng = np.random.default_rng(42)
 
-coords = {'obs_id': df_spacex['N'].values}
+coords = {'obs_id': df_spacex['Index']}
 ```
 
 
@@ -142,7 +142,8 @@ iid, and we therefore have only one parameter for all the launch vehicle.
 
 ```python
 with spacex_model_full_pooling:
-  idata_spacex_full_pooling = pm.sample(5000, tune=5000, chains=4, random_seed=rng,
+  idata_spacex_full_pooling = pm.sample(5000, tune=5000, chains=4,
+                                        random_seed=rng, target_accept=0.95,
                                        nuts_sampler='numpyro')
 
 az.plot_trace(idata_spacex_full_pooling)
@@ -186,8 +187,9 @@ $\alpha$ and $\beta\,.$
 
 ```python
 with spacex_model_hierarchical:
-    idata_spacex_hierarchical = pm.sample(5000, tune=5000, chains=4, target_accept=0.98, random_seed=rng,
-                                         nuts_sampler='numpyro')
+    idata_spacex_hierarchical = pm.sample(5000, tune=5000, chains=4,
+                                        random_seed=rng, target_accept=0.95,
+                                       nuts_sampler='numpyro')
 ```
 
 ![The trace of the hierarchical model](/docs/assets/images/statistics/hierarchical/trace_hierarchical.webp)
@@ -261,43 +263,39 @@ of hierarchical models to meta-analysis.
 ```
 
 <div class="code">
-Last updated: Sat Jul 20 2024
+Last updated: Thu Nov 21 2024
 <br>
 
 <br>
 Python implementation: CPython
 <br>
-Python version       : 3.12.4
+Python version       : 3.12.7
 <br>
 IPython version      : 8.24.0
 <br>
 
 <br>
-xarray  : 2024.5.0
+xarray  : 2024.9.0
 <br>
-pytensor: 2.20.0
+pytensor: 2.25.5
 <br>
 numpyro : 0.15.0
 <br>
-jax     : 0.4.28
-<br>
-jaxlib  : 0.4.28
-<br>
 
 <br>
-scipy     : 1.13.1
+scipy     : 1.14.1
 <br>
-pandas    : 2.2.2
+matplotlib: 3.9.2
 <br>
-seaborn   : 0.13.2
+pandas    : 2.2.3
 <br>
-matplotlib: 3.9.0
+pymc      : 5.17.0
+<br>
+arviz     : 0.20.0
 <br>
 numpy     : 1.26.4
 <br>
-arviz     : 0.18.0
-<br>
-pymc      : 5.15.0
+seaborn   : 0.13.2
 <br>
 
 <br>

@@ -4,7 +4,7 @@ title: "Section introduction"
 categories: /statistics/
 tags: /beta_binomial/
 subcategory: "Simple models"
-date: "204-07-24"
+date: "2024-07-24"
 section: 1
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Understanding the building blocks"
