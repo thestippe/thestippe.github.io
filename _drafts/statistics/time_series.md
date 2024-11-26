@@ -4,7 +4,7 @@ title: "Time series"
 categories: /statistics/
 subcategory: "Time series"
 tags: /time_series/
-date: "2024-07-21"
+date: "2024-07-26"
 section: 6
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Taking into account time dependence"
@@ -177,7 +177,7 @@ with model_1:
 
 with model_1:
     mu_pred = pm.AR('mu_pred', rho=rho, tau=tau, ar_order=2,
-                    init_dist=pm.DiracDelta.dist(mu[...,-1:]), shape=len(df.iloc[n_fit-1:]))
+                    init_dist=pm.DiracDelta.dist(mu[...,-1]), shape=len(df.iloc[n_fit-1:]))
     y_pred = pm.Normal('y_pred', mu=mu_pred[1:], sigma=sigma)
 
 with model_1:

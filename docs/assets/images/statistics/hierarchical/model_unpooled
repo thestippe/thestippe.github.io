@@ -1,11 +1,11 @@
 digraph {
 	subgraph "clusterobs_id (4)" {
-		y [label="y
-~
-Binomial" shape=ellipse style=filled]
 		theta [label="theta
 ~
 Beta" shape=ellipse]
+		y [label="y
+~
+Binomial" shape=ellipse style=filled]
 		label="obs_id (4)" labeljust=r labelloc=b style=rounded
 	}
 	theta -> y

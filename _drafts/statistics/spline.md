@@ -216,6 +216,12 @@ fig.tight_layout()
 As we can see, our model both reproduces the linear growth and the saturation of the FEV
 which starts at about 15.
 
+As a general warning, you should always keep in mind that b-splines
+vanish outside from their basis domain, so if you use them to catch
+some relevant behavior which is needed to appropriately describe the
+desired behavior outside, you might have a bad surprise when you try and
+generalize.
+
 ## Conclusions
 
 We introduced the concept of spline, and we have seen how to implement B-splines

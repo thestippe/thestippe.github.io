@@ -7,7 +7,7 @@ tags: /hierarchical_models/
 section: 0
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to implement hierarchies"
-date: "2024-11-21"
+date: "2024-11-25"
 ---
 
 There are many circumstances where your data are somehow connected,
@@ -41,16 +41,58 @@ $$
 This kind of model strictly belongs to the Bayesian framework, as in the frequentist
 one the parameters $\theta_i$ are numbers, so you can either treat them
 as different (unpooled) or they are sampled from the same distribution (pooled).
+Hierarchical models are one of the major components of the modern statistics,
+so it is worthwhile spending some time to deeply understand this model family.
 
-Let us take a look at this kind of model with an example.
+## A little digression on pooling
+
+In statistics, pooling refers to the practice of grouping different
+observations assuming that they are identically distributed.
+In order to better explain this concept, let us assume that
+we have $N$ observations $y_1,y_2,\dots,y_N\,.$
+
+In the **unpooled** model you assume that each observation is associated
+to a probability distribution, and that every distribution is independent
+on the other distributions.
+Assuming an unpooled model means associating a different parameter
+to each observation.
+
+<p align="center">
+<img src="/docs/assets/images/statistics/hierarchical/unpooled.webp" 
+alt="The structure of the unpooled model" width="300"> 
+</p>
+
+In the **pooled** model, you assume that all the observations are associated
+to the same probability distribution.
+In this case, all the observations are related to the same parameter.
+
+<p align="center">
+<img src="/docs/assets/images/statistics/hierarchical/pooled.webp" 
+alt="The structure of the pooled model" width="300"> 
+</p>
+
+
+In the **hierarchical** model each observation has its own parameter,
+but the parameters are all sampled from the same distribution.
+
+
+<p align="center">
+<img src="/docs/assets/images/statistics/hierarchical/hierarchical.webp" 
+alt="The structure of the hierarchical model" width="300"> 
+</p>
+
+Let us take a look at these different kind of models with a
+simple example.
 
 ## SpaceX analysis
 
 In the following we will consider the launches from the four
-main launch vehicles: Falcon 1, Falcon 9, Falcon Heavy and Starship.
+main launch vehicles: Falcon 1, Falcon 9, Falcon Heavy and Starship [^1].
 For the sake of simplicity, we will treat as identical
 rockets of different variants within the same family.
 Below we provide the relevant statistics for the different launchers.
+
+[^1]: These data are a little bit outdated, but it's not relevant for our purposes.
 
 |    | Mission      |   Number |   successes |
 |---:|:-------------|----:|----:|
@@ -58,6 +100,7 @@ Below we provide the relevant statistics for the different launchers.
 |  1 | Falcon 9     | 304 | 301 |
 |  2 | Falcon Heavy |   9 |   9 |
 |  3 | Starship     |   9 |   5 |
+
 
 ```python
 import pandas as pd
@@ -79,6 +122,10 @@ coords = {'obs_id': df_spacex['Index']}
 
 
 ### No pooling
+
+Let us first consider the no pooling model, where we assume
+that the failure probability of each vehicle is independent
+on the other vehicles.
 
 ```python
 with pm.Model(coords=coords) as spacex_model_no_pooling:  
@@ -125,6 +172,9 @@ Let us now take a look at the pooled model.
 
 ### Full pooling
 
+On the other hand, in the full-pooling method we assume that
+the same probability describes all the vehicles.
+
 ```python
 with pm.Model(coords=coords) as spacex_model_full_pooling:  
   theta = pm.Beta('theta', alpha=1/2, beta=1/2)
@@ -166,6 +216,9 @@ but this is what you should do according to this model.
 
 ### Hierarchical model
 
+The hierarchical model has both the above models as
+special cases. 
+
 ```python
 with pm.Model(coords=coords) as spacex_model_hierarchical:
     alpha = pm.HalfNormal("alpha", sigma=10)
@@ -202,6 +255,20 @@ az.plot_forest(idata_spacex_hierarchical)
 
 These estimates are similar to the unpooled model, they are however
 closer one to the other ones.
+This can be easily seen by comparing the two forest plot
+
+```python
+fig = plt.figure()
+ax = fig.add_subplot(111)
+az.plot_forest([idata_spacex_no_pooling, idata_spacex_hierarchical], model_names=['no pooling', 'hierarchical'],
+               var_names=['theta'], ax=ax, combined=True)
+fig.tight_layout()
+```
+
+![The forest plot of the hierarchical model compared to the unpooled model](
+/docs/assets/images/statistics/hierarchical/forest_compare.webp)
+
+
 This happens because the hierarchical model allow us to share information
 across the variables.
 

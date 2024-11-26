@@ -1,20 +1,20 @@
 digraph {
-	mu [label="mu
-~
-Deterministic" shape=box]
 	alpha [label="alpha
 ~
 HalfNormal" shape=ellipse]
 	beta [label="beta
 ~
 HalfNormal" shape=ellipse]
-	subgraph "clusterobs_id (4)" {
-		y [label="y
+	mu [label="mu
 ~
-Binomial" shape=ellipse style=filled]
+Deterministic" shape=box]
+	subgraph "clusterobs_id (4)" {
 		theta [label="theta
 ~
 Beta" shape=ellipse]
+		y [label="y
+~
+Binomial" shape=ellipse style=filled]
 		label="obs_id (4)" labeljust=r labelloc=b style=rounded
 	}
 	alpha -> mu
