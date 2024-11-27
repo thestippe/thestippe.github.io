@@ -1,4 +1,743 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-11-26T16:45:58+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Hierarchical models</title><link href="http://localhost:4000/statistics/hierarchical_models" rel="alternate" type="text/html" title="Hierarchical models" /><published>2024-11-25T00:00:00+00:00</published><updated>2024-11-25T00:00:00+00:00</updated><id>http://localhost:4000/statistics/hierarchical_models</id><content type="html" xml:base="http://localhost:4000/statistics/hierarchical_models"><![CDATA[<p>There are many circumstances where your data are somehow connected,
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="3.9.5">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2024-11-27T17:26:40+00:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Data Perspectives</title><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><entry><title type="html">Random models and mixed models</title><link href="http://localhost:4000/statistics/random_models" rel="alternate" type="text/html" title="Random models and mixed models" /><published>2024-11-27T00:00:00+00:00</published><updated>2024-11-27T00:00:00+00:00</updated><id>http://localhost:4000/statistics/random_models</id><content type="html" xml:base="http://localhost:4000/statistics/random_models"><![CDATA[<p>There are many situations where you want to understand the relation between two
+variables at the subgroup level rather than at the level of the entire sample.
+Random effect models are linear models where each subgroup has its own
+slope and intercept, while in mixed effect models you either assign
+a slope to each subgroup and a unique intercept or vice-versa.</p>
+
+<p><img src="/docs/assets/images/statistics/random_models/models.webp" alt="" /></p>
+
+<p>Let us see what are the differences between a random effect model and a fixed
+effect model by looking at the data of <a href="https://www.key2stats.com/data-set/view/1040">this study</a>, where the authors restricted the number of hours of
+a set of participants for ten days and analyzed the reaction time of the participants
+to a test. The dataset only includes the set of participants who only slept
+for three hours per night.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">jax.numpy</span> <span class="k">as</span> <span class="n">jnp</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="nn">pymc.sampling_jax</span> <span class="k">as</span> <span class="n">pmj</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'data/Reaction.csv'</span><span class="p">)</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">Unnamed: 0</th>
+      <th style="text-align: right">X</th>
+      <th style="text-align: right">Reaction</th>
+      <th style="text-align: right">Days</th>
+      <th style="text-align: right">Subject</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">249.56</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">308</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">258.705</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">308</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">250.801</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">308</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">321.44</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">308</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">356.852</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">308</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Let us normalize the data before analyzing them,
+and let us assume</p>
+
+\[y_i = \alpha + \beta X_{i} + \varepsilon_i\]
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">[</span><span class="s">'y'</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Reaction'</span><span class="p">]</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span><span class="o">/</span><span class="n">df</span><span class="p">[</span><span class="s">'Reaction'</span><span class="p">].</span><span class="n">std</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'subj_id'</span><span class="p">]</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">].</span><span class="nb">map</span><span class="p">({</span><span class="n">elem</span><span class="p">:</span> <span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">())})</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'intercept'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">X_v</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s">'intercept'</span><span class="p">,</span><span class="s">'Days'</span><span class="p">]]</span>
+<span class="n">X_s</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'subj'</span><span class="p">:</span><span class="n">df</span><span class="p">[</span><span class="s">'subj_id'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">()})</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="p">{</span><span class="s">'cols'</span><span class="p">:</span> <span class="n">X_v</span><span class="p">.</span><span class="n">columns</span><span class="p">,</span> <span class="s">'obs_id'</span><span class="p">:</span> <span class="n">X_v</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="s">'subj_id'</span><span class="p">:</span> <span class="n">X_s</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="s">'subj_col'</span><span class="p">:</span> <span class="n">X_s</span><span class="p">.</span><span class="n">columns</span><span class="p">}</span>
+
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model_fixed</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">500</span><span class="p">)</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">],</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'y'</span><span class="p">])</span>
+
+<span class="k">with</span> <span class="n">model_fixed</span><span class="p">:</span>
+    <span class="n">idata_fixed</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_fixed</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/random_models/trace_fixed.webp" alt="" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">yfit</span> <span class="o">=</span> <span class="n">jnp</span><span class="p">.</span><span class="n">outer</span><span class="p">(</span><span class="n">idata_fixed</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'alpha'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">jnp</span><span class="p">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">().</span><span class="n">values</span><span class="p">)))</span><span class="o">+</span><span class="n">jnp</span><span class="p">.</span><span class="n">outer</span><span class="p">(</span>
+    <span class="n">idata_fixed</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'beta'</span><span class="p">].</span><span class="n">values</span><span class="p">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span> <span class="n">jnp</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">().</span><span class="n">values</span><span class="p">)))</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">().</span><span class="n">values</span><span class="p">,</span> <span class="n">jnp</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">yfit</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span><span class="n">jnp</span><span class="p">.</span><span class="n">quantile</span><span class="p">(</span><span class="n">yfit</span><span class="p">,</span> <span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+               <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">().</span><span class="n">values</span><span class="p">,</span> <span class="n">jnp</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yfit</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s">'Days'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'y'</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s">'Subject'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">get_legend</span><span class="p">().</span><span class="n">remove</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/random_models/ppc_fixed.webp" alt="" /></p>
+
+<p>The estimated trend agrees with the observed one, but our model
+fails to reproduce the observed variability despite the large prior variance.
+Let us now compare the previous model with a random effect model.
+In this model we will assume that each individual has his/her own intercept,
+which represents the response without sleeping restrictions, as well as 
+his/her own slope, which represents the average change in performance
+after one day of sleep restrictions.
+We will fully leverage bayesian statistics, and assume that the parameters
+have a common prior. Another possible choice would have been to assume that
+each of them had a separate prior, but in this way we can share information across the individuals. We will also assume that the slope and the intercept
+are correlated.</p>
+
+\[\begin{align}
+y_i &amp;= \alpha_{[j]i} + \beta_{[j]i} X_{i} + \varepsilon_i
+\\
+\varepsilon_i &amp; \sim \mathcal{N}(0, \sigma)
+\\
+\begin{pmatrix}
+\alpha_{[j]i} \\
+\beta_{[j]i}
+\end{pmatrix}
+&amp; \sim \mathcal{N}(\mu, \Sigma)
+\\
+\mu_i &amp; \sim \mathcal{N}(0, 10)
+\\
+\Sigma &amp; \sim \mathcal{LKJ}(1)
+\end{align}\]
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'cols'</span><span class="p">])</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Data</span><span class="p">(</span><span class="s">'X'</span><span class="p">,</span> <span class="n">X_v</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_id'</span><span class="p">,</span> <span class="s">'cols'</span><span class="p">])</span>
+    <span class="n">sd_dist</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">.</span><span class="n">dist</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="n">X_v</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">chol</span><span class="p">,</span> <span class="n">corr</span><span class="p">,</span> <span class="n">sig</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">LKJCholeskyCov</span><span class="p">(</span><span class="s">'sig'</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">X_v</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">eta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">sd_dist</span><span class="o">=</span><span class="n">sd_dist</span><span class="p">)</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+    <span class="c1"># sig = pm.HalfNormal('sig', 5, dims=['cols'])
+</span>    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="sa">f</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">chol</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'subj_id'</span><span class="p">,</span> <span class="s">'cols'</span><span class="p">],</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">()),</span> <span class="n">X_v</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">tau</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'tau'</span><span class="p">,</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="nb">sum</span><span class="p">([</span><span class="n">alpha</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s">'subj_id'</span><span class="p">],</span> <span class="n">k</span><span class="p">]</span><span class="o">*</span><span class="n">X</span><span class="p">.</span><span class="n">T</span><span class="p">[</span><span class="n">k</span><span class="p">,:]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">X_v</span><span class="p">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">),</span>
+                          <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_id'</span><span class="p">])</span>
+    <span class="n">yhat</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="sa">f</span><span class="s">'yhat'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">tau</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'y'</span><span class="p">],</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'obs_id'</span><span class="p">])</span>
+
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">idata</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span>
+                     <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> 
+              <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s">"sig_corr_dim_0"</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s">"sig_corr_dim_1"</span><span class="p">:</span> <span class="mi">1</span><span class="p">})</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/random_models/trace.webp" alt="" /></p>
+
+<p>The trace looks fine, let us now look at the posterior predictive.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+    
+<span class="n">sub_dict_inv</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">elem</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">())}</span>
+
+<span class="n">x_pl</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>
+<span class="n">df_subs</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">'Subject'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">],</span> 
+                        <span class="s">'Days'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">],</span>
+                        <span class="s">'y'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s">'y'</span><span class="p">],</span>
+                        <span class="s">'mean'</span><span class="p">:</span> <span class="n">ppc</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'yhat'</span><span class="p">].</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">]),</span>
+                       <span class="s">'low'</span><span class="p">:</span> <span class="n">ppc</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'yhat'</span><span class="p">].</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">]),</span>
+                       <span class="s">'high'</span><span class="p">:</span> <span class="n">ppc</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'yhat'</span><span class="p">].</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">]),</span>
+<span class="p">})</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">6</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+        <span class="n">k</span> <span class="o">=</span><span class="mi">3</span><span class="o">*</span><span class="n">i</span> <span class="o">+</span> <span class="n">j</span>
+        <span class="n">df_red</span> <span class="o">=</span> <span class="n">df_subs</span><span class="p">[</span><span class="n">df_subs</span><span class="p">[</span><span class="s">'Subject'</span><span class="p">]</span><span class="o">==</span><span class="n">sub_dict_inv</span><span class="p">[</span><span class="n">k</span><span class="p">]]</span>
+        <span class="n">y_pl</span> <span class="o">=</span> <span class="n">df_red</span><span class="p">[</span><span class="s">'mean'</span><span class="p">]</span>
+        <span class="n">y_m</span> <span class="o">=</span> <span class="n">df_red</span><span class="p">[</span><span class="s">'low'</span><span class="p">]</span>
+        <span class="n">y_M</span> <span class="o">=</span> <span class="n">df_red</span><span class="p">[</span><span class="s">'high'</span><span class="p">]</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">fill_between</span><span class="p">(</span><span class="n">x_pl</span><span class="p">,</span> <span class="n">y_m</span><span class="p">,</span> <span class="n">y_M</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="n">x_pl</span><span class="p">,</span> <span class="n">y_pl</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_red</span><span class="p">[</span><span class="s">'Days'</span><span class="p">],</span> <span class="n">df_red</span><span class="p">[</span><span class="s">'y'</span><span class="p">])</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s">"i=</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="n">j</span><span class="p">].</span><span class="n">set_yticks</span><span class="p">([</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/random_models/ppc_mixed.webp" alt="" /></p>
+
+<p>The performances of the new model are way better than the previous one,
+and this is not surprising since we have many more parameters.</p>
+
+<p>We can now verify how much does the average performance degradation changes
+with the participant.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s">"alpha"</span><span class="p">,</span>
+              <span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s">"cols"</span><span class="p">:</span> <span class="p">[</span><span class="s">"Days"</span><span class="p">]})</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/random_models/forest_pooled.webp" alt="" /></p>
+
+<p>We can also predict how will a new participant perform</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">alpha_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">MvNormal</span><span class="p">(</span><span class="s">'alpha_new'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">chol</span><span class="o">=</span><span class="n">chol</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'cols'</span><span class="p">])</span>
+    <span class="n">tau_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'tau_new'</span><span class="p">,</span> <span class="n">alpha_new</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">alpha_new</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">df</span><span class="p">[</span><span class="s">'Days'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">())</span>
+    <span class="n">y_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="sa">f</span><span class="s">'yhat_new'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">tau_new</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">ppc_new</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'yhat_new'</span><span class="p">,</span> <span class="s">'alpha_new'</span><span class="p">,</span> <span class="s">'tau_new'</span><span class="p">])</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+
+<span class="n">y_pl</span> <span class="o">=</span> <span class="n">ppc_new</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sa">f</span><span class="s">'yhat_new'</span><span class="p">].</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">])</span>
+<span class="n">y_m</span> <span class="o">=</span> <span class="n">ppc_new</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sa">f</span><span class="s">'yhat_new'</span><span class="p">].</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.025</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">])</span>
+<span class="n">y_M</span> <span class="o">=</span> <span class="n">ppc_new</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="sa">f</span><span class="s">'yhat_new'</span><span class="p">].</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.975</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">[</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">y_pl</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">fill_between</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">y_m</span><span class="p">,</span> <span class="n">y_M</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/random_models/pp_new.webp" alt="" /></p>
+
+<p>Another advantage of the hierarchical model is that we can estimate
+the distribution of the slope and intercept for a new participant</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">ppc_new</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="s">'posterior_predictive'</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'alpha_new'</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s">'kde'</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/random_models/alpha_new.webp" alt="" /></p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We discussed the main features of random models, and we discussed when 
+it may be appropriate to use them.
+We have also seen what are the advantages of implementing a hierarchical
+structure on random effect models.</p>
+
+<h2 id="suggested-readings">Suggested readings</h2>
+<ul>
+  <li><cite>Gelman, A., Hill, J. (2007). Data Analysis Using Regression and Multilevel/Hierarchical Models. CUP.
+</cite></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">pytensor</span><span class="p">,</span><span class="n">numpyro</span><span class="p">,</span><span class="n">jax</span><span class="p">,</span><span class="n">jaxlib</span>
+</code></pre></div></div>
+
+<div class="code">
+Last updated: Mon Jul 22 2024
+<br />
+
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.4
+<br />
+IPython version      : 8.24.0
+<br />
+
+<br />
+xarray  : 2024.5.0
+<br />
+pytensor: 2.20.0
+<br />
+numpyro : 0.15.0
+<br />
+jax     : 0.4.28
+<br />
+jaxlib  : 0.4.28
+<br />
+
+<br />
+pandas    : 2.2.2
+<br />
+arviz     : 0.18.0
+<br />
+jax       : 0.4.28
+<br />
+numpy     : 1.26.4
+<br />
+matplotlib: 3.9.0
+<br />
+seaborn   : 0.13.2
+<br />
+pymc      : 5.15.0
+<br />
+
+<br />
+Watermark: 2.4.3
+<br />
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/random_models_intro/" /><summary type="html"><![CDATA[Making inference on subgroups]]></summary></entry><entry><title type="html">Hierarchical models and meta-analysis</title><link href="http://localhost:4000/statistics/hierarchical_metaanalysis" rel="alternate" type="text/html" title="Hierarchical models and meta-analysis" /><published>2024-11-26T00:00:00+00:00</published><updated>2024-11-26T00:00:00+00:00</updated><id>http://localhost:4000/statistics/hierarchical_metaanalysis</id><content type="html" xml:base="http://localhost:4000/statistics/hierarchical_metaanalysis"><![CDATA[<p>In the last post we discussed how to build a hierarchical model.
+These models are often used in meta-analysis and reviews,
+<em>i.e.</em> in academic publications where the results of many studies are collected,
+criticized and combined.
+In this kind of study using a full pooling would not be appropriate,
+as each study is performed at its own conditions,
+so a hierarchical model is much more appropriate to combine the results together.
+This topic is extensively discussed in Gelman’s textbook,
+and we will limit ourselves to show an application of hierarchical model
+to the meta-analysis.</p>
+
+<p>We will use this method to re-analyze an old meta-analysis by Daryl Bem,
+a well known researcher who published the famous 
+<a href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4706048/">“Bem meta-analysis”</a>
+where he suggested that he found some evidence of precognition.
+This paper became very famous both because of the conclusions
+and because researchers failed to replicate its findings.</p>
+
+<p>By analyzing the methodological flaws used in that paper,
+other scientist started proposing many methods to improve
+the robustness of the research results.</p>
+
+<p>We won’t analyze that article, since it combined many kinds of experiments,
+and this makes the overall analysis more involved. We will instead use
+another paper by the same author which can be found
+on <a href="https://www.cia.gov/readingroom/docs/CIA-RDP96-00789R003200110001-4.pdf">this page of the CIA website</a> (yes, CIA has been really interested into paranormal
+activity).
+We choose this article as it simply involves a binomial likelihood.
+The article, in fact, summarizes the results of 11 experiments
+which has equi-probable binary outcome, so by random guessing one
+would expect, on average, a success percentage of the $50\%\,.$</p>
+
+<p>In the analysis we will use the <strong>Region Of Practical Equivalence</strong> (ROPE)
+to assess if the effect is practically equivalent with absent.
+We will conclude that there is no evidence of precognition if the
+$94\%$ Highest Density Region for the average success ratio
+is entirely included in the region $[0, 0.75]\,.$
+We will instead conclude that there is evidence of precognition
+if the $94\%$ HDI is entirely inside the $[0.75, 1]$ region.
+If the $94\%$ HDI crosses 0.75 we will conclude that the analysis is inconclusive.</p>
+
+<p>The limit 0.75 seems quite strong, but since a positive finding
+would contradict the current scientific knowledge, we require a strong evidence
+in order to get a positive result.
+Notice that the ROPE choice must be done <em>before</em> the dataset is seen,
+otherwise we could tune the choice on the data.</p>
+
+<p>As before, we will take</p>
+
+\[\begin{align}
+\alpha \sim &amp; \mathcal{HN}(10)
+\\
+\beta \sim &amp; \mathcal{HN}(10)
+\\
+\theta_i \sim &amp; \mathcal{Beta}(\alpha, \beta)
+\\
+y_i \sim &amp; \mathcal{Binom}(\theta_i, n_i)
+\end{align}\]
+
+<p>where $\mathcal{HN}(\sigma)$ denotes the Half Normal distribution.</p>
+
+<p>Our dataset will consist into the 4th and 5th columns of table 1, which we provide
+here</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right">n</th>
+      <th style="text-align: left">y</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">22</td>
+      <td style="text-align: left">8</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">9</td>
+      <td style="text-align: left">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">35</td>
+      <td style="text-align: left">10</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">50</td>
+      <td style="text-align: left">12</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">50</td>
+      <td style="text-align: left">18</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">50</td>
+      <td style="text-align: left">15</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">36</td>
+      <td style="text-align: left">12</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">20</td>
+      <td style="text-align: left">10</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">7</td>
+      <td style="text-align: left">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">50</td>
+      <td style="text-align: left">15</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">25</td>
+      <td style="text-align: left">16</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="nn">scipy.stats</span> <span class="k">as</span> <span class="n">st</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">rope_reg</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.75</span><span class="p">]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s">"n"</span><span class="p">:</span> <span class="p">[</span><span class="mi">22</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">35</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">36</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> 
+                   <span class="s">"y"</span><span class="p">:</span> <span class="p">[</span><span class="mi">8</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">]})</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">binom_meta</span><span class="p">:</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">"alpha"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">"beta"</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Beta</span><span class="p">(</span><span class="s">'theta'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">alpha</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="n">beta</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'n'</span><span class="p">].</span><span class="n">values</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'n'</span><span class="p">].</span><span class="n">values</span><span class="p">,</span>
+                  <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'y'</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">binom_meta</span><span class="p">:</span>
+    <span class="n">idata_meta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">chains</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span>
+                           <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_meta</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/hierarchical_meta/trace.webp" alt="The trace of the hierarchical model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">summary</span><span class="p">(</span><span class="n">idata_meta</span><span class="p">)</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">sd</th>
+      <th style="text-align: right">hdi_3%</th>
+      <th style="text-align: right">hdi_97%</th>
+      <th style="text-align: right">mcse_mean</th>
+      <th style="text-align: right">mcse_sd</th>
+      <th style="text-align: right">ess_bulk</th>
+      <th style="text-align: right">ess_tail</th>
+      <th style="text-align: right">r_hat</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">alpha</td>
+      <td style="text-align: right">8.234</td>
+      <td style="text-align: right">3.079</td>
+      <td style="text-align: right">2.857</td>
+      <td style="text-align: right">13.904</td>
+      <td style="text-align: right">0.03</td>
+      <td style="text-align: right">0.021</td>
+      <td style="text-align: right">9818</td>
+      <td style="text-align: right">11696</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">beta</td>
+      <td style="text-align: right">14.226</td>
+      <td style="text-align: right">5.351</td>
+      <td style="text-align: right">4.903</td>
+      <td style="text-align: right">24.217</td>
+      <td style="text-align: right">0.051</td>
+      <td style="text-align: right">0.036</td>
+      <td style="text-align: right">10128</td>
+      <td style="text-align: right">10807</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">theta[0]</td>
+      <td style="text-align: right">0.366</td>
+      <td style="text-align: right">0.074</td>
+      <td style="text-align: right">0.231</td>
+      <td style="text-align: right">0.507</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">23085</td>
+      <td style="text-align: right">15421</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">theta[1]</td>
+      <td style="text-align: right">0.357</td>
+      <td style="text-align: right">0.09</td>
+      <td style="text-align: right">0.191</td>
+      <td style="text-align: right">0.528</td>
+      <td style="text-align: right">0.001</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">22702</td>
+      <td style="text-align: right">13380</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">theta[2]</td>
+      <td style="text-align: right">0.316</td>
+      <td style="text-align: right">0.063</td>
+      <td style="text-align: right">0.196</td>
+      <td style="text-align: right">0.433</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">23299</td>
+      <td style="text-align: right">13816</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">theta[3]</td>
+      <td style="text-align: right">0.279</td>
+      <td style="text-align: right">0.054</td>
+      <td style="text-align: right">0.178</td>
+      <td style="text-align: right">0.381</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">23776</td>
+      <td style="text-align: right">14155</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">theta[4]</td>
+      <td style="text-align: right">0.362</td>
+      <td style="text-align: right">0.058</td>
+      <td style="text-align: right">0.255</td>
+      <td style="text-align: right">0.471</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">23117</td>
+      <td style="text-align: right">14252</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">theta[5]</td>
+      <td style="text-align: right">0.32</td>
+      <td style="text-align: right">0.056</td>
+      <td style="text-align: right">0.216</td>
+      <td style="text-align: right">0.427</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">24735</td>
+      <td style="text-align: right">14446</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">theta[6]</td>
+      <td style="text-align: right">0.346</td>
+      <td style="text-align: right">0.064</td>
+      <td style="text-align: right">0.226</td>
+      <td style="text-align: right">0.464</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">25809</td>
+      <td style="text-align: right">14362</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">theta[7]</td>
+      <td style="text-align: right">0.431</td>
+      <td style="text-align: right">0.08</td>
+      <td style="text-align: right">0.284</td>
+      <td style="text-align: right">0.584</td>
+      <td style="text-align: right">0.001</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">22630</td>
+      <td style="text-align: right">14849</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">theta[8]</td>
+      <td style="text-align: right">0.384</td>
+      <td style="text-align: right">0.097</td>
+      <td style="text-align: right">0.202</td>
+      <td style="text-align: right">0.564</td>
+      <td style="text-align: right">0.001</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">24538</td>
+      <td style="text-align: right">13129</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">theta[9]</td>
+      <td style="text-align: right">0.32</td>
+      <td style="text-align: right">0.056</td>
+      <td style="text-align: right">0.218</td>
+      <td style="text-align: right">0.428</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">23604</td>
+      <td style="text-align: right">15030</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">theta[10]</td>
+      <td style="text-align: right">0.515</td>
+      <td style="text-align: right">0.081</td>
+      <td style="text-align: right">0.369</td>
+      <td style="text-align: right">0.67</td>
+      <td style="text-align: right">0.001</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">20264</td>
+      <td style="text-align: right">14867</td>
+      <td style="text-align: right">1</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>There is no evident issue in the sampling procedure.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">idata_meta</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'theta'</span><span class="p">],</span> <span class="n">rope</span><span class="o">=</span><span class="n">rope_reg</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/hierarchical_meta/forest.webp" alt="The forest plot of the hierarchical model" /></p>
+
+<p>None of the studies suggests that there is any evidence of precognition.
+We can also estimate the overall average as well as the effective sample
+size.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">binom_meta</span><span class="p">:</span>
+    <span class="n">logit_mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">"logit_mu"</span><span class="p">,</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">alpha</span><span class="o">/</span><span class="n">beta</span><span class="p">))</span>
+    <span class="n">log_neff</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">"log_neff"</span><span class="p">,</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">alpha</span><span class="o">+</span><span class="n">beta</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">binom_meta</span><span class="p">:</span>
+    <span class="n">ppc</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata_meta</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'logit_mu'</span><span class="p">,</span> <span class="s">'log_neff'</span><span class="p">])</span>
+    
+    
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">ppc</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">"logit_mu"</span><span class="p">,</span> <span class="s">"log_neff"</span><span class="p">],</span> <span class="n">kind</span><span class="o">=</span><span class="s">"kde"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">1.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/hierarchical_meta/kde.webp" alt="The kernel density estimate for mu and for the effective sample size of the hierarchical model" /></p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We applied the beta binomial hierarchical model to a meta-analysis on
+precognition. We also introduced the Region Of Practical Equivalence (ROPE).</p>
+
+<h2 id="suggested-readings">Suggested readings</h2>
+<ul>
+  <li><cite><a href="http://www.stat.columbia.edu/~gelman/book/BDA3.pdf">Gelman, A. (2014). Bayesian Data Analysis, Third Edition. Taylor &amp; Francis.</a></cite></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">pytensor</span><span class="p">,</span><span class="n">numpyro</span><span class="p">,</span><span class="n">jax</span><span class="p">,</span><span class="n">jaxlib</span>
+</code></pre></div></div>
+
+<div class="code">
+Last updated: Mon Jul 22 2024
+<br />
+
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.4
+<br />
+IPython version      : 8.24.0
+<br />
+
+<br />
+xarray  : 2024.5.0
+<br />
+pytensor: 2.20.0
+<br />
+numpyro : 0.15.0
+<br />
+jax     : 0.4.28
+<br />
+jaxlib  : 0.4.28
+<br />
+
+<br />
+numpy     : 1.26.4
+<br />
+arviz     : 0.18.0
+<br />
+matplotlib: 3.9.0
+<br />
+pandas    : 2.2.2
+<br />
+pymc      : 5.15.0
+<br />
+seaborn   : 0.13.2
+<br />
+scipy     : 1.13.1
+<br />
+
+<br />
+Watermark: 2.4.3
+<br />
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/hierarchical_metaanalysis/" /><summary type="html"><![CDATA[How hierarchical models can be used to analyze scientific literature]]></summary></entry><entry><title type="html">Hierarchical models</title><link href="http://localhost:4000/statistics/hierarchical_models" rel="alternate" type="text/html" title="Hierarchical models" /><published>2024-11-25T00:00:00+00:00</published><updated>2024-11-25T00:00:00+00:00</updated><id>http://localhost:4000/statistics/hierarchical_models</id><content type="html" xml:base="http://localhost:4000/statistics/hierarchical_models"><![CDATA[<p>There are many circumstances where your data are somehow connected,
 but cannot be treated as iid.
 As an example, when you compare clinical studies on the effectiveness
 of a medicine, data originated from
@@ -2108,7 +2847,482 @@ matplotlib: 3.9.2
 <br />
 Watermark: 2.4.3
 <br />
-</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/binary_linear_regression/" /><summary type="html"><![CDATA[Extending regression to discrete variables]]></summary></entry><entry><title type="html">Introduction to the linear regression</title><link href="http://localhost:4000/statistics/regression" rel="alternate" type="text/html" title="Introduction to the linear regression" /><published>2024-10-16T00:00:00+00:00</published><updated>2024-10-16T00:00:00+00:00</updated><id>http://localhost:4000/statistics/regression</id><content type="html" xml:base="http://localhost:4000/statistics/regression"><![CDATA[<p>So far we discussed how to model one variable. With this
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/binary_linear_regression/" /><summary type="html"><![CDATA[Extending regression to discrete variables]]></summary></entry><entry><title type="html">Horseshoe priors</title><link href="http://localhost:4000/statistics/horseshoe" rel="alternate" type="text/html" title="Horseshoe priors" /><published>2024-10-20T00:00:00+00:00</published><updated>2024-10-20T00:00:00+00:00</updated><id>http://localhost:4000/statistics/horseshoe</id><content type="html" xml:base="http://localhost:4000/statistics/horseshoe"><![CDATA[<p>When you perform multilinear regression with many independent variables,
+having highly correlated regressors might have the undesired drawback that 
+most of the associated parameters are barely different from zero.
+As an example, you might want to find an approximation for some quantity,
+and you want to include as fewer regressors as possible, maybe because
+measuring each of them requires effort.
+Alternatively, if your aim is to assess the impact of some regressor
+on your model, the instabilities originated by multi-collinearity
+might lead you to drawing wrong conclusions.</p>
+
+<p>In the frequentist framework, this issue is generally solved by adding
+regularizing priors, as in the case of LASSO regression.
+In the Bayesian one, the natural way to overcome this problem
+is by means of an appropriate choice of the priors for the regressors,
+and the Bayesian community proposed the family of <strong>sparsifying priors</strong>.
+Here we will only discuss the horseshoe prior, but many more have been
+proposed, and we will provide some link the topic.</p>
+
+<h2 id="the-body-fat-dataset">The Body Fat dataset</h2>
+<p>In this example, we will use the Body Fat dataset,
+which is discussed in <a href="https://stat-ata-asu.github.io/PredictiveModelBuilding/BFdata.html">this blog</a>.</p>
+
+<p>The body fat percentage is the mass of the fat of the body
+divided by the total mass. This quantity can be accurately estimated
+by using some dedicated instrument, which are however time-consuming
+and require some knowledge in order to be used.
+In order to have a less precise measurement, we can try and estimate
+it by relating it to some other quantity which is easier to perform,
+such as weight or length measurements.
+While it is reasonable to use the body weight, it is however less clear
+which length measurement we should use in order to find a good
+proxy for the desired quantity.
+We could use the total height, but we could also use many more
+length measurements, such as the neck circumference or the abdomen one.</p>
+
+<p>A starting point can be to use a multilinear regression in order to
+find out which quantity better predicts the body fat percentage.
+However, a more robust person will have large values for all
+of them, we can therefore expect that our dataset will show a quite
+strong multicollinearity.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">df_bf</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'http://jse.amstat.org/datasets/fat.dat.txt'</span><span class="p">,</span> <span class="n">header</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="sa">r</span><span class="s">"\s+"</span><span class="p">)</span>
+
+<span class="n">df_bf</span><span class="p">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s">"case"</span><span class="p">,</span> <span class="s">"brozek"</span><span class="p">,</span> <span class="s">"siri"</span><span class="p">,</span> 
+                                    <span class="s">"density"</span><span class="p">,</span> <span class="s">"age"</span><span class="p">,</span> 
+                                    <span class="s">"weight_lbs"</span><span class="p">,</span> 
+                                    <span class="s">"height_in"</span><span class="p">,</span> <span class="s">"bmi"</span><span class="p">,</span> 
+                                    <span class="s">"fat_free_weight"</span><span class="p">,</span> <span class="s">"neck_cm"</span><span class="p">,</span> 
+                                    <span class="s">"chest_cm"</span><span class="p">,</span> <span class="s">"abdomen_cm"</span><span class="p">,</span> 
+                                    <span class="s">"hip_cm"</span><span class="p">,</span> <span class="s">"thigh_cm"</span><span class="p">,</span> 
+                                    <span class="s">"knee_cm"</span><span class="p">,</span> <span class="s">"ankle_cm"</span><span class="p">,</span> 
+                                    <span class="s">"biceps_cm"</span><span class="p">,</span> <span class="s">"forearm_cm"</span><span class="p">,</span>
+                                    <span class="s">"wrist_cm"</span><span class="p">]</span>
+</code></pre></div></div>
+
+<p>There are at least two formulas to estimate the body fat percentage,
+and we will use the “Brozek” formula.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">case</th>
+      <th style="text-align: right">brozek</th>
+      <th style="text-align: right">siri</th>
+      <th style="text-align: right">density</th>
+      <th style="text-align: right">age</th>
+      <th style="text-align: right">weight_lbs</th>
+      <th style="text-align: right">height_in</th>
+      <th style="text-align: right">bmi</th>
+      <th style="text-align: right">fat_free_weight</th>
+      <th style="text-align: right">neck_cm</th>
+      <th style="text-align: right">chest_cm</th>
+      <th style="text-align: right">abdomen_cm</th>
+      <th style="text-align: right">hip_cm</th>
+      <th style="text-align: right">thigh_cm</th>
+      <th style="text-align: right">knee_cm</th>
+      <th style="text-align: right">ankle_cm</th>
+      <th style="text-align: right">biceps_cm</th>
+      <th style="text-align: right">forearm_cm</th>
+      <th style="text-align: right">wrist_cm</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">12.6</td>
+      <td style="text-align: right">12.3</td>
+      <td style="text-align: right">1.0708</td>
+      <td style="text-align: right">23</td>
+      <td style="text-align: right">154.25</td>
+      <td style="text-align: right">67.75</td>
+      <td style="text-align: right">23.7</td>
+      <td style="text-align: right">134.9</td>
+      <td style="text-align: right">36.2</td>
+      <td style="text-align: right">93.1</td>
+      <td style="text-align: right">85.2</td>
+      <td style="text-align: right">94.5</td>
+      <td style="text-align: right">59</td>
+      <td style="text-align: right">37.3</td>
+      <td style="text-align: right">21.9</td>
+      <td style="text-align: right">32</td>
+      <td style="text-align: right">27.4</td>
+      <td style="text-align: right">17.1</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">6.9</td>
+      <td style="text-align: right">6.1</td>
+      <td style="text-align: right">1.0853</td>
+      <td style="text-align: right">22</td>
+      <td style="text-align: right">173.25</td>
+      <td style="text-align: right">72.25</td>
+      <td style="text-align: right">23.4</td>
+      <td style="text-align: right">161.3</td>
+      <td style="text-align: right">38.5</td>
+      <td style="text-align: right">93.6</td>
+      <td style="text-align: right">83</td>
+      <td style="text-align: right">98.7</td>
+      <td style="text-align: right">58.7</td>
+      <td style="text-align: right">37.3</td>
+      <td style="text-align: right">23.4</td>
+      <td style="text-align: right">30.5</td>
+      <td style="text-align: right">28.9</td>
+      <td style="text-align: right">18.2</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">24.6</td>
+      <td style="text-align: right">25.3</td>
+      <td style="text-align: right">1.0414</td>
+      <td style="text-align: right">22</td>
+      <td style="text-align: right">154</td>
+      <td style="text-align: right">66.25</td>
+      <td style="text-align: right">24.7</td>
+      <td style="text-align: right">116</td>
+      <td style="text-align: right">34</td>
+      <td style="text-align: right">95.8</td>
+      <td style="text-align: right">87.9</td>
+      <td style="text-align: right">99.2</td>
+      <td style="text-align: right">59.6</td>
+      <td style="text-align: right">38.9</td>
+      <td style="text-align: right">24</td>
+      <td style="text-align: right">28.8</td>
+      <td style="text-align: right">25.2</td>
+      <td style="text-align: right">16.6</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">10.9</td>
+      <td style="text-align: right">10.4</td>
+      <td style="text-align: right">1.0751</td>
+      <td style="text-align: right">26</td>
+      <td style="text-align: right">184.75</td>
+      <td style="text-align: right">72.25</td>
+      <td style="text-align: right">24.9</td>
+      <td style="text-align: right">164.7</td>
+      <td style="text-align: right">37.4</td>
+      <td style="text-align: right">101.8</td>
+      <td style="text-align: right">86.4</td>
+      <td style="text-align: right">101.2</td>
+      <td style="text-align: right">60.1</td>
+      <td style="text-align: right">37.3</td>
+      <td style="text-align: right">22.8</td>
+      <td style="text-align: right">32.4</td>
+      <td style="text-align: right">29.4</td>
+      <td style="text-align: right">18.2</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">5</td>
+      <td style="text-align: right">27.8</td>
+      <td style="text-align: right">28.7</td>
+      <td style="text-align: right">1.034</td>
+      <td style="text-align: right">24</td>
+      <td style="text-align: right">184.25</td>
+      <td style="text-align: right">71.25</td>
+      <td style="text-align: right">25.6</td>
+      <td style="text-align: right">133.1</td>
+      <td style="text-align: right">34.4</td>
+      <td style="text-align: right">97.3</td>
+      <td style="text-align: right">100</td>
+      <td style="text-align: right">101.9</td>
+      <td style="text-align: right">63.2</td>
+      <td style="text-align: right">42.2</td>
+      <td style="text-align: right">24</td>
+      <td style="text-align: right">32.2</td>
+      <td style="text-align: right">27.7</td>
+      <td style="text-align: right">17.7</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We will use only a subset of variables as regressors,
+and in order to make evident the effect of the multicollinearity,
+we will only use the first 40 measurements.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">indx</span> <span class="o">=</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mi">12</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="mi">14</span><span class="p">,</span> <span class="mi">15</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">17</span><span class="p">,</span> <span class="mi">18</span><span class="p">]</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df_bf</span><span class="p">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">40</span><span class="p">]</span>
+
+<span class="n">yobs</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'brozek'</span><span class="p">]</span><span class="o">/</span><span class="mi">100</span>
+
+<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">.</span><span class="n">columns</span><span class="p">[</span><span class="n">indx</span><span class="p">]]</span>
+
+<span class="n">Xnorm</span> <span class="o">=</span> <span class="p">(</span><span class="n">X</span><span class="o">-</span><span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span><span class="o">/</span><span class="n">np</span><span class="p">.</span><span class="n">std</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">/</span><span class="mi">2</span>
+
+<span class="n">sns</span><span class="p">.</span><span class="n">pairplot</span><span class="p">(</span><span class="n">Xnorm</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/horseshoe/pairplot.webp" alt="The pairplot of the regressors" /></p>
+
+<p>As you can see by the above plot, the regressors dataset shows
+a pronounced multi-collinearity, since they are not
+pairwise-independent.
+In order to facilitate the comparison across coefficients, we will
+use the (Gelman’s version of the) standardized coefficients.
+Since the choice of a suitable scale for the prior is very important,
+we scaled the observation by a factor 100,
+and in this way the target variable ranges from 0 to 1.</p>
+
+<p>Let us first try and see what happens if we only include one variable
+into a linear regression model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">starting_models</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">X</span><span class="p">.</span><span class="n">columns</span><span class="p">)):</span>
+    <span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">mod</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">beta</span><span class="o">*</span><span class="n">Xnorm</span><span class="p">[</span><span class="n">X</span><span class="p">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">yobs</span><span class="p">)</span>
+        <span class="n">idata</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+        <span class="c1"># pm.compute_log_likelihood(idata)
+</span>        <span class="c1"># idata.extend(pm.sample_posterior_predictive(idata, random_seed=rng))
+</span>        <span class="n">starting_models</span><span class="p">.</span><span class="n">append</span><span class="p">([{</span><span class="s">'vars'</span><span class="p">:</span> <span class="p">[</span><span class="n">X</span><span class="p">.</span><span class="n">columns</span><span class="p">[</span><span class="n">i</span><span class="p">]],</span> <span class="s">'model'</span><span class="p">:</span> <span class="n">mod</span><span class="p">,</span> <span class="s">'idata'</span><span class="p">:</span> <span class="n">idata</span><span class="p">}])</span>
+
+<span class="n">traces</span> <span class="o">=</span> <span class="p">[</span><span class="n">model</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">'idata'</span><span class="p">]</span> <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">starting_models</span><span class="p">]</span>
+<span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">model</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s">'vars'</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">starting_models</span><span class="p">]</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="n">model_names</span><span class="o">=</span><span class="n">names</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'beta'</span><span class="p">],</span> <span class="n">combined</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">':'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/horseshoe/forest_single.webp" alt="The forest plot for
+the regression coefficients across the different models" /></p>
+
+<p>From the above credible intervals, we conclude that height_in, ankle_cm, forearm_cm
+are wrist_cm compatible with 0.
+Let us include all except these variables into a multilinear regression.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">indx_pos</span> <span class="o">=</span> <span class="p">[</span><span class="n">k</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">trace</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">traces</span><span class="p">)</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">az</span><span class="p">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'beta'</span><span class="p">])[</span><span class="s">'hdi_3%'</span><span class="p">]</span><span class="o">*</span><span class="n">az</span><span class="p">.</span><span class="n">summary</span><span class="p">(</span><span class="n">trace</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'beta'</span><span class="p">])[</span><span class="s">'hdi_97%'</span><span class="p">]).</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="n">Xtmp</span> <span class="o">=</span> <span class="n">Xnorm</span><span class="p">[[</span><span class="n">X</span><span class="p">.</span><span class="n">columns</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">indx_pos</span><span class="p">]]</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s">'cols'</span><span class="p">:</span> <span class="n">Xtmp</span><span class="p">.</span><span class="n">columns</span><span class="p">,</span> <span class="s">'idx'</span><span class="p">:</span> <span class="n">Xtmp</span><span class="p">.</span><span class="n">index</span><span class="p">})</span> <span class="k">as</span> <span class="n">model_2</span><span class="p">:</span>
+        <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'cols'</span><span class="p">])</span>
+        <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">Xtmp</span><span class="p">.</span><span class="n">T</span><span class="p">)</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">yobs</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model_2</span><span class="p">:</span>
+    <span class="n">idata_2</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_2</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/horseshoe/trace_2.webp" alt="" /></p>
+
+<p>We only have few non-zero regression coefficients:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">idata_2</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'beta'</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">combined</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">':'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/horseshoe/forest_2.webp" alt="" /></p>
+
+<p>Only two of them appear to be different from zero.
+This kind of iterative procedure to prune away the irrelevant variables
+is a possible way to proceed. At this point, we could only include 
+weight and abdomen, and maybe include one more regressor per time.
+This is however both time-consuming and questionable: one might
+ask why did you proceed in such an order, and whether using
+a different order might have changed the result.
+Let us as an example start by using all the variables.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s">'ind'</span><span class="p">:</span> <span class="n">X</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="s">'col'</span><span class="p">:</span> <span class="n">X</span><span class="p">.</span><span class="n">columns</span><span class="p">})</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'beta'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'col'</span><span class="p">])</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">Xnorm</span><span class="p">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">yobs</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">idata</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/horseshoe/trace_full.webp" alt="The trace of the full model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'beta'</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgrey'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">':'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/horseshoe/forest_full.webp" alt="" /></p>
+
+<p>As you can see, we would have a different result.</p>
+
+<p>As previously anticipated, there is an alternative way to proceed, and
+is by using an appropriate set of priors.
+A reasonable choice is given by</p>
+
+\[\begin{align}
+\beta_i \sim &amp; \mathcal{N}(0, \sigma \tau_i)\\
+\tau_i \sim &amp; \mathcal{HalfCauchy}(0, 1)\\
+\end{align}\]
+
+<p>The reason for this is quite simple: the half-Cauchy distribution
+has a large amount of mass close to zero, but it also has
+fat tails. In this way, the posterior is either shrunk to zero,
+or far away from zero, and intermediate results are somehow
+“discouraged” by the prior.</p>
+
+<p>How to properly choose $\sigma$ is not trivial, and a recommended choice
+is</p>
+
+\[\sigma \sim \mathcal{HalfCauchy}(0, a)\]
+
+<p>A large value of $a$ will not strongly affect the posterior,
+while a small value will shrink the posterior to 0.
+In our case, we choose $a=1\,,$ which is quite a large value
+if we compare it to the expected effect of the regression
+coefficients.
+We leave to the reader the sensitivity analysis of the inference
+depending on the choice of $a$.
+You should keep in mind that your conclusions might strongly depend
+on the choice of $a$, so in this case a proper sensitivity analysis
+is strongly recommended.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s">'ind'</span><span class="p">:</span> <span class="n">X</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="s">'col'</span><span class="p">:</span> <span class="n">X</span><span class="p">.</span><span class="n">columns</span><span class="p">})</span> <span class="k">as</span> <span class="n">model_hh</span><span class="p">:</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="n">sig_beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfCauchy</span><span class="p">(</span><span class="s">'sig_beta'</span><span class="p">,</span> <span class="n">beta</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'col'</span><span class="p">])</span>
+    <span class="n">sig</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfCauchy</span><span class="p">(</span><span class="s">'sig'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">mu_beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'mu_beta'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">beta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'beta'</span><span class="p">,</span> <span class="n">mu_beta</span><span class="o">+</span><span class="n">sigma</span><span class="o">*</span><span class="n">sig_beta</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'col'</span><span class="p">])</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">alpha</span> <span class="o">+</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">dot</span><span class="p">(</span><span class="n">beta</span><span class="p">,</span> <span class="n">Xnorm</span><span class="p">.</span><span class="n">T</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">yobs</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">[</span><span class="s">'ind'</span><span class="p">])</span>
+
+<span class="k">with</span> <span class="n">model_hh</span><span class="p">:</span>
+    <span class="n">idata_hh</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_hh</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/horseshoe/trace_hh.webp" alt="" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="c1"># az.plot_forest({'std': idata, 'hh': idata_hh}, var_names=['beta'], ax=ax, model_names=['std', 'hh'])
+</span><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">([</span><span class="n">idata</span><span class="p">,</span> <span class="n">idata_hh</span><span class="p">],</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'beta'</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">model_names</span><span class="o">=</span><span class="p">[</span><span class="s">'std'</span><span class="p">,</span> <span class="s">'hh'</span><span class="p">],</span> <span class="n">combined</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgrey'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">':'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>We can now compare the forest plot of the two models
+containing all the variables.</p>
+
+<p><img src="/docs/assets/images/statistics/horseshoe/forest_compare.webp" alt="" /></p>
+
+<p>The error bars of the horseshoe model are much smaller than the ones
+of the standard model, and the net result
+of using the horseshoe is that the posterior distribution
+of the regression coefficients are more sparse than
+the ones of the standard multilinear model.
+If you perform a sensitivity analysis, you should obtain
+the same results for quite a large range of choices for the
+scale parameter.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We have seen how an appropriate choice of the prior distribution
+allows us to enforce sparsity in the regression coefficients
+of a multilinear model.
+There are of course other possible approach to the problem,
+such as <a href="https://www.pymc.io/projects/examples/en/latest/case_studies/factor_analysis.html">factor analysis</a>
+or only adding one regressor per time,
+as we did in the beginning.
+However, according to my own view, an appropriate choice of
+the prior to enforce some
+desired condition is the best way to leverage
+the Bayesian workflow to
+tackle any issue, including multi-collinearity.</p>
+
+<h2 id="suggested-readings">Suggested readings</h2>
+
+<ul>
+  <li><cite>Piironen, J., &amp; Vehtari, A. (2017). Sparsity information and regularization in the horseshoe and other shrinkage priors. arXiv: Methodology.</cite></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">numpyro</span><span class="p">,</span><span class="n">jax</span><span class="p">,</span><span class="n">jaxlib</span>
+</code></pre></div></div>
+
+<div class="code">
+Last updated: Sun Nov 17 2024
+<br />
+
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.7
+<br />
+IPython version      : 8.24.0
+<br />
+
+<br />
+xarray : 2024.9.0
+<br />
+numpyro: 0.15.0
+<br />
+jax    : 0.4.28
+<br />
+jaxlib : 0.4.28
+<br />
+
+<br />
+arviz     : 0.20.0
+<br />
+numpy     : 1.26.4
+<br />
+matplotlib: 3.9.2
+<br />
+seaborn   : 0.13.2
+<br />
+pandas    : 2.2.3
+<br />
+pymc      : 5.17.0
+<br />
+
+<br />
+Watermark: 2.4.3
+<br />
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/horseshoe/" /><summary type="html"><![CDATA[Dealing with multi-collinearity]]></summary></entry><entry><title type="html">Introduction to the linear regression</title><link href="http://localhost:4000/statistics/regression" rel="alternate" type="text/html" title="Introduction to the linear regression" /><published>2024-10-16T00:00:00+00:00</published><updated>2024-10-16T00:00:00+00:00</updated><id>http://localhost:4000/statistics/regression</id><content type="html" xml:base="http://localhost:4000/statistics/regression"><![CDATA[<p>So far we discussed how to model one variable. With this
 post we will start a discussion on how to model the dependence of one
 variable on other variables, named <strong>covariates</strong>,  <strong>regressors</strong>,
 <strong>predictors</strong>
@@ -2414,776 +3628,4 @@ pandas    : 2.2.3
 <br />
 Watermark: 2.4.3
 <br />
-</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/linear_regression/" /><summary type="html"><![CDATA[Including dependence on external variables]]></summary></entry><entry><title type="html">Model comparison, cont.</title><link href="http://localhost:4000/statistics/model_averaging_cont" rel="alternate" type="text/html" title="Model comparison, cont." /><published>2024-10-10T00:00:00+00:00</published><updated>2024-10-10T00:00:00+00:00</updated><id>http://localhost:4000/statistics/model_averaging_cont</id><content type="html" xml:base="http://localhost:4000/statistics/model_averaging_cont"><![CDATA[<p>We previously discussed the Bayes Factors as a tool to choose between different models.
-This method has however many issues, and it is generally not recommended to use it.
-We will now discuss a very powerful method, namely the Leave One Out cross validation</p>
-
-<h2 id="leave-one-out-cross-validation">Leave One Out cross-validation</h2>
-<p>This method is generally preferred to the above one, as it has been pointed out
-that Bayes factors are appropriate only when one of the models is true,
-while in real world problems we don’t have any certainty about which is the model that
-generated the data, assuming that it makes sense to claim that it exists such a model.
-Moreover, the sampler used to compute the Bayes factor, namely Sequential Monte Carlo,
-is generally less stable than the standard one used by PyMC, which is the NUTS sampler.
-There are other, more philosophical reasons, pointed out by Gelman in <a href="https://statmodeling.stat.columbia.edu/2017/07/21/bayes-factor-term-came-references-generally-hate/">this post</a>,
-but for now we won’t dig into this kind of discussion.</p>
-
-<p>The LOO method is much more in the spirit of the Machine Learning, where
-one splits the sample into a training set and a test set.
-The train set is used to find the parameters, while the second one is
-used to assess the performances of the model for new data.
-This method, namely the <strong>cross validation</strong>, is by far the most
-reliable one, and we generally recommend to use it.</p>
-
-<p>LOO and cross validation adhere to the principles of scientific method,
-where we use the predictions of our models to compare and criticize them.</p>
-
-<p>It is however very common that the dataset is too small to allow
-a full cross-validation.
-The LOO cross validation is equivalent to the computation of</p>
-
-\[ELPD = \sum_i \log p(y_i \vert y_{-i})\]
-
-<p>where \(p(y_i\vert y_{-i})\) is the posterior predictive probability
-of the point \(y_i\) relative to the model fitted by removing \(y_i\,.\)</p>
-
-<p>We already anticipated this method in the post on the
-<a href="/statistics/negbin">negative binomial model</a>,
-but we will discuss it here more in depth.</p>
-
-<p>In this example, we are looking for the distribution of the log-return
-of an indian company.
-We will first try and use a normal distribution. We will then use a more general
-t-Student distribution to fit the data.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
-<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">beta</span>
-<span class="kn">import</span> <span class="nn">yfinance</span> <span class="k">as</span> <span class="n">yf</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
-
-<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-<span class="n">tk</span> <span class="o">=</span> <span class="n">yf</span><span class="p">.</span><span class="n">Ticker</span><span class="p">(</span><span class="s">"AJMERA.NS"</span><span class="p">)</span>
-
-<span class="n">data</span> <span class="o">=</span> <span class="n">tk</span><span class="p">.</span><span class="n">get_shares_full</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="s">"2023-01-01"</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s">"2024-07-01"</span><span class="p">)</span>
-
-<span class="n">logret</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">values</span><span class="p">))</span>
-
-<span class="n">sns</span><span class="p">.</span><span class="n">histplot</span><span class="p">(</span><span class="n">logret</span><span class="p">,</span> <span class="n">stat</span><span class="o">=</span><span class="s">'density'</span><span class="p">)</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/model_averaging_cont/logret.webp" alt="" /></p>
-
-<p>The distribution shows heavy tails, it is therefore quite clear that a normal distribution
-might not be appropriate.
-We will however start from the simplest model, and use it as a benchmark for a more involved model</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">norm</span><span class="p">:</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">yobs</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'yobs'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">logret</span><span class="p">)</span>
-
-<span class="k">with</span> <span class="n">norm</span><span class="p">:</span>
-    <span class="n">idata_norm</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-
-<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_norm</span><span class="p">)</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
-<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/model_averaging_cont/trace_norm.webp" alt="" /></p>
-
-<p>The trace doesn’t show any issue. Let us try with a Student-T distribution</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">t</span><span class="p">:</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mf">0.05</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-    <span class="n">nu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Gamma</span><span class="p">(</span><span class="s">'nu'</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
-    <span class="n">yobs</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">StudentT</span><span class="p">(</span><span class="s">'yobs'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">nu</span><span class="o">=</span><span class="n">nu</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">logret</span><span class="p">)</span>
-
-<span class="k">with</span> <span class="n">t</span><span class="p">:</span>
-    <span class="n">idata_t</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-
-<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_t</span><span class="p">)</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
-<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
-
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/model_averaging_cont/trace_t.webp" alt="" /></p>
-
-<p>Also in this case the trace doesn’t show any relevant issue.
-Let us now check if we are able to reproduce the observed data.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">norm</span><span class="p">:</span>
-    <span class="n">idata_norm</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata_norm</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">))</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">az</span><span class="p">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">idata_norm</span><span class="p">,</span> <span class="n">num_pp_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/statistics/model_averaging_cont/ppc_norm.webp" alt="" /></p>
-
-<p>Our model seems totally unable to fit the data due to the presence of heavy tails.
-Let us now verify if the second model does a better job.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">t</span><span class="p">:</span>
-    <span class="n">idata_t</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata_t</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">))</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">az</span><span class="p">.</span><span class="n">plot_ppc</span><span class="p">(</span><span class="n">idata_t</span><span class="p">,</span> <span class="n">num_pp_samples</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">mean</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="o">-</span><span class="mf">0.1</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/statistics/model_averaging_cont/ppc_t.webp" alt="" /></p>
-
-<p>As you can see, there is much more agreement with the data, so this model looks
-more appropriate.
-Let us now see if the LOO cross validation confirms our first impression.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">norm</span><span class="p">:</span>
-    <span class="n">pm</span><span class="p">.</span><span class="n">compute_log_likelihood</span><span class="p">(</span><span class="n">idata_norm</span><span class="p">)</span>
-
-<span class="k">with</span> <span class="n">t</span><span class="p">:</span>
-    <span class="n">pm</span><span class="p">.</span><span class="n">compute_log_likelihood</span><span class="p">(</span><span class="n">idata_t</span><span class="p">)</span>
-
-<span class="n">df_comp_loo</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="n">compare</span><span class="p">({</span><span class="s">"norm"</span><span class="p">:</span> <span class="n">idata_norm</span><span class="p">,</span> <span class="s">"t"</span><span class="p">:</span> <span class="n">idata_t</span><span class="p">})</span>
-
-<span class="n">az</span><span class="p">.</span><span class="n">plot_compare</span><span class="p">(</span><span class="n">df_comp_loo</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/statistics/model_averaging_cont/loo.webp" alt="" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_comp_loo</span>
-</code></pre></div></div>
-
-<table>
-  <thead>
-    <tr>
-      <th style="text-align: left"> </th>
-      <th style="text-align: right">rank</th>
-      <th style="text-align: right">elpd_loo</th>
-      <th style="text-align: right">p_loo</th>
-      <th style="text-align: right">elpd_diff</th>
-      <th style="text-align: right">weight</th>
-      <th style="text-align: right">se</th>
-      <th style="text-align: right">dse</th>
-      <th style="text-align: left">warning</th>
-      <th style="text-align: left">scale</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td style="text-align: left">t</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">929.203</td>
-      <td style="text-align: right">2.6402</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: right">0.870715</td>
-      <td style="text-align: right">30.6267</td>
-      <td style="text-align: right">0</td>
-      <td style="text-align: left">False</td>
-      <td style="text-align: left">log</td>
-    </tr>
-    <tr>
-      <td style="text-align: left">norm</td>
-      <td style="text-align: right">1</td>
-      <td style="text-align: right">740.195</td>
-      <td style="text-align: right">7.50734</td>
-      <td style="text-align: right">189.008</td>
-      <td style="text-align: right">0.129285</td>
-      <td style="text-align: right">30.2578</td>
-      <td style="text-align: right">25.8493</td>
-      <td style="text-align: left">False</td>
-      <td style="text-align: left">log</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>We can also use the LOO Probability Integral Transform (LOO-PIT).
-The main idea behind this method is that, if the $y_i$s are distributed
-according to $p(\tilde{y} \vert y_{-i}),$ then the LOO PIT</p>
-
-\[P(y_i \leq y^* \vert y_{-i}) = \int_{-\infty}^{y_i} d\tilde{y} p(\tilde{y} \vert y_{-i})\]
-
-<p>should be a uniform distribution.
-A very nice explanation of this method can be found in
-<a href="https://oriolabril.github.io/gsoc2019_blog/2019/07/31/loo-pit.html">this blog</a>.
-In the reference there are unfortunately some missing figure where one can
-clearly understand how does the LOO-PIT relates to the posterior predictive
-distribution.
-We therefore decided to make a similar plot</p>
-
-<p><img src="/docs/assets/images/statistics/model_averaging_cont/ecdf_comp.webp" alt="" /></p>
-
-<p>Le left column corresponds to the posterior predictive distribution, the central one to the LOO-PIT and the right one to the LOO-PIT ECDF.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_loo_pit</span><span class="p">(</span><span class="n">idata_norm</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">"yobs"</span><span class="p">,</span> <span class="n">ecdf</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/model_averaging_cont/loo_pit_norm.webp" alt="" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_loo_pit</span><span class="p">(</span><span class="n">idata_t</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">"yobs"</span><span class="p">,</span> <span class="n">ecdf</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/model_averaging_cont/loo_pit_t.webp" alt="" /></p>
-
-<p>It is clear that the normal model is over-dispersed with respect to the observed data,
-while the t-Student model gives a LOO-PIT which is compatible with the uniform distribution.</p>
-
-<p>Another related plot which may be useful is the difference between two models’ Expected Log Pointwise Density (ELPD),
-defined as</p>
-
-\[\int d\theta \log(p(y_i \vert \theta)) p(\theta \vert y) \approx \frac{1}{S} \sum_s \log(p(y_i \vert \theta^s))\]
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_elpd</span><span class="p">({</span><span class="s">'norm'</span><span class="p">:</span> <span class="n">idata_norm</span><span class="p">,</span> <span class="s">'t'</span><span class="p">:</span> <span class="n">idata_t</span><span class="p">})</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/model_averaging_cont/plot_elpd.webp" alt="" /></p>
-
-<p>Since there are many points below 0, we can see that we should favor the t-Student’s model.
-There are also few points far below 0, and the t model gives much better results for them.
-It is in fact likely that those points are far away from the mean value,
-where the normal distribution has very small probability density,
-while the t-Student model allows for heavier tails and therefore are more likely to be observed
-according to this model.</p>
-
-<p>Notice that Arviz plots the ELPD difference against the point index, it would
-be instead better to plot the ELPD difference against one model’s ELPD,
-since the ELPD difference only makes sense when compared to one model’s ELPD.
-We can however easily overcome this issue as follows</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">elpd_norm</span> <span class="o">=</span> <span class="n">idata_norm</span><span class="p">.</span><span class="n">log_likelihood</span><span class="p">[</span><span class="s">'yobs'</span><span class="p">].</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">))</span>
-<span class="n">elpd_t</span> <span class="o">=</span> <span class="n">idata_t</span><span class="p">.</span><span class="n">log_likelihood</span><span class="p">[</span><span class="s">'yobs'</span><span class="p">].</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">))</span>
-
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">elpd_t</span><span class="p">,</span> <span class="n">elpd_norm</span><span class="o">-</span><span class="n">elpd_t</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">14</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">'x'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">axhline</span><span class="p">(</span><span class="n">y</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">':'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s">'ELPD diff'</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s">'t ELPD'</span><span class="p">)</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
-<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/model_averaging_cont/plot_elpd_mine.webp" alt="" /></p>
-
-<p>This plot contains much more information with respect to the previous
-one, and it tells us that the Student model 
-does a better job in reproducing both the points
-with very close to the center (those with very high ELPD)
-and those far away to the center (those with very small ELPD),
-while the normal model only focuses on the intermediate points.</p>
-
-<p>The ELPD has an issue which is not present when using the LOO:
-we are using our data twice. For this reason, the LOO method
-is generally preferred over any method which relies on the simple
-log density of the posterior.</p>
-
-<h2 id="some-warning">Some warning</h2>
-
-<p>While the LOO method gives reasonable results when the number of variables
-is not too high, it is known that all the information criteria tend to overfit
-when the number of variables grows too much (see Gronau <em>et al.</em>).</p>
-
-<p>Moreover, you should always consider what you need to do with your model.
-If you simply need to get the best possible prediction out of your model,
-you should probably go for the most general model
-and integrate over all the uncertainties.</p>
-
-<p>You should also keep in mind that, if you have nested models, that is
-models where one model is a special case of the other, it is generally
-recommended by the Bayesian scientific community to stick to the more
-general one, regardless on what your metrics tell you,
-at least unless you have a reason to put some constraints to your model.</p>
-
-<p>An in-depth discussion about this topic can be found in <a href="https://www.youtube.com/watch?v=D0kVMie93Yk&amp;list=PLBqnAso5Dy7O0IVoVn2b-WtetXQk5CDk6&amp;index=18">Aki Vehtari’s course
-on YouTube</a>
-(lectures 9.1-9.3).</p>
-
-<h2 id="conclusions">Conclusions</h2>
-
-<p>We discussed how to use the Leave One Out method to compare two models
-and how should we read the most relevant plots related to this criterion.
-We also discussed some limitation of this model.</p>
-
-<h2 id="recommended-readings">Recommended readings</h2>
-
-<ul>
-  <li><cite> Gronau, Q.F., Wagenmakers, EJ. Limitations of Bayesian Leave-One-Out Cross-Validation for Model Selection. Comput Brain Behav 2, 1–11 (2019). https://doi.org/10.1007/s42113-018-0011-7</cite></li>
-  <li><cite> Vehtari A., Gelman A., Gabry J. Practical Bayesian model evaluation using leave-one-out cross-validation and WAIC. https://arxiv.org/abs/1507.04544v5</cite></li>
-  <li><cite> Navarro, D.J. Between the Devil and the Deep Blue Sea: Tensions Between Scientific Judgement and Statistical Model Selection. Comput Brain Behav 2, 28–34 (2019). https://doi.org/10.1007/s42113-018-0019-z </cite></li>
-</ul>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">pytensor</span><span class="p">,</span><span class="n">numpyro</span><span class="p">,</span><span class="n">jax</span><span class="p">,</span><span class="n">jaxlib</span>
-</code></pre></div></div>
-<div class="code">
-Last updated: Wed Nov 20 2024
-<br />
-
-<br />
-Python implementation: CPython
-<br />
-Python version       : 3.12.7
-<br />
-IPython version      : 8.24.0
-<br />
-
-<br />
-xarray  : 2024.9.0
-<br />
-pytensor: 2.25.5
-<br />
-numpyro : 0.15.0
-<br />
-jax     : 0.4.28
-<br />
-jaxlib  : 0.4.28
-<br />
-
-<br />
-numpy     : 1.26.4
-<br />
-arviz     : 0.20.0
-<br />
-pandas    : 2.2.3
-<br />
-seaborn   : 0.13.2
-<br />
-pymc      : 5.17.0
-<br />
-yfinance  : 0.2.40
-<br />
-matplotlib: 3.9.2
-<br />
-
-<br />
-Watermark: 2.4.3
-<br />
-</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/model_comparison/" /><summary type="html"><![CDATA[Cross validation in Bayesian statistics]]></summary></entry><entry><title type="html">Model comparison</title><link href="http://localhost:4000/statistics/model_averaging" rel="alternate" type="text/html" title="Model comparison" /><published>2024-10-09T00:00:00+00:00</published><updated>2024-10-09T00:00:00+00:00</updated><id>http://localhost:4000/statistics/model_averaging</id><content type="html" xml:base="http://localhost:4000/statistics/model_averaging"><![CDATA[<p>In the majority of cases, you won’t deal with a single model
-for one dataset, but you will try many models
-at the same time.</p>
-
-<p>In this phase of the Bayesian workflow
-we will discuss some methods to compare
-models.</p>
-
-<p>Comparing model sometimes may be understood as choosing the best model, but in most cases it means to 
-assess which model is better to describe or predict some particular aspect of your data.
-Model comparison can be done analytically in some case, but most of the time it will be done numerically or graphically, and here we will give an overview of the most important tools.</p>
-
-<p><br /></p>
-
-<blockquote>
-  <p>Since all models are wrong the scientist must be alert
-to what is importantly wrong. It is inappropriate to be
-concerned about mice when there are tigers abroad.</p>
-
-  <p>George Box</p>
-</blockquote>
-
-<p><br /></p>
-
-<p>Here we will take a look at two of the most important
-methods, the Bayes factor analysis and the
-Leave One Out cross-validation.</p>
-
-<h2 id="bayes-factors">Bayes factors</h2>
-
-<p>Let us go back to the Beta-Binomial model
-that we discussed in <a href="/_posts/statistics/betabin.md">this post</a>,
-and let us assume that we have two candidate models to describe our data:
-model 0 has Jeffreys prior, which mean that the prior
-is a beta distribution with $\alpha=1/2$ and $\beta=1/2\,.$
-The second model, named “model 2”, is instead centered in $0.5$ and has
-\(\alpha = \beta = 10\,.\)</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
-<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">beta</span>
-
-<span class="n">y</span> <span class="o">=</span> <span class="mi">7</span>
-<span class="n">n</span> <span class="o">=</span> <span class="mi">4320</span>
-
-<span class="n">model_0</span> <span class="o">=</span> <span class="p">{</span><span class="s">'a'</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="s">'b'</span><span class="p">:</span> <span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">}</span>
-<span class="n">model_1</span> <span class="o">=</span> <span class="p">{</span><span class="s">'a'</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="s">'b'</span><span class="p">:</span> <span class="mi">10</span><span class="p">}</span>
-
-<span class="n">x_pl</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">)</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">()</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
-<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">model</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">model_0</span><span class="p">,</span> <span class="n">model_1</span><span class="p">]):</span>
-    <span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_pl</span><span class="p">,</span> <span class="n">beta</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">model</span><span class="p">[</span><span class="s">'a'</span><span class="p">],</span> <span class="n">b</span><span class="o">=</span><span class="n">model</span><span class="p">[</span><span class="s">'b'</span><span class="p">]).</span><span class="n">pdf</span><span class="p">(</span><span class="n">x_pl</span><span class="p">),</span> <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s">"model </span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
-<span class="n">legend</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">legend</span><span class="p">()</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">"$\theta$"</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s">"$p(\theta)$  "</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>
-<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/statistics/model_averaging/priors.webp" alt="The priors used in this post" /></p>
-
-<p>Given the two models $M_0$ and $M_1$ we may ask which one we prefer, given the data. The probability of the model given the data is given by</p>
-
-\[p(M_k | y) = \frac{p(y | M_k)}{p(y)} p(M_k)\]
-
-<p>where the quantity</p>
-
-\[p(y | M_k)\]
-
-<p>is the <strong>marginal likelihood</strong> of the model.</p>
-
-<p>If we assign the same prior probability $p(M_k)\,,$
-to each model,
-since $p(y)$ is the same for both models,
-then we can simply replace $p(M_k | y)$ with the
-marginal likelihood.</p>
-
-<p>As usual, an analytic calculation is only possible in a very limited number of models.</p>
-
-<p>One may think to compute $p(M_k| y)$ by starting from $p(y | \theta, M_k)$ and integrating out $\theta$ but doing this naively is generally not a good idea, as
-this method is unstable and prone to numerical errors.</p>
-
-<p>We can however use the Sequential Monte Carlo to compare the two models,
-since it allows to estimate the (log) marginal likelihood of the model.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">models</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="n">traces</span> <span class="o">=</span> <span class="p">[]</span>
-
-<span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="p">[</span><span class="n">model_0</span><span class="p">,</span> <span class="n">model_1</span><span class="p">]:</span>
-    <span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
-        <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Beta</span><span class="p">(</span><span class="s">"theta"</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">m</span><span class="p">[</span><span class="s">'a'</span><span class="p">],</span> <span class="n">beta</span><span class="o">=</span><span class="n">m</span><span class="p">[</span><span class="s">'b'</span><span class="p">])</span>
-        <span class="n">yl</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s">"yl"</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">y</span><span class="p">)</span>
-        <span class="n">trace</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample_smc</span><span class="p">(</span><span class="mi">1000</span><span class="p">,</span> <span class="n">return_inferencedata</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">))</span>
-        <span class="n">models</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
-        <span class="n">traces</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">trace</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Let us inspect as usual the traces.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/model_averaging/trace_0.webp" alt="The trace for model 0" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">traces</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/model_averaging/trace_1.webp" alt="The trace for model 1" /></p>
-
-<p>What one usually computes is the <strong>Bayes factor</strong> of the models, which is the ratio between the posterior probability of the model (which in this case is simply the
-ratio between the marginal likelihoods).</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>$BF = p(M_0)/p(M_1)$</th>
-      <th>interpretation</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>$BF&lt;10^{0}$</td>
-      <td>support to $M_1$ (see reciprocal)</td>
-    </tr>
-    <tr>
-      <td>$10^{0}\leq BF&lt;10^{1/2}$</td>
-      <td>Barely worth mentioning support to $M_0$</td>
-    </tr>
-    <tr>
-      <td>$10^{1/2}\leq BF&lt;10^2$</td>
-      <td>Substantial support to $M_0$</td>
-    </tr>
-    <tr>
-      <td>$10^{2} \leq BF&lt;10^{3/2}$</td>
-      <td>Strong support to $M_0$</td>
-    </tr>
-    <tr>
-      <td>$10^{3/2} \leq BF&lt;10^2$</td>
-      <td>Very strong support to $M_0$</td>
-    </tr>
-    <tr>
-      <td>$\geq 10^2$</td>
-      <td>Decisive support to $M_0$</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>This can be easily done as follows:</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">np</span><span class="p">.</span><span class="n">log10</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span>
-    <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">traces</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">sample_stats</span><span class="p">.</span><span class="n">log_marginal_likelihood</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">values</span><span class="p">)</span>
-    <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">traces</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">sample_stats</span><span class="p">.</span><span class="n">log_marginal_likelihood</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">values</span><span class="p">)))</span>
-</code></pre></div></div>
-
-<div class="code">
-18.175240388473817
-</div>
-
-<p>As we can see, there is a substantial preference
-for model 0.
-We can better understand this result if we compare our estimate with the
-frequentist confidence interval,
-which we recall being \([0.0004, 0.0028]\)</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">traces</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">),</span> <span class="n">rope</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0004</span><span class="p">,</span> <span class="mf">0.0028</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/statistics/model_averaging/forest.webp" alt="The forest plot of the two models" /></p>
-
-<p>We can see that the preferred model HDI corresponds
-with the frequentist CI, while the interval 
-predicted by the second model only partially
-overlaps with the frequentist CI.</p>
-
-<p>We can also inspect the posterior predictive.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc</span> <span class="o">=</span> <span class="p">[]</span>
-<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">models</span><span class="p">):</span>
-    <span class="k">with</span> <span class="n">m</span><span class="p">:</span>
-        <span class="n">ppc</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">traces</span><span class="p">[</span><span class="n">k</span><span class="p">]))</span>
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'yl'</span><span class="p">].</span><span class="n">mean</span><span class="p">([</span><span class="s">'chain'</span><span class="p">,</span> <span class="s">'draw'</span><span class="p">]).</span><span class="n">values</span>
-</code></pre></div></div>
-<div class="code">
-array(7.445)
-</div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ppc</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'yl'</span><span class="p">].</span><span class="n">mean</span><span class="p">([</span><span class="s">'chain'</span><span class="p">,</span> <span class="s">'draw'</span><span class="p">]).</span><span class="n">values</span>
-</code></pre></div></div>
-<div class="code">
-array(16.98925)
-</div>
-
-<p>We recall that the observed value for $y$ was 7,
-which is much closer to the one provided by the preferred
-model than to the one provided by Model 1.</p>
-
-<h2 id="conclusions">Conclusions</h2>
-
-<p>In this post we discussed the Bayes factor to choose between different models.
-In the next post, we will discuss a more powerful method to compare models,
-namely the Leave One Out cross validation.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">pytensor</span><span class="p">,</span><span class="n">numpyro</span><span class="p">,</span><span class="n">jax</span><span class="p">,</span><span class="n">jaxlib</span>
-</code></pre></div></div>
-<div class="code">
-Last updated: Wed Nov 20 2024
-<br />
-
-<br />
-Python implementation: CPython
-<br />
-Python version       : 3.12.7
-<br />
-IPython version      : 8.24.0
-<br />
-
-<br />
-xarray  : 2024.9.0
-<br />
-pytensor: 2.25.5
-<br />
-numpyro : 0.15.0
-<br />
-jax     : 0.4.28
-<br />
-jaxlib  : 0.4.28
-<br />
-
-<br />
-pymc      : 5.17.0
-<br />
-numpy     : 1.26.4
-<br />
-matplotlib: 3.9.2
-<br />
-pandas    : 2.2.3
-<br />
-arviz     : 0.20.0
-<br />
-
-<br />
-Watermark: 2.4.3
-<br />
-
-<br />
-</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/model_comparison/" /><summary type="html"><![CDATA[How to choose between models]]></summary></entry><entry><title type="html">Re-parametrizing your model</title><link href="http://localhost:4000/statistics/reparametrization" rel="alternate" type="text/html" title="Re-parametrizing your model" /><published>2024-10-02T00:00:00+00:00</published><updated>2024-10-02T00:00:00+00:00</updated><id>http://localhost:4000/statistics/reparametrization</id><content type="html" xml:base="http://localhost:4000/statistics/reparametrization"><![CDATA[<p>Model re-parametrization is a part of the Bayesian workflow that will likely face any advanced
-user. On the other hand, if you are facing Bayesian inference for the first time, you might
-safely skip this (rather technical) post, which is about advanced concepts
-in MCMC.</p>
-
-<h2 id="when-you-will-encounter-this-problem">When you will encounter this problem</h2>
-
-<p>The NUTS sampler is an amazing tool, but it is of course not perfect,
-and there are circumstances when even this tool has some issue.
-This is especially true in high dimensional, multiscale and highly correlated
-problems, where moving into the high density region of the posterior
-probability requires moving in a non-trivial space.
-A typical, well known class of models where this is likely to happen is
-the family of <a href="/statistics/hierarchical_models">multilevel (or hierarchical)</a> models,
-where even for a moderately high number of variables the sample
-space might become troublesome.
-Here we will re-phrase into the PyMC language <a href="https://mc-stan.org/users/documentation/case-studies/pool-binary-trials.html">this post
-</a>.
-which discusses the same issue when dealing with Stan.</p>
-
-<h2 id="fitting-the-efron-morris-dataset">Fitting the Efron-Morris dataset</h2>
-
-<p>Here we will analyze the well known “batting average” Efron-Morris
-dataset, which can be found <a href="https://raw.githubusercontent.com/pymc-devs/pymc4/master/notebooks/data/efron-morris-75-data.tsv">here</a></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
-<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
-<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
-<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
-<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-
-<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
-
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'https://raw.githubusercontent.com/pymc-devs/pymc4/master/notebooks/data/efron-morris-75-data.tsv'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">'</span><span class="se">\t</span><span class="s">'</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>In order to fit this dataset we will use a hierarchical
-model for the log-odds, similar to the one discussed <a href="statistics/hierarchical_models">here</a>.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">centered_logit_model</span><span class="p">:</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">log_sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'log_sigma'</span><span class="p">,</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">sigma</span><span class="p">))</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">invlogit</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'Hits'</span><span class="p">],</span> <span class="n">n</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'At-Bats'</span><span class="p">],</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">)</span>
-
-<span class="k">with</span> <span class="n">centered_logit_model</span><span class="p">:</span>
-    <span class="n">idata_centered</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-
-</code></pre></div></div>
-
-<p>By running this code I got 517 divergences, and these terrible traces</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_centered</span><span class="p">)</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
-<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</code></pre></div></div>
-<p><img src="/docs/assets/images/statistics/reparametrization/trace_centered.webp" alt="
-The trace plot of the centered parametrization" /></p>
-
-<p>As discussed in <a href="https://arxiv.org/pdf/1312.0906">this paper</a>,
-this is a common issue in hierarchical models.
-We can however circumvent this issue by observing that,
-if</p>
-
-\[\alpha_i \sim \mathcal{N}(\mu, \sigma)\]
-
-<p>then we can rewrite the above as</p>
-
-\[\alpha_i = \mu + \sigma \phi_i\]
-
-<p>where</p>
-
-\[\phi_i \sim \mathcal{N}(0, 1)\]
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">noncentered_logit_model</span><span class="p">:</span>
-    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">log_sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'log_sigma'</span><span class="p">,</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">sigma</span><span class="p">))</span>
-    <span class="n">alpha_std</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'alpha_std'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
-    <span class="n">alpha</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'alpha'</span><span class="p">,</span> <span class="n">mu</span><span class="o">+</span><span class="n">sigma</span><span class="o">*</span><span class="n">alpha_std</span><span class="p">)</span>
-    <span class="n">theta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">invlogit</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span>
-    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Binomial</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'Hits'</span><span class="p">],</span> <span class="n">n</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s">'At-Bats'</span><span class="p">],</span> <span class="n">p</span><span class="o">=</span><span class="n">theta</span><span class="p">)</span>
-
-<span class="k">with</span> <span class="n">noncentered_logit_model</span><span class="p">:</span>
-    <span class="n">idata_noncentered</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
-
-<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_noncentered</span><span class="p">)</span>
-<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
-<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/statistics/reparametrization/trace_noncentered.webp" alt="
-The trace plot of the non-centered parametrization" /></p>
-
-<p>This is by far way better than the centered parametrization, and it worked
-so well because now our variables are well separated.
-Thanks to the re-parametrization, the sampling space
-is isotropic within good approximation, and it is therefore easier
-for the NUTS sampler to explore it.
-We can also take a look at the different landscapes in the $\mu-\sigma$
-plane</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">idata_centered</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'mu'</span><span class="p">,</span> <span class="s">'log_sigma'</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/statistics/reparametrization/kde_centered.webp" alt="
-The kde plot of the centered parametrization" /></p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_pair</span><span class="p">(</span><span class="n">idata_noncentered</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'mu'</span><span class="p">,</span> <span class="s">'log_sigma'</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p><img src="/docs/assets/images/statistics/reparametrization/kde_noncentered.webp" alt="
-The kde plot of the non-centered parametrization" /></p>
-
-<p>As we can see, the centered parametrization had problems
-in exploring the region with a lower probability density,
-while the non-centered one also explored this region.</p>
-
-<h2 id="conclusions">Conclusions</h2>
-
-<p>We discussed how model re-parametrization greatly improved the MCMC
-sampling procedure, by allowing you to sample clean traces even
-for highly correlated models.</p>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
-</code></pre></div></div>
-
-<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">pytensor</span><span class="p">,</span><span class="n">numpyro</span><span class="p">,</span><span class="n">jax</span><span class="p">,</span><span class="n">jaxlib</span>
-</code></pre></div></div>
-
-<div class="code">
-Last updated: Wed Nov 20 2024
-<br />
-
-<br />
-Python implementation: CPython
-<br />
-Python version       : 3.12.7
-<br />
-IPython version      : 8.24.0
-<br />
-
-<br />
-xarray  : 2024.9.0
-<br />
-pytensor: 2.25.5
-<br />
-numpyro : 0.15.0
-<br />
-jax     : 0.4.28
-<br />
-jaxlib  : 0.4.28
-<br />
-
-<br />
-numpy     : 1.26.4
-<br />
-pymc      : 5.17.0
-<br />
-pandas    : 2.2.3
-<br />
-seaborn   : 0.13.2
-<br />
-arviz     : 0.20.0
-<br />
-matplotlib: 3.9.2
-<br />
-
-<br />
-Watermark: 2.4.3
-<br />
-</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/model_comparison/" /><summary type="html"><![CDATA[Building equivalent models with less numerical issues]]></summary></entry></feed>
+</div>]]></content><author><name>Data-perspectives</name><email>dataperspectivesblog@gmail.com</email></author><category term="/statistics/" /><category term="/linear_regression/" /><summary type="html"><![CDATA[Including dependence on external variables]]></summary></entry></feed>

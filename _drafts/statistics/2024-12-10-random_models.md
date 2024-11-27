@@ -4,7 +4,7 @@ title: "Random models and mixed models"
 categories: /statistics/
 subcategory: "Hierarchical models"
 tags: /random_models_intro/
-date: "2024-04-28"
+date: "2024-11-27"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Making inference on subgroups"
 section: 5
