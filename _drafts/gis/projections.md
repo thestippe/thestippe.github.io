@@ -1,32 +1,16 @@
 ---
 layout: post
-title: "Drawing geographic maps"
-categories: /dataviz/
+title: "Choosing the right projection"
+categories: /gis/
 tags: /geography/
-image: "/docs/assets/images/geo/geo.webp"
-description: "Dealing with geographic data"
+image: "/docs/assets/images/geo/sphere.webp"
+description: "Which projection best fits your needs?"
+date: "2024-10-04"
 ---
 
-As defined by Enrico Bertini, geographical maps are visualizations
-where non-geographical objects are visualized, and some geographical entities
-are used to provide some spatial reference to the reader.
-Here we define a geographical entity as any kind of entity which encodes
-geographical information.
-These are:
-- **Points** such as latitude and longitude, and give information about the location of a single entity.
-- **Lines** as might be the location of a street or of a river.
-- **Areas** which gives the location of a geographically extended object, such as a state or of a building.
-
-Associating to a non-geographical entity a geographical property
-is named **geo-encoding**, while the extraction of some non-geographical
-information given the geographical location is said **geo-decoding**.
-
-There is quite a lot of agreement that, unless strictly needed, geographical
-maps are not effective for data visualization.
-The reason for this is quite easy to guess, and it's simply because length
-can hardly be used, since the spatial channels are already encoding
-the geographical information.
-There are, however, cases where one simply cannot avoid using geographical maps.
+In this post we will discuss the main projection families,
+their pros and cons and give some, hopefully useful, hint
+on how to choose the best projection.
 
 ## Idealizing the Earth
 
@@ -182,7 +166,7 @@ these quantities to the extension of the country itself.
 Above, we show some example of equal-area projection, namely the **Lambert conical**,
 the **Equal Earth** and the **Hammer** projections.
 
-We finally mention the **equidistant** projections, which preserve
+We also mention the **equidistant** projections, which preserve
 some distance, usually distances from one point or along one axis.
 As an example, the **equirectangular** projection preserves the distances
 along meridians, while the **azimuthal equidistant projection** preserves
@@ -198,6 +182,15 @@ is also known as **plate carrée**.
 
 This class of projections can be useful when you need to precisely map
 distances, and are therefore often used when analyzing routes.
+
+A separate class of projections is given by the **compromise**
+projections, which are nor equal-area neither conformal or
+equidistant, but rather seek for balance in the various kinds of distortions.
+This is a very large family of projections, and examples
+of compromise projections are the **Robinson** projection or
+the **Miller** projection.
+
+![](/docs/assets/images/geo/south_pole_compromise.webp)
 
 ## Conclusions
 

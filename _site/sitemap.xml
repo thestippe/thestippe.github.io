@@ -2,12 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-          <loc>https://http://localhost:4000/statistics/random_models</loc>
-    <lastmod>2024-11-27T00:00:00+00:00</lastmod>
+          <loc>https://http://localhost:4000/statistics/hierarchical_metaanalysis</loc>
+    <lastmod>2024-12-10T00:00:00+00:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/statistics/hierarchical_metaanalysis</loc>
-    <lastmod>2024-11-26T00:00:00+00:00</lastmod>
+          <loc>https://http://localhost:4000/statistics/random_models</loc>
+    <lastmod>2024-12-10T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics/hierarchical_models</loc>
@@ -60,6 +60,18 @@
   <url>
           <loc>https://http://localhost:4000/statistics/ode</loc>
     <lastmod>2024-10-06T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/gis/raster_data</loc>
+    <lastmod>2024-10-06T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/gis/vector_data</loc>
+    <lastmod>2024-10-05T00:00:00+00:00</lastmod>
+  </url>
+  <url>
+          <loc>https://http://localhost:4000/gis/projections</loc>
+    <lastmod>2024-10-04T00:00:00+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/gis/gis_intro</loc>
@@ -214,10 +226,6 @@
     <lastmod>2024-05-05T00:00:00+00:00</lastmod>
   </url>
   <url>
-          <loc>https://http://localhost:4000/dataviz/geography</loc>
-    <lastmod>2023-10-27T00:00:00+00:00</lastmod>
-  </url>
-  <url>
           <loc>https://http://localhost:4000/dataviz/gestalt</loc>
     <lastmod>2023-10-26T00:00:00+00:00</lastmod>
   </url>
@@ -276,55 +284,55 @@
   
   <url>
           <loc>https://http://localhost:4000/404</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/about</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/dataviz</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/gis</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/index</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/minima-social-icons.svg</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/links</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/sitemap.xml</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/statistics</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/css/style.css</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/assets/main.css</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/feed.xml</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   <url>
           <loc>https://http://localhost:4000/robots.txt</loc>
-    <lastmod>2024-11-27T17:50:33+00:00</lastmod>
+    <lastmod>2024-12-10T08:50:47+00:00</lastmod>
   </url>
   
 </urlset>

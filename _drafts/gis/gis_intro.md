@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Introduction to GIS"
+title: "Introduction to geographic data analysis"
 categories: /gis/
 tags: /gis_intro/
 image: "/docs/assets/images/geo/geo.webp"
@@ -8,21 +8,30 @@ description: "What will we talk about"
 date: "2024-10-03"
 ---
 
-GIS and geographic data science can be considered as an interdisciplinary topic,
+Geographic data science can be considered as an interdisciplinary topic,
 embracing mathematics, computer science, statistics, geography, dataviz and many more
 disciplines.
 
 Here we will try and give an introduction to this topic.
 We will mostly do so by using Python, but I do not exclude we will also use QGIS.
 
+## Layers
+When working with geographic data, you often need to draw a **map**,
+and a map is generally composed by many **layers**.
+You can think about a layer as a specific kind of data you will work
+with.
+You might have one layer for the elevation, another for the terrain
+type, a third layer for the rivers and lakes and other layers
+for streets and buildings and so on.
+
+There are two main kinds of layers you will work with: **vector** layers and
+**raster** layers.
+
 In GIS, you usually work with coordinates, but coordinates themselves
 are meaningless unless you specify the coordinate system associated
 to the coordinates.
 For this reason, GIS data is **geo-referenced**: it is always associated with the
 reference system.
-
-There are two main kinds of data you will work with: **vector** data or
-**raster** data.
 
 ## Vector data
 
@@ -45,6 +54,8 @@ if you want to describe the position of one house in a map of the World,
 then probably a point is the best choice, but this might not be true
 if the subject of your map is your city, as in this case the extension
 of the house might become relevant, and a polygon might be more appropriate.
+Analogously, a river might be represented as a polyline is some
+circumstances and as a polygon in others.
 
 ## Raster data
 
@@ -77,23 +88,7 @@ We might of course also have other kinds of resolution, such as
 the one originated by the resolution of the measurement associated to each pixel
 in the raster data.
 
-## What can GIS do for you
-
-In order to better understand what are the applications of GIS, let us take a look
-at one of the first historical applications of GIS and, more generally,
-of spatial analysis. Here we will work with the famous John Snow cholera map,
-who found out the origin of the 1854 cholera outbreak.
-We will later discuss the technical details, but you can get some idea by
-looking at the following storymap
-
-<div style="margin: 0 auto; width:100%; height:800px;">
-    <object type="text/html" data="https://uploads.knightlab.com/storymapjs/ec8ba3ec66c7c84f008cdd5d1bedb330/history-of-cholera/index.html"
-            style="width:100%; height:100%; margin:1%;">
-    </object>
-</div>
-
-
 ## Conclusions
 
-We discussed what GIS is about, and what characterizes GIS data.
+We discussed what Geographic Data Science is about, and what characterizes geo-referenced data.
 In the next posts, we will discuss how to handle these kinds of data in Python.
