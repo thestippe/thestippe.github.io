@@ -4,7 +4,7 @@ title: "Random models and mixed models"
 categories: /statistics/
 subcategory: "Hierarchical models"
 tags: /random_models_intro/
-date: "2024-12-10"
+date: "2024-12-20"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Making inference on subgroups"
 section: 5
@@ -15,7 +15,7 @@ There are many situations where you want to understand the relation between two
 variables at the subgroup level rather than at the level of the entire sample.
 Random effect models are linear models where each subgroup has its own
 slope and intercept, while in mixed effect models you either assign
-a slope to each subgroup and a unique intercept or vice-versa.
+a slope to each subgroup and a unique intercept or vice versa.
 
 ![](/docs/assets/images/statistics/random_models/models.webp)
 
@@ -255,21 +255,21 @@ structure on random effect models.
 ```
 
 <div class="code">
-Last updated: Mon Jul 22 2024
+Last updated: Fri Dec 20 2024
 <br>
 
 <br>
 Python implementation: CPython
 <br>
-Python version       : 3.12.4
+Python version       : 3.12.7
 <br>
 IPython version      : 8.24.0
 <br>
 
 <br>
-xarray  : 2024.5.0
+xarray  : 2024.9.0
 <br>
-pytensor: 2.20.0
+pytensor: 2.25.5
 <br>
 numpyro : 0.15.0
 <br>
@@ -279,19 +279,19 @@ jaxlib  : 0.4.28
 <br>
 
 <br>
-pandas    : 2.2.2
-<br>
-arviz     : 0.18.0
-<br>
 jax       : 0.4.28
-<br>
-numpy     : 1.26.4
-<br>
-matplotlib: 3.9.0
 <br>
 seaborn   : 0.13.2
 <br>
-pymc      : 5.15.0
+pandas    : 2.2.3
+<br>
+matplotlib: 3.9.2
+<br>
+pymc      : 5.17.0
+<br>
+numpy     : 1.26.4
+<br>
+arviz     : 0.20.0
 <br>
 
 <br>
