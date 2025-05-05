@@ -8,6 +8,7 @@ date: "2024-07-14"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Building a doppelganger from the control group"
 section: 5
+published: false
 ---
 
 The **synthetic control** method recently became a very popular method

@@ -24,3 +24,9 @@ gem 'webrick'
 
 
 gem "minima", "~> 2.5"
+
+gem "csv", "~> 3.3"
+
+gem "jekyll", "~> 3.9"
+
+gem "bigdecimal", "~> 3.1"

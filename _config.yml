@@ -18,7 +18,6 @@ kramdown:
 minima:
   skin: classic
   social_links:
-    - { platform: twitter, user_url: "https://twitter.com/SteffPy" }
     - { platform: stackoverflow, user_url: "https://stackoverflow.com/users/11065831/stefano" }
     - { platform: github, user_url: "https://github.com/thestippe/" }
     - { platform: mastodon, user_url: "https://vis.social/@thestippe" }
@@ -41,8 +40,9 @@ stats_categories_order:
         - Bayesian workflow
         - Regression
         - Hierarchical models
-        - Advanced models
+        - Experiments
         - Causal inference
+        - Advanced models
         - Time series
         - Non-parametric models
         - Other random thoughts

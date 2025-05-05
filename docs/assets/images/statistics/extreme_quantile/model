@@ -1,0 +1,45 @@
+digraph {
+	subgraph "clusterq (3)" {
+		gamma [label="gamma
+~
+Normal" shape=ellipse]
+		alpha [label="alpha
+~
+Normal" shape=ellipse]
+		beta [label="beta
+~
+Normal" shape=ellipse]
+		label="q (3)" labeljust=r labelloc=b style=rounded
+	}
+	sigma [label="sigma
+~
+HalfNormal" shape=ellipse]
+	subgraph "clusterobs (1174) x q (3)" {
+		eta [label="eta
+~
+Deterministic" shape=box]
+		phi [label="phi
+~
+Deterministic" shape=box]
+		y [label="y
+~
+AsymmetricLaplace" shape=ellipse style=filled]
+		mu [label="mu
+~
+Deterministic" shape=box]
+		label="obs (1174) x q (3)" labeljust=r labelloc=b style=rounded
+	}
+	alpha -> eta
+	beta -> eta
+	gamma -> phi
+	alpha -> phi
+	beta -> phi
+	gamma -> mu
+	alpha -> mu
+	beta -> mu
+	sigma -> y
+	mu -> y
+	bgcolor=blue
+	
+	bgcolor=transparent
+}

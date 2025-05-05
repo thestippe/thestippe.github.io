@@ -34,6 +34,7 @@ from matplotlib import pyplot as plt
 import pymc as pm
 import arviz as az
 import pymc.sampling_jax as pmj
+# replaced with pymc.sampling.jax in more recent versions
 
 df = pd.read_csv('data/Reaction.csv')
 

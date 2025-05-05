@@ -8,6 +8,7 @@ date: "2024-06-02"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "How to design and analyze experiment"
 section: 5
+published: false
 ---
 
 Experimental design was developed by Fisher in the context of agriculture,

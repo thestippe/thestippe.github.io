@@ -8,7 +8,7 @@ description: "How to visualize one dimensional distributions"
 ---
 
 
-When we discussed [the fundamental charts](/fundamental-charts), we saw the most basic way to visualize one dimensional
+When we discussed [the fundamental charts](/dataviz/fundamental-charts), we saw the most basic way to visualize one dimensional
 quantitative data.
 In this post we will discuss alternatives ways to perform this task. 
 

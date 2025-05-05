@@ -8,6 +8,7 @@ date: "2024-06-03"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "Dealing with more complicated experiments"
 section: 5
+published: false
 ---
 
 In the last post, we discussed how to design experiments
