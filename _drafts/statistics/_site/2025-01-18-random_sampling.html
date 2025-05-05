@@ -1,0 +1,91 @@
+<p>In the last post we briefly introduced the concept of random sampling.
+In this post we will discuss this topic with a little bit more of details,
+and see the advantages of probability sampling over non-probability sampling.
+We will use the dataset provided in <a href="https://rpubs.com/hkoprivsek/1159747">this blog post</a>
+and perform a similar analysis.</p>
+
+<h2 id="data-loading-and-preprocessing">Data loading and preprocessing</h2>
+
+<h2 id="simple-random-sampling">Simple random sampling</h2>
+<p>Simple random sampling is, conceptually, the simplest kind of
+sampling we can think.
+In this sampling strategy, each element has the same probability of
+being selected.
+There are two kinds of simple random sampling, the <strong>simple random
+sampling without replacement</strong> and the 
+<strong>simple random
+sampling with replacement</strong>.
+In simple random sampling without replacement, each unit can only
+be selected once, while if we allow for replacement
+each unit can be selected an arbitrary number of times.
+Simple random sampling without replacement is generally
+preferred over simple random sampling with replacement, since it
+allows for more precise estimates, simply because not allowing
+for replacement ensures that our sampling includes a larger variety
+of elements.</p>
+
+<h2 id="cluster-sampling">Cluster sampling</h2>
+
+<p>There are situations where, from a practical point of view, a simple random sampling
+requires a large effort, and in this situation we may consider using
+cluster sampling.
+Imagine your population is given by the university students of your
+Country, and your plan is to email them and ask to fill a questionnaire.</p>
+
+<p>Simple random sampling would require to first collect the email addresses of
+all the university students of your country, and then select a sample from
+those emails.
+This would be equivalent to perform a census, and this might demand a very
+large effort.</p>
+
+<p>A more reasonable strategy would be to randomly select a small number of 
+universities, and ask them for the email addresses of their students.
+In this case, we are clustering the students into groups, and the cluster
+is the university of the student.
+In general, cluster sampling gives less precise estimates with respect
+to simple random sampling. The reason for this is that
+units belonging to the same cluster tend to be more similar
+than units belonging to different clusters.
+When we perform cluster sampling, must therefore study a larger number of units in order to gain
+the same information we would get by using simple random sampling.</p>
+
+<h3 id="two-stage-and-multistage-sampling">Two stage and multistage sampling</h3>
+<p>While in cluster sampling we sample all the units
+from a given cluster, in two stage sampling we first perform a cluster sampling, and then
+we select a given number of units from each sampling.
+The main difference is that, in this way, we are not forced to consider
+all the units of a cluster, but we can only consider a subgroup of them.</p>
+
+<p>Two stage sampling can be straightforwardly generalized to multistage
+sampling, when in each sampling stage we select a subgroup of units,
+and only in the last stage we randomly select our units from the selected
+subgroups.</p>
+
+<p>As an example, we might cluster by geographical region, by university
+and by faculty.</p>
+
+<h2 id="stratified-sampling">Stratified sampling</h2>
+
+<p>In stratified sampling we first divide our population into
+groups named strata, and then we randomly select our units
+from each stratum.
+This allows us to choose the number of sampled units from each stratum
+allowing us to make more precise estimates than we would do by using
+simple random sampling.</p>
+
+<h3 id="proportional-allocation">Proportional allocation</h3>
+
+<h3 id="optimal-allocation">Optimal allocation</h3>
+
+<h2 id="systematic-sampling">Systematic sampling</h2>
+
+<p>Systematic sampling is</p>
+
+<h2 id="balanced-sampling">Balanced sampling</h2>
+
+<p>Balanced sampling is a very powerful sampling method
+developed by Deville and Tillé 20 years ago, and it allows us
+to enforce constraints on the average values of any known quantity.
+The main drawback of this sampling method is that it is computationally
+demanding, and can only be used when the number of units in the population
+is not too large.</p>
