@@ -175,7 +175,7 @@ fig.tight_layout()
 ```
 
 ![The trace
-of the hierarchical model](/docs/assets/images/statistics/stochastic_volatility/trace_h.webp')
+of the hierarchical model](/docs/assets/images/statistics/stochastic_volatility/trace_h.webp)
 
 ```python
 fig, ax = plt.subplots()

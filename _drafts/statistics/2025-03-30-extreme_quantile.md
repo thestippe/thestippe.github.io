@@ -12,10 +12,10 @@ section: 4
 
 In the [last post](/statistics/extreme_intro)
 we discussed the GEV distribution as well as the generalized Pareto
-distribution, which are two common distributions used in the context
-of extreme value theory.
+distribution, which are two distributions emerging from extreme value theory,
+one of the main approaches to tail analysis.
 In this post, we will introduce another relevant approach
-in the context of extreme value theory, namely the quantile regression.
+in the context of tail analysis, namely the quantile regression.
 
 The aim of quantile regression is to determine the dependence of 
 a given quantile $q$ of the data on one or more regressors.

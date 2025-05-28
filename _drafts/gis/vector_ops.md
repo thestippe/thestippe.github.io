@@ -3,7 +3,7 @@ layout: post
 title: "Operations on vector data"
 categories: /gis/
 tags: /geography/
-image: "/docs/assets/images/geo/sphere.webp"
+image: "/docs/assets/images/gis/vector_ops/clip.webp"
 description: "How to extract informations from your geodataframe"
 date: "2024-10-18"
 ---

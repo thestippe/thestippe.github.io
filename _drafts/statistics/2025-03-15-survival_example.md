@@ -25,9 +25,11 @@ import pymc as pm
 import arviz as az
 from matplotlib import pyplot as plt
 from SurvSet.data import SurvLoader
+from scipy.special import gammaln
 import pytensor as pt
+from sksurv.nonparametric import kaplan_meier_estimator
 
-rng = np.random.default_rng(42)
+rng = np.random.default_rng(654321)
 loader = SurvLoader()
 
 df_melanoma, ref_melanoma = loader.load_dataset(ds_name = 'e1684').values()
@@ -185,6 +187,9 @@ with pm.Model() as expon_model_check:
     def logp(lam, nu, y):
         return nu*pm.math.log(lam)-y*lam
     y = pm.Potential('y', logp(lam, df_melanoma['event'].values, df_melanoma['time'].values))
+
+with expon_model_check:
+    idata_check = pm.sample(nuts_sampler='numpyro', draws=5000, random_seed=rng)
 ```
 
 The formula for the log-likelihood is the one provided in the reference.
@@ -206,6 +211,10 @@ with pm.Model() as weibull_model:
 
 with weibull_model:
     idata_weibull = pm.sample(nuts_sampler='numpyro', draws=5000, random_seed=rng)
+
+az.plot_trace(idata_weibull)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 
@@ -232,6 +241,8 @@ with weibull_model:
 df_compare = az.compare({'Exponential': idata_expon, 'Weibull': idata_weibull})
 
 az.plot_compare(df_compare)
+fig = plt.gcf()
+fig.tight_layout()
 ```
 
 
@@ -279,12 +290,26 @@ $$
 S(t, \alpha, \beta) = e^{-(t/\beta)^\alpha}
 $$
 
+We will also compare the survival function obtained from our model
+with the Kaplan-Meier estimator of the survival function
+
 ```python
+
+df0 = df_melanoma[df_melanoma['trt']==0]
+df1 = df_melanoma[df_melanoma['trt']==1]
+
+time0, survival_prob0, conf_int0 = kaplan_meier_estimator(
+    df0["event"].astype(bool), df0['time'], conf_type="log-log"
+)
+
+time1, survival_prob1, conf_int1 = kaplan_meier_estimator(
+    df1["event"].astype(bool), df1['time'], conf_type="log-log"
+)
 def S(t, alpha, beta):
     y = (t/beta)**alpha
     return np.exp(-y)
 
-t_pl =  np.arange(0., 5, 0.02)
+t_pl =  np.arange(0., 10, 0.02)
 
 alph = np.exp(idata_weibull.posterior['alpha'].values.reshape(-1))
 b0 = np.exp(idata_weibull.posterior['beta'].values.reshape(-1,2)[:, 0])
@@ -298,24 +323,63 @@ s1 = [np.mean(S(t, alph, b1)) for t in t_pl]
 s1_low = [np.quantile(S(t, alph, b1), q=0.03) for t in t_pl]
 s1_high = [np.quantile(S(t, alph, b1), q=0.97) for t in t_pl]
 
-fig = plt.figure()
-ax = fig.add_subplot(111)
-ax.plot(t_pl, s0, label='Control')
-ax.fill_between(t_pl, s0_low, s0_high, alpha=0.5, color='lightgray')
+fig, ax = plt.subplots(ncols=2, sharey=True, figsize=(12, 4))
+ax[0].plot(t_pl, s0, label='Control', color='C0')
+ax[0].fill_between(t_pl, s0_low, s0_high, alpha=0.5, color='lightgray')
+ax[0].step(time0, survival_prob0, where="post", color='C0')
+ax[1].step(time1, survival_prob1, where="post", color='C1')
+ax[1].plot(t_pl, s1, label='IFN', color='C1')
+ax[0].fill_between(time0, conf_int0[0], conf_int0[1], alpha=0.25, step="post", color='C0')
+ax[1].fill_between(time1, conf_int1[0], conf_int1[1], alpha=0.25, step="post", color='C1')
+ax[1].fill_between(t_pl, s1_low, s1_high, alpha=0.5, color='lightgray')
+ax[0].set_ylim([0, 1])
+ax[0].set_xlim([0, t_pl[-1]])
+ax[1].set_xlim([0, t_pl[-1]])
 
-ax.plot(t_pl, s1, label='IFN')
-ax.fill_between(t_pl, s1_low, s1_high, alpha=0.5, color='green')
-ax.set_ylim([0, 1])
-ax.set_xlim([0, t_pl[-1]])
-
-ax.set_title(f'S(t)')
-legend = plt.legend(frameon=False)
+ax[0].set_title(f'$S_0(t)$')
+ax[1].set_title(f'$S_1(t)$')
+ax[0].legend(frameon=False)
+ax[1].legend(frameon=False)
 ```
 
 ![The survival functions](/docs/assets/images/statistics/survival_melanoma/survival.webp)
 
 We can safely conclude that, for the patients in this study, the IFN
 treatment gives better results than the control one.
+
+Also the hazard function can be easily computed:
+
+```python
+def h(t, alpha, beta):
+    y = alpha*(t/beta)**(alpha)/t
+    return y
+
+t_pl =  np.arange(0.02, 5, 0.02)
+
+
+h0 = [np.mean(h(t, alph, b0)) for t in t_pl]
+h0_low = [np.quantile(h(t, alph, b0), q=0.03) for t in t_pl]
+h0_high = [np.quantile(h(t, alph, b0), q=0.97) for t in t_pl]
+
+h1 = [np.mean(h(t, alph, b1)) for t in t_pl]
+h1_low = [np.quantile(h(t, alph, b1), q=0.03) for t in t_pl]
+h1_high = [np.quantile(h(t, alph, b1), q=0.97) for t in t_pl]
+
+fig = plt.figure()
+ax = fig.add_subplot(111)
+ax.plot(t_pl, h0, label='Control')
+ax.fill_between(t_pl, h0_low, h0_high, alpha=0.5, color='lightgray')
+
+ax.plot(t_pl, h1, label='IFN')
+ax.fill_between(t_pl, h1_low, h1_high, alpha=0.5, color='green')
+ax.set_ylim([0, 1])
+ax.set_xlim([0, t_pl[-1]])
+
+ax.set_title(f'h(t)')
+legend = plt.legend(frameon=False)
+```
+
+![The hazard functions obtained from our model](/docs/assets/images/statistics/survival_melanoma/hazard.webp)
 
 ## Conclusions
 
@@ -340,44 +404,25 @@ survival function.
 ```
 
 <div class="code">
-Last updated: Sun Jul 21 2024
+Last updated: Thu May 22 2025<br>
 <br>
-
+Python implementation: CPython<br>
+Python version       : 3.12.8<br>
+IPython version      : 8.31.0<br>
 <br>
-Python implementation: CPython
+xarray : 2025.1.1<br>
+numpyro: 0.16.1<br>
+jax    : 0.5.0<br>
+jaxlib : 0.5.0<br>
 <br>
-Python version       : 3.12.4
+sksurv    : 0.24.1<br>
+SurvSet   : 0.2.6<br>
+arviz     : 0.21.0<br>
+matplotlib: 3.10.1<br>
+pandas    : 2.2.3<br>
+pytensor  : 2.30.3<br>
+pymc      : 5.22.0<br>
+numpy     : 2.1.3<br>
 <br>
-IPython version      : 8.24.0
-<br>
-
-<br>
-xarray : 2024.5.0
-<br>
-numpyro: 0.15.0
-<br>
-jax    : 0.4.28
-<br>
-jaxlib : 0.4.28
-<br>
-
-<br>
-pandas     : 2.2.2
-<br>
-arviz      : 0.18.0
-<br>
-kaplanmeier: 0.2.0
-<br>
-pymc       : 5.15.0
-<br>
-pytensor   : 2.20.0
-<br>
-numpy      : 1.26.4
-<br>
-matplotlib : 3.9.0
-<br>
-
-<br>
-Watermark: 2.4.3
-<br>
+Watermark: 2.5.0
 </div>

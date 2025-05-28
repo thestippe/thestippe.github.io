@@ -4,7 +4,7 @@ title: "Leveraging mixed-effect models"
 categories: /statistics/
 subcategory: "Hierarchical models"
 tags: /random_models_intro/
-date: "2024-12-27"
+date: "2025-05-28"
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "When and how to use mixed-effect models"
 section: 5
