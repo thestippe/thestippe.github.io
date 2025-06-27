@@ -5,7 +5,7 @@ categories: /gis/
 tags: /geography/
 image: "/docs/assets/images/gis/openeo/landslide_procida.webp"
 description: "Accessing Synthetic Aperture Radar data from OpenEO"
-date: "2024-11-29"
+date: "2024-12-06"
 ---
 
 In the [last post](\gis\openeo) we discussed how to use OpenEO
@@ -22,3 +22,32 @@ spatial resolution.
 These characteristics make SAR imaging a very interesting tool
 to monitor the Earth surface.
 
+As you can imagine, there's no free lunch, and we must pay a price in order
+to get the above advantages.
+One of the main disadvantages is that SAR images are really noisy,
+so you must put a lot of effort in image processing.
+
+
+
+## Oil spill detection
+
+We will use the Sentinel-1 dataset to detect an oil spill in the Kwait gulf in 2017.
+We will re-perform an analysis given as [tutorial in the Copernicus documentation](https://documentation.dataspace.copernicus.eu/APIs/openEO/openeo-community-examples/python/OilSpill/OilSpillMapping.html),
+but we will use xarray rather than Copernicus to perform the last steps of the analysis.
+
+```python
+# Load the essentials
+import openeo
+import openeo.processes
+import numpy as np
+
+connection = openeo.connect("openeo.dataspace.copernicus.eu").authenticate_oidc()
+```
+
+<div class="code">
+Authenticated using refresh token.
+</div>
+
+```python
+
+```

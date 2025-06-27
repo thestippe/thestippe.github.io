@@ -6,6 +6,7 @@ tags: /geography/
 image: "/docs/assets/images/gis/openstreetmap/shortest_path.webp"
 description: "Making interactive maps with Folium"
 date: "2024-11-29"
+published: false
 ---
 
 You might consider the option to make your user interact with
