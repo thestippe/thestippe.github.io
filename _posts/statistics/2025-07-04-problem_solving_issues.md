@@ -7,7 +7,6 @@ section: 10
 subcategory: Experiments
 tags: /problem/
 title: Things that could go wrong
-
 ---
 
 
@@ -170,5 +169,3 @@ What you still don't know is
 ## Suggested readings
 
 - <cite> Mitroff, I. I., Silvers, A. (2010). Dirty Rotten Strategies: How We Trick Ourselves and Others Into Solving the Wrong Problems Precisely. US: Stanford Business Books.</cite>
-
--->
