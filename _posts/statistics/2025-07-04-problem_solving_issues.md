@@ -165,7 +165,6 @@ What you still don't know is
 3. what did they actually buy (are the users buying cheaper products with the new web page?)
 
 
-
 ## Suggested readings
 
 - <cite> Mitroff, I. I., Silvers, A. (2010). Dirty Rotten Strategies: How We Trick Ourselves and Others Into Solving the Wrong Problems Precisely. US: Stanford Business Books.</cite>
