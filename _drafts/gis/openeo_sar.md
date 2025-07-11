@@ -15,7 +15,8 @@ dataset, which is a Synthetic Aperture Radar mission which collected
 data from 2 satellites for many years.
 SAR is quite different from visible data, and as the name suggests,
 it is collected by a radar. This means that the light source
-is on the satellite, so it can collect data regardless on the sun position.
+is on the satellite, so it can collect data regardless on the sun position,
+keeping light intensity constant.
 Generally, SAR operates on frequencies much higher than the ones in the visible
 spectrum, so they do not interact with clouds, and allows for a great
 spatial resolution.
@@ -236,6 +237,10 @@ have been correctly identified.
 We have seen how to use SAR images to detect ships as well as oil spill,
 and we discussed advantages and disadvantages of SAR images over
 passive detection methods.
+If you are interested in this topic, I would recommend you to take a look
+at the many resources on this topic in order to understand the physical
+mechanism behind SAR imaging.
+As a good starting point I would recommend EdX Alaska-SAR course.
 
 ```python
 %load_ext watermark
