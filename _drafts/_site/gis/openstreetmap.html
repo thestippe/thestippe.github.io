@@ -1,0 +1,176 @@
+<p>Everybody knows Google Maps, and almost everybody uses it.
+Unfortunately, very few know that there exists an open alternative,
+and this alternative can be easily used within Python.
+In this post we will discuss <a href="https://osmnx.readthedocs.io/en/stable/">OSMnx</a>, a Python library that allows you
+to interrogate the <a href="https://www.openstreetmap.org">OSM services</a>.
+OSMnx comes with <a href="https://networkx.org/">NetworkX</a>, a powerful library built to manipulate
+networks, and this allows you to easily calculate routes between points.</p>
+
+<h2 id="osmnx">OSMnx</h2>
+
+<p>Let us start our tour in the OSMnx capabilities.
+We can easily get the boundaries of any location,
+from city neighborhoods to continents.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">osmnx</span> <span class="k">as</span> <span class="n">ox</span>
+<span class="kn">import</span> <span class="nn">networkx</span> <span class="k">as</span> <span class="n">nx</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="n">gpd</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="n">mpl</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="c1"># These are the italian names of some region in north Itay
+</span>
+<span class="n">place_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">"Piemonte"</span><span class="p">,</span> <span class="s">"Lombardia"</span><span class="p">,</span> <span class="s">"Liguria"</span><span class="p">,</span> <span class="s">"Val d'Aosta"</span><span class="p">,</span> <span class="s">"Trentino Alto Adige"</span><span class="p">,</span> <span class="s">"Veneto"</span><span class="p">,</span> <span class="s">"Friuli Venezia Giulia"</span><span class="p">,</span>
+              <span class="s">"Emilia Romagna"</span><span class="p">]</span>
+
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">ox</span><span class="p">.</span><span class="n">geocode_to_gdf</span><span class="p">(</span><span class="n">place_names</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">gdf</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">fc</span><span class="o">=</span><span class="s">"lightgray"</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s">"black"</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">axis</span><span class="p">(</span><span class="s">"off"</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/openstreetmap/northitaly.webp" alt="A map of the north Italy" /></p>
+
+<p>We can also download the walking route for a city.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Let us first download the polygon for Aosta, a city in north Italy
+</span><span class="n">aosta</span> <span class="o">=</span> <span class="n">ox</span><span class="p">.</span><span class="n">geocode_to_gdf</span><span class="p">(</span><span class="s">"Aosta, Italy"</span><span class="p">)</span>
+
+<span class="n">polygon</span> <span class="o">=</span> <span class="n">aosta</span><span class="p">[</span><span class="s">"geometry"</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="c1"># We can now download the walking route for the corresponding polygon
+</span>
+<span class="n">G</span> <span class="o">=</span> <span class="n">ox</span><span class="p">.</span><span class="n">graph_from_polygon</span><span class="p">(</span><span class="n">polygon</span><span class="p">,</span> <span class="n">network_type</span><span class="o">=</span><span class="s">"walk"</span><span class="p">)</span>
+
+<span class="c1"># graphs are great for mathematical manipulation, but for GIS tasks it's better do separate them
+# into nodes, which are points, and edges, which are lines
+</span>
+<span class="n">nodes</span> <span class="o">=</span> <span class="n">ox</span><span class="p">.</span><span class="n">graph_to_gdfs</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">node_geometry</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="bp">False</span><span class="p">).</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span> <span class="o">=</span> <span class="mi">3003</span><span class="p">)</span>
+<span class="n">edges</span> <span class="o">=</span> <span class="n">ox</span><span class="p">.</span><span class="n">graph_to_gdfs</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span>  <span class="bp">True</span><span class="p">,</span> <span class="n">fill_edge_geometry</span><span class="o">=</span><span class="bp">True</span><span class="p">).</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span> <span class="o">=</span> <span class="mi">3003</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">aosta</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="mi">3003</span><span class="p">).</span><span class="n">boundary</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">)</span>
+<span class="n">edges</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/openstreetmap/aosta_walking_routes.webp" alt="" /></p>
+
+<p>We can also retrieve building’s footprints, let us see this for
+the Aosta major building.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">addr</span> <span class="o">=</span> <span class="s">"Municipio di Aosta, Italy"</span>
+
+<span class="n">geo</span> <span class="o">=</span> <span class="n">gpd</span><span class="p">.</span><span class="n">tools</span><span class="p">.</span><span class="n">geocode</span><span class="p">([</span><span class="n">addr</span><span class="p">],</span> <span class="n">provider</span><span class="o">=</span><span class="s">'nominatim'</span><span class="p">,</span> <span class="n">user_agent</span><span class="o">=</span><span class="s">'autogis_xx'</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="n">tags</span> <span class="o">=</span> <span class="p">{</span><span class="s">'building'</span><span class="p">:</span> <span class="bp">True</span><span class="p">}</span> <span class="c1"># would return all building footprints in the area
+</span><span class="n">center_point</span> <span class="o">=</span> <span class="p">(</span><span class="n">geo</span><span class="p">[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">y</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">x</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">a</span> <span class="o">=</span> <span class="n">ox</span><span class="p">.</span><span class="n">features_from_point</span><span class="p">(</span><span class="n">center_point</span><span class="p">,</span> <span class="n">tags</span><span class="p">,</span> <span class="n">dist</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">edges</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">)</span>
+<span class="n">a</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">a</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">crs</span><span class="p">)[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">centroid</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span>
+             <span class="n">a</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">crs</span><span class="p">)[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">centroid</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">500</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">a</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">crs</span><span class="p">)[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">centroid</span><span class="p">.</span><span class="n">y</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span>
+             <span class="n">a</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">crs</span><span class="p">)[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">centroid</span><span class="p">.</span><span class="n">y</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">500</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/openstreetmap/aosta_major_building.webp" alt="" /></p>
+
+<p>We can finally calculate the shortest path between two locations.
+Let us first search for the Aosta hospital</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">addr1</span> <span class="o">=</span> <span class="s">"Ospedale di Aosta, Italy"</span>
+<span class="n">geo1</span> <span class="o">=</span> <span class="n">geocode</span><span class="p">([</span><span class="n">addr1</span><span class="p">],</span> <span class="n">provider</span><span class="o">=</span><span class="s">'nominatim'</span><span class="p">,</span> <span class="n">user_agent</span><span class="o">=</span><span class="s">'autogis_xx'</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">center_point1</span> <span class="o">=</span> <span class="p">(</span><span class="n">geo1</span><span class="p">[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">y</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo1</span><span class="p">[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">x</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">g1</span> <span class="o">=</span> <span class="n">gpd</span><span class="p">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="n">gpd</span><span class="p">.</span><span class="n">points_from_xy</span><span class="p">([</span><span class="n">geo1</span><span class="p">[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">x</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span> <span class="p">[</span><span class="n">geo1</span><span class="p">[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">y</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]]),</span>
+                     <span class="n">crs</span><span class="o">=</span><span class="mi">4326</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>We can now calculate the shortest path from the hospital to the major building.
+We will first find the nearest node to the two locations,
+and then find the shortest path between the nodes.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">start_node</span> <span class="o">=</span> <span class="n">ox</span><span class="p">.</span><span class="n">distance</span><span class="p">.</span><span class="n">nearest_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">geo1</span><span class="p">[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">x</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo1</span><span class="p">[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">y</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">end_node</span> <span class="o">=</span> <span class="n">ox</span><span class="p">.</span><span class="n">distance</span><span class="p">.</span><span class="n">nearest_nodes</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">geo</span><span class="p">[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">x</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">geo</span><span class="p">[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">y</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">route_nodes</span> <span class="o">=</span> <span class="n">ox</span><span class="p">.</span><span class="n">routing</span><span class="p">.</span><span class="n">shortest_path</span><span class="p">(</span><span class="n">G</span><span class="p">,</span> <span class="n">start_node</span><span class="p">,</span> <span class="n">end_node</span><span class="p">,</span> <span class="n">weight</span><span class="o">=</span><span class="s">"length"</span><span class="p">)</span>
+
+<span class="n">G1</span> <span class="o">=</span> <span class="n">G</span><span class="p">.</span><span class="n">subgraph</span><span class="p">(</span><span class="n">route_nodes</span><span class="p">)</span>
+
+<span class="n">nodes1</span> <span class="o">=</span> <span class="n">ox</span><span class="p">.</span><span class="n">graph_to_gdfs</span><span class="p">(</span><span class="n">G1</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">node_geometry</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span> <span class="bp">False</span><span class="p">).</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span> <span class="o">=</span> <span class="mi">3003</span><span class="p">)</span>
+<span class="n">edges1</span> <span class="o">=</span> <span class="n">ox</span><span class="p">.</span><span class="n">graph_to_gdfs</span><span class="p">(</span><span class="n">G1</span><span class="p">,</span> <span class="n">nodes</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span> <span class="n">edges</span> <span class="o">=</span>  <span class="bp">True</span><span class="p">,</span> <span class="n">fill_edge_geometry</span><span class="o">=</span><span class="bp">True</span><span class="p">).</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span> <span class="o">=</span> <span class="mi">3003</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">edges</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span><span class="p">)</span>
+<span class="n">edges1</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'r'</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">a</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">g1</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'m'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">a</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">crs</span><span class="p">)[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">centroid</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span>
+             <span class="n">a</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">crs</span><span class="p">)[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">centroid</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">500</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">a</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">crs</span><span class="p">)[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">centroid</span><span class="p">.</span><span class="n">y</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">500</span><span class="p">,</span>
+             <span class="n">a</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">edges</span><span class="p">.</span><span class="n">crs</span><span class="p">)[</span><span class="s">'geometry'</span><span class="p">].</span><span class="n">centroid</span><span class="p">.</span><span class="n">y</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">500</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/openstreetmap/shortest_path.webp" alt="" /></p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Thanks to Open Street Map and NetworkX you can easily retrieve and
+manipulate a huge variety of geographic information,
+from streets to buildings.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span>
+</code></pre></div></div>
+
+<div class="code">
+Last updated: Tue May 13 2025
+
+Python implementation: CPython
+Python version       : 3.12.8
+IPython version      : 8.31.0
+
+pandas    : 2.2.3
+osmnx     : 2.0.0
+networkx  : 3.4.2
+numpy     : 2.1.3
+matplotlib: 3.10.1
+geopandas : 1.0.1
+
+Watermark: 2.5.0Last updated: Tue May 13 2025
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.8
+<br />
+IPython version      : 8.31.0
+<br />
+
+<br />
+pandas    : 2.2.3
+<br />
+osmnx     : 2.0.0
+<br />
+networkx  : 3.4.2
+<br />
+numpy     : 2.1.3
+<br />
+matplotlib: 3.10.1
+<br />
+geopandas : 1.0.1
+<br />
+
+<br />
+Watermark: 2.5.0
+</div>

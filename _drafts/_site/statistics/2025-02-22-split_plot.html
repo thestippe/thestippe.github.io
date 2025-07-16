@@ -1,0 +1,400 @@
+<p>There are contexts where a complete randomization of the treatment
+assignment is not convenient enough to justify a full factorial
+experiment, and a split-plot design is often a good alternative.</p>
+
+<p>Split plot designs have been invented in agriculture,
+where a field (the “full plot”) is divided into split-plots.
+Assume that you have two factors of interest,
+the irrigation method and the fertilizer.
+While the fertilizer can be easily changed across sub-plots,
+it’s hard to do the same for the irrigation method by ensuring
+that the treatment is uniform across the entire field.
+This is a classical example of split-plot design, where you
+have a hard-to-change factor (the irrigation method)
+and an easy-to-change factor (the fertilizer).</p>
+
+<p>Other situations where you should consider the split-plot
+design is when changing one of the factors
+requires a lot of time or effort, and in this case
+the factor might be treatment as a plot factor.
+A typical example is the temperature: you should
+cool down and re-heat the environment to the randomly assigned
+temperature in order to properly treat it as randomized,
+and this is often not practically feasible due to time constraints.</p>
+
+<p>If we treat this experiment as a full factorial
+example, we would underestimate the uncertainty of our treatment 
+effects, since we are not randomly assigning the irrigation
+to the different subplots.</p>
+
+<p>Since the irrigation is randomly assigned to the different
+plot, we can model the plot level treatment effect as follows:</p>
+
+\[\begin{align}
+y_{iu} \sim &amp; \alpha_i + \eta_{iu}
+\\
+\eta_{iu} \sim &amp; \mathcal{N}(0, \sigma_P)
+\end{align}\]
+
+<p>where $\alpha_i$ is the irrigation effect and $\eta_iu$
+is the noise term and $y_{iu}$ the average outcome at the plot level.
+We can then include the fertilizer effect</p>
+
+\[\begin{align}
+y_{iujt} \sim &amp;  \alpha_i + \eta_{iu}
++ \beta_j + (\alpha \beta)_{ij} + \varepsilon_{iujt}
+\\
+\eta_{iu} \sim &amp; \mathcal{N}(0, \sigma_P)
+\\
+\eta_{iujt} \sim &amp; \mathcal{N}(0, \sigma_S)
+\end{align}\]
+
+<p>We can easily implement the above model by using a hierarchical
+model, where we add a random intercept grouping at the plot level.
+Above we assumed a full interaction model between the
+fertilizer and the irrigation method.
+Let us take a look at the fertilizer dataset by <a href="https://github.com/julianfaraway/faraway">Julian Faraway</a>.
+The dataset has unknown source and has been found by Faraway online.</p>
+
+<h2 id="an-application">An application</h2>
+
+<p>The experiment is almost identical to the one described above,
+except that the split-plot factor is not the fertilizer
+but the crop variety.
+This dataset has been analyzed in R
+in <a href="https://people.math.ethz.ch/~meierluk/teaching/anova/split-plot-designs.html">this website</a>,
+here we will only bring it to python with minor modifications.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="nn">bambi</span> <span class="k">as</span> <span class="n">bmb</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s">'nuts_sampler'</span><span class="p">:</span> <span class="s">'numpyro'</span><span class="p">,</span> <span class="s">'random_seed'</span><span class="p">:</span> <span class="n">rng</span><span class="p">,</span>
+          <span class="s">'draws'</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span> <span class="s">'tune'</span><span class="p">:</span> <span class="mi">2000</span><span class="p">,</span> <span class="s">'chains'</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+          <span class="s">'target_accept'</span><span class="p">:</span> <span class="mf">0.95</span><span class="p">}</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">'data/irrigation.csv'</span><span class="p">)</span>
+
+<span class="n">df</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: left">field</th>
+      <th style="text-align: left">irrigation</th>
+      <th style="text-align: left">variety</th>
+      <th style="text-align: right">yield</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: left">f1</td>
+      <td style="text-align: left">i1</td>
+      <td style="text-align: left">v1</td>
+      <td style="text-align: right">35.4</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left">f1</td>
+      <td style="text-align: left">i1</td>
+      <td style="text-align: left">v2</td>
+      <td style="text-align: right">37.9</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: left">f2</td>
+      <td style="text-align: left">i2</td>
+      <td style="text-align: left">v1</td>
+      <td style="text-align: right">36.7</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: left">f2</td>
+      <td style="text-align: left">i2</td>
+      <td style="text-align: left">v2</td>
+      <td style="text-align: right">38.2</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">5</td>
+      <td style="text-align: left">f3</td>
+      <td style="text-align: left">i3</td>
+      <td style="text-align: left">v1</td>
+      <td style="text-align: right">34.8</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">6</td>
+      <td style="text-align: left">f3</td>
+      <td style="text-align: left">i3</td>
+      <td style="text-align: left">v2</td>
+      <td style="text-align: right">36.4</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">7</td>
+      <td style="text-align: left">f4</td>
+      <td style="text-align: left">i4</td>
+      <td style="text-align: left">v1</td>
+      <td style="text-align: right">39.5</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">8</td>
+      <td style="text-align: left">f4</td>
+      <td style="text-align: left">i4</td>
+      <td style="text-align: left">v2</td>
+      <td style="text-align: right">40</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">9</td>
+      <td style="text-align: left">f5</td>
+      <td style="text-align: left">i1</td>
+      <td style="text-align: left">v1</td>
+      <td style="text-align: right">41.6</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">10</td>
+      <td style="text-align: left">f5</td>
+      <td style="text-align: left">i1</td>
+      <td style="text-align: left">v2</td>
+      <td style="text-align: right">40.3</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">11</td>
+      <td style="text-align: left">f6</td>
+      <td style="text-align: left">i2</td>
+      <td style="text-align: left">v1</td>
+      <td style="text-align: right">42.7</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">12</td>
+      <td style="text-align: left">f6</td>
+      <td style="text-align: left">i2</td>
+      <td style="text-align: left">v2</td>
+      <td style="text-align: right">41.6</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">13</td>
+      <td style="text-align: left">f7</td>
+      <td style="text-align: left">i3</td>
+      <td style="text-align: left">v1</td>
+      <td style="text-align: right">43.6</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">14</td>
+      <td style="text-align: left">f7</td>
+      <td style="text-align: left">i3</td>
+      <td style="text-align: left">v2</td>
+      <td style="text-align: right">42.8</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">15</td>
+      <td style="text-align: left">f8</td>
+      <td style="text-align: left">i4</td>
+      <td style="text-align: left">v1</td>
+      <td style="text-align: right">44.5</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">16</td>
+      <td style="text-align: left">f8</td>
+      <td style="text-align: left">i4</td>
+      <td style="text-align: left">v2</td>
+      <td style="text-align: right">47.6</td>
+    </tr>
+  </tbody>
+</table>
+
+<p><img src="/docs/assets/images/statistics/split_plot/irrigation.webp" alt="The scatterplot of the irrigation dataset" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">bmb</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="s">'yield ~ irrigation*variety + (1|field)'</span><span class="p">,</span>
+                  <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="p">[</span><span class="s">'field'</span><span class="p">,</span> <span class="s">'irrigation'</span><span class="p">,</span> <span class="s">'variety'</span><span class="p">])</span>
+
+<span class="n">idata</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">idata_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">log_likelihood</span> <span class="o">=</span> <span class="bp">True</span><span class="p">))</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/split_plot/trace.webp" alt="The trace of the above model" /></p>
+
+<p>The trace doesn’t show any big issue. Let us take a look
+at the effects.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'irrigation'</span><span class="p">,</span><span class="s">'irrigation:variety'</span><span class="p">,</span> <span class="s">'variety'</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/split_plot/forest.webp" alt="The main effects of the above model" /></p>
+
+<p>The presence of an effect is not clear, and since the interaction
+term is compatible with zero, we can see what a non-interacting
+model tells us.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model_red</span> <span class="o">=</span> <span class="n">bmb</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="s">'yield ~ irrigation + variety + (1|field)'</span><span class="p">,</span>
+                      <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="p">[</span><span class="s">'field'</span><span class="p">,</span> <span class="s">'irrigation'</span><span class="p">,</span> <span class="s">'variety'</span><span class="p">])</span>
+
+<span class="n">idata_red</span> <span class="o">=</span> <span class="n">model_red</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">idata_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">log_likelihood</span> <span class="o">=</span> <span class="bp">True</span><span class="p">))</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_red</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/split_plot/trace_red.webp" alt="The trace of the reduced model" /></p>
+
+<p>Also in this case the traces are fine.</p>
+
+<p>Let us first of all verify if the non-interacting model is appropriate</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_comp</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="n">compare</span><span class="p">({</span><span class="s">'full'</span><span class="p">:</span> <span class="n">idata</span><span class="p">,</span> <span class="s">'interaction-free'</span><span class="p">:</span> <span class="n">idata_red</span><span class="p">})</span>
+<span class="n">df_comp</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: left"> </th>
+      <th style="text-align: right">rank</th>
+      <th style="text-align: right">elpd_loo</th>
+      <th style="text-align: right">p_loo</th>
+      <th style="text-align: right">elpd_diff</th>
+      <th style="text-align: right">weight</th>
+      <th style="text-align: right">se</th>
+      <th style="text-align: right">dse</th>
+      <th style="text-align: left">warning</th>
+      <th style="text-align: left">scale</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: left">interaction-free</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">-33.4474</td>
+      <td style="text-align: right">8.38432</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">1.21474</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: left">True</td>
+      <td style="text-align: left">log</td>
+    </tr>
+    <tr>
+      <td style="text-align: left">full</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">-40.5167</td>
+      <td style="text-align: right">11.725</td>
+      <td style="text-align: right">7.06935</td>
+      <td style="text-align: right">5.24025e-14</td>
+      <td style="text-align: right">0.736522</td>
+      <td style="text-align: right">1.11308</td>
+      <td style="text-align: left">True</td>
+      <td style="text-align: left">log</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_compare</span><span class="p">(</span><span class="n">df_comp</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/split_plot/df_comp.webp" alt="" /></p>
+
+<p>There are no doubts that the non-interacting model
+is appropriate.
+Let us take a closer look at the variety effect.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_posterior</span><span class="p">(</span><span class="n">idata_red</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'variety'</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/split_plot/variety_red.webp" alt="" /></p>
+
+<p>Apparently there might be an effect, but our uncertainties
+are too large for a clear conclusion.</p>
+
+<p>Notice that $\sigma_{1|field}$ is much larger than $\sigma$,
+so it would be a mistake to neglect the random intercept part.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model_nr</span> <span class="o">=</span> <span class="n">bmb</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="s">'yield ~ irrigation + variety'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="p">[</span><span class="s">'field'</span><span class="p">,</span> <span class="s">'irrigation'</span><span class="p">,</span> <span class="s">'variety'</span><span class="p">])</span>
+<span class="n">idata_nr</span> <span class="o">=</span> <span class="n">model_nr</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">idata_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">log_likelihood</span> <span class="o">=</span> <span class="bp">True</span><span class="p">))</span>
+<span class="n">model_nr_int</span> <span class="o">=</span> <span class="n">bmb</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="s">'yield ~ irrigation * variety'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">categorical</span><span class="o">=</span><span class="p">[</span><span class="s">'field'</span><span class="p">,</span> <span class="s">'irrigation'</span><span class="p">,</span> <span class="s">'variety'</span><span class="p">])</span>
+<span class="n">idata_nr_int</span> <span class="o">=</span> <span class="n">model_nr_int</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">,</span> <span class="n">idata_kwargs</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">log_likelihood</span> <span class="o">=</span> <span class="bp">True</span><span class="p">))</span>
+
+<span class="n">df_comp_new</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="n">compare</span><span class="p">({</span><span class="s">'full'</span><span class="p">:</span> <span class="n">idata</span><span class="p">,</span>
+                          <span class="s">'interaction-free'</span><span class="p">:</span> <span class="n">idata_red</span><span class="p">,</span>
+                          <span class="s">'NI-fixed-intercept'</span><span class="p">:</span> <span class="n">idata_nr</span><span class="p">,</span>
+                          <span class="s">'fixed-intercept'</span><span class="p">:</span> <span class="n">idata_nr_int</span><span class="p">})</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_compare</span><span class="p">(</span><span class="n">df_comp_new</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/split_plot/df_comp_new.webp" alt="" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+<span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">pytensor</span><span class="p">,</span><span class="n">numpyro</span>
+</code></pre></div></div>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We discussed how to recognize and analyze a split-plot
+experiment by using mixed effect models with PyMC, Arviz and Bambi.
+We discussed the pros and cons of this design with a
+practical example.</p>
+
+<h2 id="suggested-readings">Suggested readings</h2>
+<ul>
+  <li><cite>Altman, N., Krzywinski, M. Split plot design. Nat Methods 12, 165–166 (2015). https://doi.org/10.1038/nmeth.3293</cite></li>
+  <li><cite>Lawson, J. (2014). Design and Analysis of Experiments with R. US: CRC Press.</cite></li>
+  <li><cite>Hinkelmann, K., Kempthorne, O. (2008). Design and Analysis of Experiments Set. UK: Wiley.</cite></li>
+</ul>
+<div class="code">
+Last updated: Thu Feb 27 2025
+<br />
+
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.8
+<br />
+IPython version      : 8.31.0
+<br />
+
+<br />
+xarray  : 2024.11.0
+<br />
+pytensor: 2.26.4
+<br />
+numpyro : 0.16.1
+<br />
+
+<br />
+pandas    : 2.2.3
+<br />
+matplotlib: 3.10.0
+<br />
+numpy     : 1.26.4
+<br />
+pymc      : 5.19.1
+<br />
+seaborn   : 0.13.2
+<br />
+arviz     : 0.20.0
+<br />
+bambi     : 0.15.0
+<br />
+
+<br />
+Watermark: 2.5.0
+<br />
+</div>
+

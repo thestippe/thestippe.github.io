@@ -1,0 +1,268 @@
+<p>Vector data is one of the most common kind of data you will
+work with in geographic data analysis.
+This kind of data is generally obtained by GPS data,
+but can also be extracted from images or, more generally, from raster
+data.
+Here we will introduce vector data, together with some of
+the simplest and most common operations you can perform with vector data.
+We will also show how to store, read and visualize vector data.</p>
+
+<h2 id="reading-vector-data-files-with-geopandas">Reading vector data files with geopandas</h2>
+
+<p>Geopandas is one of the most popular tools in Python
+to handle vector data files.
+Geopandas can do much more than this, as it allows you
+to manipulate and visualize vector data.
+This library is based on Pandas, but it also includes
+many tools from a variety of different packages and libraries.</p>
+
+<p>One simple way to store point data is to use csv files,
+where two columns are associated with the coordinates of
+the point.
+As an example, we used the dataset in <a href="//www.datiopen.it/it/opendata/Mappa_dei_rifugi_in_Italia">this link</a>
+to get the list of the mountain refuges in Italy.
+In this dataset, the columns “Longitudine” and “Latitudine”
+are associated with the longitude and latitude of each refuge.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="n">gpd</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">matplotlib</span> <span class="k">as</span> <span class="n">mpl</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s">"./data/Mappa-dei-rifugi-in-Italia.csv"</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="s">'latin1'</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s">';'</span><span class="p">)</span>
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="p">.</span><span class="n">GeoDataFrame</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">crs</span><span class="o">=</span><span class="s">'WGS84'</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">gpd</span><span class="p">.</span><span class="n">points_from_xy</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Longitudine'</span><span class="p">],</span> <span class="n">df</span><span class="p">[</span><span class="s">'Latitudine'</span><span class="p">]))</span>
+<span class="n">gdf</span><span class="p">.</span><span class="n">plot</span><span class="p">()</span>
+</code></pre></div></div>
+<p><img src="/docs/assets/images/gis/vector/refuges.webp" alt="" /></p>
+
+<p>Here we constructed a GeoPandas GeoDataFrame with
+a Pandas DataFrame.
+In order to construct a GeoDataFrame we specified the geometry
+from the columns “Longitudine” and “Latitudine”, 
+and we used the <strong>WGS84</strong> (also known as <strong>ESPG:4326</strong>) coordinate reference system,
+which is nowadays the most common ellipsoidal crs.</p>
+
+<p>We can also leverage Leaflet to interactively show the above dataset on the 
+OpenStreetMap map as follows:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gdf</span><span class="p">.</span><span class="n">explore</span><span class="p">()</span>
+</code></pre></div></div>
+
+<embed type="text/html" src="/docs/assets/images/gis/vector/explore.html" width="900" height="900" />
+
+<p>The above method, however, is very limited,
+as you can only easily store point vector data, and there is
+no easy way to share the coordinate reference system.
+For these reasons a more popular way to share vector data
+is to use <a href="https://en.wikipedia.org/wiki/Shapefile">shapefiles</a>.</p>
+
+<p>A shapefile consists by a set of files which must stay
+in the same folder, the most important ones are:</p>
+<ul>
+  <li>a <strong>shp</strong> file, which contains the geometry</li>
+  <li>a <strong>shx</strong> file, containing the index</li>
+  <li>a <strong>dbf</strong> file, containing the attributes</li>
+  <li>a (non-mandatory) <strong>prj</strong> file, containing the projection.</li>
+</ul>
+
+<p>There are other files which may stay inside the same folder
+and are searched by geopandas or by the GIS file,
+but they are not mandatory.</p>
+
+<p>We downloaded and unzipped the zip file
+which can be found at <a href="https://www.geoportale.piemonte.it/geonetwork/srv/ita/catalog.search#/metadata/r_piemon:4c9261f3-e0bc-4b66-8ec2-9d7035940989">this link</a>
+to get the list of the municipalities in Piedmont (Italy) into the “municipalities” folder.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gdf_municipalities</span> <span class="o">=</span> <span class="n">gpd</span><span class="p">.</span><span class="n">read_file</span><span class="p">(</span><span class="s">'./data/municipalities/Ambiti_Amministrativi-Comuni.dbf'</span><span class="p">)</span>
+<span class="n">gdf_municipalities</span><span class="p">.</span><span class="n">plot</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/vector/municipalities.webp" alt="The Piedmont municipalities" /></p>
+
+<p>The above is an example of polygon data, while an example
+of multiline data is the set of hiking/bike routes
+of Piedmont, which can be downloaded from <a href="https://www.dati.piemonte.it/#/catalogodetail/geoportale_regione_csw_isotc211_geoportale_regione_piemonte_r_piemon:34a5904a-72cc-449f-a9f6-a05876a63abf">this link</a>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gdf_routes</span> <span class="o">=</span> <span class="n">gpd</span><span class="p">.</span><span class="n">read_file</span><span class="p">(</span><span class="s">'.(data/routes/rete_sentieristica.dbf'</span><span class="p">)</span>
+<span class="n">gdf_routes</span><span class="p">.</span><span class="n">plot</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/vector/routes.webp" alt="The Piedmont routes" /></p>
+
+<p>Notice that the coordinates in the refuges dataset are
+expressed in latitude and longitude, while this is impossible
+for the other datasets, since the x and y coordinates 
+are order of magnitude larger.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gdf_routes</span><span class="p">.</span><span class="n">crs</span>
+</code></pre></div></div>
+<div class="code">
+&lt;Projected CRS: EPSG:32632&gt;
+<br />
+Name: WGS 84 / UTM zone 32N
+<br />
+Axis Info [cartesian]:
+<br />
+- E[east]: Easting (metre)
+<br />
+- N[north]: Northing (metre)
+<br />
+Area of Use:
+<br />
+- name: Between 6°E and 12°E, northern hemisphere between equator and 84°N, onshore and offshore. Algeria. Austria. Cameroon. Denmark. Equatorial Guinea. France. Gabon. Germany. Italy. Libya. Liechtenstein. Monaco. Netherlands. Niger. Nigeria. Norway. Sao Tome and Principe. Svalbard. Sweden. Switzerland. Tunisia. Vatican City State.
+<br />
+- bounds: (6.0, 0.0, 12.0, 84.0)
+<br />
+Coordinate Operation:
+<br />
+- name: UTM zone 32N
+<br />
+- method: Transverse Mercator
+<br />
+Datum: World Geodetic System 1984 ensemble
+<br />
+- Ellipsoid: WGS 84
+<br />
+- Prime Meridian: Greenwich
+<br />
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gdf_municipalities</span><span class="p">.</span><span class="n">crs</span><span class="o">==</span><span class="n">gdf_routes</span><span class="p">.</span><span class="n">crs</span>
+</code></pre></div></div>
+
+<div class="code">True</div>
+
+<div class="emphbox">
+Always be consistent with the choice of the
+coordinate reference frame.
+</div>
+
+<p>The choice of the crs can affect your calculation
+and depends on your needs. It is generally better
+to work with a projected (metric) crs rather than with
+the unprojected (angular <em>i.e.</em> latitude and longitude)
+coordinates, we will therefore work with the latter
+crs.
+This crs, in particular, is a Universal Transverse Mercator
+projection, which is a very common kind of projection
+up to country-level data, but it’s unsuitable for larger (e.g.
+continent) scale data.</p>
+
+<p>Notice that the refuges dataset contains data for the entire
+Italy, while the remaining datasets only contain data
+for the Piedmont region.
+Since we lack of data for the remaining regions, we will
+clip the refuge to the Piedmont regions.
+In other terms, we will construct a sub-dataset which
+only contains data for the Piedmont region.</p>
+
+<p>We will do this in two steps: first of all, we will construct
+a polygon shape for the entire Piedmont region,
+then we will clip the refuges dataset to this region.
+The first step is necessary since the municipalities dataset
+contains one polygon for each municipality, and this step can 
+be achieved with the <strong>dissolve</strong> method</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">region</span> <span class="o">=</span> <span class="n">gdf_municipalities</span><span class="p">.</span><span class="n">dissolve</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>We can now clip the refuges dataset to this region, but first
+we must re-project the refuges dataset to the region crs.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gdf_red</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">gdf_routes</span><span class="p">.</span><span class="n">crs</span><span class="p">).</span><span class="n">clip</span><span class="p">(</span><span class="n">region</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Another common format to share geodata is by using
+geojson.
+We created a small <a href="https://it.wikipedia.org/wiki/GeoJSON">GeoJSON</a>
+file with the coordinates of the mountains above 4500 meters over the sea level
+in the “mounts.geojson” file, and the content of this file
+was the following:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"FeatureCollection"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"features"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Feature"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Punta Nordend"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"elevation"</span><span class="p">:</span><span class="w"> </span><span class="mi">4609</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"geometry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"coordinates"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="mf">7.850</span><span class="p">,</span><span class="w">
+          </span><span class="mf">45.933</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Point"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="p">{</span><span class="w">
+      </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Feature"</span><span class="p">,</span><span class="w">
+      </span><span class="nl">"properties"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Punta Gnifetti"</span><span class="p">,</span><span class="w">
+	</span><span class="nl">"elevation"</span><span class="p">:</span><span class="w"> </span><span class="mi">4554</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="nl">"geometry"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="nl">"coordinates"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+           </span><span class="mf">7.877</span><span class="p">,</span><span class="w">
+          </span><span class="mf">45.927</span><span class="w">
+        </span><span class="p">],</span><span class="w">
+        </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Point"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>We can finally show the refuges together with the routes and the mountains.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gdf_mounts</span> <span class="o">=</span> <span class="n">gpd</span><span class="p">.</span><span class="n">read_file</span><span class="p">(</span><span class="s">'./data/mounts.geojson'</span><span class="p">)</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">9</span><span class="p">,</span> <span class="mi">9</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="p">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">111</span><span class="p">)</span>
+<span class="n">region</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'grey'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+<span class="n">gdf_routes</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="s">'TIPOLOGIA'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">mpl</span><span class="p">.</span><span class="n">cm</span><span class="p">.</span><span class="n">RdGy</span><span class="p">)</span>
+<span class="n">gdf_red</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'#d28b5a'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">'s'</span><span class="p">)</span>
+<span class="n">gdf_mounts</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">gdf_routes</span><span class="p">.</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'brown'</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">'^'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/vector/routes_and_refuges.webp" alt="" /></p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Vector data is very common in geographic data analysis,
+and there are plenty of formats to store this kind of data.
+GeoPandas, however, will simplify your life, by allowing
+you to read, manipulate and store vector data as you would
+do with pandas dataframes.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">folium</span>
+</code></pre></div></div>
+
+<div class="code">
+Last updated: Mon Dec 09 2024
+<br />
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.7
+<br />
+IPython version      : 8.24.0
+<br />
+<br />
+folium: 0.17.0
+<br />
+<br />
+geopandas : 1.0.1
+<br />
+pandas    : 2.2.3
+<br />
+matplotlib: 3.9.2
+<br />
+<br />
+Watermark: 2.4.3
+<br />
+</div>
+

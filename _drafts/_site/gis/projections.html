@@ -1,0 +1,202 @@
+<p>In this post we will discuss the main projection families,
+their pros and cons and give some, hopefully useful, hint
+on how to choose the best projection.</p>
+
+<h2 id="idealizing-the-earth">Idealizing the Earth</h2>
+
+<p>The Earth is an object with its own shape, but our aim is to map its
+surface onto a plane, and to do so we must start from a geometrical
+model of the Earth.
+The first thing we must do is to define what do we mean by Earth
+surface, and by this we mean the mean sea level.</p>
+
+<p>The simplest model is of course the perfect sphere, but this is often
+considered as a too simplistic model, since it does not take
+into account the Earth deformation due to its rotation around the pole axis.</p>
+
+<p>The model which is nowadays most common is the World Geodetic System 1984,
+also known as WGS84 or EPSG:4326, where the mean seal level is
+defined as an ellipsoid
+having a semi-major axis of 6378.137 kilometers
+and a semi-minor axis of approximately 6356.752 kilometers.</p>
+
+<h2 id="latitude-and-longitude">Latitude and longitude</h2>
+<p>Let us now recall how latitude and longitude,
+which are the most common coordinates on both the spherical and on the ellipsoidal Earth, are defined.
+This will be easier if we first define the <strong>great circle</strong>,
+which is any circle given by the intersection
+of the sphere (the Earth) with a plane going through the center of the sphere.</p>
+
+<p>Great circles are very useful, as the shortest path between two points on
+the sphere is an arc of great circle<sup id="fnref:1" role="doc-noteref"><a href="#fn:1" class="footnote" rel="footnote">1</a></sup>.</p>
+
+<p>We must then define a <strong>pole</strong>, as an example the North Pole (the South Pole can be 
+defined as the opposite point on the sphere).
+We then define the <strong>equator</strong> as the great circle with the greatest distance
+from the poles or, equivalently, as the great circle defined by the plane 
+perpendicular to the line passing through the poles.</p>
+
+<p>The <strong>north/south hemisphere</strong> is the surface of the half sphere which has as boundary the equator
+and encloses the North/South Pole</p>
+
+<p>A <strong>parallel</strong> is any circle on the sphere given by the intersection
+of the sphere with a plane perpendicular to the line passing through the poles.
+The equator is the only parallel which is also a great circle.</p>
+
+<p>We define <strong>meridians</strong> as the great circles passing through both the poles.</p>
+
+<p><img src="/docs/assets/images/geo/sphere.webp" alt="" /></p>
+
+<p>In the above figure we show the meridians and parallels on the sphere, in grey.
+All meridians encounter at the poles, parallels never encounters.
+The red dashed line correspond to the equator, the purple dashed line to the Greenwich meridian.
+The dotted red line is the parallel passing through the black point,
+the dotted purple line corresponds to the meridian passing through it.
+The red solid arc corresponds to the point longitude,
+the purple solid arc corresponds to its latitude.</p>
+
+<p>We must now identify a second great circle passing through both the poles,
+and this is conventionally defined as the one going through Greenwich.</p>
+
+<p>We can now define the <strong>latitude</strong> $\phi$ of a point as the shortest arc of meridian 
+going from the equator and the parallel passing through the point.
+If a point is in the north/south hemisphere, then its latitude is positive/negative (N/S).</p>
+
+<p>The <strong>longitude</strong> $\lambda$ is the shortest arc of equator going from the Greenwich meridian
+and the meridian passing through the point.
+The longitude is positive (East) if, by looking from the North Pole,
+the shortest arc starting from Greenwich rotates anticlockwise,
+otherwise it’s negative (West).</p>
+
+<h2 id="maps-and-projections">Maps and projections</h2>
+<p>Earth is (almost) spherical, but our screen is flat, so we need to use a
+<strong>projection</strong> to map the points on the sphere onto the plane.</p>
+
+<p>The simplest kind of projection we will discuss is the <strong>perspective projection</strong>,
+which is obtained by projecting the rays originated by 
+a dummy light source going through the sphere surface onto
+a plane.</p>
+
+<p>In order to define a projection, we must define</p>
+<ul>
+  <li>a projection point, which is the light source</li>
+  <li>the surface where we will project the sphere</li>
+</ul>
+
+<p>Common projection points are:</p>
+<ul>
+  <li>the center of the sphere (central)</li>
+  <li>a point onto the sphere - usually a pole</li>
+  <li>a point located at infinite distance from the sphere and the rays are parallel lines (orthographic)</li>
+</ul>
+
+<p><img src="/docs/assets/images/geo/projection_points.webp" alt="" /></p>
+
+<p>We must also choose the plane where we want to project the sphere.
+Common choices are</p>
+<ul>
+  <li>a plane tangent to a point, usually the pole (planar)</li>
+  <li>a cone tangent to any given circle, usually parallel (conic)</li>
+  <li>a cylinder tangent to any great circle, usually the equator (cylindrical)</li>
+</ul>
+
+<p>Planar and cylindrical projections can be considered special cases of
+the conical one.</p>
+
+<p>In any polar projection, parallels are mapped onto circles,
+while meridians are straight lines starting from the pole.</p>
+
+<p>Some common projections are:</p>
+<ul>
+  <li>the <strong>gnomonic</strong>, the planar perspective projection where the rays start from the center of the sphere</li>
+  <li>the <strong>stereographic</strong> projection, the planar perspective projection where the rays start from the point opposite to the point of the sphere tangent to the projection plane</li>
+  <li>the <strong>orthographic</strong> projection, the planar perspective projection where the rays are parallel</li>
+  <li>the <strong>central cylindrical</strong> projection</li>
+</ul>
+
+<p>Here we show how equidistant parallels and meridians are mapped for the above projections</p>
+
+<p><img src="/docs/assets/images/geo/polar_planar_projections.webp" alt="" /></p>
+
+<p>It is sometimes useful to use a secant plane rather than a tangent one, but here
+we only focus on tangent projections.</p>
+
+<p>Each projection has pros and cons, as usual.
+As an example, in the gnomonic projection, arcs of great circles are always
+mapped onto straight lines, making them convenient to trace routes. However,
+in this projection, distances and areas are distorted,
+and the more one goes far from the center of the projection
+(where we assume the plane touches the sphere), the worst 
+becomes the distortion.</p>
+
+<p>On the other hand, the central cylindrical projection is well suited to show
+regions close to the equator, but the poles are mapped at the infinity.</p>
+
+<p>Finally, the stereographic projection is a <strong>conformal</strong> projection,
+and this means that angles are locally preserved in the mapping, so
+shapes are preserved too. This makes them
+suitable to calculate angle differences.</p>
+
+<p>Conformal projections form a very important class of projections, and the stereographic
+projection is only one of these projections.
+Other well known examples of conformal projections are the
+<strong>Mercator</strong> projection, which is a conformal projection derived from
+the cylindrical projection, and the <strong>Lambert conical</strong> projection, which is instead derived
+from the central conical projection.</p>
+
+<p><img src="/docs/assets/images/geo/south_pole_conformal.webp" alt="" /></p>
+
+<p>In the above figure we show how the South Pole, in blue, is mapped for different
+conformal maps.</p>
+
+<p>Another very important class of projection is the family of <strong>equal-area</strong>
+projections. In equal-area projections, the ratio between areas is preserved.</p>
+
+<p><img src="/docs/assets/images/geo/south_pole_equal_area.webp" alt="" /></p>
+
+<p>Due to this property, equal area projections are often used in statistics,
+where one wants to compare quantities for different countries and relate
+these quantities to the extension of the country itself.
+Above, we show some example of equal-area projection, namely the <strong>Lambert conical</strong>,
+the <strong>Equal Earth</strong> and the <strong>Hammer</strong> projections.</p>
+
+<p>We also mention the <strong>equidistant</strong> projections, which preserve
+some distance, usually distances from one point or along one axis.
+As an example, the <strong>equirectangular</strong> projection preserves the distances
+along meridians, while the <strong>azimuthal equidistant projection</strong> preserves
+distances from the central point.
+Another equidistant projection you might easily encounter is the
+<strong>equidistant conic</strong> projection, which both preserves distances along
+meridians and along the two standard parallels (in the figure 0 and -40 degrees).
+The equidistant projection having as standard parallel the equator
+is also known as <strong>plate carrée</strong>.</p>
+
+<p><img src="/docs/assets/images/geo/south_pole_equidistant.webp" alt="" /></p>
+
+<p>This class of projections can be useful when you need to precisely map
+distances, and are therefore often used when analyzing routes.</p>
+
+<p>A separate class of projections is given by the <strong>compromise</strong>
+projections, which are nor equal-area neither conformal or
+equidistant, but rather seek for balance in the various kinds of distortions.
+This is a very large family of projections, and examples
+of compromise projections are the <strong>Robinson</strong> projection or
+the <strong>Miller</strong> projection.</p>
+
+<p><img src="/docs/assets/images/geo/south_pole_compromise.webp" alt="" /></p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Choosing the appropriate projection is crucial to convey the most relevant information,
+especially when you need to visualize large geographical areas.
+There exists no perfect projection, and each projection has pros and cons,
+it is therefore important both to have some basic repertoire of projections
+and to experiment with different projections.
+As usual, drawing is re-drawing.</p>
+<div class="footnotes" role="doc-endnotes">
+  <ol>
+    <li id="fn:1" role="doc-endnote">
+      <p>This is why, for long distances, it is convenient to work with nautical miles, which are defined as the length of one prime of degree of the great circle. <a href="#fnref:1" class="reversefootnote" role="doc-backlink">&#8617;</a></p>
+    </li>
+  </ol>
+</div>

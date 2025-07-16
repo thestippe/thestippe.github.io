@@ -1,0 +1,205 @@
+<p>In some situations two levels are not enough
+do describe the data we are interested in, and here we will
+explain how to include them in a mixed effects model.
+Three-level models become popular in the context of studies on
+schools, since in this kind of situation there are at
+least three levels of interest: the student, the class and the school.
+It is in fact reasonable to assume that if we randomly sample
+two students from the same class, they will have a higher
+chance of being more similar in many aspects
+than two students coming from different classes.
+The same kind of consideration holds if we imagine to sample two
+classes from the same school and from two different schools.</p>
+
+<p>In this post we will analyze the
+<a href="https://rdrr.io/rforge/ALA/man/tvsfp.html">TVSFP dataset</a>
+which is a subset of a dataset of a study performed
+to determine the efficacy of a school-based smoking prevention curriculum.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">bambi</span> <span class="k">as</span> <span class="n">bmb</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="n">kwargs</span> <span class="o">=</span> <span class="p">{</span><span class="s">'nuts_sampler'</span><span class="p">:</span> <span class="s">'numpyro'</span><span class="p">,</span> <span class="s">'random_seed'</span><span class="p">:</span> <span class="n">rng</span><span class="p">,</span>
+          <span class="s">'draws'</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span> <span class="s">'tune'</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span> <span class="s">'chains'</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s">'target_accept'</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+          <span class="s">'idata_kwargs'</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">log_likelihood</span> <span class="o">=</span> <span class="bp">True</span><span class="p">)}</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">read_stata</span><span class="p">(</span><span class="s">'/home/stippe/Downloads/tvsfp.dta'</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s">'sid'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'sid'</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># school id
+</span><span class="n">df</span><span class="p">[</span><span class="s">'cid'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'cid'</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># class id
+</span><span class="n">df</span><span class="p">[</span><span class="s">'curriculum'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'curriculum'</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">df</span><span class="p">[</span><span class="s">'tvprevent'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'tvprevent'</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s">'pid'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>  <span class="c1"># pupil id
+</span>
+<span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">sid</th>
+      <th style="text-align: right">cid</th>
+      <th style="text-align: right">curriculum</th>
+      <th style="text-align: right">tvprevent</th>
+      <th style="text-align: right">prescore</th>
+      <th style="text-align: right">postscore</th>
+      <th style="text-align: right">pid</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">403</td>
+      <td style="text-align: right">403101</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">0</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">403</td>
+      <td style="text-align: right">403101</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">1</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">403</td>
+      <td style="text-align: right">403101</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">2</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">403</td>
+      <td style="text-align: right">403101</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">3</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">403</td>
+      <td style="text-align: right">403101</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">4</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Each pupil has a unique pid, each class has a unique cid and each school
+has a unique sid, so we don’t have to worry about non-unique labels.
+There are two binary variables, tvprevent and
+curriculum (which are the treatment factors) and two numeric (which we will consider as real, even if they are not)
+variables, postscore (which will be our outcome) and prescore, which is the score
+before the treatment.
+We will use all the variables to construct a linear model,
+and we will include an interaction term between the two treatment factors.
+First of all, let us try and fit the data without any hierarchical structure.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model</span> <span class="o">=</span> <span class="n">bmb</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="s">'postscore ~ prescore + tvprevent*curriculum'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">idata</span> <span class="o">=</span> <span class="n">model</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/three_levels/trace_0.webp" alt="The trace of the plain model" /></p>
+
+<p>We will use this model as a baseline, adding more and more structure
+and comparing the results of more complex models with simpler ones,
+keeping the complexity level at the minimum required.</p>
+
+<p>We will start by adding a school level random intercept</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model_school</span> <span class="o">=</span> <span class="n">bmb</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="s">'postscore ~ prescore + tvprevent*curriculum + (1|sid)'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">idata_school</span> <span class="o">=</span> <span class="n">model_school</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_school</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/three_levels/trace_1.webp" alt="The trace of the second (the school random intercept) model" /></p>
+
+<p>In order to compare the models we will perform a LOO ELPD estimate</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_cs</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="n">compare</span><span class="p">({</span><span class="s">'start'</span><span class="p">:</span> <span class="n">idata</span><span class="p">,</span> <span class="s">'school_level'</span><span class="p">:</span> <span class="n">idata_school</span><span class="p">})</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_compare</span><span class="p">(</span><span class="n">df_cs</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/three_levels/loo_elpd_1.webp" alt="The comparison of the two models" /></p>
+
+<p>The second model seems more appropriate than the plain one, so 
+including the school level term seems appropriate.
+Let us try and see what happens when we include the class level only.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model_class</span> <span class="o">=</span> <span class="n">bmb</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="s">'postscore ~ prescore + tvprevent*curriculum + (1|cid)'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">idata_class</span> <span class="o">=</span> <span class="n">model_class</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_class</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/three_levels/trace_2.webp" alt="The trace of the third model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_csc</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="n">compare</span><span class="p">({</span><span class="s">'start'</span><span class="p">:</span> <span class="n">idata</span><span class="p">,</span> <span class="s">'school_level'</span><span class="p">:</span> <span class="n">idata_school</span><span class="p">,</span> <span class="s">'class_level'</span><span class="p">:</span> <span class="n">idata_class</span><span class="p">})</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_compare</span><span class="p">(</span><span class="n">df_csc</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/three_levels/loo_elpd_2.webp" alt="" /></p>
+
+<p>Adding the class level term seems to improve even more the model.
+We will now try and add both of them.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">model_sc</span> <span class="o">=</span> <span class="n">bmb</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="s">'postscore ~ prescore + tvprevent*curriculum + (1|cid) + (1|sid)'</span><span class="p">,</span> <span class="n">data</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+<span class="n">idata_sc</span> <span class="o">=</span> <span class="n">model_sc</span><span class="p">.</span><span class="n">fit</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_sc</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/three_levels/trace_3.webp" alt="The trace of the three levels model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">df_csccomb</span> <span class="o">=</span> <span class="n">az</span><span class="p">.</span><span class="n">compare</span><span class="p">({</span><span class="s">'start'</span><span class="p">:</span> <span class="n">idata</span><span class="p">,</span> <span class="s">'school_level'</span><span class="p">:</span> <span class="n">idata_school</span><span class="p">,</span> <span class="s">'class_level'</span><span class="p">:</span> <span class="n">idata_class</span><span class="p">,</span> <span class="s">'school_class'</span><span class="p">:</span> <span class="n">idata_sc</span><span class="p">})</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_compare</span><span class="p">(</span><span class="n">df_csccomb</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/three_levels/loo_elpd_3.webp" alt="The comparison of the four models" /></p>
+
+<p>The three-levels models seems an improvement with respect to both
+the two-levels models, so we should stick to it when drawing conclusions
+about our dataset.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We discuss how to implement multi-level hierarchies
+as well as how to choose among different mixed-effects models.</p>

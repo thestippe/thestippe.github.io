@@ -1,0 +1,357 @@
+<p>If you need to manipulate raster data, there are many choices in Python.
+Which one you prefer using is a matter of taste, and my personal
+choice is to stick to the xarray ecosystem whenever possible.
+I do so because I am used to xarray, since PyMC heavily relies on it,
+and since I am a lazy person, I prefer re-using my knowledge rather
+than learning a new framework, unless I need to do so.
+Here we will see how to use the libraries belonging to this ecosystem
+to manipulate geo-referenced raster data.
+The libraries we will use are</p>
+<ul>
+  <li>xarray as low level library to manipulate raster data</li>
+  <li>rasterio to read/write raster files</li>
+  <li>rioxarray to let the above libraries talk</li>
+  <li>xarray-spatial to simplify operations such as computing zonal statistics or convolutions
+Of course, we will also use the “usual” libraries such as geopandas, numpy, matplotlib etc.</li>
+</ul>
+
+<h2 id="a-little-bit-more-about-raster-data">A little bit more about raster data</h2>
+
+<p>In <a href="/gis/raster_data">our previous post on raster data</a>
+we said that, in each raster pixel, there is a stored value.
+This is however a little oversimplification, since raster
+files are made by <strong>layers</strong>, and each layer
+is a matrix.
+As an example, jpeg images are made by three layers, where
+each layer contains integer numbers ranging rom 0 to 255.
+We usually use tiff files, and they can be made by an arbitrary number of
+layers. As an example, satellite images can be made by more than
+3 layers, and each layer corresponds to a particular
+sensor in the satellite.
+Let us see this with an example</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">from</span> <span class="nn">rasterio.plot</span> <span class="kn">import</span> <span class="n">show</span><span class="p">,</span> <span class="n">show_hist</span><span class="p">,</span> <span class="n">adjust_band</span>
+<span class="kn">import</span> <span class="nn">rasterio</span>
+<span class="c1"># from rasterio.mask import mask
+</span><span class="kn">from</span> <span class="nn">rasterio</span> <span class="kn">import</span> <span class="n">features</span>
+<span class="c1"># from rasterio.windows import from_bounds
+# from rasterio.transform import Affine
+</span><span class="kn">import</span> <span class="nn">rioxarray</span> <span class="k">as</span> <span class="n">rxr</span>
+<span class="kn">import</span> <span class="nn">xarray</span> <span class="k">as</span> <span class="n">xr</span>
+<span class="kn">from</span> <span class="nn">xrspatial</span> <span class="kn">import</span> <span class="n">convolution</span><span class="p">,</span> <span class="n">zonal_stats</span>
+<span class="kn">import</span> <span class="nn">xrspatial</span> <span class="k">as</span> <span class="n">xrs</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="n">gpd</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+
+
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://github.com/thestippe/thestippe.github.io/raw/refs/heads/main/docs/assets/images/turin_bands_all_v2.tiff'</span>
+<span class="n">rxarr</span> <span class="o">=</span> <span class="n">rxr</span><span class="p">.</span><span class="n">open_rasterio</span><span class="p">(</span><span class="n">url</span><span class="p">)</span>
+
+<span class="n">rxarr</span><span class="p">.</span><span class="n">attrs</span>
+</code></pre></div></div>
+
+<div class="code">
+{'PROCESSING_SOFTWARE': '0.66.0a3',<br />
+ 'AREA_OR_POINT': 'Area',<br />
+ '_FillValue': np.int16(-32768),<br />
+ 'scale_factor': 1.0,<br />
+ 'add_offset': 0.0,<br />
+ 'long_name': ('B02', 'B03', 'B04', 'B08')}<br />
+</div>
+
+<p>The last like tells us that there are four different layers.
+Since they have been downloaded using OpenEO, and in particular
+they are Landsat 2 images, they correspond to blue, green, red and
+near-infrared bands. We will see in a future post how to download them
+using OpenEO.
+Let us visualize the data in the visible band. Remember that this is
+simply a reconstruction of the data, obtained by averaging
+many images obtained over months.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">true_col</span> <span class="o">=</span> <span class="n">xrs</span><span class="p">.</span><span class="n">multispectral</span><span class="p">.</span><span class="n">true_color</span><span class="p">(</span><span class="n">rxarr</span><span class="p">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="mi">3</span><span class="p">),</span> <span class="n">rxarr</span><span class="p">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="mi">2</span><span class="p">),</span> <span class="n">rxarr</span><span class="p">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">true_col</span><span class="p">.</span><span class="n">plot</span><span class="p">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/raster_ops/map.webp" alt="" /></p>
+
+<p>The above images shows the city of Turin, in the north of Italy,
+and the river in the picture is the Po river, the largest italian river.</p>
+
+<p>In the above code snippet, we reordered the bands as R, G and finally B.
+Let us see which is the crs of the above image.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">print</span><span class="p">(</span><span class="n">rxarr</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">crs</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="code">
+EPSG:32632
+</div>
+
+<h2 id="the-ndvi-index">The NDVI index</h2>
+
+<p>We will now calculate the Normalized Difference Vegetation Index (NDVI),
+which can be calculated as</p>
+
+\[X_{NDVI} = \frac{X_{NIR}-X_R}{X_{NIR}+X_R}\]
+
+<p>where $X_{NIR}$ is the scaled near-infrared value, $X_R$ is the scaled
+red value.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ndvi</span> <span class="o">=</span> <span class="n">xrs</span><span class="p">.</span><span class="n">multispectral</span><span class="p">.</span><span class="n">ndvi</span><span class="p">(</span><span class="n">rxarr</span><span class="p">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="mi">4</span><span class="p">),</span> <span class="n">rxarr</span><span class="p">.</span><span class="n">sel</span><span class="p">(</span><span class="n">band</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">show</span><span class="p">(</span><span class="n">ndvi</span><span class="p">,</span>
+    <span class="n">transform</span><span class="o">=</span><span class="n">rxarr</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">transform</span><span class="p">(),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/raster_ops/ndvi.webp" alt="" /></p>
+
+<p>Yellow zones have a higher NDVI than darker zones, so
+the area with more vegetation is the one on the east of the river.</p>
+
+<h2 id="clipping-the-raster-data">Clipping the raster data</h2>
+
+<p>When you work with raster files, you will rarely start your
+project with files covering exactly the area you are analyzing, so
+you will generally have to clip them.
+This can be easily done if you have a geodataframe, a geometry
+or some shapefile.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="p">.</span><span class="n">read_file</span><span class="p">(</span><span class="s">'ex_quartieri.dbf'</span><span class="p">)</span>
+<span class="n">clipped</span> <span class="o">=</span> <span class="n">ndvi</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">rxarr</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">crs</span><span class="p">)[</span><span class="s">'geometry'</span><span class="p">])</span>
+<span class="n">clipped</span><span class="o">=</span><span class="n">clipped</span><span class="p">.</span><span class="n">where</span><span class="p">(</span><span class="n">clipped</span><span class="o">&gt;-</span><span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">nan</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">clipped</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'viridis'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/raster_ops/ndvi_clip.webp" alt="" /></p>
+
+<h2 id="other-spatial-operations">Other spatial operations</h2>
+
+<p>There are many kinds of operations which can be performed on
+raster data, and a common operation classification scheme among GIS
+people is the following one:</p>
+<ul>
+  <li><strong>local</strong> operations,</li>
+  <li><strong>focal</strong> operations,</li>
+  <li><strong>zonal</strong> operations,</li>
+  <li><strong>global</strong> operations.</li>
+</ul>
+
+<p>We will now give a demonstration of how these kinds of operations
+can be easily implemented in Python</p>
+
+<h3 id="local-operations">Local operations</h3>
+
+<p>Local operations are those operations where the result at a given
+raster point only depends on the value at the same point.
+Local operations can be further classified in unary operations,
+such as $x \rightarrow 2\times x$, or binary operations,
+such as $x, y \rightarrow x+y$.
+The NIR index formula is an example of this kind of operation.</p>
+
+<h3 id="focal-operations">Focal operations</h3>
+
+<p>Foca operations are essentially convolutions performed by means
+of some kernel.
+These could be, in principle, performed by using xarray or numpy,
+but using xarray-spatial makes these operations much simpler.</p>
+
+<p>In our example, we will use a blurring kernel to average the NDVI
+value over the (queen) nearest neighbors (NN).
+We recall that the rook NN are those on the same row or column,
+while the queen ones also include the diagonal ones.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">filtered</span> <span class="o">=</span> <span class="n">ndvi</span><span class="p">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">kernel</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">2</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]])</span><span class="o">/</span><span class="mi">16</span>
+
+<span class="n">filtered_values</span> <span class="o">=</span> <span class="n">convolution</span><span class="p">.</span><span class="n">convolve_2d</span><span class="p">(</span><span class="n">ndvi</span><span class="p">.</span><span class="n">values</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+
+<span class="n">filtered</span><span class="p">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">filtered_values</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="p">(</span><span class="n">filtered</span><span class="o">-</span><span class="n">ndvi</span><span class="p">).</span><span class="n">rio</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">rxarr</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">crs</span><span class="p">)[</span><span class="s">'geometry'</span><span class="p">]).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'viridis'</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/raster_ops/ndvi_filtered_clip.webp" alt="" /></p>
+
+<h3 id="zonal-operations">Zonal operations</h3>
+
+<p>In order to perform zonal operations, we need two raster objects:</p>
+<ul>
+  <li>in one object we store the variable of interest, <em>e.g.</em> the NDVI</li>
+  <li>in the second one the values are the zones where we want to summarize the variable of interest</li>
+</ul>
+
+<p>Zones can be defined in many possible ways, as an example by means of a local
+categorization of some variable (<em>e.g.</em> we stratify by altitude).
+In many cases, however, we need to do so by starting from polygonal vector objects.</p>
+
+<p>In the following example, we will use Turin’s boros to define the zones,
+stored in the <code class="language-plaintext highlighter-rouge">IDQUART</code> variable</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fields</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">[[</span><span class="s">'geometry'</span><span class="p">,</span> <span class="s">'IDQUART'</span><span class="p">]].</span><span class="n">to_crs</span><span class="p">(</span><span class="n">rxarr</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">crs</span><span class="p">).</span><span class="n">values</span><span class="p">.</span><span class="n">tolist</span><span class="p">()</span>
+
+<span class="n">fields_rasterized</span> <span class="o">=</span> <span class="n">features</span><span class="p">.</span><span class="n">rasterize</span><span class="p">(</span><span class="n">fields</span><span class="p">,</span> <span class="n">out_shape</span><span class="o">=</span><span class="n">ndvi</span><span class="p">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">transform</span><span class="o">=</span><span class="n">ndvi</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">transform</span><span class="p">())</span>
+
+<span class="n">fields_rasterized_xarr</span> <span class="o">=</span> <span class="n">ndvi</span><span class="p">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">fields_rasterized_xarr</span><span class="p">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">fields_rasterized</span>
+
+<span class="n">df_zonal_stats</span> <span class="o">=</span> <span class="n">zonal_stats</span><span class="p">(</span><span class="n">fields_rasterized_xarr</span><span class="p">,</span> <span class="n">ndvi</span><span class="p">)</span>
+
+<span class="n">df_zonal_stats</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: right">zone</th>
+      <th style="text-align: right">mean</th>
+      <th style="text-align: right">max</th>
+      <th style="text-align: right">min</th>
+      <th style="text-align: right">sum</th>
+      <th style="text-align: right">std</th>
+      <th style="text-align: right">var</th>
+      <th style="text-align: right">count</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0</td>
+      <td style="text-align: right">0.5615</td>
+      <td style="text-align: right">0.926978</td>
+      <td style="text-align: right">-0.534766</td>
+      <td style="text-align: right">595231</td>
+      <td style="text-align: right">0.283002</td>
+      <td style="text-align: right">0.0800903</td>
+      <td style="text-align: right">1.06007e+06</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">1</td>
+      <td style="text-align: right">0.199839</td>
+      <td style="text-align: right">0.873954</td>
+      <td style="text-align: right">-0.413408</td>
+      <td style="text-align: right">7633.46</td>
+      <td style="text-align: right">0.196912</td>
+      <td style="text-align: right">0.0387744</td>
+      <td style="text-align: right">38198</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">2</td>
+      <td style="text-align: right">0.241116</td>
+      <td style="text-align: right">0.877341</td>
+      <td style="text-align: right">-0.373802</td>
+      <td style="text-align: right">5902.77</td>
+      <td style="text-align: right">0.232254</td>
+      <td style="text-align: right">0.0539419</td>
+      <td style="text-align: right">24481</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">3</td>
+      <td style="text-align: right">0.255152</td>
+      <td style="text-align: right">0.834259</td>
+      <td style="text-align: right">-0.118406</td>
+      <td style="text-align: right">7090.67</td>
+      <td style="text-align: right">0.19375</td>
+      <td style="text-align: right">0.0375389</td>
+      <td style="text-align: right">27790</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">4</td>
+      <td style="text-align: right">0.245008</td>
+      <td style="text-align: right">0.848548</td>
+      <td style="text-align: right">-0.0598135</td>
+      <td style="text-align: right">5417.61</td>
+      <td style="text-align: right">0.202779</td>
+      <td style="text-align: right">0.0411193</td>
+      <td style="text-align: right">22112</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>In the above table, the zone 0 corresponds to the region outside from
+the city perimeter, while the remaining zones correspond to the <code class="language-plaintext highlighter-rouge">IDQUART</code> variable.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gdf_stats</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">.</span><span class="n">merge</span><span class="p">(</span><span class="n">df_zonal_stats</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s">'IDQUART'</span><span class="p">,</span> <span class="n">right_on</span><span class="o">=</span><span class="s">'zone'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">gdf_stats</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="s">'mean'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">legend</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/raster_ops/ndvi_by_boro.webp" alt="" /></p>
+
+<h3 id="global-operations">Global operations</h3>
+
+<p>If the result of an operation at one point depends on the value
+of all the input raster points, such operation is said to be a global
+operation.
+A typical example of global operation is the distance from one point.
+As usual, this can be easily calculated with xarray.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># We first compute the centroid of Turin
+</span>
+<span class="n">warr</span><span class="p">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">invert</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">clipped</span><span class="p">.</span><span class="n">values</span><span class="p">)).</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">xc</span> <span class="o">=</span> <span class="n">warr</span><span class="p">.</span><span class="n">x</span><span class="p">.</span><span class="n">weighted</span><span class="p">(</span><span class="n">warr</span><span class="p">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)).</span><span class="n">mean</span><span class="p">().</span><span class="n">values</span>
+<span class="n">yc</span> <span class="o">=</span> <span class="n">warr</span><span class="p">.</span><span class="n">y</span><span class="p">.</span><span class="n">weighted</span><span class="p">(</span><span class="n">warr</span><span class="p">.</span><span class="n">fillna</span><span class="p">(</span><span class="mi">0</span><span class="p">)).</span><span class="n">mean</span><span class="p">().</span><span class="n">values</span>
+
+<span class="c1">## We now compute the distance of each point in turin from the centroid
+</span><span class="n">dist_mat</span> <span class="o">=</span> <span class="n">ndvi</span><span class="p">.</span><span class="n">copy</span><span class="p">()</span>
+
+<span class="n">xv</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">ndvi</span><span class="p">.</span><span class="n">x</span><span class="p">)</span><span class="o">-</span><span class="n">xc</span>
+<span class="n">yv</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">array</span><span class="p">(</span><span class="n">ndvi</span><span class="p">.</span><span class="n">y</span><span class="p">)</span><span class="o">-</span><span class="n">yc</span>
+
+<span class="n">xa</span><span class="p">,</span> <span class="n">ya</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xv</span><span class="p">,</span> <span class="n">yv</span><span class="p">)</span>
+
+<span class="n">dist_mat</span><span class="p">.</span><span class="n">values</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">xa</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">ya</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">dist_mat</span> <span class="o">=</span> <span class="n">dist_mat</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">clip</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">dist_mat</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">crs</span><span class="p">)[</span><span class="s">'geometry'</span><span class="p">])</span>
+<span class="n">dist_mat</span><span class="o">=</span><span class="n">dist_mat</span><span class="p">.</span><span class="n">where</span><span class="p">(</span><span class="n">dist_mat</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">,</span> <span class="n">np</span><span class="p">.</span><span class="n">nan</span><span class="p">)</span>
+
+<span class="c1"># We finally plot the result
+</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">dist_mat</span><span class="p">.</span><span class="n">rio</span><span class="p">.</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">dist_mat</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s">'viridis'</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/raster_ops/centroid_distance_clip.webp" alt="" /></p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>With the xarray ecosystem you can easily manipulate raster data
+and perform any kind of operation you commonly need to perform in GIS.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span>
+</code></pre></div></div>
+
+<div class="code">
+Last updated: Sun May 11 2025
+<br />
+<br />Python implementation: CPython
+<br />Python version       : 3.12.8
+<br />IPython version      : 8.31.0
+<br />
+<br />rasterio  : 1.4.3
+<br />rioxarray : 0.18.2
+<br />matplotlib: 3.10.1
+<br />numpy     : 2.1.3
+<br />xrspatial : 0.4.0
+<br />pandas    : 2.2.3
+<br />xarray    : 2025.1.1
+<br />geopandas : 1.0.1
+<br />
+<br />Watermark: 2.5.0
+</div>

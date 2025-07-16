@@ -7,7 +7,6 @@ section: 10
 subcategory: Experiments
 tags: /problem/
 title: Data collection
-
 ---
 
 

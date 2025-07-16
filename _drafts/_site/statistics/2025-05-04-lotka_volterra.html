@@ -1,0 +1,404 @@
+<p>In the last post we saw how to implement an ODE solver in PyMC, and we did so
+by using a dataset by Gause.
+In this post we will go a little bit forward, and we will see how 
+we could use the above concepts to try and falsify the model proposed in Gause’s textbook.
+We will use another dataset provided in the same repo, in particular
+the one containing the data shown in fig. 25 of the same book.
+In this example Gause considers two paramecium species, one named
+Paramecium Caudatum and the other named Paramecium Aurelia.
+Gause first measured how the volume occupied by each specie varied with time 
+by keeping them separate but with the same environment, then
+he put them together without varying the environment.
+In the first case (labelled as “Monoculture”),
+the volume occupied should follow the logistic model for each specie.</p>
+
+\[\frac{dy_i(t)}{dt} = \lambda_i y_i(t) \left(1-\frac{y_i(t)}{K_i}\right)\]
+
+<p>while in the latter (labelled as “Mixed”) we should observe a competition between the two species</p>
+
+\[\frac{dy_i(t)}{dt} = \lambda_i y_i(t) \left(1-\frac{y_i(t)-\gamma y_{-i}(t)}{K_i}\right)\,.\]
+
+<p>First of all, we notice that the parameters $\lambda_i$ and $K_i$
+should not vary in the two cases, since they only depend on the specie and on the
+environment.
+This implies that if we only fit the monoculture dataset, we should obtain
+an estimate for the above parameters which is compatible with the combined fit of the
+two cases.</p>
+
+<p>We will also test the predictive power of the model, by only using
+the initial data for the mixed case, and we will then verify if our prediction 
+is compatible with the observed data.</p>
+
+<h2 id="data-import-and-preprocessing">Data import and preprocessing</h2>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">pyreadr</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">import</span> <span class="nn">pytensor</span> <span class="k">as</span> <span class="n">pt</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">421124</span><span class="p">)</span>
+
+<span class="n">df_0</span> <span class="o">=</span> <span class="n">pyreadr</span><span class="p">.</span><span class="n">read_r</span><span class="p">(</span><span class="s">'data/gause_1934_book_f25.rda'</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">df_0</span><span class="p">[</span><span class="s">'gause_1934_book_f25'</span><span class="p">]</span>
+
+<span class="n">df</span><span class="p">.</span><span class="n">head</span><span class="p">()</span>
+</code></pre></div></div>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: right"> </th>
+      <th style="text-align: left">Paper</th>
+      <th style="text-align: right">Figure</th>
+      <th style="text-align: left">Species</th>
+      <th style="text-align: right">Time</th>
+      <th style="text-align: right">Volume</th>
+      <th style="text-align: left">Treatment</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: right">0</td>
+      <td style="text-align: left">Gause_book_1934</td>
+      <td style="text-align: right">25</td>
+      <td style="text-align: left">Paramecium caudatum</td>
+      <td style="text-align: right">0.988805</td>
+      <td style="text-align: right">7.581</td>
+      <td style="text-align: left">Monoculture</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">1</td>
+      <td style="text-align: left">Gause_book_1934</td>
+      <td style="text-align: right">25</td>
+      <td style="text-align: left">Paramecium caudatum</td>
+      <td style="text-align: right">1.96537</td>
+      <td style="text-align: right">31.4395</td>
+      <td style="text-align: left">Monoculture</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">2</td>
+      <td style="text-align: left">Gause_book_1934</td>
+      <td style="text-align: right">25</td>
+      <td style="text-align: left">Paramecium caudatum</td>
+      <td style="text-align: right">2.9918</td>
+      <td style="text-align: right">46.2918</td>
+      <td style="text-align: left">Monoculture</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">3</td>
+      <td style="text-align: left">Gause_book_1934</td>
+      <td style="text-align: right">25</td>
+      <td style="text-align: left">Paramecium caudatum</td>
+      <td style="text-align: right">4.02315</td>
+      <td style="text-align: right">76.0357</td>
+      <td style="text-align: left">Monoculture</td>
+    </tr>
+    <tr>
+      <td style="text-align: right">4</td>
+      <td style="text-align: left">Gause_book_1934</td>
+      <td style="text-align: right">25</td>
+      <td style="text-align: left">Paramecium caudatum</td>
+      <td style="text-align: right">5.00452</td>
+      <td style="text-align: right">114.439</td>
+      <td style="text-align: left">Monoculture</td>
+    </tr>
+  </tbody>
+</table>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">target</span> <span class="o">=</span> <span class="s">'Volume'</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s">'Species'</span><span class="p">]</span><span class="o">==</span><span class="s">'Paramecium caudatum'</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="s">'Time'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s">'Treatment'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s">'Species'</span><span class="p">]</span><span class="o">==</span><span class="s">'Paramecium aurelia'</span><span class="p">],</span> <span class="n">x</span><span class="o">=</span><span class="s">'Time'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s">'Treatment'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Paramecium caudatum'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_title</span><span class="p">(</span><span class="s">'Paramecium aurelia'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/lotka_volterra/data.webp" alt="The imported dataset" /></p>
+
+<p>You should notice that the measurements start at different time and are not
+equally spaced. This will require a little bit of work in order to set a proper integration
+step and in order to ensure consistent boundary conditions.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">n_steps</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="n">dfb1_all</span> <span class="o">=</span> <span class="n">df</span><span class="p">[((</span><span class="n">df</span><span class="p">[</span><span class="s">'Species'</span><span class="p">]</span><span class="o">==</span><span class="s">'Paramecium caudatum'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Treatment'</span><span class="p">]</span><span class="o">==</span><span class="s">'Mixture'</span><span class="p">))].</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+<span class="n">dfb2_extra</span> <span class="o">=</span> <span class="n">df</span><span class="p">[((</span><span class="n">df</span><span class="p">[</span><span class="s">'Species'</span><span class="p">]</span><span class="o">==</span><span class="s">'Paramecium aurelia'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Treatment'</span><span class="p">]</span><span class="o">==</span><span class="s">'Mixture'</span><span class="p">))].</span><span class="n">sort_values</span><span class="p">(</span><span class="s">'Time'</span><span class="p">).</span><span class="n">iloc</span><span class="p">[</span><span class="mi">7</span><span class="p">:]</span>
+
+<span class="n">dfb2_all</span> <span class="o">=</span> <span class="n">df</span><span class="p">[((</span><span class="n">df</span><span class="p">[</span><span class="s">'Species'</span><span class="p">]</span><span class="o">==</span><span class="s">'Paramecium aurelia'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Treatment'</span><span class="p">]</span><span class="o">==</span><span class="s">'Mixture'</span><span class="p">))].</span><span class="n">sort_values</span><span class="p">(</span><span class="s">'Time'</span><span class="p">).</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+
+<span class="n">dfa1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[((</span><span class="n">df</span><span class="p">[</span><span class="s">'Species'</span><span class="p">]</span><span class="o">==</span><span class="s">'Paramecium caudatum'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Treatment'</span><span class="p">]</span><span class="o">==</span><span class="s">'Monoculture'</span><span class="p">))].</span><span class="n">sort_values</span><span class="p">(</span><span class="s">'Time'</span><span class="p">).</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">dfa2</span> <span class="o">=</span> <span class="n">df</span><span class="p">[((</span><span class="n">df</span><span class="p">[</span><span class="s">'Species'</span><span class="p">]</span><span class="o">==</span><span class="s">'Paramecium aurelia'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Treatment'</span><span class="p">]</span><span class="o">==</span><span class="s">'Monoculture'</span><span class="p">))].</span><span class="n">sort_values</span><span class="p">(</span><span class="s">'Time'</span><span class="p">).</span><span class="n">iloc</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
+
+<span class="n">dfb2</span> <span class="o">=</span> <span class="n">df</span><span class="p">[((</span><span class="n">df</span><span class="p">[</span><span class="s">'Species'</span><span class="p">]</span><span class="o">==</span><span class="s">'Paramecium aurelia'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Treatment'</span><span class="p">]</span><span class="o">==</span><span class="s">'Mixture'</span><span class="p">))].</span><span class="n">sort_values</span><span class="p">(</span><span class="s">'Time'</span><span class="p">).</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">dfb1</span> <span class="o">=</span> <span class="n">df</span><span class="p">[((</span><span class="n">df</span><span class="p">[</span><span class="s">'Species'</span><span class="p">]</span><span class="o">==</span><span class="s">'Paramecium caudatum'</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Treatment'</span><span class="p">]</span><span class="o">==</span><span class="s">'Mixture'</span><span class="p">))].</span><span class="n">sort_values</span><span class="p">(</span><span class="s">'Time'</span><span class="p">).</span><span class="n">iloc</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">1</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">dfb2</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<p>The last four datasets will be the fitted ones,
+while the other ones are build in order to have an easy comparison.
+We skipped some initial point because we want a similar initial condition
+in the monoculture treatment and in the mixed one for each of the two species.
+For the sake of convenience, we will assume a step equal to 1 for all the observations, except for the mixed aurelia
+above Time equal to 8, where we assume a step equal to 2.
+Finally, we will use an integration step of 1/5 in order to ensure 
+the convergence of the discretized integration.</p>
+
+<h2 id="fitting-the-data">Fitting the data</h2>
+
+<p>As we anticipated, we will initially only consider the monoculture case,
+and we will use the same model of the last post.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s">'specie'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s">'Species'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">()})</span> <span class="k">as</span> <span class="n">model_mono</span><span class="p">:</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'lam'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s">'specie'</span><span class="p">))</span>
+    <span class="n">kappa</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'kappa'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s">'specie'</span><span class="p">))</span>
+    <span class="n">nu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'nu'</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s">'specie'</span><span class="p">))</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">dn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">kappa</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">n</span><span class="o">*</span><span class="n">lam</span><span class="o">*</span><span class="p">(</span><span class="n">kappa</span><span class="o">-</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">kappa</span>
+    <span class="k">def</span> <span class="nf">f_update</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">n</span><span class="o">+</span><span class="n">h</span><span class="o">*</span><span class="n">dn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">kappa</span><span class="p">)</span>
+    <span class="n">mu1</span><span class="p">,</span> <span class="n">update1</span> <span class="o">=</span> <span class="n">pt</span><span class="p">.</span><span class="n">scan</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">f_update</span><span class="p">,</span> 
+                     <span class="n">outputs_info</span><span class="o">=</span><span class="p">[</span><span class="n">nu</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                    <span class="n">non_sequences</span><span class="o">=</span><span class="p">[</span><span class="n">lam</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">kappa</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="o">/</span><span class="n">n_steps</span><span class="p">],</span>
+                    <span class="n">n_steps</span><span class="o">=</span><span class="n">n_steps</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dfa1</span><span class="p">))</span>
+    <span class="n">mu2</span><span class="p">,</span> <span class="n">update2</span> <span class="o">=</span> <span class="n">pt</span><span class="p">.</span><span class="n">scan</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">f_update</span><span class="p">,</span> 
+                     <span class="n">outputs_info</span><span class="o">=</span><span class="p">[</span><span class="n">nu</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">non_sequences</span><span class="o">=</span><span class="p">[</span><span class="n">lam</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">kappa</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="o">/</span><span class="n">n_steps</span><span class="p">],</span>
+                    <span class="n">n_steps</span><span class="o">=</span><span class="n">n_steps</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dfa2</span><span class="p">))</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y1'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">mu1</span><span class="p">[::</span><span class="n">n_steps</span><span class="p">]),</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">dfa1</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">/</span><span class="mi">100</span><span class="p">))</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y2'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">mu2</span><span class="p">[::</span><span class="n">n_steps</span><span class="p">]),</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">dfa2</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">/</span><span class="mi">100</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">model_mono</span><span class="p">:</span>
+    <span class="n">idata_mono</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_mono</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/lotka_volterra/trace_mono.webp" alt="The trace of the monoculture model" /></p>
+
+<p>The trace looks fine, let us inspect the posterior predictive distribution</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_mono</span><span class="p">:</span>
+    <span class="n">idata_mono</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata_mono</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">fill_between</span><span class="p">(</span><span class="n">dfa1</span><span class="p">[</span><span class="s">'Time'</span><span class="p">],</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata_mono</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y1'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+                <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata_mono</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y1'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span>
+               <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="n">dfa1</span><span class="p">[</span><span class="s">'Time'</span><span class="p">],</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata_mono</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y1'</span><span class="p">]).</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+       <span class="n">color</span><span class="o">=</span><span class="s">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">':'</span><span class="p">)</span>
+<span class="c1"># ax.plot(df_data['Time'], yobs)
+</span><span class="n">sns</span><span class="p">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">dfa1</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s">'Time'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+               <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">fill_between</span><span class="p">(</span><span class="n">dfa2</span><span class="p">[</span><span class="s">'Time'</span><span class="p">],</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata_mono</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y2'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+                <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata_mono</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y2'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span>
+               <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="n">dfa2</span><span class="p">[</span><span class="s">'Time'</span><span class="p">],</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata_mono</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y2'</span><span class="p">]).</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+       <span class="n">color</span><span class="o">=</span><span class="s">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">':'</span><span class="p">)</span>
+<span class="c1"># ax.plot(df_data['Time'], yobs)
+</span><span class="n">sns</span><span class="p">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">dfa2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s">'Time'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+               <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/lotka_volterra/ppc_mono.webp" alt="The posterior predictive distribution for the monoculture model" /></p>
+
+<p>The data seems compatible with the model fit.
+Let us now switch to the combined model.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="p">{</span><span class="s">'specie'</span><span class="p">:</span> <span class="n">df</span><span class="p">[</span><span class="s">'Species'</span><span class="p">].</span><span class="n">drop_duplicates</span><span class="p">()})</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'lam'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s">'specie'</span><span class="p">))</span>
+    <span class="n">kappa</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'kappa'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s">'specie'</span><span class="p">))</span>
+    <span class="n">gamma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'gamma'</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s">'specie'</span><span class="p">))</span>
+    <span class="n">nu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'nu'</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s">'specie'</span><span class="p">))</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">dn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">kappa</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">n</span><span class="o">*</span><span class="n">lam</span><span class="o">*</span><span class="p">(</span><span class="n">kappa</span><span class="o">-</span><span class="n">n</span><span class="p">)</span><span class="o">/</span><span class="n">kappa</span>
+    <span class="k">def</span> <span class="nf">f_update</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">kappa</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">n</span><span class="o">+</span><span class="n">h</span><span class="o">*</span><span class="n">dn</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">lam</span><span class="p">,</span> <span class="n">kappa</span><span class="p">)</span>
+    <span class="n">mu1</span><span class="p">,</span> <span class="n">update1</span> <span class="o">=</span> <span class="n">pt</span><span class="p">.</span><span class="n">scan</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">f_update</span><span class="p">,</span> 
+                     <span class="n">outputs_info</span><span class="o">=</span><span class="p">[</span><span class="n">nu</span><span class="p">[</span><span class="mi">0</span><span class="p">]],</span>
+                    <span class="n">non_sequences</span><span class="o">=</span><span class="p">[</span><span class="n">lam</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">kappa</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="o">/</span><span class="n">n_steps</span><span class="p">],</span>
+                    <span class="n">n_steps</span><span class="o">=</span><span class="n">n_steps</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dfa1</span><span class="p">))</span>
+    <span class="n">mu2</span><span class="p">,</span> <span class="n">update2</span> <span class="o">=</span> <span class="n">pt</span><span class="p">.</span><span class="n">scan</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">f_update</span><span class="p">,</span> 
+                     <span class="n">outputs_info</span><span class="o">=</span><span class="p">[</span><span class="n">nu</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">non_sequences</span><span class="o">=</span><span class="p">[</span><span class="n">lam</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">kappa</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="o">/</span><span class="n">n_steps</span><span class="p">],</span>
+                    <span class="n">n_steps</span><span class="o">=</span><span class="n">n_steps</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dfa2</span><span class="p">))</span>
+    <span class="k">def</span> <span class="nf">f_update_inter</span><span class="p">(</span><span class="n">n1</span><span class="p">,</span> <span class="n">n2</span><span class="p">,</span> <span class="n">lam1</span><span class="p">,</span> <span class="n">lam2</span><span class="p">,</span> <span class="n">kappa1</span><span class="p">,</span> <span class="n">kappa2</span><span class="p">,</span> <span class="n">gamma1</span><span class="p">,</span> <span class="n">gamma2</span><span class="p">,</span> <span class="n">h</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">n1</span><span class="o">+</span><span class="n">h</span><span class="o">*</span><span class="n">n1</span><span class="o">*</span><span class="n">lam1</span><span class="o">*</span><span class="p">(</span><span class="n">kappa1</span><span class="o">-</span><span class="n">n1</span><span class="o">-</span><span class="n">gamma1</span><span class="o">*</span><span class="n">n2</span><span class="p">)</span><span class="o">/</span><span class="n">kappa1</span><span class="p">,</span> <span class="n">n2</span><span class="o">+</span><span class="n">h</span><span class="o">*</span><span class="n">n2</span><span class="o">*</span><span class="n">lam2</span><span class="o">*</span><span class="p">(</span><span class="n">kappa2</span><span class="o">-</span><span class="n">n2</span><span class="o">-</span><span class="n">gamma2</span><span class="o">*</span><span class="n">n1</span><span class="p">)</span><span class="o">/</span><span class="n">kappa2</span><span class="p">)</span>
+
+    <span class="n">mu_inter</span><span class="p">,</span> <span class="n">update_inter</span> <span class="o">=</span> <span class="n">pt</span><span class="p">.</span><span class="n">scan</span><span class="p">(</span><span class="n">fn</span><span class="o">=</span><span class="n">f_update_inter</span><span class="p">,</span> 
+                     <span class="n">outputs_info</span><span class="o">=</span><span class="p">[</span><span class="n">nu</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">nu</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
+                    <span class="n">non_sequences</span><span class="o">=</span><span class="p">[</span><span class="n">lam</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">lam</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">kappa</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">kappa</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">gamma</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">gamma</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="o">/</span><span class="n">n_steps</span><span class="p">],</span>
+                    <span class="n">n_steps</span><span class="o">=</span><span class="n">n_steps</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dfb1_all</span><span class="p">))</span>
+    
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y1'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">mu1</span><span class="p">[::</span><span class="n">n_steps</span><span class="p">]),</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">observed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">dfa1</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">/</span><span class="mi">100</span><span class="p">))</span>
+    <span class="n">y2</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y2'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">mu2</span><span class="p">[::</span><span class="n">n_steps</span><span class="p">]),</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">observed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">dfa2</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">/</span><span class="mi">100</span><span class="p">))</span>
+    <span class="n">y1n</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y1n'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">mu_inter</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="n">n_steps</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dfb1</span><span class="p">):</span><span class="n">n_steps</span><span class="p">]),</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">observed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">dfb1</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">/</span><span class="mi">100</span><span class="p">))</span>
+    <span class="n">y1nall</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y1nall'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">mu_inter</span><span class="p">[</span><span class="mi">0</span><span class="p">][::</span><span class="n">n_steps</span><span class="p">]),</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">y2e</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y2e'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">mu_inter</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="n">n_steps</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dfb2</span><span class="p">[</span><span class="n">target</span><span class="p">])::</span><span class="mi">2</span><span class="o">*</span><span class="n">n_steps</span><span class="p">]),</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">y2n</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y2n'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">mu_inter</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="n">n_steps</span><span class="o">*</span><span class="nb">len</span><span class="p">(</span><span class="n">dfb2</span><span class="p">[</span><span class="n">target</span><span class="p">]):</span><span class="n">n_steps</span><span class="p">]),</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">observed</span><span class="o">=</span><span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">dfb2</span><span class="p">[</span><span class="n">target</span><span class="p">]</span><span class="o">/</span><span class="mi">100</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">idata</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span> <span class="n">target_accept</span><span class="o">=</span><span class="mf">0.98</span><span class="p">,</span> <span class="n">draws</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">tune</span><span class="o">=</span><span class="mi">5000</span><span class="p">,</span> <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'kappa'</span><span class="p">,</span> <span class="s">'lam'</span><span class="p">,</span> <span class="s">'nu'</span><span class="p">,</span> <span class="s">'gamma'</span><span class="p">,</span> <span class="s">'sigma'</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/lotka_volterra/trace.webp" alt="The trace of the combined model" /></p>
+
+<p>Also in this case the traces are fine.
+Before moving to the posterior predictive check, we can verify if the relevant common
+parameters between the two models are compatible.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">az</span><span class="p">.</span><span class="n">plot_forest</span><span class="p">([</span><span class="n">idata_mono</span><span class="p">,</span> <span class="n">idata</span><span class="p">],</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'lam'</span><span class="p">,</span> <span class="s">'kappa'</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/lotka_volterra/forest.webp" alt="" /></p>
+
+<p>The parameters are almost identical. 
+On the one hand, this is a good indication that the parameters
+are proper of the specie and of the environment and do not depend on the
+other species. On the other, we should keep in mind that in the case of mixed
+species, the observations looks much more noisy than in the monoculture case,
+and this might hide the presence of a change in the values of the parameters,
+so we don’t consider the conclusion as too robust.</p>
+
+<p>Let us now inspect the posterior predictive distribution.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">idata</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata</span><span class="p">))</span>
+
+<span class="n">y2mean</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y2n'</span><span class="p">]).</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'y2e'</span><span class="p">]).</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">))])</span>
+<span class="n">y2l</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y2n'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'y2e'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">))])</span>
+<span class="n">y2h</span> <span class="o">=</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y2n'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span> <span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'y2e'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">))])</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">ncols</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">fill_between</span><span class="p">(</span><span class="n">dfa1</span><span class="p">[</span><span class="s">'Time'</span><span class="p">],</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y1'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+                <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y1'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span>
+               <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="n">dfa1</span><span class="p">[</span><span class="s">'Time'</span><span class="p">],</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y1'</span><span class="p">]).</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+       <span class="n">color</span><span class="o">=</span><span class="s">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">':'</span><span class="p">)</span>
+<span class="c1"># ax.plot(df_data['Time'], yobs)
+</span><span class="n">sns</span><span class="p">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">dfa1</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s">'Time'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+               <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">fill_between</span><span class="p">(</span><span class="n">dfa2</span><span class="p">[</span><span class="s">'Time'</span><span class="p">],</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y2'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+                <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y2'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span>
+               <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="n">dfa2</span><span class="p">[</span><span class="s">'Time'</span><span class="p">],</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y2'</span><span class="p">]).</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+       <span class="n">color</span><span class="o">=</span><span class="s">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">':'</span><span class="p">)</span>
+<span class="c1"># ax.plot(df_data['Time'], yobs)
+</span><span class="n">sns</span><span class="p">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">dfa2</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s">'Time'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+               <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">fill_between</span><span class="p">(</span><span class="n">dfb1_all</span><span class="p">[</span><span class="s">'Time'</span><span class="p">],</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'y1nall'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.03</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+                <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'y1nall'</span><span class="p">]).</span><span class="n">quantile</span><span class="p">(</span><span class="n">q</span><span class="o">=</span><span class="mf">0.97</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span>
+               <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="n">dfb1_all</span><span class="p">[</span><span class="s">'Time'</span><span class="p">],</span> <span class="mi">100</span><span class="o">*</span><span class="n">np</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'y1nall'</span><span class="p">]).</span><span class="n">mean</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="p">(</span><span class="s">'draw'</span><span class="p">,</span> <span class="s">'chain'</span><span class="p">)),</span>
+       <span class="n">color</span><span class="o">=</span><span class="s">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">':'</span><span class="p">)</span>
+<span class="c1"># ax.plot(df_data['Time'], yobs)
+</span><span class="n">sns</span><span class="p">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">dfb1_all</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s">'Time'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+               <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">].</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dfb1</span><span class="p">[</span><span class="s">'Time'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">ls</span><span class="o">=</span><span class="s">'--'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'grey'</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">fill_between</span><span class="p">(</span><span class="n">t2all</span><span class="p">,</span> <span class="n">y2l</span><span class="p">,</span> <span class="n">y2h</span><span class="p">,</span>
+                <span class="n">alpha</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'lightgray'</span>
+               <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">plot</span><span class="p">(</span><span class="n">dfb2_all</span><span class="p">[</span><span class="s">'Time'</span><span class="p">],</span> <span class="n">y2mean</span><span class="p">,</span>
+       <span class="n">color</span><span class="o">=</span><span class="s">'k'</span><span class="p">,</span> <span class="n">ls</span><span class="o">=</span><span class="s">':'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">].</span><span class="n">axvline</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">dfb2</span><span class="p">[</span><span class="s">'Time'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">ls</span><span class="o">=</span><span class="s">'--'</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'grey'</span><span class="p">)</span>
+<span class="c1"># ax.plot(df_data['Time'], yobs)
+</span><span class="n">sns</span><span class="p">.</span><span class="n">scatterplot</span><span class="p">(</span><span class="n">dfb2_all</span> <span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s">'Time'</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">target</span><span class="p">,</span>
+               <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/lotka_volterra/ppc.webp" alt="The posterior predictive check for the combined model" /></p>
+
+<p>The grey dashed line represents the last fitted point, and we see that we have a very
+nice agreement both in the fitted region, both in the predicted region.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>In this example, we tried and use PyMC to show how we could test Gause’s hypothesis,
+and we used a numerical algorithm to solve the Lotka-Volterra model to do so.
+The Lotka-Volterra model seems to be appropriate in describing the observed data,
+but of course this is just one experiment, and many more would be needed (and have already
+been done) do draw some sensible conclusion.</p>
+
+<h2 id="suggested-readings">Suggested readings</h2>
+
+<ul>
+  <li>Gause, G. F. (2019). The Struggle for Existence: A Classic of Mathematical Biology and Ecology. Dover Publications.</li>
+  <li><a href="http://numerical.recipes/oldverswitcher.html">Press, W. H. (2007). Numerical Recipes 3rd Edition: The Art of Scientific Computing. Cambridge University Press.</a></li>
+</ul>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">numpyro</span><span class="p">,</span><span class="n">jax</span><span class="p">,</span><span class="n">jaxlib</span>
+</code></pre></div></div>
+
+<div class="code">
+Last updated: Thu Aug 29 2024
+<br />
+
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.5
+<br />
+IPython version      : 8.24.0
+<br />
+
+<br />
+xarray : 2024.5.0
+<br />
+numpyro: 0.15.0
+<br />
+jax    : 0.4.28
+<br />
+jaxlib : 0.4.28
+<br />
+
+<br />
+pytensor  : 2.25.3
+<br />
+pyreadr   : 0.5.2
+<br />
+pymc      : 5.16.2
+<br />
+matplotlib: 3.9.0
+<br />
+seaborn   : 0.13.2
+<br />
+arviz     : 0.18.0
+<br />
+pandas    : 2.2.2
+<br />
+numpy     : 1.26.4
+<br />
+
+<br />
+Watermark: 2.4.3
+<br />
+</div>

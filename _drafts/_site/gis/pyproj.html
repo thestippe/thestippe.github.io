@@ -1,0 +1,225 @@
+<p>In <a href="/gis/projections">an old post</a> we discussed how to choose a projection.
+In this post we will get our hands a little bit more dirty, and we will show
+some of the most common ways to select the crs. 
+We will <a href="https://pyproj4.github.io/pyproj/stable/build_crs.html">PyPROJ</a>,
+which is a Python wrapper for <a href="https://it.wikipedia.org/wiki/PROJ">PROJ</a>.</p>
+
+<p>As datasets, we will the <a href="https://www.movebank.org/cms/webapp?gwt_fragment=page=studies,path=study1349878794">Biology of birds practical</a>,
+which is a small dataset describing the GPS track of some bird,
+made available by Luke Ozsanlav-Harris for teaching purposes.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">geopandas</span> <span class="k">as</span> <span class="n">gpd</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="kn">from</span> <span class="nn">pyproj</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">pyproj.aoi</span> <span class="kn">import</span> <span class="n">AreaOfInterest</span>
+<span class="kn">from</span> <span class="nn">pyproj.database</span> <span class="kn">import</span> <span class="n">query_utm_crs_info</span><span class="p">,</span> <span class="n">get_authorities</span>
+
+<span class="n">gdf</span> <span class="o">=</span> <span class="n">gpd</span><span class="p">.</span><span class="n">read_file</span><span class="p">(</span><span class="s">'birds/points.shp'</span><span class="p">)</span>
+<span class="n">bounds</span> <span class="o">=</span> <span class="n">gpd</span><span class="p">.</span><span class="n">read_file</span><span class="p">(</span><span class="s">'https://raw.githubusercontent.com/martynafford/natural-earth-geojson/refs/heads/master/50m/physical/ne_50m_coastline.json'</span><span class="p">)</span>
+
+<span class="n">bounds</span><span class="p">.</span><span class="n">crs</span>
+</code></pre></div></div>
+
+<div class="code">
+&lt;Geographic 2D CRS: EPSG:4326&gt;
+<br />
+Name: WGS 84
+<br />
+Axis Info [ellipsoidal]:
+<br />
+- Lat[north]: Geodetic latitude (degree)
+<br />
+- Lon[east]: Geodetic longitude (degree)
+<br />
+Area of Use:
+<br />
+- name: World.
+<br />
+- bounds: (-180.0, -90.0, 180.0, 90.0)
+<br />
+Datum: World Geodetic System 1984 ensemble
+<br />
+- Ellipsoid: WGS 84
+<br />
+- Prime Meridian: Greenwich
+</div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">gdf</span><span class="p">.</span><span class="n">crs</span><span class="o">==</span><span class="n">bounds</span><span class="p">.</span><span class="n">crs</span>
+</code></pre></div></div>
+
+<div class="code">
+True
+</div>
+
+<p>The two datasets are encoded with the same CRS, which is the latitude-longitude
+one.
+Let us first of all take a look at the raw data.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">crs</span> <span class="o">=</span> <span class="n">gdf</span><span class="p">.</span><span class="n">crs</span>
+<span class="n">minx</span><span class="p">,</span> <span class="n">miny</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">bounds</span><span class="p">[[</span><span class="s">"minx"</span><span class="p">,</span> <span class="s">"miny"</span><span class="p">]].</span><span class="nb">min</span><span class="p">().</span><span class="n">values</span><span class="p">)</span>
+<span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">bounds</span><span class="p">[[</span><span class="s">"maxx"</span><span class="p">,</span> <span class="s">"maxy"</span><span class="p">]].</span><span class="nb">max</span><span class="p">().</span><span class="n">values</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">bounds</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"lightgray"</span><span class="p">)</span>
+<span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">'x'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">minx</span><span class="p">,</span> <span class="n">maxx</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">"Lat-Lon"</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/proj/latlon.webp" alt="Our map shown in the latitude-longitude coordinates" /></p>
+
+<p>In pyproj there are many ways to choose the CRS, and the most common ones
+are <code class="language-plaintext highlighter-rouge">from_epsg</code>, <code class="language-plaintext highlighter-rouge">from_user_input</code> and <code class="language-plaintext highlighter-rouge">from_string</code>.
+These functions are really easy to use,
+and <code class="language-plaintext highlighter-rouge">from_epsg(XXXX)</code> is equivalent to <code class="language-plaintext highlighter-rouge">from_user_input(XXXX)</code>
+and to <code class="language-plaintext highlighter-rouge">from_string("ESPG:XXXX"")</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">3395</span><span class="p">)</span>
+<span class="c1"># equivalent: CRS.from_user_input(3395) or CRS.from_string("EPSG:3395")
+</span><span class="n">minx</span><span class="p">,</span> <span class="n">miny</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">bounds</span><span class="p">[[</span><span class="s">"minx"</span><span class="p">,</span> <span class="s">"miny"</span><span class="p">]].</span><span class="nb">min</span><span class="p">().</span><span class="n">values</span><span class="p">)</span>
+<span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">bounds</span><span class="p">[[</span><span class="s">"maxx"</span><span class="p">,</span> <span class="s">"maxy"</span><span class="p">]].</span><span class="nb">max</span><span class="p">().</span><span class="n">values</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">bounds</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"lightgray"</span><span class="p">)</span>
+<span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">'x'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">minx</span><span class="p">,</span> <span class="n">maxx</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">"WGS 84 Mercator"</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/proj/wgs84.webp" alt="The map shown in the WGS-84, crs, also known as
+EPSG 3395" /></p>
+
+<p>Each area has its own typical projections, so if you are used
+to map a certain area, you will likely be familiar with
+the EPSG codes of these projections.
+As an example, I know by heart that the 3003/3004 projection are the Monte Mario
+projections, while EPSG: 32632 to EPSG: 32634
+are UTM WGS 84 32N-34N, and these are typical projections used in Italy.</p>
+
+<p>In particular, UTM projections are very common when you must work
+on the country level. 
+If you are working on a map of some country you are not familiar
+with, you might want to find the associated UTM projections.</p>
+
+<p>Pyproj allows you to easily find the UTM projections
+associated with a given area, and you can do this as follows.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">crs</span> <span class="o">=</span> <span class="n">bounds</span><span class="p">.</span><span class="n">crs</span>
+<span class="n">minx</span><span class="p">,</span> <span class="n">miny</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">bounds</span><span class="p">[[</span><span class="s">"minx"</span><span class="p">,</span> <span class="s">"miny"</span><span class="p">]].</span><span class="nb">min</span><span class="p">().</span><span class="n">values</span><span class="p">)</span>
+<span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">bounds</span><span class="p">[[</span><span class="s">"maxx"</span><span class="p">,</span> <span class="s">"maxy"</span><span class="p">]].</span><span class="nb">max</span><span class="p">().</span><span class="n">values</span><span class="p">)</span>
+<span class="n">utm_crs_list</span> <span class="o">=</span> <span class="n">query_utm_crs_info</span><span class="p">(</span>
+    <span class="n">datum_name</span><span class="o">=</span><span class="s">"WGS 84"</span><span class="p">,</span>
+    <span class="n">area_of_interest</span><span class="o">=</span><span class="n">AreaOfInterest</span><span class="p">(</span>
+        <span class="n">west_lon_degree</span><span class="o">=</span><span class="n">minx</span><span class="p">,</span>
+        <span class="n">south_lat_degree</span><span class="o">=</span><span class="n">miny</span><span class="p">,</span>
+        <span class="n">east_lon_degree</span><span class="o">=</span><span class="n">maxx</span><span class="p">,</span>
+        <span class="n">north_lat_degree</span><span class="o">=</span><span class="n">maxy</span><span class="p">,</span>
+    <span class="p">),</span>
+<span class="p">)</span>
+
+<span class="n">utm_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">utm_crs_list</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">utm_crs_list</span><span class="p">)</span><span class="o">//</span><span class="mi">2</span><span class="p">].</span><span class="n">code</span><span class="p">)</span>
+
+<span class="n">crs</span> <span class="o">=</span> <span class="n">utm_crs</span>
+<span class="n">minx</span><span class="p">,</span> <span class="n">miny</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">bounds</span><span class="p">[[</span><span class="s">"minx"</span><span class="p">,</span> <span class="s">"miny"</span><span class="p">]].</span><span class="nb">min</span><span class="p">().</span><span class="n">values</span><span class="p">)</span>
+<span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">bounds</span><span class="p">[[</span><span class="s">"maxx"</span><span class="p">,</span> <span class="s">"maxy"</span><span class="p">]].</span><span class="nb">max</span><span class="p">().</span><span class="n">values</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">bounds</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"lightgray"</span><span class="p">)</span>
+<span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">'x'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">minx</span><span class="p">,</span> <span class="n">maxx</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s">"</span><span class="si">{</span><span class="n">utm_crs</span><span class="p">.</span><span class="n">name</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/proj/utm.webp" alt="Our map in UTM 26 N WGS 84 projection." /></p>
+
+<p>Not all projections have an associated EPSG code, so you might
+be interested in using a projection which is encoded by some authority
+which is not EPSG.
+You can do this by using the <code class="language-plaintext highlighter-rouge">from_authority</code> function.
+The list of the available authorities can be obtained as</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">get_authorities</span><span class="p">()</span>
+</code></pre></div></div>
+
+<div class="code">
+['EPSG', 'ESRI', 'IAU_2015', 'IGNF', 'NKG', 'NRCAN', 'OGC', 'PROJ']
+</div>
+
+<p>As an example, the Gall-Peters projection has an ESRI code, but
+it has no EPSG code.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">.</span><span class="n">from_authority</span><span class="p">(</span><span class="s">'ESRI'</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="mi">54016</span><span class="p">)</span>
+<span class="n">minx</span><span class="p">,</span> <span class="n">miny</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">bounds</span><span class="p">[[</span><span class="s">"minx"</span><span class="p">,</span> <span class="s">"miny"</span><span class="p">]].</span><span class="nb">min</span><span class="p">().</span><span class="n">values</span><span class="p">)</span>
+<span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">bounds</span><span class="p">[[</span><span class="s">"maxx"</span><span class="p">,</span> <span class="s">"maxy"</span><span class="p">]].</span><span class="nb">max</span><span class="p">().</span><span class="n">values</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">bounds</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"lightgray"</span><span class="p">)</span>
+<span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">'x'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">minx</span><span class="p">,</span> <span class="n">maxx</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">"Gall-Peters"</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/proj/gall_peters.webp" alt="Our map in the Gall-Peters projection" /></p>
+
+<p>In some situation, you might be interested in a deeper customization,
+because you want to preserve some particular property in your analysis.</p>
+
+<p>In these cases, simply using a code might not be enough, and you might look
+for choosing the exact tangent point of your map.
+In this case you can use the proj syntax.
+In our case, we will use the equidistant conic projection
+with latitude equal to the median of the latitude of our GPS
+points.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="p">.</span><span class="n">from_proj4</span><span class="p">(</span><span class="sa">f</span><span class="s">"+proj=eqdc +lat_1=</span><span class="si">{</span><span class="n">gdf</span><span class="p">.</span><span class="n">geometry</span><span class="p">.</span><span class="n">y</span><span class="p">.</span><span class="n">median</span><span class="p">()</span><span class="si">}</span><span class="s">"</span><span class="p">)</span>
+<span class="n">minx</span><span class="p">,</span> <span class="n">miny</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">bounds</span><span class="p">[[</span><span class="s">"minx"</span><span class="p">,</span> <span class="s">"miny"</span><span class="p">]].</span><span class="nb">min</span><span class="p">().</span><span class="n">values</span><span class="p">)</span>
+<span class="n">maxx</span><span class="p">,</span> <span class="n">maxy</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">bounds</span><span class="p">[[</span><span class="s">"maxx"</span><span class="p">,</span> <span class="s">"maxy"</span><span class="p">]].</span><span class="nb">max</span><span class="p">().</span><span class="n">values</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">bounds</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">"lightgray"</span><span class="p">)</span>
+<span class="n">gdf</span><span class="p">.</span><span class="n">to_crs</span><span class="p">(</span><span class="n">crs</span><span class="p">).</span><span class="n">plot</span><span class="p">(</span><span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s">'x'</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">minx</span><span class="p">,</span> <span class="n">maxx</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_ylim</span><span class="p">([</span><span class="n">miny</span><span class="p">,</span> <span class="n">maxy</span><span class="p">])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">"Equidistant conic"</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/gis/proj/custom.webp" alt="The map shown in our custom projection" /></p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>We have seen how to choose our own projection with pyproj, starting from
+the simpler methods up to the powerful proj syntax.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span>
+</code></pre></div></div>
+
+<div class="code">
+Last updated: Tue Apr 15 2025
+<br />
+
+<br />
+Python implementation: CPython
+<br />
+Python version       : 3.12.8
+<br />
+IPython version      : 8.31.0
+<br />
+
+<br />
+matplotlib: 3.10.1
+<br />
+geopandas : 1.0.1
+<br />
+pyproj    : 3.7.1
+<br />
+
+<br />
+Watermark: 2.5.0
+</div>

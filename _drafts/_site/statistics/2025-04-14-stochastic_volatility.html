@@ -1,0 +1,231 @@
+<p>In finance, time series are commonly used to quantify the risk associated
+with an investment, and many models have been developed for this taks.
+Here we will show a particular kind of model, named the “stochastic
+volatility model”.
+We will use this kind of model to perform a nowcasting, which is the
+analysis of the current value of a given quantity.
+Volatility cannot be measured, but we can use SVMs to quantify it.
+We will use yahoo finance to download the stock value of the largest
+EU automotive corporations, and we will use PyMC to quantify the associated
+volatility.</p>
+
+<h2 id="the-dataset">The dataset</h2>
+
+<p>Let us first of all download the data.
+We will use Stellantis, Volks-Wagen, BMW, Mercedes and Renault
+as study group.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="n">pd</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="n">np</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="n">sns</span>
+<span class="kn">import</span> <span class="nn">yfinance</span> <span class="k">as</span> <span class="n">yf</span>
+<span class="kn">import</span> <span class="nn">pymc</span> <span class="k">as</span> <span class="n">pm</span>
+<span class="kn">import</span> <span class="nn">arviz</span> <span class="k">as</span> <span class="n">az</span>
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+
+<span class="n">tk_names</span> <span class="o">=</span> <span class="p">[</span><span class="s">'VOW3.DE'</span><span class="p">,</span> <span class="s">'STLAM.MI'</span><span class="p">,</span> <span class="s">'BMW.DE'</span><span class="p">,</span> <span class="s">'MBG.DE'</span><span class="p">,</span> <span class="s">'RNO.PA'</span><span class="p">]</span>
+
+<span class="n">start_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2024</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">end_date</span> <span class="o">=</span> <span class="n">datetime</span><span class="p">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2025</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">out</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">tk_name</span> <span class="ow">in</span> <span class="n">tk_names</span><span class="p">:</span>
+    <span class="n">tk</span> <span class="o">=</span> <span class="n">yf</span><span class="p">.</span><span class="n">Ticker</span><span class="p">(</span><span class="n">tk_name</span><span class="p">)</span>
+    <span class="n">out</span><span class="p">[</span><span class="n">tk_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">tk</span><span class="p">.</span><span class="n">history</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">start_date</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">end_date</span><span class="p">)[</span><span class="s">'Close'</span><span class="p">])</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">out</span><span class="p">).</span><span class="n">reset_index</span><span class="p">()</span>
+
+<span class="n">df</span><span class="p">[</span><span class="s">'Date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s">'Date'</span><span class="p">])</span>
+
+<span class="c1"># There are few NaNs due to local holidays, we will simply drop them
+</span><span class="n">dfn</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">.</span><span class="n">isna</span><span class="p">().</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">).</span><span class="nb">max</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">).</span><span class="n">astype</span><span class="p">(</span><span class="nb">bool</span><span class="p">)]</span>
+</code></pre></div></div>
+
+<p>The close value is not appropriate for our inference,
+and we will use the log-return</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">out_lr</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">tk</span> <span class="ow">in</span> <span class="n">tk_names</span><span class="p">:</span>
+    <span class="n">out_lr</span><span class="p">[</span><span class="n">tk</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="p">.</span><span class="n">log</span><span class="p">(</span><span class="n">dfn</span><span class="p">[</span><span class="n">tk</span><span class="p">]))</span>
+
+<span class="n">df_lr</span> <span class="o">=</span> <span class="n">pd</span><span class="p">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">out_lr</span><span class="p">)</span>
+<span class="n">df_lr</span><span class="p">[</span><span class="s">'Date'</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s">'Date'</span><span class="p">]</span>
+
+<span class="c1"># reordering the columns
+</span><span class="n">df_ord</span> <span class="o">=</span> <span class="n">df_lr</span><span class="p">[[</span><span class="s">'Date'</span><span class="p">]</span><span class="o">+</span><span class="nb">list</span><span class="p">(</span><span class="n">df_lr</span><span class="p">.</span><span class="n">columns</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])]</span>
+
+<span class="n">dfr_long</span> <span class="o">=</span> <span class="n">df_ord</span><span class="p">.</span><span class="n">melt</span><span class="p">(</span><span class="n">id_vars</span><span class="o">=</span><span class="s">'Date'</span><span class="p">,</span> <span class="n">value_vars</span><span class="o">=</span><span class="n">df_ord</span><span class="p">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="n">value_name</span><span class="o">=</span><span class="s">'logret'</span><span class="p">,</span> <span class="n">var_name</span><span class="o">=</span><span class="s">'tk'</span><span class="p">)</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">dfr_long</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="s">'logret'</span><span class="p">,</span> <span class="n">x</span><span class="o">=</span><span class="s">'Date'</span><span class="p">,</span> <span class="n">hue</span><span class="o">=</span><span class="s">'tk'</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">legend</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="n">legend</span><span class="p">(</span><span class="n">frameon</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">ax</span><span class="p">.</span><span class="n">get_xticklabels</span><span class="p">(),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/stochastic_volatility/logret.webp" alt="The log-returns for the selected stocks" /></p>
+
+<h2 id="the-model">The model</h2>
+
+<p>We are now ready to set up our model. In order to build our SVM, we will
+use a simple gaussian random walk prior for the log-volatility.
+We recall that a gaussian random walk is the cumulative sum of
+iid gaussian random variables.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">yobs</span> <span class="o">=</span> <span class="n">df_ord</span><span class="p">[</span><span class="s">'STLAM.MI'</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">()</span> <span class="k">as</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s">'lam'</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">rho</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">GaussianRandomWalk</span><span class="p">(</span><span class="s">'rho'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">lam</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yobs</span><span class="p">)))</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">rho</span><span class="o">/</span><span class="mi">2</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="p">(</span><span class="n">yobs</span> <span class="o">-</span> <span class="n">np</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yobs</span><span class="p">)))</span>
+
+<span class="n">rng</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">random</span><span class="p">.</span><span class="n">default_rng</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+<span class="n">kwargs</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span>
+    <span class="n">nuts_sampler</span><span class="o">=</span><span class="s">'numpyro'</span><span class="p">,</span>
+    <span class="n">draws</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+    <span class="n">tune</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span>
+    <span class="n">random_seed</span><span class="o">=</span><span class="n">rng</span>
+<span class="p">)</span>
+
+<span class="k">with</span> <span class="n">model</span><span class="p">:</span>
+    <span class="n">idata</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="s">'lam'</span><span class="p">)</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/stochastic_volatility/trace.webp" alt="The trace of the above model" /></p>
+
+<p>The above trace roughly looks ok (we should increase the number of samples
+for a proper inference, but it’s ok for our purposes).</p>
+
+<p>We are now ready to inspect our results.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">x_ind</span> <span class="o">=</span> <span class="n">df_lr</span><span class="p">[</span><span class="s">'Date'</span><span class="p">]</span>
+<span class="n">t_ind</span> <span class="o">=</span> <span class="n">np</span><span class="p">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">x_ind</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">sns</span><span class="p">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_ind</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">yobs</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_ind</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'sigma'</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_ind</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">idata</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'sigma'</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'grey'</span><span class="p">)</span>
+<span class="n">xticks</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">get_xticks</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xticks</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">8</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">x_ind</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">xticks</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">8</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)].</span><span class="n">dt</span><span class="p">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">'%Y-%m-%d'</span><span class="p">),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">t_ind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t_ind</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/stochastic_volatility/stellantis.webp" alt="" /></p>
+
+<p>We can see a clear increase in the volatility from January 2025, and 
+if you have ever opened a newspaper in 2025 you might likely guess
+what’s the cause…</p>
+
+<h2 id="making-the-above-model-hierarchical">Making the above model hierarchical</h2>
+
+<p>We can leverage hierarchical models to quantify families
+of stocks. As an example, we can assume that the log-volatilities
+of the above stocks are iid from the log-volatility of
+the EU automotive market.
+In this way we gave an implicit operative definition
+of the log-volatility of the EU automotive market.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">yobs_n</span> <span class="o">=</span> <span class="n">df_ord</span><span class="p">[</span><span class="n">df_ord</span><span class="p">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]]</span>
+
+<span class="n">coords</span> <span class="o">=</span> <span class="p">{</span><span class="s">'date'</span><span class="p">:</span> <span class="n">df_ord</span><span class="p">[</span><span class="s">'Date'</span><span class="p">],</span>
+         <span class="s">'tk'</span><span class="p">:</span> <span class="n">df_ord</span><span class="p">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]}</span>
+
+<span class="k">with</span> <span class="n">pm</span><span class="p">.</span><span class="n">Model</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span> <span class="k">as</span> <span class="n">model_h</span><span class="p">:</span>
+    <span class="n">lam</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Exponential</span><span class="p">(</span><span class="s">'lam'</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+    <span class="n">mu_v</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">GaussianRandomWalk</span><span class="p">(</span><span class="s">'mu_v'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">lam</span><span class="p">,</span> <span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">yobs_n</span> <span class="p">)))</span>
+    <span class="n">mu</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'mu'</span><span class="p">,</span> <span class="n">mu_v</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s">'date'</span><span class="p">))</span>
+    <span class="n">eta</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">HalfNormal</span><span class="p">(</span><span class="s">'eta'</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+    <span class="n">rho</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'rho'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="n">mu</span><span class="p">[:,</span> <span class="bp">None</span><span class="p">],</span> <span class="n">sigma</span><span class="o">=</span><span class="n">eta</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s">'date'</span><span class="p">,</span> <span class="s">'tk'</span><span class="p">))</span>
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Deterministic</span><span class="p">(</span><span class="s">'sigma'</span><span class="p">,</span> <span class="n">pm</span><span class="p">.</span><span class="n">math</span><span class="p">.</span><span class="n">exp</span><span class="p">(</span><span class="n">rho</span><span class="p">),</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s">'date'</span><span class="p">,</span> <span class="s">'tk'</span><span class="p">))</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">Normal</span><span class="p">(</span><span class="s">'y'</span><span class="p">,</span> <span class="n">mu</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">sigma</span><span class="o">=</span><span class="n">sigma</span><span class="p">,</span> <span class="n">observed</span><span class="o">=</span><span class="p">(</span><span class="n">yobs_n</span><span class="o">-</span><span class="n">yobs_n</span><span class="p">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="n">dims</span><span class="o">=</span><span class="p">(</span><span class="s">'date'</span><span class="p">,</span> <span class="s">'tk'</span><span class="p">))</span>
+
+<span class="k">with</span> <span class="n">model_h</span><span class="p">:</span>
+    <span class="n">idata_h</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">sample</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="n">az</span><span class="p">.</span><span class="n">plot_trace</span><span class="p">(</span><span class="n">idata_h</span><span class="p">,</span> <span class="n">var_names</span><span class="o">=</span><span class="p">[</span><span class="s">'lam'</span><span class="p">,</span> <span class="s">'eta'</span><span class="p">])</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">gcf</span><span class="p">()</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/stochastic_volatility/trace_h.webp" alt="The trace
+of the hierarchical model" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_ind</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">idata_h</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'mu'</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">)</span>
+<span class="n">az</span><span class="p">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_ind</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">idata_h</span><span class="p">.</span><span class="n">posterior</span><span class="p">[</span><span class="s">'mu'</span><span class="p">],</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">,</span> <span class="n">hdi_prob</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s">'grey'</span><span class="p">)</span>
+<span class="n">xticks</span> <span class="o">=</span> <span class="n">ax</span><span class="p">.</span><span class="n">get_xticks</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xticks</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">8</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">x_ind</span><span class="p">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">xticks</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">8</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)].</span><span class="n">dt</span><span class="p">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">'%Y-%m-%d'</span><span class="p">),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">t_ind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t_ind</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">set_title</span><span class="p">(</span><span class="s">'EU automotive log volatility'</span><span class="p">)</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/stochastic_volatility/volatility_automotive_eu.webp" alt="The log volatility of the EU automotive
+market obtained by our model" /></p>
+
+<p>The behavior since January 2025 is analogous to the one previously obtained.
+Let us now inspect the posterior predictive.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">with</span> <span class="n">model_h</span><span class="p">:</span>
+    <span class="n">idata_h</span><span class="p">.</span><span class="n">extend</span><span class="p">(</span><span class="n">pm</span><span class="p">.</span><span class="n">sample_posterior_predictive</span><span class="p">(</span><span class="n">idata_h</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">nrows</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df_ord</span><span class="p">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]),</span> <span class="n">sharex</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">col</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">df_ord</span><span class="p">.</span><span class="n">columns</span><span class="p">[</span><span class="mi">1</span><span class="p">:]):</span>
+    <span class="n">sns</span><span class="p">.</span><span class="n">lineplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">t_ind</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">df_ord</span><span class="p">[</span><span class="n">col</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="o">-</span><span class="n">df_ord</span><span class="p">[</span><span class="n">col</span><span class="p">].</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span><span class="p">,</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+    <span class="n">az</span><span class="p">.</span><span class="n">plot_hdi</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df_ord</span><span class="p">.</span><span class="n">index</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">idata_h</span><span class="p">.</span><span class="n">posterior_predictive</span><span class="p">[</span><span class="s">'y'</span><span class="p">].</span><span class="n">sel</span><span class="p">(</span><span class="n">tk</span><span class="o">=</span><span class="n">col</span><span class="p">),</span> <span class="n">ax</span><span class="o">=</span><span class="n">ax</span><span class="p">[</span><span class="n">k</span><span class="p">])</span>
+<span class="n">xticks</span> <span class="o">=</span> <span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">get_xticks</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xticks</span><span class="p">(</span><span class="n">xticks</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">8</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">))</span>
+<span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">df_ord</span><span class="p">[</span><span class="s">'Date'</span><span class="p">].</span><span class="n">iloc</span><span class="p">[</span><span class="n">xticks</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="mi">8</span><span class="p">].</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)].</span><span class="n">dt</span><span class="p">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">'%Y-%m-%d'</span><span class="p">),</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">45</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">].</span><span class="n">set_xlim</span><span class="p">([</span><span class="n">t_ind</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">t_ind</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+<span class="n">fig</span><span class="p">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/docs/assets/images/statistics/stochastic_volatility/ppc_eu.webp" alt="" /></p>
+
+<p>From the above figure, it looks like the increase in the EU automotive
+volatility is dominated by the large fluctuations of the Stellantis
+group.
+To verify this, we could try and fit an SVM model for the remaining stocks,
+and this is left to the reader.</p>
+
+<h2 id="conclusions">Conclusions</h2>
+
+<p>Time series can be both used to model the time dependence of the mean
+and to model the time dependence of the variance, and SVM
+are a popular tool for the latter task.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">load_ext</span> <span class="n">watermark</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">%</span><span class="n">watermark</span> <span class="o">-</span><span class="n">n</span> <span class="o">-</span><span class="n">u</span> <span class="o">-</span><span class="n">v</span> <span class="o">-</span><span class="n">iv</span> <span class="o">-</span><span class="n">w</span> <span class="o">-</span><span class="n">p</span> <span class="n">xarray</span><span class="p">,</span><span class="n">numpyro</span>
+</code></pre></div></div>
+<div class="code">
+Last updated: Mon May 05 2025
+<br />
+<br />Python implementation: CPython
+<br />Python version       : 3.12.8
+<br />IPython version      : 8.31.0
+<br />
+<br />xarray : 2025.1.1
+<br />numpyro: 0.16.1
+<br />
+<br />pymc      : 5.22.0
+<br />pandas    : 2.2.3
+<br />numpy     : 2.2.5
+<br />arviz     : 0.21.0
+<br />matplotlib: 3.10.1
+<br />yfinance  : 0.2.54
+<br />seaborn   : 0.13.2
+<br />
+<br />Watermark: 2.5.0
+</div>
