@@ -25,7 +25,7 @@ we must both take into account the school effect and the class
 effect.
 In doing so, however, we must include the fact
 that class A from school 1 is different from class A from school 2, 3
-and 4. In other words, school is nested within school.
+and 4. In other words, classval is nested within school.
 
 This is straightforward to do in Bambi, and we are going to show how to do so.
 
