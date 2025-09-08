@@ -42,6 +42,17 @@ interest with uniform probability.
 In this case coverage is only statistically ensured, while
 it is not guaranteed at the single sample level.
 
+### Latin hypercube sampling
+
+We already discussed latin square sampling in the context
+of [DoE](statistics/latin_square).
+Latin hypercube is inspired by the above method, and
+it only applies to squared/rectancular raster datasets.
+With this method, we first divide our raster grid
+into a $n\times n$ grid, we then sample $n$ sub-squares
+according to the latin square method, and we finally 
+sample one point from each sub-square with uniform probability.
+
 ### Spatial coverage sampling
 
 Spatial coverage sampling combines randomness with spatial coverage,
@@ -166,8 +177,38 @@ The uniform random sampling has a very poor spatial coverage,
 while the other methods ensure a good spatial coverage,
 and this is why simple random sampling is rarely used in spatial
 statistics.
+
+Let us also see how to use latin hypercube sampling. For this method
+we must select a different dataset, since we can only use it for
+rectangular grids.
+
+```python
+xds_red = load_raster("altitude")
+
+out = sample_latin_hypercube(
+    xmin=xds_red.x.min().values,
+    xmax=xds_red.x.max().values,
+    ymin=xds_red.y.min().values,
+    ymax=xds_red.y.max().values,
+    n=6,
+    rng=rng,
+)
+
+fig, ax = plt.subplots()
+xds_red.plot(ax=ax)
+ax.scatter(out.T[0], out.T[1], marker='x', c='r')
+fig.tight_layout()
+```
+![](/docs/assets/images/gis/spatial_sampling/lhsampling.webp)
+
+As we can see, we get a great spatial coverage with a small
+number of points.
+Since it can only be applied to rectangular regions, it cannot
+always be applied.
+
 As previously mentioned, only spatial coverage random sampling
 both ensures a good spatial coverage and randomness.
+
 
 Let us now take a look at the equidistant sampling method
 
