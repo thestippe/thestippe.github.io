@@ -1,6 +1,6 @@
 ---
 categories: /statistics/
-date: 2025-09-12
+date: 2025-09-29
 description: Handling hard-to-change factors
 layout: post
 section: 10
