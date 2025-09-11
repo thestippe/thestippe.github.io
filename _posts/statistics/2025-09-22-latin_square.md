@@ -1,6 +1,6 @@
 ---
 categories: /statistics/
-date: 2025-08-29
+date: 2025-09-22
 description: Blocking two factors
 layout: post
 section: 10

@@ -1,6 +1,6 @@
 ---
 categories: /statistics/
-date: 2025-10-10
+date: 2025-10-13
 description: When does association imply causation?
 layout: post
 section: 0

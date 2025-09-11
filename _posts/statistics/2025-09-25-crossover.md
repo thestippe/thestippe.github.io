@@ -1,6 +1,6 @@
 ---
 categories: /statistics/
-date: 2025-09-05
+date: 2025-09-25
 description: How to quantify the treatment order effect
 layout: post
 section: 10

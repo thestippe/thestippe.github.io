@@ -98,3 +98,12 @@ in the raster data.
 
 We discussed what Geographic Data Science is about, and what characterizes geo-referenced data.
 In the next posts, we will discuss how to handle these kinds of data in Python.
+
+<!--
+TODO:
+- segmentation (knn, yolo? DPM)
+- hyperspectral imaging
+- 3d imaging
+- foluim/other interactive
+- postgis? duckdb?
+-->

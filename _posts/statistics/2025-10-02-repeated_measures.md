@@ -1,6 +1,6 @@
 ---
 categories: /statistics/
-date: 2025-09-19
+date: 2025-10-02
 description: When time is one of the factors
 layout: post
 section: 10
