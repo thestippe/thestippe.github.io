@@ -301,6 +301,12 @@ fig.tight_layout()
 
 We have seen how to run and analyze a full factorial experiment
 with binary outcomes.
+This method can be seen as a form of cross-validated grid search,
+but in this case the execution order is random rather than deterministic.
+Moreover, by using the above method, we are also able to take the
+performance variance into account, while the more traditional
+grid search only considers the average performances.
+
 
 ## Suggested readings
 - <cite>Lawson, J. (2014). Design and Analysis of Experiments with R. US: CRC Press.</cite>
