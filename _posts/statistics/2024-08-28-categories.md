@@ -2,6 +2,7 @@
 layout: post
 title: "Multidimensional distributions"
 categories: /statistics/
+up: /statistics
 tags: /multidimensional/
 subcategory: "Simple models"
 date: "2024-08-28"

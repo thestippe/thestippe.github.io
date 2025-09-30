@@ -5,6 +5,7 @@ categories: /statistics/
 subcategory: Introduction
 tags: /bayes_intro/
 date: "2024-07-03"
+up: /statistics
 # image: "/docs/assets/images/perception/eye.jpg"
 description: "A little bit more about Bayesian inference"
 section: 0

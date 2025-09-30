@@ -2,6 +2,7 @@
 layout: post
 title: "Introduction to the Bayesian workflow"
 categories: /statistics/
+up: /statistics
 subcategory: "Bayesian workflow"
 tags: /bayes_workflow/
 date: "2024-09-11"

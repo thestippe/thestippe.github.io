@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-10-06
 description: Saving yourself from mis-labelling
 layout: post

@@ -2,6 +2,7 @@
 layout: post
 title: "How to choose a color map"
 categories: /dataviz/
+up: /dataviz
 tags: /color-map/
 description: "Each task has its own palette"
 image: "/docs/assets/images/palettes_introduction/palettes.png"

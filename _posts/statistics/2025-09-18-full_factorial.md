@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-09-18
 description: Handling multiple factors of interest together
 layout: post

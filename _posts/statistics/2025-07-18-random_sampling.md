@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-07-18
 description: Methods for selecting units from a population
 layout: post

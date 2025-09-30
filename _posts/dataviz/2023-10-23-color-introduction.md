@@ -2,6 +2,7 @@
 layout: post
 title: "Introduction to color perception"
 categories: /dataviz/
+up: /dataviz
 tags: /color-introduction/
 image: "/docs/assets/images/color_perception/color_circle.png"
 description: "Some basic concepts about color spaces"

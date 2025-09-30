@@ -2,6 +2,7 @@
 layout: post
 title: "Bonus: counting animals in a park"
 categories: /statistics/
+up: /statistics
 tags: /hypergeometric/
 subcategory: "Simple models"
 date: "2024-08-14"

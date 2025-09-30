@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-07-11
 description: Choosing how to collect data
 layout: post

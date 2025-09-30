@@ -2,6 +2,7 @@
 layout: post
 title: "Linear regression with binary input"
 categories: /statistics/
+up: /statistics
 subcategory: "Regression"
 tags: /binary_linear_regression/
 date: "2024-10-23"

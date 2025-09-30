@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-07-25
 description: Grouping units in a useful way
 layout: post

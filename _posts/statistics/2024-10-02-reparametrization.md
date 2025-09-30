@@ -2,6 +2,7 @@
 layout: post
 title: "Re-parametrizing your model"
 categories: /statistics/
+up: /statistics
 subcategory: "Bayesian workflow"
 tags: /model_comparison/
 date: "2024-10-02"

@@ -2,6 +2,7 @@
 layout: post
 title: "Model comparison, cont."
 categories: /statistics/
+up: /statistics
 subcategory: "Bayesian workflow"
 tags: /model_comparison/
 date: "2024-10-10"

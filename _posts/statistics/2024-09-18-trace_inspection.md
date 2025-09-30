@@ -2,6 +2,7 @@
 layout: post
 title: "Trace inspection"
 categories: /statistics/
+up: /statistics
 subcategory: "Bayesian workflow"
 tags: /trace_inspection/
 date: "2024-09-18"

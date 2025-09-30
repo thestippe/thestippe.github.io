@@ -7,6 +7,7 @@ section: 10
 subcategory: Experiments
 tags: /doe/
 title: Split plot design
+up: /statistics
 ---
 
 

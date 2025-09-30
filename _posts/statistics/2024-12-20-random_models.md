@@ -2,6 +2,7 @@
 layout: post
 title: "Random models and mixed models"
 categories: /statistics/
+up: /statistics
 subcategory: "Hierarchical models"
 tags: /random_models_intro/
 date: "2024-12-20"

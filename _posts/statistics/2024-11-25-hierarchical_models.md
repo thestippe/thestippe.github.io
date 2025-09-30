@@ -2,6 +2,7 @@
 layout: post
 title: "Hierarchical models"
 categories: /statistics/
+up: /statistics
 subcategory: "Hierarchical models"
 tags: /hierarchical_models/
 section: 0

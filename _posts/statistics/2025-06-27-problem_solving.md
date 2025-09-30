@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-06-27
 description: A broader view of the data science workflow
 layout: post

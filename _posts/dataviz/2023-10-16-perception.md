@@ -2,6 +2,7 @@
 layout: post
 title: "Perception"
 categories: /dataviz/
+up: /dataviz
 tags: /perception/
 image: "/docs/assets/images/perception/eye.jpg"
 description: "How do we see what surrounds us"

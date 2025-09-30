@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-06-06
 description: When hierarchies become complex
 layout: post

@@ -2,6 +2,7 @@
 layout: post
 title: "Visual queries"
 categories: /dataviz/
+up: /dataviz
 tags: /gestalt/
 image: "/docs/assets/images/visual_queries/attention.svg"
 description: "How do we inspect an image"

@@ -2,6 +2,7 @@
 layout: post
 title: "Hierarchical models and meta-analysis"
 categories: /statistics/
+up: /statistics
 subcategory: "Hierarchical models"
 tags: /hierarchical_metaanalysis/
 date: "2024-12-10"

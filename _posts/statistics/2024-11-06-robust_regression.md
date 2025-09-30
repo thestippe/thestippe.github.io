@@ -2,6 +2,7 @@
 layout: post
 title: "Robust linear regression"
 categories: /statistics/
+up: /statistics
 subcategory: "Regression"
 tags: /robust_regression/
 date: "2024-11-06"

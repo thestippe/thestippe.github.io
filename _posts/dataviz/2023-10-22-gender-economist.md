@@ -2,6 +2,7 @@
 layout: post
 title: "Drawing is redrawing"
 categories: /dataviz/
+up: /dataviz
 tags: /redesign/
 image: "/docs/assets/images/gender_economist/original.webp"
 description: "How to tackle real life dataviz problems"

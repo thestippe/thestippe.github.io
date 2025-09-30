@@ -2,6 +2,7 @@
 layout: post
 title: "Poisson regression"
 categories: /statistics/
+up: /statistics
 subcategory: "Regression"
 tags: /logistic_regression/
 section: 3

@@ -2,6 +2,7 @@
 layout: post
 title: "Predictive checks"
 categories: /statistics/
+up: /statistics
 subcategory: "Bayesian workflow"
 tags: /predictive_checks/
 date: "2024-09-25"

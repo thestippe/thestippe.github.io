@@ -2,6 +2,7 @@
 layout: post
 title: "Evolutions of the line chart"
 categories: /dataviz/
+up: /dataviz
 tags: /linechart-evolution/
 image: "/docs/assets/images/linechart_evolutions/areaplot.png"
 description: "When a linechart is not enough"

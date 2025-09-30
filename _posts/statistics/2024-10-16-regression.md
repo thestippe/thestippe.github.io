@@ -2,6 +2,7 @@
 layout: post
 title: "Introduction to the linear regression"
 categories: /statistics/
+up: /statistics
 subcategory: "Regression"
 tags: /linear_regression/
 date: "2024-10-16"

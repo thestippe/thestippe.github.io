@@ -2,6 +2,7 @@
 layout: post
 title: "Some notation about probability"
 categories: /statistics/
+up: /statistics
 subcategory: Introduction
 tags: /probability/
 date: "2024-07-17"

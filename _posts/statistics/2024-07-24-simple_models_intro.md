@@ -2,6 +2,7 @@
 layout: post
 title: "Section introduction"
 categories: /statistics/
+up: /statistics
 tags: /beta_binomial/
 subcategory: "Simple models"
 date: "2024-07-24"

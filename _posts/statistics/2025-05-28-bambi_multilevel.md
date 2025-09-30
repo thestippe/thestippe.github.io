@@ -2,6 +2,7 @@
 layout: post
 title: "Leveraging mixed-effect models"
 categories: /statistics/
+up: /statistics
 subcategory: "Hierarchical models"
 tags: /random_models_intro/
 date: "2025-05-28"

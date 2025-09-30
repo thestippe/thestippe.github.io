@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-07-04
 description: If something can go wrong, it probably will
 layout: post

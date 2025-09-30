@@ -2,6 +2,7 @@
 layout: post
 title: "How does MCMC works"
 categories: /statistics/
+up: /statistics
 subcategory: Introduction
 tags: /mcmc_intro/
 date: "2024-07-10"

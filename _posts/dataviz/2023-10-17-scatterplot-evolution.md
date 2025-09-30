@@ -2,6 +2,7 @@
 layout: post
 title: "Beyond the 1D scatterplot"
 categories: /dataviz/
+up: /dataviz
 tags: /beyond-scatterplot/
 image: "/docs/assets/images/beyond_scatterplot/boxplot.svg"
 description: "How to visualize one dimensional distributions"

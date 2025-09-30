@@ -7,6 +7,7 @@ section: 10
 subcategory: Experiments
 tags: /doe/
 title: Crossover design
+up: /statistics
 ---
 
 
