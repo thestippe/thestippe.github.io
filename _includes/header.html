@@ -71,10 +71,8 @@
                                         <a  class="page-link" href="{{ my_page.url | relative_url }}">{{ my_page.title | escape }}</a>
                                         {%- endif -%}
                                         {%- endfor -%}
-                                {% if page.categories != nil %}
-                                    {%   assign ct = page.categories | replace_last: "/" "" %}
-                                <a href="{{ ct }}" class="page-link">Up</a>
-                                {% endif%}
+                                {%- assign ct = page.categories | remove_last: "/" -%}
+                                <a href="{{ page.up }}" class="page-link">Up</a>
                                 </div>
                         </nav>
                         {%- endif -%}
@@ -90,3 +88,4 @@
                 </div>
 
 </header>
+
