@@ -7,7 +7,6 @@ section: 10
 subcategory: Experiments
 tags: /doe/
 title: Full factorial design
-
 ---
 
 
