@@ -72,7 +72,8 @@
                                         {%- endif -%}
                                         {%- endfor -%}
                                 {% if page.categories != nil %}
-                                <a href="{{page.categories| remove_last: '/' }}" class="page-link">Up</a>
+                                    {%   assign ct = page.categories[0] | replace_last: "/" "" %}
+                                <a href="{{ ct }}" class="page-link">Up</a>
                                 {% endif%}
                                 </div>
                         </nav>
