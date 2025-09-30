@@ -72,7 +72,7 @@
                                         {%- endif -%}
                                         {%- endfor -%}
                                 {% if page.categories != nil %}
-                                <a href="{{page.categories}}" class="page-link">Up</a>
+                                <a href="{{page.categories | replace_regex: '/$', ''}}" class="page-link">Up</a>
                                 {% endif%}
                                 </div>
                         </nav>
