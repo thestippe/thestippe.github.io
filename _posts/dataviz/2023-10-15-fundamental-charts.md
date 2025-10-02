@@ -3,7 +3,7 @@ layout: post
 title: "Fundamental charts"
 categories: /dataviz/
 up: /dataviz
-tags: /fundamental_charts/
+tags: /fundamental-charts/
 image: "/docs/assets/images/charts/charttypes.png"
 description: "An overview to some of the most common data visualizations"
 ---

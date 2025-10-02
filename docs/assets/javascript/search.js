@@ -37,7 +37,7 @@ function searchText(){
                         text = document.createElement('span')
                         text.innerHTML = elem.title
                         href.appendChild(text)
-                        href.setAttribute('href', elem.tags.replace('_', '-'))
+                        href.setAttribute('href', elem.tags)
                         newDiv.appendChild(href)
                         suggestions.appendChild(newDiv)
                         ind += 1
