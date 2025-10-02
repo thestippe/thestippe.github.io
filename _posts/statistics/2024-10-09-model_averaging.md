@@ -40,7 +40,7 @@ Leave One Out cross-validation.
 ## Bayes factors
 
 Let us go back to the Beta-Binomial model
-that we discussed in [this post](/_posts/statistics/betabin.md),
+that we discussed in [this post](/statistics/betabin.md),
 and let us assume that we have two candidate models to describe our data:
 model 0 has Jeffreys prior, which mean that the prior
 is a beta distribution with $\alpha=1/2$ and $\beta=1/2\,.$
