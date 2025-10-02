@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-10-24
 description: Making causal inference without randomization
 layout: post

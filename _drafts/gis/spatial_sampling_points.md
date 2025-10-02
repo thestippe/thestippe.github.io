@@ -2,6 +2,7 @@
 layout: post
 title: "Sampling points in space"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/spatial_sampling/equidistant.webp"
 description: "Sampling arbitrary points in space"

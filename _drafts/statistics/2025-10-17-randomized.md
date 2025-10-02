@@ -1,5 +1,6 @@
 ---
-categories: /statistics/
+categories: /statistics
+up: /statistics
 date: 2025-10-17
 description: When association implies causation
 layout: post

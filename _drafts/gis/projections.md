@@ -2,6 +2,7 @@
 layout: post
 title: "Choosing the right projection"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/geo/sphere.webp"
 description: "Which projection best fits your needs?"

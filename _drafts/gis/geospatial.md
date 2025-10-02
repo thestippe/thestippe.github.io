@@ -2,6 +2,7 @@
 layout: post
 title: "Geostatistical data"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/geostatistical/posterior.webp"
 description: "Random observation from fixed locations"
@@ -173,6 +174,15 @@ ds = ds.rio.write_crs(gdf.crs)
 Recall that the correct order for the coordinates on the raster is $(y, x)$,
 since the general convention for the matrices indices is $(row, column)$
 so there's no typo in the above formula.
+
+You can verify by yourself that same result could be obtained by using
+
+```python
+ds_check = pd.DataFrame({'y': mn[1]+sg*Xpred.T[1], 'x': mn[0]+sg*Xpred.T[0],
+                         'pred': idata_new.posterior_predictive['mu_pred'].mean(
+                             dim=('draw', 'chain')).values}
+                       ).set_index(['y', 'x'])['pred'].to_xarray()
+```
 
 Before proceeding, let us remember that we had data only on a small region
 of the grid, so before comparing the result it's better to mask the

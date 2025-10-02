@@ -2,6 +2,7 @@
 layout: post
 title: "OpenEO 2: time series"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/openeo_ts/results.webp"
 description: "More advanced operations with OpenEO"

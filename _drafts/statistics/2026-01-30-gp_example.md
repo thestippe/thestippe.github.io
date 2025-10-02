@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2026-01-30
 description: Using GPs for flexible regression
 layout: post

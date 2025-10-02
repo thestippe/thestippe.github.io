@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2026-03-27
 description: Inference for angular variables
 layout: post

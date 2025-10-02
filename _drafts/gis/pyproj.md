@@ -2,6 +2,7 @@
 layout: post
 title: "101 ways to reproject your data"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/proj/gall_peters.webp"
 description: "The most common ways to define a projection in pyproj"

@@ -2,6 +2,7 @@
 layout: post
 title: "OpenEO"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/openeo/landslide_procida.webp"
 description: "A simple tool to access satellite Earth observations"

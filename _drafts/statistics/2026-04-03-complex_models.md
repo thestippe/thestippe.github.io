@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2026-04-03
 description: When the going gets tough
 layout: post

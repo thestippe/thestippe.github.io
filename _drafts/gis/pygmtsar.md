@@ -2,6 +2,7 @@
 layout: post
 title: "Radar interferometry with Pygmtsar"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/pygmtsar/Displacement.webp"
 description: "Precise terrain displacement measurements"

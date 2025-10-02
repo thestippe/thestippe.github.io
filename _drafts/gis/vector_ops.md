@@ -2,6 +2,7 @@
 layout: post
 title: "Operations on vector data"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/vector_ops/clip.webp"
 description: "How to extract informations from your geodataframe"

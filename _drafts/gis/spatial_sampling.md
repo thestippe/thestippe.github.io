@@ -2,6 +2,7 @@
 layout: post
 title: "Spatial sampling"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/digitalelevationmodels/contour.webp"
 description: "Choosing random elements in space"

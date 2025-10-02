@@ -2,6 +2,7 @@
 layout: post
 title: "Map design"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/map_design/v3.webp"
 description: "How to show data on a map"

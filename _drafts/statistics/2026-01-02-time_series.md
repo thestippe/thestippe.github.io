@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2026-01-02
 description: Taking into account time dependence
 layout: post

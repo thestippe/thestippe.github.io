@@ -2,6 +2,7 @@
 layout: post
 title: "Introduction to geographic data analysis"
 categories: /gis/
+up: /gis
 tags: /gis_intro/
 image: "/docs/assets/images/geo/geo.webp"
 description: "What will we talk about"

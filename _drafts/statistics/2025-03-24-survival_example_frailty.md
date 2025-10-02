@@ -2,6 +2,7 @@
 layout: post
 title: "Frailty models"
 categories: /statistics/
+up: /statistics
 subcategory: "Advanced models"
 tags: /survival_continuous/
 date: "2025-03-24"

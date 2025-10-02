@@ -2,6 +2,7 @@
 layout: post
 title: "Open Street Map services"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/openstreetmap/shortest_path.webp"
 description: "Unleash the power of OSM"

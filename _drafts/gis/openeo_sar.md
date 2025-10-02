@@ -2,6 +2,7 @@
 layout: post
 title: "OpenEO for SAR images"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/openeo_sar/map_classify.webp"
 description: "Accessing Synthetic Aperture Radar data from OpenEO"

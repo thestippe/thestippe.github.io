@@ -2,6 +2,7 @@
 layout: post
 title: "Spatial data and models"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/spatial_models/log_average.webp"
 description: "Statistical models and geography"

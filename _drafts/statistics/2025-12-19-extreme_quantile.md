@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-12-19
 description: Describing less common events
 layout: post

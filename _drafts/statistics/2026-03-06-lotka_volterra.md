@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2026-03-06
 description: Testing the predictive power of a scientific model
 layout: post

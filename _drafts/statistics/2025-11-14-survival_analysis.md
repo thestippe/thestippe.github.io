@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-11-14
 description: Estimating waiting times
 layout: post

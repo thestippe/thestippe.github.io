@@ -2,6 +2,7 @@
 layout: post
 title: "Point patterns"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/geostatistical/posterior.webp"
 description: "Finding arrangements of points"

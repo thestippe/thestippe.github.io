@@ -2,6 +2,7 @@
 layout: post
 title: "Vector data"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/vector/routes_and_refuges_red.webp"
 description: ""

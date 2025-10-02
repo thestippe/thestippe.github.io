@@ -2,6 +2,7 @@
 layout: post
 title: "Operations on raster data"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/raster_ops/map.webp"
 description: "Handling georeferenced images"

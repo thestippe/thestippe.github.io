@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2026-04-10
 description: Approximate Bayesian computation
 layout: post

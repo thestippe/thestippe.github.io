@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2026-03-20
 description: Dealing with multi-collinearity
 layout: post

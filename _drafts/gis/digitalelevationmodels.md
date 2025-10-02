@@ -2,6 +2,7 @@
 layout: post
 title: "Digital Elevation Models"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/digitalelevationmodels/contour.webp"
 description: "Working with DEMs in Python"

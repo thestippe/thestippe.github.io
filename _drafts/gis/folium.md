@@ -2,6 +2,7 @@
 layout: post
 title: "Folium"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/openstreetmap/shortest_path.webp"
 description: "Making interactive maps with Folium"

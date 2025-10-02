@@ -2,6 +2,7 @@
 layout: post
 title: "Open Web Consortium standards"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/owc_standards/map1.webp"
 description: "Web services for GIS"

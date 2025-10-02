@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-12-05
 description: More advanced models from survival analysis
 layout: post

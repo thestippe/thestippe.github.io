@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2026-01-16
 description: When your focus in on flexibility
 layout: post

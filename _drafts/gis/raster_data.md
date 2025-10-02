@@ -2,6 +2,7 @@
 layout: post
 title: "Raster data"
 categories: /gis/
+up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/raster/ground_piedmont_red.webp"
 description: ""

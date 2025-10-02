@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2025-12-12
 description: Describing rare events
 layout: post

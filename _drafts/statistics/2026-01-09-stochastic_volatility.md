@@ -1,5 +1,6 @@
 ---
 categories: /statistics/
+up: /statistics
 date: 2026-01-09
 description: How to quantify volatility
 layout: post
