@@ -1,5 +1,6 @@
 ---
 layout: gis
+up: "/"
 title: "GIS and geostatistics"
 permalink: /gis
 description: "Dealing with georeferenced data"

@@ -1,6 +1,7 @@
 ---
 layout: dataviz
 title: "Dataviz"
+up: "/"
 permalink: /dataviz
 description: "All the posts on dataviz"
 ---

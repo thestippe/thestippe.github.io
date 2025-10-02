@@ -1,5 +1,6 @@
 ---
 layout: statistics
+up: "/"
 title: "Statistics"
 permalink: /statistics
 description: "All the posts on statistics"
