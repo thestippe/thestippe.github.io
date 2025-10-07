@@ -100,7 +100,7 @@ fig.tight_layout()
 
 ![The trace of the first model](/docs/assets/images/statistics/nested_factors/trace_easy.webp)
 
-The second way is to use the $\$ operator in Bambi. While in this case
+The second way is to use the \\ operator in Bambi. While in this case
 the two approaches are equivalent, as soon as the number of columns grows
 and the model complexity increases, creating additional columns becomes
 cumbersome and an appropriate syntax becomes very helpful.
