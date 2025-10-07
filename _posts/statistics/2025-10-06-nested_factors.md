@@ -155,8 +155,11 @@ fig.tight_layout()
 
 ## Conclusions
 
-We discussed what nested models are, and how we can implement them in Bambi.
+Nested factors are a common source of mistakes, 
+and you should always keep in mind that having the same name
+does not imply being the same thing.
 
+Once you correctly identify them, implementing them in Bambi is straightforward.
 
 <br>
 ```python
