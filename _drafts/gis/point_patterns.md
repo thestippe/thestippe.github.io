@@ -96,6 +96,12 @@ gdf.plot(ax=ax, marker='x')
 
 Our triangulation looks satisfactory, especially in the internal region,
 where we are more interested in getting a reliable estimate.
+
+We should keep in mind that the triangulation should be dense enough
+to allow the approximation of a constant GP over the triangle,
+and the best way to check this is to verify that a thinner
+triangulation gives the same result.
+
 We can now prepare the dataset for our model.
 In order to fit our model, we will use a gaussian process
 with a Matern 5/2 covariance kernel.

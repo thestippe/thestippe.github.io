@@ -8,9 +8,7 @@ section: 0
 subcategory: Causal inference
 tags: /causal_intro/
 title: Causal inference
-
 ---
-
 
 
 

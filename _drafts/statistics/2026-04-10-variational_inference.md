@@ -8,7 +8,6 @@ section: 10
 subcategory: Other random thoughts
 tags: /complex/
 title: Variational inference
-published: false
 ---
 
 MCMC is a great tool but, as any tool. it has some limit, and one of the main ones
