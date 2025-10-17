@@ -8,6 +8,7 @@ section: 10
 subcategory: Other random thoughts
 tags: /complex/
 title: Introduction to questionnaires
+published: false
 ---
 
 AI is often developed in order to assist, support or sometimes even replace
@@ -40,36 +41,43 @@ uncomfortable when answering questions, they might lack
 attention or forget stuff, and all these issues might undermine your data collection
 process.
 
-## A reasoning model
+We will try and discuss what we should keep in mind when
+designing a questionnaire, and we will try and go from the details
+of the single answer to a broad overview of the question design.
 
-Before discussing how to write a question, we should think about
-the answering process, and in order to do this we will start
-from a very simple model describing the answering process:
+## Question types
 
-1. reading
-2. understanding
-3. recalling
-4. judgment
-5. response
+There are many possible question types, and each type
+can be represented in more than one way.
 
-This already warns us about many of the possible issues in the
-process: people might in fact misread or misunderstand the question,
-they may forget things, and they might misreport events.
+### Binary values
 
-We must be sure that the respondent exactly understands
-what we mean, so it's important to provide enough background
-information so that there is no ambiguity about the desired
-answer.
+In the simplest case, we have two mutually exclusive answers,
+such as yes or no.
 
-The first strategy to reduce unwanted misreporting is to reduce
-the cognitive load of the respondent: we should only
-ask relevant questions and reduce the un-needed ones.
-We should also use simple terms and avoid unnecessary complex
-or technical terms.
-Giving enough background information avoids the necessity of guessing
-what we mean, and this can reduce the variability of the answers.
+<form>
+  <fieldset>
+    <legend>Do you own a mobile phone? </legend>
+    <div>
+      <input type="radio" id="contactChoice1" name="contact" value="email" />
+      <label for="contactChoice1">Yes</label>
+      <input type="radio" id="contactChoice2" name="contact" value="phone" />
+      <label for="contactChoice2">No</label>
+    </div>
+    <div>
+      <button type="submit">Submit</button>
+    </div>
+  </fieldset>
+</form>
 
-Since the attention declines with time, it's generally better to
-ask first important questions and keep the ones which require
-less effort, such as the anagraphic ones, at the end.
+### Nominal values
 
+### Ordinal values
+
+### Numeric values
+
+### Open-ended question
+
+## Question formulation
+
+## Order of the questions

@@ -1,14 +1,13 @@
 ---
-categories: /statistics
+categories: /statistics/
 up: /statistics
 date: 2025-10-17
 description: When association implies causation
 layout: post
-section: 5
+section: 2
 subcategory: Causal inference
-tags: /randomized/
+tags: /causal_intro/
 title: Randomized controlled trials
-
 ---
 
 
