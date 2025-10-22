@@ -1,14 +1,13 @@
 ---
 categories: /statistics/
 up: /statistics
-date: 2025-10-24
+date: 2025-10-22
 description: Making causal inference without randomization
 layout: post
 section: 2
 subcategory: Causal inference
 tags: /causal_intro/
 title: Instrumental variable regression
-
 ---
 
 
