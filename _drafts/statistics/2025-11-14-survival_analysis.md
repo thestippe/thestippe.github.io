@@ -29,6 +29,12 @@ are very popular in survival analysis.
 The analyzed event can be either the time before a component fails
 or the occurrence of some biological change like the infection of one patient
 or even the next eruption of a volcano.
+This kind of model can be applied to a huge number of situations,
+from marketing to recruiting and even to house market, and it is useful when
+you want to estimate how long will it take to a client (or a resource)
+before leaving your company or how long will it take to you to sell
+a house.
+
 
 ## Mathematical background
 

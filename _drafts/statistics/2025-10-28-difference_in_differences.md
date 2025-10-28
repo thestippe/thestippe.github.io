@@ -1,7 +1,7 @@
 ---
 categories: /statistics/
 up: /statistics
-date: 2025-10-31
+date: 2025-10-28
 description: Causal inference from 1850
 layout: post
 section: 3

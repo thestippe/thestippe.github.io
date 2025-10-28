@@ -8,7 +8,6 @@ section: 3
 subcategory: Advanced models
 tags: /survival_continuous/
 title: Accelerated Failure Time models
-
 ---
 
 

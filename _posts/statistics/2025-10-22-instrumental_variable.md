@@ -50,6 +50,13 @@ while IV can also reproduce heteroscedasticity.
 
 The model we used here is an adaptation of
 [the one provided in this page](https://juanitorduz.github.io/iv_pymc/).
+As Juan Camilo Orduz correctly pointed out on BlueSky, 
+his implementation has been included by Nathaniel Forde
+in CausalPy, so in order to run it you can simply install the above package.
+However, Nathaniel and I agree that it's instructive to
+try and implement it from scratch in order to truly understand
+the ideas behind this method.
+
 
 ## Application to the cigarettes sales 
 
