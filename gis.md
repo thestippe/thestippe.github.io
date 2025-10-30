@@ -20,6 +20,8 @@ Since that time, I decided to dive in the topic, and here I will share some basi
 about it.
 
 <br>
+This section is still work in progress, and I will soon write in this section.
+<br>
 Have fun!
 
   <div id='autograph'>
