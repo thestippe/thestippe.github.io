@@ -667,7 +667,7 @@ table {
 @media screen and (min-width: 800px) {
 
         .homeText {
-                font-size: 400%;
+                font-size: 270%;
         }
 }
 
@@ -771,4 +771,28 @@ details > summary {
 
 details > p {
   background-color: lightgray;
+}
+
+.copy-code-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #aaa;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 4px 8px;
+  font-size: 0.8em;
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.2s, background 0.2s;
+}
+
+.copy-code-button:hover {
+  opacity: 1;
+  background: #333;
+}
+
+div.highlight {
+  position: relative;
 }
