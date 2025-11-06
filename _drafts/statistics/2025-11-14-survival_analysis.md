@@ -132,7 +132,8 @@ import arviz as az
 import seaborn as sns
 from matplotlib import pyplot as plt
 
-rng = np.random.default_rng(seed=123321)
+rng = np.random.default_rng(seed=sum(map(ord,'survival_analysis')))
+kwargs=dict(tune=5000, draws=5000, random_seed=rng, nuts_sampler='nutpie')
 
 w = rng.exponential(size=100)
 
@@ -156,20 +157,21 @@ w_cp[w_cp>c] = c
 with pm.Model() as uncensored_model:
     lam = pm.Exponential('lam', lam=0.5)
     y = pm.Exponential('y', lam=lam, observed=w_cp)
-    trace_uncensored = pm.sample(tune=5000, draws=5000, random_seed=rng)
+    trace_uncensored = pm.sample(**kwargs)
 
 az.plot_trace(trace_uncensored)
 ```
 
-![The trace of the truncated model](/docs/assets/images/statistics/survival_intro/trace_uncensored.webp)
+![The trace of the truncated model](
+/docs/assets/images/statistics/survival_intro/trace_uncensored.webp)
 
 ```python
-az.summary(trace_uncensored)
+az.summary(trace_uncensored, var_names=['lam'])
 ```
 
 |     |   mean |    sd |   hdi_3% |   hdi_97% |   mcse_mean |   mcse_sd |   ess_bulk |   ess_tail |   r_hat |
 |:----|-------:|------:|---------:|----------:|------------:|----------:|-----------:|-----------:|--------:|
-| lam |  1.328 | 0.133 |    1.083 |     1.575 |       0.001 |     0.001 |       9164 |      12834 |       1 |
+| lam |  1.358 | 0.135 |    1.108 |     1.613 |       0.001 |     0.001 |       9201 |      13739 |       1 |
 
 From the above summary we can observe that the $94\%$
 HDI for this model does not contain the true value for the parameter.
@@ -186,7 +188,7 @@ w_1 = w[w<c]
 with pm.Model() as dropped_model:
     lam = pm.Exponential('lam', lam=0.5)
     y = pm.Exponential('y', lam=lam, observed=w_1)
-    trace_dropped = pm.sample(tune=5000, draws=5000, random_seed=rng)
+    trace_dropped = pm.sample(**kwargs)
 
 az.plot_trace(trace_dropped)
 ```
@@ -194,12 +196,12 @@ az.plot_trace(trace_dropped)
 ![The trace of the dropped model](/docs/assets/images/statistics/survival_intro/trace_dropped.webp)
 
 ```
-az.summary(trace_dropped)
+az.summary(trace_dropped, var_names=['lam'])
 ```
 
-|     |   mean |   sd |   hdi_3% |   hdi_97% |   mcse_mean |   mcse_sd |   ess_bulk |   ess_tail |   r_hat |
-|:----|-------:|-----:|---------:|----------:|------------:|----------:|-----------:|-----------:|--------:|
-| lam |   1.73 | 0.19 |    1.368 |     2.082 |       0.002 |     0.001 |       8492 |      14744 |       1 |
+|     |   mean |    sd |   hdi_3% |   hdi_97% |   mcse_mean |   mcse_sd |   ess_bulk |   ess_tail |   r_hat |
+|:----|-------:|------:|---------:|----------:|------------:|----------:|-----------:|-----------:|--------:|
+| lam |  1.862 | 0.209 |    1.478 |     2.265 |       0.002 |     0.001 |       9478 |      14163 |       1 |
 
 This estimate is even worse than the above one.
 
@@ -214,20 +216,21 @@ with pm.Model() as censored_model:
     lam = pm.Exponential('lam', lam=0.5)
     dist = pm.Exponential.dist(lam=lam)
     y_censored = pm.Censored('y_censored', dist, observed=w_cp, upper=c, lower=None)
-    trace_censored = pm.sample(tune=5000, draws=5000, random_seed=rng)
+    trace_censored = pm.sample(**kwargs)
 
 az.plot_trace(trace_censored)
 ```
 
-![The trace of the censored model](/docs/assets/images/statistics/survival_intro/trace_censored.webp)
+![The trace of the censored model](
+/docs/assets/images/statistics/survival_intro/trace_censored.webp)
 
 ```python
-az.summary(trace_censored)
+az.summary(trace_censored, var_names=['lam'])
 ```
 
 |     |   mean |   sd |   hdi_3% |   hdi_97% |   mcse_mean |   mcse_sd |   ess_bulk |   ess_tail |   r_hat |
 |:----|-------:|-----:|---------:|----------:|------------:|----------:|-----------:|-----------:|--------:|
-| lam |   1.08 | 0.12 |    0.863 |     1.314 |       0.001 |     0.001 |       9889 |      14108 |       1 |
+| lam |  1.078 | 0.12 |    0.859 |     1.307 |       0.001 |     0.001 |       8974 |      13740 |       1 |
 
 We now have that our estimate is correct within one standard deviation, and
 this is a huge improvement with respect to both the naive methods.
@@ -250,6 +253,9 @@ with dropped_model:
     y_pred = pm.Exponential('y_pred', lam=lam)
     ppc_dropped = pm.sample_posterior_predictive(trace_dropped, var_names=['y_pred'])
 
+```
+
+```python
 bins = np.arange(0, 10, 0.5)
 xlim = [0, 10]
 ylim = [0, 1.2]
@@ -290,7 +296,8 @@ fig.tight_layout()
 
 ```
 
-![The PPC distribution for the three models](/docs/assets/images/statistics/survival_intro/ppc_compare.webp)
+![The PPC distribution for the three models](
+/docs/assets/images/statistics/survival_intro/ppc_compare.webp)
 
 In the above figures, the red histogram corresponds to the true (uncensored) data, while
 the blue one corresponds to the posterior predictive distribution of our model.
@@ -303,3 +310,35 @@ We introduced survival analysis, and we introduced some main concept as
 the hazard function and the survival function.
 We also discussed censorship, and we showed with an example why it is important
 to correctly account of censoring.
+
+
+```python
+%load_ext watermark
+```
+
+```python
+%watermark -n -u -v -iv -w -p xarray,numpyro,jax,jaxlib
+```
+
+<div class="code">
+Last updated: Thu Nov 06 2025<br>
+<br>
+Python implementation: CPython<br>
+Python version       : 3.13.9<br>
+IPython version      : 9.7.0<br>
+<br>
+pytensor: 2.35.1<br>
+xarray  : 2025.1.2<br>
+numpyro : 0.19.0<br>
+jax     : 0.8.0<br>
+jaxlib  : 0.8.0<br>
+nutpie  : 0.16.2<br>
+<br>
+numpy     : 2.3.4<br>
+arviz     : 0.23.0.dev0<br>
+matplotlib: 3.10.7<br>
+pymc      : 5.26.1<br>
+seaborn   : 0.13.2<br>
+<br>
+Watermark: 2.5.0<br>
+</div>

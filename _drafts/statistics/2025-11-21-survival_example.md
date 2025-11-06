@@ -33,7 +33,12 @@ from scipy.special import gammaln
 import pytensor as pt
 from sksurv.nonparametric import kaplan_meier_estimator
 
-rng = np.random.default_rng(654321)
+
+rng = sum(map(ord,'survival_example'))
+
+kwargs=dict(nuts_sampler='nutpie',
+                           draws=5000, random_seed=rng)
+
 loader = SurvLoader()
 
 df_melanoma, ref_melanoma = loader.load_dataset(ds_name = 'e1684').values()
@@ -51,13 +56,13 @@ ref_melanoma
 df_melanoma.head()
 ```
 
-|    |   pid |   event |    time |   num_age | fac_sex   | fac_trt   |
-|---:|------:|--------:|--------:|----------:|:----------|:----------|
-|  0 |     0 |       1 | 1.15068 | -11.0359  | M         | IFN       |
-|  1 |     1 |       1 | 0.62466 |  -5.12904 | M         | IFN       |
-|  2 |     2 |       0 | 1.89863 |  23.186   | F         | Control   |
-|  3 |     3 |       1 | 0.45479 |  11.1449  | F         | Control   |
-|  4 |     4 |       1 | 2.09041 | -13.3208  | M         | Control   |
+|    |   pid |   event |    time |   num_age | fac_sex | fac_trt |
+|---:|------:|--------:|--------:|----------:|:--------|:--------|
+|  0 |     0 |       1 | 1.15068 | -11.0359  | 0       | 1       |
+|  1 |     1 |       1 | 0.62466 |  -5.12904 | 0       | 1       |
+|  2 |     2 |       0 | 1.89863 |  23.186   | 1       | 0       |
+|  3 |     3 |       1 | 0.45479 |  11.1449  | 1       | 0       |
+|  4 |     4 |       1 | 2.09041 | -13.3208  | 0       | 0       |
 
 There variable "time" is our regression variable, the "event" column indicates if
 the event happened, and its value is 1 if the event happened (the patient died)
@@ -124,17 +129,7 @@ We want to assess the effectiveness of the treatment. The first possibility
 is to fit two different models, one per treatment. Another very common
 possibility is to use the treatment as a regression variable, and we will
 use this method.
-We define the covariate 
-
-$$
-x =
-\begin{cases}
-1 & treatment=IFN\\
-0 & treatment=Control\\
-\end{cases}
-$$
-
-and we assume
+We assume
 
 $$
 \begin{align}
@@ -156,7 +151,6 @@ Let us introduce the censoring variable
 
 ```python
 df_melanoma['censoring'] = [None if x==1 else y for x, y in zip(df_melanoma['event'], df_melanoma['time'])]
-df_melanoma['trt'] = (df_melanoma['fac_trt']=='IFN').astype(int)
 ```
 
 We will first try with the exponential model,
@@ -165,12 +159,11 @@ as discussed in chapter 2 of "Bayesian Survival Analysis"
 ```python
 with pm.Model() as expon_model:
     beta = pm.Normal('beta', mu=0, sigma=1000, shape=2)
-    lam = pm.math.exp(beta[0] + beta[1]*df_melanoma['trt'])
+    lam = pm.math.exp(beta[0] + beta[1]*df_melanoma['fac_trt'])
     dist = pm.Exponential.dist(lam=lam)
     y = pm.Censored('y', dist, lower=None, upper=df_melanoma['censoring'],
                     observed=df_melanoma['time'])
-    idata_expon = pm.sample(nuts_sampler='numpyro',
-                           draws=5000, random_seed=rng)
+    idata_expon = pm.sample(**kwargs)
 
 az.plot_trace(idata_expon)
 fig = plt.gcf()
@@ -187,13 +180,13 @@ In order to check this, you can try and fit the following model:
 ```python
 with pm.Model() as expon_model_check:
     beta = pm.Normal('beta', mu=0, sigma=1000, shape=2)
-    lam = pm.math.exp(beta[0] + beta[1]*df_melanoma['trt'])
+    lam = pm.math.exp(beta[0] + beta[1]*df_melanoma['fac_trt'])
     def logp(lam, nu, y):
         return nu*pm.math.log(lam)-y*lam
     y = pm.Potential('y', logp(lam, df_melanoma['event'].values, df_melanoma['time'].values))
 
 with expon_model_check:
-    idata_check = pm.sample(nuts_sampler='numpyro', draws=5000, random_seed=rng)
+    idata_check = pm.sample(**kwargs)
 ```
 
 The formula for the log-likelihood is the one provided in the reference.
@@ -208,13 +201,13 @@ We will now improve our model and try with the Weibull model
 with pm.Model() as weibull_model:
     alpha = pm.Normal('alpha', mu=0, sigma=100)
     beta = pm.Normal('beta', mu=0, sigma=100, shape=2)
-    lam = pm.math.exp(beta[0] + beta[1]*df_melanoma['trt'])
+    lam = pm.math.exp(beta[0] + beta[1]*df_melanoma['fac_trt'])
     dist = pm.Weibull.dist(alpha=pm.math.exp(alpha), beta=lam)
     y = pm.Censored('y', dist, lower=None, upper=df_melanoma['censoring'],
                     observed=df_melanoma['time'])
 
 with weibull_model:
-    idata_weibull = pm.sample(nuts_sampler='numpyro', draws=5000, random_seed=rng)
+    idata_weibull = pm.sample(**kwargs)
 
 az.plot_trace(idata_weibull)
 fig = plt.gcf()
@@ -282,7 +275,8 @@ ax[1].set_title("$\\mu_1$")
 fig.tight_layout()
 ```
 
-![The posterior for the parameter mu](/docs/assets/images/statistics/survival_melanoma/mean_new.webp)
+![The posterior for the parameter mu](
+/docs/assets/images/statistics/survival_melanoma/mean_new.webp)
 
 The mean for the test treatment is typically higher for the test group
 than for the control group, and the peak of the mean for the IFN
@@ -299,8 +293,8 @@ with the Kaplan-Meier estimator of the survival function
 
 ```python
 
-df0 = df_melanoma[df_melanoma['trt']==0]
-df1 = df_melanoma[df_melanoma['trt']==1]
+df0 = df_melanoma[df_melanoma['fac_trt']==0]
+df1 = df_melanoma[df_melanoma['fac_trt']==1]
 
 time0, survival_prob0, conf_int0 = kaplan_meier_estimator(
     df0["event"].astype(bool), df0['time'], conf_type="log-log"
@@ -383,7 +377,8 @@ ax.set_title(f'h(t)')
 legend = plt.legend(frameon=False)
 ```
 
-![The hazard functions obtained from our model](/docs/assets/images/statistics/survival_melanoma/hazard.webp)
+![The hazard functions obtained from our model](
+/docs/assets/images/statistics/survival_melanoma/hazard.webp)
 
 ## Conclusions
 
@@ -408,25 +403,28 @@ survival function.
 ```
 
 <div class="code">
-Last updated: Thu May 22 2025<br>
+Last updated: Thu Nov 06 2025<br>
 <br>
 Python implementation: CPython<br>
-Python version       : 3.12.8<br>
-IPython version      : 8.31.0<br>
+Python version       : 3.13.9<br>
+IPython version      : 9.7.0<br>
 <br>
-xarray : 2025.1.1<br>
-numpyro: 0.16.1<br>
-jax    : 0.5.0<br>
-jaxlib : 0.5.0<br>
+pytensor: 2.35.1<br>
+xarray  : 2025.1.2<br>
+numpyro : 0.19.0<br>
+jax     : 0.8.0<br>
+jaxlib  : 0.8.0<br>
+nutpie  : 0.16.2<br>
 <br>
-sksurv    : 0.24.1<br>
-SurvSet   : 0.2.6<br>
-arviz     : 0.21.0<br>
-matplotlib: 3.10.1<br>
-pandas    : 2.2.3<br>
-pytensor  : 2.30.3<br>
-pymc      : 5.22.0<br>
-numpy     : 2.1.3<br>
+sksurv     : 0.25.0<br>
+pymc       : 5.26.1<br>
+arviz      : 0.23.0.dev0<br>
+numpy      : 2.3.4<br>
+pytensor   : 2.35.1<br>
+arviz_plots: 0.6.0<br>
+pandas     : 2.3.3<br>
+SurvSet    : 0.2.9<br>
+matplotlib : 3.10.7<br>
 <br>
 Watermark: 2.5.0
 </div>

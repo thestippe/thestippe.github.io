@@ -24,8 +24,8 @@ Here I will share some ideas about dataviz and data science.
 <div class="home-links">
 </div>
 
-<div style="display:flex;
-  flex-wrap: wrap;gap: 10px;">
+<div style="display:grid;
+  grid-template-columns: auto auto;">
 <div class='homeCard' id='homeCardDataviz'>
 <a href="/dataviz">
 <h2 class="homeText" id="homeTextDataviz">Data Visualization</h2>
