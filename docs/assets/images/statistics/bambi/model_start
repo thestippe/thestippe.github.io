@@ -1,10 +1,10 @@
 digraph {
+	sigma [label="sigma
+~
+Halfstudentt" shape=ellipse]
 	Intercept [label="Intercept
 ~
 Normal" shape=ellipse]
-	sigma [label="sigma
-~
-HalfStudentT" shape=ellipse]
 	subgraph "clustergender_dim (1)" {
 		gender [label="gender
 ~
@@ -18,17 +18,17 @@ Normal" shape=ellipse]
 		label="attitude_dim (1)" labeljust=r labelloc=b style=rounded
 	}
 	subgraph "cluster__obs__ (83)" {
-		mu [label="mu
-~
-Deterministic" shape=box]
 		frequency [label="frequency
 ~
 Normal" shape=ellipse style=filled]
+		mu [label="mu
+~
+Deterministic" shape=box]
 		label="__obs__ (83)" labeljust=r labelloc=b style=rounded
 	}
-	Intercept -> mu
-	gender -> mu
 	attitude -> mu
+	gender -> mu
+	Intercept -> mu
 	mu -> frequency
 	sigma -> frequency
 	bgcolor=Transparent
