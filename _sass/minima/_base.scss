@@ -775,22 +775,22 @@ details > p {
 
 .copy-code-button {
   position: absolute;
-  top: 8px;
-  right: 8px;
-  background: #aaa;
-  color: #fff;
+  top: 1px;
+  right: -1px;
+  background-color: $code-background-color;
+  color: #aaa;
   border: none;
   border-radius: 4px;
-  padding: 4px 8px;
-  font-size: 0.8em;
+  padding: 4px 2px;
+  font-size: 1.3em;
   cursor: pointer;
-  opacity: 0.7;
+  opacity: 0.9;
   transition: opacity 0.2s, background 0.2s;
 }
 
 .copy-code-button:hover {
   opacity: 1;
-  background: #333;
+  color: #555;
 }
 
 div.highlight {
