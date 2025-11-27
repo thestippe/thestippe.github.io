@@ -46,9 +46,9 @@ and we observe $X_1,...,X_n$ independent identically distributed
 variables distributed according to $X\,,$
 if we denote $M_n$ the maximum of $X_1,...,X_n\,,$ then
 
-$P(M_n \leq x) = P(X_1 \leq x) P(X_2 \leq x) ... P(X_n \leq x) = (F(x))^n$
+$P(M_n \leq x) = P(X_1 \leq x) P(X_2 \leq x) ... P(X_n \leq x) = (F(x))^n\,.$
 
-However one may not know $F$ a priori, but the FTG theorem states that,
+However, one may not know $F$ a priori, but the FTG theorem states that,
 if there exist $a_n, b_n \in \mathbb{R}$ such that
 
 $$ P\left( \frac{M_n - a_n}{b_n} \leq x \right) \rightarrow G(x) $$

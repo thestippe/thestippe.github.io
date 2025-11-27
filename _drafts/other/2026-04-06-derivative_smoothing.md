@@ -1,6 +1,6 @@
 ---
-categories: /statistics/
-up: /statistics
+categories: /other/
+up: /other
 date: 2026-04-06
 description: Applying bayesian statistics to functional data analysis
 layout: post

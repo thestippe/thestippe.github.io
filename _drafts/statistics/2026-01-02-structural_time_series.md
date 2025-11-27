@@ -1,7 +1,7 @@
 ---
 categories: /statistics/
 up: /statistics
-date: 2025-12-26
+date: 2026-01-02
 description: Adding other kinds of temporal dependencies
 layout: post
 section: 6

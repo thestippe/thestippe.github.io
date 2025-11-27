@@ -27,6 +27,12 @@ As an example, if your aim is to study underweight babies,
 then ordinary regression is not a suitable tool,
 and quantile regression can be a smart choice in this context.
 
+Quantile regression can be also used in the context of classification,
+when you want to find out values which are too extreme (higher than
+the $p$-th quantile), you can first
+perform a quantile regression and then compare the new observations
+with the value for the expected $p$-th quantile.
+
 In Bayesian statistics, quantile regression can be implemented
 by using the asymmetric Laplace distribution, which can be [parametrized
 in terms of a quantile parameter $q$](https://www.pymc.io/projects/docs/en/latest/api/distributions/generated/pymc.AsymmetricLaplace.html).

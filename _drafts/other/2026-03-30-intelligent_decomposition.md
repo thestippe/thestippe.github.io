@@ -1,6 +1,6 @@
 ---
-categories: /statistics/
-up: /statistics
+categories: /other/
+up: /other
 date: 2026-03-30
 description: How to account for multiple effects
 layout: post
@@ -8,6 +8,7 @@ section: 10
 subcategory: Other random thoughts
 tags: /decomposition/
 title: Intelligent decomposition
+published: false
 ---
 
 One of the great advantages of using probabilistic programming languages is that you can easily encode

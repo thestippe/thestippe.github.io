@@ -93,6 +93,21 @@ df_melanoma['time'].max()
 9.64384
 </div>
 
+We can now try and visually inspect the dataset.
+
+```python
+fig, ax = plt.subplots(figsize=(5, 5))
+sns.scatterplot(df_melanoma, y='pid', x='time', hue='event', style='fac_trt')
+ax.set_yticks([])
+ax.set_ylim([-1, 1+len(df_melanoma)])
+ax.set_xlim([0, 10])
+fig.tight_layout()
+```
+
+![The scatterplot of the dataset](
+/docs/assets/images/statistics/survival_melanoma/data.webp)
+
+
 ## The models
 
 We will try and fit two models:

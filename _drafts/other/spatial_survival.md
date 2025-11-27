@@ -1,12 +1,13 @@
 ---
 layout: post
 title: "Spatial survival analysis"
-categories: /gis/
-up: /gis
-tags: /geography/
-image: "/docs/assets/images/gis/point_patterns/posterior_xi.webp"
+categories: /other/
+up: /other
+tags: /spatial_survival/
+# image: "/docs/assets/images/gis/point_patterns/posterior_xi.webp"
 description: "Space as a risk factor"
 date: "2025-01-24"
+published: false
 ---
 
 This post will be somehow different from all the previous ones, since we will not

@@ -1,6 +1,6 @@
 ---
-categories: /statistics/
-up: /statistics
+categories: /other/
+up: /other
 date: 2026-04-03
 description: When the going gets tough
 layout: post
@@ -8,6 +8,7 @@ section: 10
 subcategory: Other random thoughts
 tags: /complex/
 title: Fitting complex models
+published: false
 
 ---
 

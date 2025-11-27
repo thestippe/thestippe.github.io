@@ -8,10 +8,7 @@ section: 2
 subcategory: Advanced models
 tags: /survival_intro/
 title: Introduction to survival analysis
-
 ---
-
-
 
 
 There are situations where your task is to estimate the waiting time before
@@ -34,7 +31,6 @@ from marketing to recruiting and even to house market, and it is useful when
 you want to estimate how long will it take to a client (or a resource)
 before leaving your company or how long will it take to you to sell
 a house.
-
 
 ## Mathematical background
 
@@ -106,6 +102,15 @@ Thus the likelihood can be written as
 $$L = f(y)^\delta S(y)^{1-\delta} = (h(y) S(y))^\delta S(y)^{1-\delta}= h(y)^\delta S(y)$$
 
 and this quantity is sometimes defined as the **generalized likelihood**.
+
+As a practical example of censoring, I once received a dataset where the client gave
+me the start date and end date for a set of "practices" opened by his clients,
+together with a set of regressors, included the employee whom the practice
+was assigned, and I had to find insights on the average working time of the practice.
+The dataset also included rows where the end date was missing, and those
+were practices still in progress.
+We know that, sooner or later the practice will be closed, we simply did not
+wait enough to observe it, so we should consider those practices as censored.
 
 ## Wrong methods for accounting of censoring
 
@@ -304,12 +309,32 @@ the blue one corresponds to the posterior predictive distribution of our model.
 The effect of the bias for method 1 and 2 is quite evident, while the censored
 model predicts a distribution which is quite close to the true data.
 
+Let us also compare the different estimates of the parameter
+
+```python
+fig, ax = plt.subplots()
+az.plot_forest([trace_uncensored, trace_dropped, trace_censored],
+               var_names='lam', combined=True,
+               model_names=['threshold', 'dropped', 'censored'], ax=ax)
+ax.axvline(x=1, color='lightgray', ls='--')
+ax.annotate('True value', (1.02, 3.3), color='gray', fontsize=15)
+fig.tight_layout()
+```
+
+![The parameter estimates for the three models, together with the true value](
+/docs/assets/images/statistics/survival_intro/forest_plot.webp)
+
+As you can see, the only reliable estimate is the censored one,
+while the remaining models are overestimating the true parameter value.
+
 ## Conclusions
 
 We introduced survival analysis, and we introduced some main concept as
 the hazard function and the survival function.
 We also discussed censorship, and we showed with an example why it is important
 to correctly account of censoring.
+You should keep in mind that there's no way your model knows about censoring from the data,
+the only way  to implement it is to build a model where it is implemented by you.
 
 
 ```python

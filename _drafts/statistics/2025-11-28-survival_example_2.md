@@ -83,11 +83,13 @@ import arviz as az
 import numpy as np
 from matplotlib import pyplot as plt
 
-rng = np.random.default_rng(987654321)
+rng = np.random.default_rng(sum(map(ord,'example_2')))
 
-df = pd.read_csv('survival_efron.csv')
+df = pd.read_csv('./survival_efron.csv')
 
-df_1 = pd.read_csv('survival_efron_1.csv')
+df_1 = pd.read_csv('./survival_efron_1.csv')
+
+kwargs=dict(nuts_sampler='numpyro', random_seed=rng, tune=5000, draws=5000, target_accept=0.9)
 ```
 
 Let us now implement the necessary functions
@@ -109,7 +111,7 @@ X_f = df[['month']].rename(columns={'month': 't'})
 X_f['t2'] = f1(X_f['t'])
 X_f['t3'] = f2(X_f['t'])
 
-X1_f = df1[['month']].rename(columns={'month': 't'})
+X1_f = df_1[['month']].rename(columns={'month': 't'})
 X1_f['t2'] = f1(X1_f['t'])
 X1_f['t3'] = f2(X1_f['t'])
 ```
@@ -130,7 +132,7 @@ with pm.Model(coords=coords) as efron:
     y = pm.Binomial('y', p=h, n=n, observed=df['s'], dims=['obs'])
 
 with efron:
-    idata = pm.sample(nuts_sampler='numpyro', random_seed=rng)
+    idata = pm.sample(**kwargs)
 
 az.plot_trace(idata)
 fig = plt.gcf()
@@ -155,7 +157,7 @@ with pm.Model(coords=coords1) as efron1:
     y = pm.Binomial('y', p=h, n=n, observed=df_1['s'], dims=['obs'])
 
 with efron1:
-    idata1 = pm.sample(nuts_sampler='numpyro', random_seed=rng)
+    idata1 = pm.sample(**kwargs)
 
 az.plot_trace(idata1)
 fig = plt.gcf()
@@ -188,6 +190,16 @@ estimator, which is a non-parametric estimator of the survival function:
 $$
 S_{KM}(t_i) = \prod_{j \leq i} \left(1-\frac{y_j}{n_j}\right)\,.
 $$
+
+```python
+ym = idata.posterior['g'].mean(dim=('draw', 'chain'))
+yl = idata.posterior['g'].quantile(q=0.03, dim=('draw', 'chain'))
+yh = idata.posterior['g'].quantile(q=0.97, dim=('draw', 'chain'))
+
+y1m = idata1.posterior['g'].mean(dim=('draw', 'chain'))
+y1l = idata1.posterior['g'].quantile(q=0.03, dim=('draw', 'chain'))
+y1h = idata1.posterior['g'].quantile(q=0.97, dim=('draw', 'chain'))
+```
 
 ```python
 fig = plt.figure()
@@ -224,40 +236,22 @@ as it enable us to easily encode structure in a controlled and easily interpreta
 ```
 
 <div class="code">
-Last updated: Mon Aug 19 2024
+Last updated: Thu Nov 06 2025<br>
+Python implementation: CPython<br>
+Python version       : 3.13.9<br>
+IPython version      : 9.7.0<br>
 <br>
-
+xarray : 2025.1.2<br>
+numpyro: 0.19.0<br>
+jax    : 0.8.0<br>
+jaxlib : 0.8.0<br>
 <br>
-Python implementation: CPython
+pymc      : 5.26.1<br>
+arviz     : 0.23.0.dev0<br>
+pandas    : 2.3.3<br>
+numpy     : 2.3.4<br>
+matplotlib: 3.10.7<br>
 <br>
-Python version       : 3.12.4
-<br>
-IPython version      : 8.24.0
-<br>
-
-<br>
-xarray : 2024.5.0
-<br>
-numpyro: 0.15.0
-<br>
-jax    : 0.4.28
-<br>
-jaxlib : 0.4.28
-<br>
-
-<br>
-pymc      : 5.15.0
-<br>
-pandas    : 2.2.2
-<br>
-arviz     : 0.18.0
-<br>
-matplotlib: 3.9.0
-<br>
-numpy     : 1.26.4
-<br>
-
-<br>
-Watermark: 2.4.3
+Watermark: 2.5.0
 <br>
 </div>

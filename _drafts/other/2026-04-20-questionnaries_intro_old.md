@@ -1,6 +1,6 @@
 ---
-categories: /statistics/
-up: /statistics
+categories: /other/
+up: /other
 date: 2026-04-20
 description: Getting reliable data from people
 layout: post
