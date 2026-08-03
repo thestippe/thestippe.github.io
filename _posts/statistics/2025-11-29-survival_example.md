@@ -1,7 +1,7 @@
 ---
 categories: /statistics/
 up: /statistics
-date: 2025-11-21
+date: 2025-11-29
 description: Survival analysis with continuous time
 layout: post
 section: 3

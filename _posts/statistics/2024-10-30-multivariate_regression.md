@@ -220,7 +220,6 @@ We will follow the linked article and use the square root.
 
 ```python
 with pm.Model(coords=coords) as model_s:
-with pm.Model(coords=coords) as model_s:
     alpha = pm.Normal('alpha', mu=0, sigma=10)
     X_cat = pm.Data('X_cat', value=df_cat, dims=['obs_idx', 'feature'])
     X_carat = pm.Data('X_carat', value=(np.sqrt(df['carat'])-np.mean(np.sqrt(df['carat'])))/(np.mean(np.sqrt(df['carat']))), dims=['obs_idx'])
