@@ -7,7 +7,6 @@ description: "All the posts on statistics"
 ---
 
 
-
 <div class="emphbox">
 In this section I will collect all my posts about statistics.
 </div>
