@@ -2,7 +2,7 @@
 categories: /statistics/
 up: /statistics
 date: 2026-04-16
-description: How to vizualize probabilities
+description: How to visualize probabilities
 layout: post
 section: 10
 subcategory: Other random thoughts
