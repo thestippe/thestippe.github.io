@@ -1,0 +1,49 @@
+title: Data Perspectives
+author:
+  name: Data-perspectives
+  email: dataperspectivesblog@gmail.com
+url: thestippe.github.io
+# theme: minimal-jekyll-theme
+theme: minima
+highlighter: rouge
+input: GFM
+default_lang: python
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+  - jekyll-mermaid
+kramdown:
+  math_engine: mathjax
+  syntax_highlighter: rouge
+minima:
+  skin: classic
+  social_links:
+    - { platform: stackoverflow, user_url: "https://stackoverflow.com/users/11065831/stefano" }
+    - { platform: github, user_url: "https://github.com/thestippe/" }
+    - { platform: mastodon, user_url: "https://vis.social/@thestippe" }
+      # - { platform: bluesky, user_url: "https://bsky.app/profile/stippe87.bsky.social" }
+      # - { platform: telegram, user_url "https://t.me/StefanoM87" }
+header_pages:
+  - about.md
+  - resources.md
+permalink: :categories/:title
+collections:
+  category:
+    output: true
+show_excerpts: false
+paginate: false
+masthead: /docs/assets/images/logo_dp.png
+sass:
+  style: compressed
+stats_categories_order:
+        - Introduction
+        - Simple models
+        - Bayesian workflow
+        - Regression
+        - Hierarchical models
+        - Experiments
+        - Causal inference
+        - Advanced models
+        - Time series
+        - Non-parametric models
+        - Other random thoughts

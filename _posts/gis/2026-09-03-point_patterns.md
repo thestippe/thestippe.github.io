@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/point_patterns/posterior_xi.webp"
 description: "Finding arrangements of points"
-date: "2025-01-17"
+date: "2026-09-03"
 ---
 
 The last missing type of analysis is point pattern analysis, where

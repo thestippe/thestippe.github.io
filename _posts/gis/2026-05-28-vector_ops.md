@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/vector_ops/clip.webp"
 description: "How to extract informations from your geodataframe"
-date: "2024-10-18"
+date: "2026-05-28"
 ---
 
 One of the first things you learn as a data scientist

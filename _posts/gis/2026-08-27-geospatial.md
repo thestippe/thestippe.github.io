@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/geostatistical/posterior.webp"
 description: "Random observation from fixed locations"
-date: "2025-01-10"
+date: "2026-09-03"
 ---
 
 As we previously anticipated, geostatistical data is spatial data

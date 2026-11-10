@@ -13,8 +13,11 @@ Conclusione
 
 Hi, my name is Stefano, but everybody calls me Stippe.
 <br>
- I am a data scientist, and I have been working as data scientist in healthcare, insurance,
+ I am a data analyst,
+and I have been working as data scientist in healthcare, insurance,
 financial risk assessment and credit risk assessment  as well as in GIS systems.
+<br>
+I am currently trying to learn how to combine Bayesian modeling with GIS and remote sensing.
 <br>
 I have an academic background in physics, focused on models in nuclear and particle physics.
 <br>
