@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/map_design/v3.webp"
 description: "How to show data on a map"
-date: "2024-11-01"
+date: "2026-06-11"
 ---
 
 We already discussed how to show data in the [dataviz](/dataviz)

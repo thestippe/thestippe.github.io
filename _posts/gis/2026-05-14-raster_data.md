@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/raster/ground_piedmont_red.webp"
 description: ""
-date: "2024-10-06"
+date: "2026-05-14"
 ---
 
 In this post, we are going to introduce the remaining most

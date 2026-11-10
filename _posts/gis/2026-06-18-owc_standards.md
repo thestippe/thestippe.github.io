@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/owc_standards/map1.webp"
 description: "Web services for GIS"
-date: "2024-11-08"
+date: "2026-06-18"
 ---
 
 In the last decades GIS became a relevant topic for most institutions,

@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/openstreetmap/shortest_path.webp"
 description: "Unleash the power of OSM"
-date: "2024-11-15"
+date: "2026-06-25"
 ---
 
 Everybody knows Google Maps, and almost everybody uses it.

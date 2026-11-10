@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/spatial_sampling/equidistant.webp"
 description: "Sampling arbitrary points in space"
-date: "2024-12-27"
+date: "2026-08-13"
 ---
 
 While the last time we discussed how to select points from a

@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/geo/sphere.webp"
 description: "Which projection best fits your needs?"
-date: "2024-10-04"
+date: "2026-04-30"
 ---
 
 In this post we will discuss the main projection families,

@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/raster_ops/map.webp"
 description: "Handling georeferenced images"
-date: "2024-10-25"
+date: "2026-06-04"
 ---
 
 If you need to manipulate raster data, there are many choices in Python.

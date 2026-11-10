@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/spatial_models/log_average.webp"
 description: "Statistical models and geography"
-date: "2025-01-03"
+date: "2026-08-20"
 ---
 
 Spatial statistics is the branch of statistics which deals with spatial

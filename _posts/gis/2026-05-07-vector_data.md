@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/vector/routes_and_refuges_red.webp"
 description: ""
-date: "2024-10-05"
+date: "2026-05-07"
 ---
 
 Vector data is one of the most common kind of data you will

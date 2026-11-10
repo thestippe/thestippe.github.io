@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/digitalelevationmodels/contour.webp"
 description: "Working with DEMs in Python"
-date: "2024-11-17"
+date: "2026-07-02"
 ---
 
 Digital Elevation Models (DEMs) are the larger family of a set of models encoding

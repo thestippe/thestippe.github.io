@@ -6,7 +6,7 @@ up: /gis
 tags: /geography/
 image: "/docs/assets/images/gis/openeo_sar/map_classify.webp"
 description: "Accessing Synthetic Aperture Radar data from OpenEO"
-date: "2024-12-06"
+date: "2026-07-23"
 ---
 
 In the [last post](\gis\openeo) we discussed how to use OpenEO
