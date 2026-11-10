@@ -1,7 +1,7 @@
 ---
 layout: other
 up: "/"
-title: "Statistics"
+title: "Other"
 permalink: /other
 description: "Ideas, opinions and other stuff"
 ---
